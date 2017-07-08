@@ -1,0 +1,14 @@
+packages/
+bin/
+obj/
+SpotFinder/bin/
+SpotFinder/obj/
+SpotFinder/SpotFinder/obj/
+SpotFinder/SpotFinder/bin/
+SpotFinder/SpotFinder.iOS/bin/
+SpotFinder/SpotFinder.iOS/obj/
+SpotFinder/SpotFinder.Android/bin/
+SpotFinder/SpotFinder.Android/obj/
+SpotFinder/SpotFinder.UWP/obj/
+SpotFinder/SpotFinder.UWP/bin/
+.vs/app-xamarin/V15/.suo
