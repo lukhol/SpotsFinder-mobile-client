@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace SpotFinder
 {
@@ -12,7 +7,7 @@ namespace SpotFinder
         public App()
         {
             InitializeComponent();
-            MainPage = new SpotFinder.MainPage();
+            MainPage = new NavigationPage(new SpotFinder.Views.TabbedPage1());
         }
 
         protected override void OnStart()

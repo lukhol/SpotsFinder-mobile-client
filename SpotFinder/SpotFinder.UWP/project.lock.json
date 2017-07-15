@@ -22272,16 +22272,16 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lukasz\\documents\\visual studio 2017\\Projects\\app-xamarin\\SpotFinder\\SpotFinder.UWP\\SpotFinder.UWP.csproj",
+      "projectUniqueName": "C:\\Projects\\PBL\\app-xamarin\\SpotFinder\\SpotFinder.UWP\\SpotFinder.UWP.csproj",
       "projectName": "SpotFinder.UWP",
-      "projectPath": "C:\\Users\\Lukasz\\documents\\visual studio 2017\\Projects\\app-xamarin\\SpotFinder\\SpotFinder.UWP\\SpotFinder.UWP.csproj",
-      "projectJsonPath": "C:\\Users\\Lukasz\\documents\\visual studio 2017\\Projects\\app-xamarin\\SpotFinder\\SpotFinder.UWP\\project.json",
+      "projectPath": "C:\\Projects\\PBL\\app-xamarin\\SpotFinder\\SpotFinder.UWP\\SpotFinder.UWP.csproj",
+      "projectJsonPath": "C:\\Projects\\PBL\\app-xamarin\\SpotFinder\\SpotFinder.UWP\\project.json",
       "projectStyle": "ProjectJson",
       "frameworks": {
         "uap10.0": {
           "projectReferences": {
-            "C:\\Users\\Lukasz\\documents\\visual studio 2017\\Projects\\app-xamarin\\SpotFinder\\SpotFinder\\SpotFinder.csproj": {
-              "projectPath": "C:\\Users\\Lukasz\\documents\\visual studio 2017\\Projects\\app-xamarin\\SpotFinder\\SpotFinder\\SpotFinder.csproj"
+            "C:\\Projects\\PBL\\app-xamarin\\SpotFinder\\SpotFinder\\SpotFinder.csproj": {
+              "projectPath": "C:\\Projects\\PBL\\app-xamarin\\SpotFinder\\SpotFinder\\SpotFinder.csproj"
             }
           }
         }
