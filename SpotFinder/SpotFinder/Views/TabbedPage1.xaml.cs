@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotFinder.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ namespace SpotFinder.Views
         {
             Application.Current.Resources["UnityContainer"] = new UnityConfig(Navigation);
             InitializeComponent();
+            var viewModel = new RootTabbedVievModel(Navigation);
+            viewModel.CheckPermissionAsync();
         }
     }
 }
