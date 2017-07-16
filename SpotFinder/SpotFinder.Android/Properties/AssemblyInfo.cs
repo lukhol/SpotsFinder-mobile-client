@@ -15,6 +15,11 @@ using Android.App;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
+[assembly: UsesFeature("android.hardware.location", Required = false)]
+[assembly: UsesFeature("android.hardware.location.gps", Required = false)]
+[assembly: UsesFeature("android.hardware.location.network", Required = false)]
+[assembly: UsesFeature("android.hardware.camera", Required = false)]
+[assembly: UsesFeature("android.hardware.camera.autofocus", Required = false)]
 
 // Version information for an assembly consists of the following four values:
 //

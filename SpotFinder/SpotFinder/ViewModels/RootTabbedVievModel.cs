@@ -30,10 +30,10 @@ namespace SpotFinder.ViewModels
                     //Best practice to always check that the key exists
                     if (results.ContainsKey(Permission.Location))
                         status = results[Permission.Location];
+
+                    var currPage = Navigation.NavigationStack[Navigation.NavigationStack.Count - 1];
+                    await currPage.DisplayAlert("Location needed!", "You have to turn on location permission fot this app!", "Ok");
                 }
-                int index = Navigation.NavigationStack.Count - 1;
-                var currPage = Navigation.NavigationStack[index];
-                await currPage.DisplayAlert("Location needed!", "You have to turn on location permission fot this app!", "Ok");
             }
             catch(Exception e)
             {
