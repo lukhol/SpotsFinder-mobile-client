@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Microsoft.Practices.ServiceLocation;
+using Microsoft.Practices.Unity;
+using SpotFinder.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +17,10 @@ namespace SpotFinder.Views
 	{
 		public ListPage ()
 		{
-			InitializeComponent ();
-		}
+			InitializeComponent();
+            var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
+            var listViewModel = (ListViewModel)serviceLocator.GetService(typeof(ListViewModel));
+            BindingContext = listViewModel;
+        }
 	}
 }

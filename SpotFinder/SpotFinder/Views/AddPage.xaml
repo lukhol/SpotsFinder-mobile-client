@@ -6,18 +6,22 @@
              BackgroundColor="{StaticResource PageBackgroundColor}">
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Nastepna strona - ListPage z komendy MainViewModelu"
-                    Command="{Binding GoNextCommand}"/>
-            <Label Text="Dodaj spocik." 
-                   HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="CenterAndExpand"
-                   TextColor="White"/>
-            <Label Text="{Binding Message}" 
-                   VerticalOptions="Center" 
-                   HorizontalOptions="Center"
-                   TextColor="White"/>
-            <Button Text="MessageCommand"
-                    Command="{Binding MessageCommand}"/>
+            <Grid BackgroundColor="White" 
+                  Margin="12"
+                  VerticalOptions="CenterAndExpand">
+                <BoxView BackgroundColor="White"  />
+                <Grid BackgroundColor="{StaticResource PageBackgroundColor}" Margin="1">
+                    <Label Text="Dodaj miejsce!"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="Center"
+                           TextColor="White"
+                           FontSize="Medium"
+                           Margin="10"/>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding StartAddingCommand}"/>
+                    </Grid.GestureRecognizers>
+                </Grid>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

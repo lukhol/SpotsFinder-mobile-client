@@ -1,4 +1,6 @@
-﻿using SpotFinder.Views;
+﻿using Plugin.Geolocator;
+using SpotFinder.Views;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
@@ -12,30 +14,12 @@ namespace SpotFinder.ViewModels
 
         public MainViewModel(INavigation navigation)
         {
-            message = "SpotsFinder!";
             Navigation = navigation;
         }
 
-        private string message;
-
-        public string Message
+        public Command StartAddingCommand => new Command(() =>
         {
-            get => message;
-            set
-            {
-                message = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Command MessageCommand => new Command(() => 
-        {
-            Message += ", message";
-        });
-
-        public Command GoNextCommand => new Command(() =>
-        {
-            Navigation.PushAsync(new ListPage());
+            Navigation.PushAsync(new AddingProcessPage());
         });
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

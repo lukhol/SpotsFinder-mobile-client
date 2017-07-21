@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotFinder.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace SpotFinder.ViewModels
         private bool manualpad;
 
         public CriteriaViewModel(INavigation navigation)
-        {
+        { 
             Navigation = navigation;
         }
 

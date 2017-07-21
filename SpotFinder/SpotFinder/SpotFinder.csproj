@@ -38,8 +38,18 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\IPlaceRepository.cs" />
+    <Compile Include="Core\Location.cs" />
+    <Compile Include="Core\Place.cs" />
+    <Compile Include="Core\PlaceRepository.cs" />
+    <Compile Include="Core\Utils.cs" />
+    <Compile Include="ViewModels\AddingProcessViewModel.cs" />
     <Compile Include="ViewModels\CriteriaViewModel.cs" />
+    <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\RootTabbedVievModel.cs" />
+    <Compile Include="Views\AddingProcessPage.xaml.cs">
+      <DependentUpon>AddingProcessPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddPage.xaml.cs">
       <DependentUpon>AddPage.xaml</DependentUpon>
     </Compile>
@@ -60,6 +70,9 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MapPage.xaml.cs">
       <DependentUpon>MapPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlaceDetailsPage.xaml.cs">
+      <DependentUpon>PlaceDetailsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TabbedPage1.xaml.cs">
       <DependentUpon>TabbedPage1.xaml</DependentUpon>
@@ -114,7 +127,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
+    <EmbeddedResource Include="Views\PlaceDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\TabbedPage1.xaml">
@@ -148,6 +164,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\AddPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\AddingProcessPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

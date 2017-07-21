@@ -34,10 +34,16 @@ namespace SpotFinder.ViewModels
                     var currPage = Navigation.NavigationStack[Navigation.NavigationStack.Count - 1];
                     await currPage.DisplayAlert("Location needed!", "You have to turn on location permission fot this app!", "Ok");
                 }
+
+                status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Camera);
+                if(status != PermissionStatus.Granted)
+                {
+                    await CrossPermissions.Current.RequestPermissionsAsync(Permission.Camera);
+                }
             }
             catch(Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("Exception from CorssPermissions");
+                System.Diagnostics.Debug.WriteLine("Exception from CorssPermissions.", e);
             }
         }
     }
