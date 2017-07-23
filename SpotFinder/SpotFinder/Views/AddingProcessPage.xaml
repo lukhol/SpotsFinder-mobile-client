@@ -6,7 +6,7 @@
              BackgroundColor="{StaticResource PageBackgroundColor}">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
+            <Label Text=" "/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

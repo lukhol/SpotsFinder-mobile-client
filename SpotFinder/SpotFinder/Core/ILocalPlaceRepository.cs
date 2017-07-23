@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpotFinder.Core
 {
-    public interface IPlaceRepository
+    public interface ILocalPlaceRepository
     {
-        List<Place> GetAllPlace();
-        bool Send(Place place);
+        bool InsertPlace(string placeJson);
+        Place GetPlace(int id);
     }
 }

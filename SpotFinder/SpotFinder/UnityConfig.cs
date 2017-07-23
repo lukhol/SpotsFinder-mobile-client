@@ -10,11 +10,6 @@ namespace SpotFinder
     {
         private readonly UnityContainer unityContainer;
 
-        public MainViewModel MainViewModel
-        {
-            get => unityContainer.Resolve<MainViewModel>();
-        }
-
         public UnityConfig(INavigation navigation)
         {
             unityContainer = new UnityContainer();
@@ -30,7 +25,11 @@ namespace SpotFinder
             );
             unityContainer.RegisterType<AddingProcessViewModel>(
                 new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(navigation)
+                new InjectionConstructor(
+                    new InjectionParameter(navigation),
+                    new ResolvedParameter<IPlaceRepository>(),
+                    new ResolvedParameter<ILocalPlaceRepository>()
+                )
             );
             unityContainer.RegisterType<ListViewModel>(
                 new ContainerControlledLifetimeManager(),
@@ -41,7 +40,17 @@ namespace SpotFinder
             );
 
             //Services:
-            unityContainer.RegisterType<IPlaceRepository, PlaceRepository>();
+            unityContainer.RegisterType<IPlaceRepository, PlaceRepository>(
+                new InjectionConstructor(
+                    new ResolvedParameter<ILocalPlaceRepository>()
+                    )
+            );
+            unityContainer.RegisterType<ILocalPlaceRepository, LocalPlaceRepository>();
+
+            //ReportManager
+            unityContainer.RegisterType<ReportManager>(
+                new ContainerControlledLifetimeManager()
+            );
 
             //Config:
             var unityServiceLocator = new UnityServiceLocator(unityContainer);

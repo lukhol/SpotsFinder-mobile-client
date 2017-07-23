@@ -23,7 +23,6 @@ namespace SpotFinder.ViewModels
         {
             PlaceRepository = placeRepository;
             Navigation = navigation;
-            //
             PlaceList = placeRepository.GetAllPlace();
         }
 

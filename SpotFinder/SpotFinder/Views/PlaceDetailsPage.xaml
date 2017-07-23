@@ -4,8 +4,6 @@
              x:Class="SpotFinder.Views.PlaceDetailsPage"
              BackgroundColor="{StaticResource PageBackgroundColor}">
     <ContentPage.Content>
-        <StackLayout>
-            
-        </StackLayout>
+        
     </ContentPage.Content>
 </ContentPage>

@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SelectedDevice>Xiaomi Redmi Note 3</SelectedDevice>
-    <DefaultDevice>VisualStudio_android-23_arm_phone</DefaultDevice>
+    <DefaultDevice>5" Marshmallow %286.0.0%29 XXHDPI Phone</DefaultDevice>
     <AndroidDesignerPreferredDevice>Nexus 4</AndroidDesignerPreferredDevice>
   </PropertyGroup>
 </Project>

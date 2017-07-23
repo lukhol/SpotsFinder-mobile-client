@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using SpotFinder.Core;
 using SpotFinder.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,13 @@ namespace SpotFinder.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddingProcessPage : ContentPage
     {
+        private bool hasStart = false;
+
         public AddingProcessPage()
         {
             InitializeComponent();
             NavigationPage.SetHasNavigationBar(this, false);
+
             var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
             var addingProcessViewModel = (AddingProcessViewModel)serviceLocator.GetService(typeof(AddingProcessViewModel));
             BindingContext = addingProcessViewModel;
@@ -26,13 +30,18 @@ namespace SpotFinder.Views
 
         protected override async void OnAppearing()
         {
-            var vm = (AddingProcessViewModel)BindingContext;
-            await vm.StartAsync();
+            var addingProcessViewModel = (AddingProcessViewModel)BindingContext;
+            if (hasStart == false)
+            {
+                await addingProcessViewModel.StartAsync();
+                hasStart = true;
+            }
             base.OnAppearing();
         }
 
         protected override bool OnBackButtonPressed()
         {
+            //Only for acquiring location animation
             if (!((AddingProcessViewModel)BindingContext).CanGoBack)
             {
                 return true;
