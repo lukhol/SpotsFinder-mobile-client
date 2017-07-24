@@ -50,6 +50,27 @@ namespace SpotFinder.Core
             return true;
         }
 
+        public IList<Place> GetAllPlaces()
+        {
+            var allSpots = new List<Place>();
+
+            var list = SQLiteConnection.Query<SQLitePlace>("SELECT * FROM SQLitePlace");
+
+            SQLitePlace sqlitePlace;
+
+            if (list != null && list.Count > 0)
+                sqlitePlace = list.FirstOrDefault();
+            else
+                return null;
+
+            foreach(var item in list)
+            {
+                allSpots.Add(FromSQLitePlaceToCorePlace(item));
+            }
+
+            return allSpots;
+        }
+
         private Place FromSQLitePlaceToCorePlace(SQLitePlace sqlitePlace)
         {
             var placeJson = sqlitePlace.PlaceJson;

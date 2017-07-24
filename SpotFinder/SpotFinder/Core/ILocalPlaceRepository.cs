@@ -10,5 +10,6 @@ namespace SpotFinder.Core
     {
         bool InsertPlace(string placeJson);
         Place GetPlace(int id);
+        IList<Place> GetAllPlaces();
     }
 }

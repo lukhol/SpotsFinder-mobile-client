@@ -140,8 +140,25 @@ namespace SpotFinder.ViewModels
                     var tapGestureRecognizer = new TapGestureRecognizer();
                     tapGestureRecognizer.Tapped += (s, e) => {
                         var img = (MyImage)s;
-                        img.RemoveFromParent();
-                        ReportManager.Place.PhotosAsImage.Remove(img);
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            var currPage = Navigation.NavigationStack[Navigation.NavigationStack.Count() - 1];
+                            var result = await currPage.DisplayAlert("Alert!", "Do you want remove this photo?", "Yes", "No");
+                            if (result)
+                            {
+                                img.RemoveFromParent();
+                                ReportManager.Place.PhotosAsImage.Remove(img);
+
+                                if (ReportManager.Place.PhotosAsImage.Count == 0)
+                                    ReportButton.IsVisible = false;
+
+                                if (ReportManager.Place.PhotosAsImage.Count == 4)
+                                    AddPhotoButton.IsVisible = true;
+                            }
+                        });
+
+                        
                     };
                     image.GestureRecognizers.Add(tapGestureRecognizer);
 
@@ -159,9 +176,6 @@ namespace SpotFinder.ViewModels
                 ReportButton.IsVisible = false;
         });
 
-        /*
-         * 
-         */
         public Command ReportCommand => new Command(() =>
         {
             //Tutaj cała aktualizacja
@@ -249,7 +263,7 @@ namespace SpotFinder.ViewModels
         }
 
         //=================================================================================
-        //=========================== LAYOUT ==============================================
+        //================================== LAYOUT =======================================
         //=================================================================================
 
         private Button CreateAddPhotoButton()
@@ -415,6 +429,7 @@ namespace SpotFinder.ViewModels
             var layout = new StackLayout();
             foreach (var item in booleanFieldsMap)
             {
+                item.Value.IsToggled = false;
                 var horizontalLayout = Utils.CreateHorizontalStackLayout(item.Value,
                     new Label
                     {

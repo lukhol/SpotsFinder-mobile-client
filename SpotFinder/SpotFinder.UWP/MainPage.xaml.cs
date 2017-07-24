@@ -19,8 +19,8 @@ namespace SpotFinder.UWP
     {
         public MainPage()
         {
+            Xamarin.FormsMaps.Init("INSERT_AUTHENTICATION_TOKEN_HERE");
             this.InitializeComponent();
-
             LoadApplication(new SpotFinder.App());
         }
     }

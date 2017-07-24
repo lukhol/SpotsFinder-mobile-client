@@ -70,10 +70,12 @@ namespace SpotFinder.Core
 
         public bool Send(Place place)
         {
-            //Transform place to json
+            //Transform place to json - DONE
+
             //Send json to serwer
             //Get response and return proper value
-            //Save to local database this json
+
+            //Save to local database this json - DONE BUT WRONG WAY (ID)
 
             var jObject = JObject.FromObject(place);
             var jsonSpotString = jObject.ToString();

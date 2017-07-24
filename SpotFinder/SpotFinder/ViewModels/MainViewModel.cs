@@ -1,6 +1,4 @@
-﻿using Plugin.Geolocator;
-using SpotFinder.Views;
-using System;
+﻿using SpotFinder.Views;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;

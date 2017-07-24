@@ -5,11 +5,9 @@
              Title="Mapa"
              BackgroundColor="{StaticResource PageBackgroundColor}">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Tu mapa kiedyś będzie" 
-                   HorizontalOptions="CenterAndExpand"
-                   VerticalOptions="CenterAndExpand"
-                   TextColor="White"/>
-        </StackLayout>
+        <ActivityIndicator IsRunning="True"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand"
+                           Color="White"/>
     </ContentPage.Content>
 </ContentPage>

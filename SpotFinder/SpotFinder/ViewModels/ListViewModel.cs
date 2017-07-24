@@ -16,6 +16,7 @@ namespace SpotFinder.ViewModels
 
         private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
+        private ILocalPlaceRepository LocalPlaceRepository { get; }
 
         public List<Place> PlaceList { get; set; }
 
@@ -23,7 +24,15 @@ namespace SpotFinder.ViewModels
         {
             PlaceRepository = placeRepository;
             Navigation = navigation;
-            PlaceList = placeRepository.GetAllPlace();
+            //PlaceList = placeRepository.GetAllPlace();
+
+            LocalPlaceRepository = new LocalPlaceRepository();
+            var tempPlaceList = LocalPlaceRepository.GetAllPlaces();
+
+            if (tempPlaceList != null && tempPlaceList.Count > 0)
+                PlaceList = tempPlaceList.ToList();
+            else
+                PlaceList = placeRepository.GetAllPlace();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

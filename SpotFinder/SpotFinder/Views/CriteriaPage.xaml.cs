@@ -15,7 +15,6 @@ namespace SpotFinder.Views
             var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
             var criteriaViewModel = (CriteriaViewModel)serviceLocator.GetService(typeof(CriteriaViewModel));
             BindingContext = criteriaViewModel;
-
         }
 	}
 }

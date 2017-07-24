@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace SpotFinder.ViewModels
 {
@@ -59,7 +60,14 @@ namespace SpotFinder.ViewModels
                     Utils.CreateGridSeparator(12),
                     CreateLocationLayout(),
                     Utils.CreateGridSeparator(12),
-                    CreatePhotoLayout()
+                    CreatePhotoLayout(),
+                    Utils.CreateGridSeparator(12),
+                    CreateMapLayout(),
+                    Utils.CreateGridSeparator(12),
+                    Utils.CreateGridButton(new Command(() => 
+                    {
+                        Navigation.PopAsync();
+                    }), "Go back")
                 }
             };
 
@@ -232,6 +240,37 @@ namespace SpotFinder.ViewModels
                         Margin = new Thickness(15, 0 ,12 ,0)
                     }
                 }
+            };
+
+            return layout;
+        }
+
+        private StackLayout CreateMapLayout()
+        {
+            var map = new Map(
+            MapSpan.FromCenterAndRadius(new Position(place.Location.Latitude, place.Location.Longitude), Distance.FromMiles(0.3)))
+            {
+                IsShowingUser = true,
+                HeightRequest = 100,
+                WidthRequest = 960,
+                VerticalOptions = LayoutOptions.FillAndExpand
+            };
+
+            var pin = new Pin
+            {
+                Type = PinType.Place,
+                Position = new Position(place.Location.Latitude, place.Location.Longitude),
+                Label = place.Name + " ",
+                Address = place.Description + " "
+            };
+
+            map.Pins.Add(pin);
+
+            var layout = new StackLayout
+            {
+                Children = { map },
+                HeightRequest = 500,
+                Margin = new Thickness(12)
             };
 
             return layout;

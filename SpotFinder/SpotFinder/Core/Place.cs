@@ -64,6 +64,8 @@ namespace SpotFinder.Core
             Curb = false;
             Bank = false;
             Bowl = false;
+            Description = "";
+            Name = "";
             Location = new Location();
             PhotosBase64 = new List<string>();
             PhotosAsImage = new List<Image>();

@@ -38,6 +38,14 @@ namespace SpotFinder
                     new ResolvedParameter<IPlaceRepository>()
                 )
             );
+            unityContainer.RegisterType<MapPageViewModel>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new InjectionParameter(navigation),
+                    new ResolvedParameter<IPlaceRepository>(),
+                    new ResolvedParameter<ILocalPlaceRepository>()
+                )
+            );
 
             //Services:
             unityContainer.RegisterType<IPlaceRepository, PlaceRepository>(
