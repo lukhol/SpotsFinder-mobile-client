@@ -1,141 +1,155 @@
 ﻿using SpotFinder.Core;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SpotFinder.ViewModels
 {
-    public class CriteriaViewModel : INotifyPropertyChanged
+    public class CriteriaViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private INavigation Navigation { get; }
 
-        private bool skatepark;
-        private bool skatespot;
-
-        private bool ledge;
-        private bool rail;
-        private bool gap;
-        private bool stairs;
-        private bool handrail;
-        private bool corners;
-        private bool manualpad;
+        private Dictionary<string, Switch> booleanFieldsMap;
+        private Dictionary<Core.Type, Switch> typeFieldsMap;
+        private ContentPage CurrentPage { get; set; }
 
         public CriteriaViewModel(INavigation navigation)
-        { 
+        {
             Navigation = navigation;
+
+            booleanFieldsMap = new Dictionary<string, Switch>
+            {
+                {"Gap", CreateParameterSwitch(Color.White) },
+                {"Stairs", CreateParameterSwitch(Color.White) },
+                {"Rail", CreateParameterSwitch(Color.White) },
+                {"Ledge", CreateParameterSwitch(Color.White) },
+                {"Handrail", CreateParameterSwitch(Color.White) },
+                {"Corners", CreateParameterSwitch(Color.White) },
+                {"Manualpad", CreateParameterSwitch(Color.White) },
+                {"Wallride", CreateParameterSwitch(Color.White) },
+                {"Downhill", CreateParameterSwitch(Color.White) },
+                {"OpenYourMind", CreateParameterSwitch(Color.White) },
+                {"Pyramid", CreateParameterSwitch(Color.White) },
+                {"Curb", CreateParameterSwitch(Color.White) },
+                {"Bank", CreateParameterSwitch(Color.White) },
+                {"Bowl", CreateParameterSwitch(Color.White) }
+            };
+
+            typeFieldsMap = new Dictionary<Core.Type, Switch>
+            {
+                {Core.Type.Skatepark, CreateParameterSwitch(Color.White) },
+                {Core.Type.Skatespot, CreateParameterSwitch(Color.White) },
+                {Core.Type.DIY, CreateParameterSwitch(Color.White) }
+            };
         }
 
-        public bool Skatepark
+        public void InjectPage(ContentPage contentPage)
         {
-            get => skatepark;
-            set
+            CurrentPage = contentPage;
+            CurrentPage.Content = new ScrollView
             {
-                skatepark = value;
-                OnPropertyChanged();
-            }
+                Content = CreateCriteriaLayout()
+            };
         }
 
-        public bool Skatespot
+        private Switch CreateParameterSwitch(Color color)
         {
-            get => skatespot;
-            set
+            return new Switch
             {
-                skatespot = value;
-                OnPropertyChanged();
-            }
+                HorizontalOptions = LayoutOptions.Start,
+                Margin = new Thickness(5, 0, 5, 0)
+            };
         }
 
-        public bool Ledge
+        private StackLayout CreateObstaclesLayout()
         {
-            get => ledge;
-            set
+            CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
+            CurrentPage.Title = "Filtruj";
+
+            var layout = new StackLayout
             {
-                ledge = value;
-                OnPropertyChanged();
+                Children =
+                {
+                    new Label
+                    {
+                        TextColor = Color.White,
+                        FontAttributes = FontAttributes.Bold,
+                        Text = "Obstacles:",
+                        Margin = new Thickness(5,0,5,0)
+                    }
+                }
+            };
+
+            foreach(var field in booleanFieldsMap)
+            {
+                var label = new Label
+                {
+                    TextColor = Color.White,
+                    Text = field.Key
+                };
+                var horizontalLayout = Utils.CreateHorizontalStackLayout(field.Value, label);
+                layout.Children.Add(horizontalLayout);
             }
+            return layout;
         }
 
-        public bool Rail
+        private StackLayout CreateTypeLayout()
         {
-            get => rail;
-            set
+            var layout = new StackLayout
             {
-                rail = value;
-                OnPropertyChanged();
+                Children =
+                {
+                    new Label
+                    {
+                        TextColor = Color.White,
+                        FontAttributes = FontAttributes.Bold,
+                        Text = "Type:",
+                        Margin = new Thickness(5,0,5,0)
+                    }
+                }
+            };
+
+            foreach (var field in typeFieldsMap)
+            {
+                var label = new Label
+                {
+                    TextColor = Color.White,
+                    Text = field.Key.ToString()
+                };
+                var horizontalLayout = Utils.CreateHorizontalStackLayout(field.Value, label);
+                layout.Children.Add(horizontalLayout);
             }
+            return layout;
         }
 
-        public bool Gap
+        private StackLayout CreateCriteriaLayout()
         {
-            get => gap;
-            set
+            var layout = new StackLayout
             {
-                gap = value;
-                OnPropertyChanged();
-            }
-        }
+                Children =
+                {
+                    CreateTypeLayout(),
+                    Utils.CreateGridSeparator(12),
+                    CreateObstaclesLayout(),
+                    Utils.CreateGridSeparator(12),
+                    Utils.CreateGridButton(SelectAllCommand, "Select all"),
+                    Utils.CreateGridButton(FilterButtonCommand, "Filter")
+                }
+            };
 
-        public bool Stairs
-        {
-            get => stairs;
-            set
-            {
-                stairs = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool Handrail
-        {
-            get => handrail;
-            set
-            {
-                handrail = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool Corners
-        {
-            get => corners;
-            set
-            {
-                corners = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool Manualpad
-        {
-            get => manualpad;
-            set
-            {
-                manualpad = value;
-                OnPropertyChanged();
-            }
+            return layout;
         }
 
         public Command SelectAllCommand => new Command(() => 
         {
-            Ledge = true;
-            Rail = true;
-            Gap = true;
-            Stairs = true;
-            Handrail = true;
-            Corners = true;
-            Manualpad = true;
+            foreach(var item in booleanFieldsMap)
+            {
+                item.Value.IsToggled = true;
+            }
         });
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public Command FilterButtonCommand => new Command(() =>
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
+        });
     }
 }

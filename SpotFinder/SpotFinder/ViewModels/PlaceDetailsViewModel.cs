@@ -12,6 +12,7 @@ namespace SpotFinder.ViewModels
     public class PlaceDetailsViewModel
     {
         private INavigation Navigation { get; }
+        private ContentPage CurrentPage;
         private Place place;
 
         private Command buttonCommand;
@@ -31,9 +32,13 @@ namespace SpotFinder.ViewModels
                 this.textOnButton = textOnButton;
                 this.buttonCommand = buttonCommand;
             }
+        }
 
-            var currPage = (ContentPage)Navigation.NavigationStack[Navigation.NavigationStack.Count - 1];
-            currPage.Content = new ScrollView
+        public void InjectPage(ContentPage contentPage, string pageTitle)
+        {
+            CurrentPage = contentPage;
+            CurrentPage.Title = pageTitle;
+            CurrentPage.Content = new ScrollView
             {
                 Content = CreateAllLayout()
             };
@@ -41,6 +46,7 @@ namespace SpotFinder.ViewModels
 
         private StackLayout CreateAllLayout()
         {
+            CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
             var layout = new StackLayout
             {
                 Children =

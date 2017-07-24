@@ -23,6 +23,7 @@ namespace SpotFinder.ViewModels
         private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
+        private ContentPage CurrentPage { get; set; }
 
         private double latitude;
         private double longitude;
@@ -75,6 +76,15 @@ namespace SpotFinder.ViewModels
                 {"Bank", CreateParameterSwitch(Color.White) },
                 {"Bowl", CreateParameterSwitch(Color.White) }
             };
+        }
+
+        public async void InjectPageAsync(ContentPage contentPage, string pageTitle)
+        {
+            CurrentPage = contentPage;
+            CurrentPage.Title = pageTitle;
+            CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
+
+            await StartAsync();
         }
 
         //Start

@@ -14,6 +14,7 @@ namespace SpotFinder.ViewModels
         private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
+        private ContentPage CurrentPage { get; set; }
         private Map map;
 
         public MapPageViewModel(INavigation navigation, IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
@@ -23,13 +24,19 @@ namespace SpotFinder.ViewModels
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in MapPageViewModel");
         }
 
+        public void InjectPage(ContentPage contentPage, string pageTitle)
+        {
+            CurrentPage = contentPage;
+            CurrentPage.Title = pageTitle;
+            ShowMap();
+        }
+
         public void ShowMap()
         {
             if(map == null)
             {
-                var currPage = (TabbedPage)Navigation.NavigationStack[Navigation.NavigationStack.Count - 1];
-                var mapPage = (ContentPage)currPage.Children[3];
-                mapPage.Content = CreateMapLayout();
+                CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
+                CurrentPage.Content = CreateMapLayout();
 
                 var allPlaces = LocalPlaceRepository.GetAllPlaces();
 

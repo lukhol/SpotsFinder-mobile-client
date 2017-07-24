@@ -15,7 +15,7 @@ namespace SpotFinder
             unityContainer = new UnityContainer();
 
             //ViewModels:
-            unityContainer.RegisterType<MainViewModel>(
+            unityContainer.RegisterType<AddViewModel>(
                 new ContainerControlledLifetimeManager(),
                 new InjectionConstructor(navigation)
             );
@@ -51,7 +51,7 @@ namespace SpotFinder
             unityContainer.RegisterType<IPlaceRepository, PlaceRepository>(
                 new InjectionConstructor(
                     new ResolvedParameter<ILocalPlaceRepository>()
-                    )
+                )
             );
             unityContainer.RegisterType<ILocalPlaceRepository, LocalPlaceRepository>();
 
