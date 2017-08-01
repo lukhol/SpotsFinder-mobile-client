@@ -11,8 +11,7 @@ namespace SpotFinder.Views
 	{
 		public MapPage()
 		{
-            var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
-            var mapPageViewModel = (MapPageViewModel)serviceLocator.GetService(typeof(MapPageViewModel));
+            var mapPageViewModel = ServiceLocator.Current.GetInstance<MapPageViewModel>();
             mapPageViewModel.InjectPage(this, "Mapa");
             BindingContext = mapPageViewModel;
         }

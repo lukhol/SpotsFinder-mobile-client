@@ -9,8 +9,7 @@
             NavigationPage.HasNavigationBar="False">
   <!--Pages can be added as references or inline-->
     <Views:InfoPage/>
-    <Views:AddingProcessPage/>
+    <Views:CriteriaPage/>
     <Views:ListPage/>
     <Views:MapPage/>
-    <Views:AddPage/>
 </TabbedPage>

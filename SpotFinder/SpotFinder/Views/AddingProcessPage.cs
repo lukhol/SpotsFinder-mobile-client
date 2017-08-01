@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
+using System.Threading.Tasks;
+using SpotFinder.Resx;
 
 namespace SpotFinder.Views
 {
@@ -17,10 +19,7 @@ namespace SpotFinder.Views
         public AddingProcessPage ()
 		{
             NavigationPage.SetHasNavigationBar(this, false);
-
-            var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
-            var addingProcessViewModel = (AddingProcessViewModel)serviceLocator.GetService(typeof(AddingProcessViewModel));
-
+            var addingProcessViewModel = ServiceLocator.Current.GetInstance<AddingProcessViewModel>();
             BindingContext = addingProcessViewModel;
         }
 
@@ -29,7 +28,7 @@ namespace SpotFinder.Views
             var addingProcessViewModel = (AddingProcessViewModel)BindingContext;
             if (hasStart == false)
             {
-                await addingProcessViewModel.StartAsync();
+                addingProcessViewModel.InjectPageAsync(this, "AddingProcessPage");
                 hasStart = true;
             }
             base.OnAppearing();
@@ -45,7 +44,7 @@ namespace SpotFinder.Views
 
             Device.BeginInvokeOnMainThread(async () =>
             {
-                var result = await this.DisplayAlert("Alert!", "Do you want cancell report?", "Yes", "No");
+                var result = await this.DisplayAlert(AppResources.AlertTitle, AppResources.CancelReportAlert, AppResources.AlertYes, AppResources.AlertNo);
                 if (result)
                 {
                     await this.Navigation.PopToRootAsync();

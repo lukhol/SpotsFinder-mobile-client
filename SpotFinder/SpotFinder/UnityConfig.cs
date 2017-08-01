@@ -46,7 +46,13 @@ namespace SpotFinder
                     new ResolvedParameter<ILocalPlaceRepository>()
                 )
             );
-
+            unityContainer.RegisterType<LocateOnMapViewModel>(
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new InjectionParameter(navigation),
+                    new ResolvedParameter<IPlaceRepository>()
+                )
+            );
             //Services:
             unityContainer.RegisterType<IPlaceRepository, PlaceRepository>(
                 new InjectionConstructor(

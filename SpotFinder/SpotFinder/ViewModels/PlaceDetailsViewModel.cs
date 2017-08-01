@@ -1,4 +1,5 @@
 ﻿using SpotFinder.Core;
+using SpotFinder.Resx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +74,7 @@ namespace SpotFinder.ViewModels
                     Utils.CreateGridButton(new Command(() => 
                     {
                         Navigation.PopAsync();
-                    }), "Go back")
+                    }), AppResources.GoBackCommandTitle)
                 }
             };
 
@@ -95,7 +96,7 @@ namespace SpotFinder.ViewModels
                 {
                     new Label
                     {
-                        Text = "Type:",
+                        Text = AppResources.TypeLabel,
                         TextColor = Color.White,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(12, 0, 12, 0)
@@ -149,7 +150,7 @@ namespace SpotFinder.ViewModels
                 {
                     new Label
                     {
-                        Text = "Obstacles:",
+                        Text = AppResources.ObstaclesLabel,
                         TextColor = Color.White,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(12, 0, 12, 0)
@@ -234,7 +235,7 @@ namespace SpotFinder.ViewModels
                 {
                     new Label
                     {
-                        Text = "Description:",
+                        Text = AppResources.DescriptionPlaceholder + ":",
                         TextColor = Color.White,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(12, 0, 12, 0)

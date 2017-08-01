@@ -9,8 +9,7 @@ namespace SpotFinder.Views
 	{
 		public AddPage ()
 		{
-            var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
-            var addViewModel = (AddViewModel)serviceLocator.GetService(typeof(AddViewModel));
+            var addViewModel = ServiceLocator.Current.GetInstance<AddViewModel>();
             addViewModel.InjectPage(this, "Add");
             BindingContext = addViewModel;
         }

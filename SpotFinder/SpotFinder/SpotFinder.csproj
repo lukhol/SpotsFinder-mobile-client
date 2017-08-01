@@ -47,19 +47,27 @@
     <Compile Include="Core\ReportManager.cs" />
     <Compile Include="Core\Utils.cs" />
     <Compile Include="OwnControls\MyImage.cs" />
+    <Compile Include="Resx\AppResources.pl.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppResources.pl.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resx\AppResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SQLite\ISQLite.cs" />
     <Compile Include="SQLite\Models\SQLitePlace.cs" />
     <Compile Include="ViewModels\AddingProcessViewModel.cs" />
     <Compile Include="ViewModels\CriteriaViewModel.cs" />
     <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\AddViewModel.cs" />
+    <Compile Include="ViewModels\LocateOnMapViewModel.cs" />
     <Compile Include="ViewModels\MapPageViewModel.cs" />
     <Compile Include="ViewModels\PlaceDetailsViewModel.cs" />
     <Compile Include="ViewModels\RootTabbedVievModel.cs" />
-    <Compile Include="Views\AddingProcessPage2.cs" />
-    <Compile Include="Views\AddingProcessPage.xaml.cs">
-      <DependentUpon>AddingProcessPage.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Views\AddingProcessPage.cs" />
     <Compile Include="Views\AddPage.cs" />
     <Compile Include="Views\CriteriaPage.cs" />
     <Compile Include="Views\InfoPage.cs" />
@@ -68,6 +76,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnityConfig.cs" />
+    <Compile Include="Views\LocateOnMapPage.cs" />
     <Compile Include="Views\MapPage.cs" />
     <Compile Include="Views\PlaceDetailsPage.cs" />
     <Compile Include="Views\TabbedPage1.xaml.cs">
@@ -128,9 +137,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resx\AppResources.pl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppResources.pl.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resx\AppResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\TabbedPage1.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
@@ -138,12 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\ListPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\AddingProcessPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

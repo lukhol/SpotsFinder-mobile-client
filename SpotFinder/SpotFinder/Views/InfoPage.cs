@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotFinder.Resx;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace SpotFinder.Views
 				Children = {
 					new Label
                     {
-                        Text = "Aplikacja, której celem jest zebranie w jednym miejscu wszystkich spotów deskorolkowych oraz skateparków.",
+                        Text = AppResources.AppDescriptionLabel,
                         TextColor = Color.White,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         VerticalOptions = LayoutOptions.CenterAndExpand,

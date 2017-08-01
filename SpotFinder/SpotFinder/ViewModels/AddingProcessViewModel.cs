@@ -4,6 +4,7 @@ using Plugin.Geolocator;
 using Plugin.Media;
 using SpotFinder.Core;
 using SpotFinder.OwnControls;
+using SpotFinder.Resx;
 using SpotFinder.Views;
 using System;
 using System.Collections.Generic;
@@ -82,7 +83,6 @@ namespace SpotFinder.ViewModels
         {
             CurrentPage = contentPage;
             CurrentPage.Title = pageTitle;
-            CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
 
             await StartAsync();
         }
@@ -90,6 +90,8 @@ namespace SpotFinder.ViewModels
         //Start
         public async Task StartAsync()
         {
+            CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
+
             var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
             ReportManager = (ReportManager)serviceLocator.GetService(typeof(ReportManager));
 
@@ -154,7 +156,7 @@ namespace SpotFinder.ViewModels
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             var currPage = Navigation.NavigationStack[Navigation.NavigationStack.Count() - 1];
-                            var result = await currPage.DisplayAlert("Alert!", "Do you want remove this photo?", "Yes", "No");
+                            var result = await currPage.DisplayAlert("Alert!", AppResources.AlertRemovePhoto, AppResources.AlertYes, AppResources.AlertNo);
                             if (result)
                             {
                                 img.RemoveFromParent();
@@ -222,9 +224,8 @@ namespace SpotFinder.ViewModels
             Navigation.PushAsync(new PlaceDetailsPage(ReportManager.Place,
                 new Command(() =>
                 {
-                    PlaceRepository.Send(ReportManager.Place);
-                    Navigation.PopToRootAsync();
-                }), "Confirm"));
+                    Navigation.PushAsync(new LocateOnMapPage());
+                }), AppResources.NextCommandTitle));
         });
 
         private async Task<Tuple<Image, string>> GetPhotoAsync()
@@ -280,7 +281,7 @@ namespace SpotFinder.ViewModels
         {
             var button = new Button
             {
-                Text = "Add photo",
+                Text = AppResources.AddPhotoButton,
                 VerticalOptions = LayoutOptions.Start
             };
             button.Command = AddPhotoCommand;
@@ -291,7 +292,7 @@ namespace SpotFinder.ViewModels
         {
             var button = new Button
             {
-                Text = "Next"
+                Text = AppResources.NextCommandTitle
             };
             button.Command = ReportCommand;
             return button;
@@ -308,7 +309,7 @@ namespace SpotFinder.ViewModels
 
             var picker = new Picker
             {
-                Title = "Spot type",
+                Title = AppResources.SpotTypePlaceholder,
                 TextColor = Color.Black,
                 BackgroundColor = new Color(128,128,128,50),
                 Margin = new Thickness(5,0,5,0)
@@ -335,7 +336,7 @@ namespace SpotFinder.ViewModels
                 {
                     new Label
                     {
-                        Text = "Acquiring location",
+                        Text = AppResources.AcquiringLocationLabel,
                         TextColor = Color.White,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         VerticalOptions = LayoutOptions.EndAndExpand
@@ -391,14 +392,14 @@ namespace SpotFinder.ViewModels
             {
                 BackgroundColor = new Color(128, 128, 128, 50),
                 PlaceholderColor = Color.Black,
-                Placeholder = "Name",
+                Placeholder = AppResources.NamePlaceholder,
                 Margin = new Thickness(5,0,5,0)
             };
             DescriptionEntry = new Entry
             {
                 BackgroundColor = new Color(128, 128, 128, 50),
                 PlaceholderColor = Color.Black,
-                Placeholder = "Description",
+                Placeholder = AppResources.DescriptionPlaceholder,
                 Margin = new Thickness(5, 0, 5, 0)
             };
             var layout = new StackLayout
@@ -409,7 +410,7 @@ namespace SpotFinder.ViewModels
                     {
                         TextColor = Color.White,
                         FontAttributes = FontAttributes.Bold,
-                        Text = "Name:",
+                        Text = AppResources.NamePlaceholder + ":",
                         Margin = new Thickness(5,0,5,0)
                     },
                     NameEntry,
@@ -417,14 +418,14 @@ namespace SpotFinder.ViewModels
                     {
                         TextColor = Color.White,
                         FontAttributes = FontAttributes.Bold,
-                        Text = "Description:",
+                        Text = AppResources.DescriptionPlaceholder + ":",
                         Margin = new Thickness(5,0,5,0)
                     },
                     DescriptionEntry,
                     new Label
                     {
                         TextColor = Color.White,
-                        Text = "Type:",
+                        Text = AppResources.TypeLabel,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(5,0,5,0)
                     },
@@ -464,8 +465,8 @@ namespace SpotFinder.ViewModels
 
         private StackLayout CreateAddingLayout()
         {
-            AddPhotoButton = Utils.CreateGridButton(AddPhotoCommand, "Add photo", 5);
-            ReportButton = Utils.CreateGridButton(ReportCommand, "Next", 5);
+            AddPhotoButton = Utils.CreateGridButton(AddPhotoCommand, AppResources.AddPhotoButton, 5);
+            ReportButton = Utils.CreateGridButton(ReportCommand, AppResources.NextCommandTitle, 5);
             ReportButton.IsVisible = false;
             var layout = new StackLayout
             {

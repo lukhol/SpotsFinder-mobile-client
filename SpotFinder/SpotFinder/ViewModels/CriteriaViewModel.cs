@@ -1,4 +1,5 @@
 ﻿using SpotFinder.Core;
+using SpotFinder.Resx;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -63,7 +64,7 @@ namespace SpotFinder.ViewModels
         private StackLayout CreateObstaclesLayout()
         {
             CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
-            CurrentPage.Title = "Filtruj";
+            CurrentPage.Title = AppResources.FilterLabel;
 
             var layout = new StackLayout
             {
@@ -73,7 +74,7 @@ namespace SpotFinder.ViewModels
                     {
                         TextColor = Color.White,
                         FontAttributes = FontAttributes.Bold,
-                        Text = "Obstacles:",
+                        Text = AppResources.ObstaclesLabel,
                         Margin = new Thickness(5,0,5,0)
                     }
                 }
@@ -102,7 +103,7 @@ namespace SpotFinder.ViewModels
                     {
                         TextColor = Color.White,
                         FontAttributes = FontAttributes.Bold,
-                        Text = "Type:",
+                        Text = AppResources.TypeLabel,
                         Margin = new Thickness(5,0,5,0)
                     }
                 }
@@ -131,8 +132,8 @@ namespace SpotFinder.ViewModels
                     Utils.CreateGridSeparator(12),
                     CreateObstaclesLayout(),
                     Utils.CreateGridSeparator(12),
-                    Utils.CreateGridButton(SelectAllCommand, "Select all"),
-                    Utils.CreateGridButton(FilterButtonCommand, "Filter")
+                    Utils.CreateGridButton(SelectAllCommand, AppResources.SelectAllCommand),
+                    Utils.CreateGridButton(FilterButtonCommand, AppResources.FilterLabel)
                 }
             };
 

@@ -1,9 +1,7 @@
 ﻿using SpotFinder.Core;
+using SpotFinder.Resx;
+using SpotFinder.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -33,12 +31,15 @@ namespace SpotFinder.ViewModels
 
         public void ShowMap()
         {
-            if(map == null)
+            if (map == null)
             {
                 CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
                 CurrentPage.Content = CreateMapLayout();
 
                 var allPlaces = LocalPlaceRepository.GetAllPlaces();
+
+                if (allPlaces == null || allPlaces.Count == 0)
+                    return;
 
                 foreach (var place in allPlaces)
                 {
@@ -62,36 +63,28 @@ namespace SpotFinder.ViewModels
             MapSpan.FromCenterAndRadius(new Position(51.75924850, 19.45598330), Distance.FromMiles(0.3)))
             {
                 IsShowingUser = true,
-                HeightRequest = 100,
+                HeightRequest = 2480,
                 WidthRequest = 960,
-                VerticalOptions = LayoutOptions.FillAndExpand
+                VerticalOptions = LayoutOptions.FillAndExpand,
             };
 
-            layout = new StackLayout
+            var addPlaceButton = new Button
             {
-                Children =
-                {
-                    map,
-                    new Button
-                    {
-                        VerticalOptions = LayoutOptions.End,
-                        Text = "Center position",
-                        Command = new Command (() => 
-                        {
-                            var visibleRegion = map.VisibleRegion;
-                            var centerPosition = visibleRegion.Center;
-
-                            Device.BeginInvokeOnMainThread(async () =>
-                            {
-                                var currPage = (TabbedPage)Navigation.NavigationStack[Navigation.NavigationStack.Count - 1];
-                                var mapPage = (ContentPage)currPage.Children[3];
-                                await mapPage.DisplayAlert("Alert!", centerPosition.Latitude.ToString()
-                                    + ", " + centerPosition.Longitude.ToString(), "Ok");
-                            });
-                        })
-                    }
-                }
+                Margin = new Thickness(10, 0, 0, 0),
+                BackgroundColor = new Color(24, 178, 40, 0.5),
+                VerticalOptions = LayoutOptions.Start,
+                HorizontalOptions = LayoutOptions.Start,
+                Text = AppResources.AddSpotButton
             };
+            addPlaceButton.Command = new Command(() =>
+            {
+                Navigation.PushAsync(new AddingProcessPage());
+            });
+
+            var mapLayout = Utils.CreateItemOnItemLayout(map, addPlaceButton);
+
+            layout = new StackLayout();
+            layout.Children.Add(mapLayout);
 
             return layout;
         }

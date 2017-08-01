@@ -89,5 +89,24 @@ namespace SpotFinder.Core
                 }
             };
         }
+
+        public static StackLayout CreateItemOnItemLayout(params View[] views)
+        {
+            var grid = new Grid
+            {
+                HorizontalOptions = LayoutOptions.CenterAndExpand,
+                VerticalOptions = LayoutOptions.CenterAndExpand
+            };
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            foreach(var view in views)
+                grid.Children.Add(view, 0, 0);
+
+            return new StackLayout
+            {
+                Children = { grid }
+            };
+        }
     }
 }
