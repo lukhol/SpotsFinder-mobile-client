@@ -67,6 +67,7 @@
     <Compile Include="ViewModels\MapPageViewModel.cs" />
     <Compile Include="ViewModels\PlaceDetailsViewModel.cs" />
     <Compile Include="ViewModels\RootTabbedVievModel.cs" />
+    <Compile Include="ViewModels\Root\MenuMasterDetailPageViewModel.cs" />
     <Compile Include="Views\AddingProcessPage.cs" />
     <Compile Include="Views\AddPage.cs" />
     <Compile Include="Views\CriteriaPage.cs" />
@@ -79,6 +80,10 @@
     <Compile Include="Views\LocateOnMapPage.cs" />
     <Compile Include="Views\MapPage.cs" />
     <Compile Include="Views\PlaceDetailsPage.cs" />
+    <Compile Include="Views\Root\MasterPageItem.cs" />
+    <Compile Include="Views\Root\MenuMasterDetailPage.cs" />
+    <Compile Include="Views\Root\RootMasterDetailPage.cs" />
+    <Compile Include="Views\SettingsPage.cs" />
     <Compile Include="Views\TabbedPage1.xaml.cs">
       <DependentUpon>TabbedPage1.xaml</DependentUpon>
     </Compile>

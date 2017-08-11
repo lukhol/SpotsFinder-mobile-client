@@ -19,7 +19,7 @@ namespace SpotFinder.Views
 					new Label
                     {
                         Text = AppResources.AppDescriptionLabel,
-                        TextColor = Color.White,
+                        TextColor = (Color)Application.Current.Resources["MainAccentColor"],
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         Margin = new Thickness(12)

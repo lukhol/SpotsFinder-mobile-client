@@ -12,6 +12,7 @@ namespace SpotFinder.ViewModels
         private Dictionary<string, Switch> booleanFieldsMap;
         private Dictionary<Core.Type, Switch> typeFieldsMap;
         private ContentPage CurrentPage { get; set; }
+        private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
         public CriteriaViewModel(INavigation navigation)
         {
@@ -19,27 +20,27 @@ namespace SpotFinder.ViewModels
 
             booleanFieldsMap = new Dictionary<string, Switch>
             {
-                {"Gap", CreateParameterSwitch(Color.White) },
-                {"Stairs", CreateParameterSwitch(Color.White) },
-                {"Rail", CreateParameterSwitch(Color.White) },
-                {"Ledge", CreateParameterSwitch(Color.White) },
-                {"Handrail", CreateParameterSwitch(Color.White) },
-                {"Corners", CreateParameterSwitch(Color.White) },
-                {"Manualpad", CreateParameterSwitch(Color.White) },
-                {"Wallride", CreateParameterSwitch(Color.White) },
-                {"Downhill", CreateParameterSwitch(Color.White) },
-                {"OpenYourMind", CreateParameterSwitch(Color.White) },
-                {"Pyramid", CreateParameterSwitch(Color.White) },
-                {"Curb", CreateParameterSwitch(Color.White) },
-                {"Bank", CreateParameterSwitch(Color.White) },
-                {"Bowl", CreateParameterSwitch(Color.White) }
+                {"Gap", CreateParameterSwitch(mainAccentColor) },
+                {"Stairs", CreateParameterSwitch(mainAccentColor) },
+                {"Rail", CreateParameterSwitch(mainAccentColor) },
+                {"Ledge", CreateParameterSwitch(mainAccentColor) },
+                {"Handrail", CreateParameterSwitch(mainAccentColor) },
+                {"Corners", CreateParameterSwitch(mainAccentColor) },
+                {"Manualpad", CreateParameterSwitch(mainAccentColor) },
+                {"Wallride", CreateParameterSwitch(mainAccentColor) },
+                {"Downhill", CreateParameterSwitch(mainAccentColor) },
+                {"OpenYourMind", CreateParameterSwitch(mainAccentColor) },
+                {"Pyramid", CreateParameterSwitch(mainAccentColor) },
+                {"Curb", CreateParameterSwitch(mainAccentColor) },
+                {"Bank", CreateParameterSwitch(mainAccentColor) },
+                {"Bowl", CreateParameterSwitch(mainAccentColor) }
             };
 
             typeFieldsMap = new Dictionary<Core.Type, Switch>
             {
-                {Core.Type.Skatepark, CreateParameterSwitch(Color.White) },
-                {Core.Type.Skatespot, CreateParameterSwitch(Color.White) },
-                {Core.Type.DIY, CreateParameterSwitch(Color.White) }
+                {Core.Type.Skatepark, CreateParameterSwitch(mainAccentColor) },
+                {Core.Type.Skatespot, CreateParameterSwitch(mainAccentColor) },
+                {Core.Type.DIY, CreateParameterSwitch(mainAccentColor) }
             };
         }
 
@@ -72,7 +73,7 @@ namespace SpotFinder.ViewModels
                 {
                     new Label
                     {
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         Text = AppResources.ObstaclesLabel,
                         Margin = new Thickness(5,0,5,0)
@@ -84,7 +85,7 @@ namespace SpotFinder.ViewModels
             {
                 var label = new Label
                 {
-                    TextColor = Color.White,
+                    TextColor = mainAccentColor,
                     Text = field.Key
                 };
                 var horizontalLayout = Utils.CreateHorizontalStackLayout(field.Value, label);
@@ -101,7 +102,7 @@ namespace SpotFinder.ViewModels
                 {
                     new Label
                     {
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         Text = AppResources.TypeLabel,
                         Margin = new Thickness(5,0,5,0)
@@ -113,7 +114,7 @@ namespace SpotFinder.ViewModels
             {
                 var label = new Label
                 {
-                    TextColor = Color.White,
+                    TextColor = mainAccentColor,
                     Text = field.Key.ToString()
                 };
                 var horizontalLayout = Utils.CreateHorizontalStackLayout(field.Value, label);
@@ -132,8 +133,10 @@ namespace SpotFinder.ViewModels
                     Utils.CreateGridSeparator(12),
                     CreateObstaclesLayout(),
                     Utils.CreateGridSeparator(12),
-                    Utils.CreateGridButton(SelectAllCommand, AppResources.SelectAllCommand),
-                    Utils.CreateGridButton(FilterButtonCommand, AppResources.FilterLabel)
+                    //Utils.CreateGridButton(SelectAllCommand, AppResources.SelectAllCommand),
+                    //Utils.CreateGridButton(FilterButtonCommand, AppResources.FilterLabel)
+                    Utils.CreateDownSiteButton(SelectAllCommand, AppResources.SelectAllCommand),
+                    Utils.CreateDownSiteButton(FilterButtonCommand, AppResources.FilterLabel)
                 }
             };
 

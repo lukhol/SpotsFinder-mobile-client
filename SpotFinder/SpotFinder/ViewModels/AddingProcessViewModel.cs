@@ -25,6 +25,7 @@ namespace SpotFinder.ViewModels
         private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
         private ContentPage CurrentPage { get; set; }
+        private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
         private double latitude;
         private double longitude;
@@ -33,8 +34,8 @@ namespace SpotFinder.ViewModels
         private ScrollView scrollView;
         private ReportManager ReportManager;
 
-        private StackLayout AddPhotoButton;
-        private StackLayout ReportButton;
+        private Button AddPhotoButton;
+        private Button ReportButton;
 
         private Entry DescriptionEntry;
         private Entry NameEntry;
@@ -62,20 +63,20 @@ namespace SpotFinder.ViewModels
 
             booleanFieldsMap = new Dictionary<string, Switch>
             {
-                {"Gap", CreateParameterSwitch(Color.White) },
-                {"Stairs", CreateParameterSwitch(Color.White) },
-                {"Rail", CreateParameterSwitch(Color.White) },
-                {"Ledge", CreateParameterSwitch(Color.White) },
-                {"Handrail", CreateParameterSwitch(Color.White) },
-                {"Corners", CreateParameterSwitch(Color.White) },
-                {"Manualpad", CreateParameterSwitch(Color.White) },
-                {"Wallride", CreateParameterSwitch(Color.White) },
-                {"Downhill", CreateParameterSwitch(Color.White) },
-                {"OpenYourMind", CreateParameterSwitch(Color.White) },
-                {"Pyramid", CreateParameterSwitch(Color.White) },
-                {"Curb", CreateParameterSwitch(Color.White) },
-                {"Bank", CreateParameterSwitch(Color.White) },
-                {"Bowl", CreateParameterSwitch(Color.White) }
+                {"Gap", CreateParameterSwitch(mainAccentColor) },
+                {"Stairs", CreateParameterSwitch(mainAccentColor) },
+                {"Rail", CreateParameterSwitch(mainAccentColor) },
+                {"Ledge", CreateParameterSwitch(mainAccentColor) },
+                {"Handrail", CreateParameterSwitch(mainAccentColor) },
+                {"Corners", CreateParameterSwitch(mainAccentColor) },
+                {"Manualpad", CreateParameterSwitch(mainAccentColor) },
+                {"Wallride", CreateParameterSwitch(mainAccentColor) },
+                {"Downhill", CreateParameterSwitch(mainAccentColor) },
+                {"OpenYourMind", CreateParameterSwitch(mainAccentColor) },
+                {"Pyramid", CreateParameterSwitch(mainAccentColor) },
+                {"Curb", CreateParameterSwitch(mainAccentColor) },
+                {"Bank", CreateParameterSwitch(mainAccentColor) },
+                {"Bowl", CreateParameterSwitch(mainAccentColor) }
             };
         }
 
@@ -337,14 +338,14 @@ namespace SpotFinder.ViewModels
                     new Label
                     {
                         Text = AppResources.AcquiringLocationLabel,
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         VerticalOptions = LayoutOptions.EndAndExpand
                     },
                     new ActivityIndicator
                     {
                         IsRunning = true,
-                        Color = Color.White,
+                        Color = mainAccentColor,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         VerticalOptions = LayoutOptions.StartAndExpand
                     }
@@ -362,7 +363,7 @@ namespace SpotFinder.ViewModels
                     new Label
                     {
                         Text = "Location:",
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         VerticalOptions = LayoutOptions.EndAndExpand
@@ -372,14 +373,14 @@ namespace SpotFinder.ViewModels
                         Text = "Latitude: " + latitude.ToString(),
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         VerticalOptions = LayoutOptions.EndAndExpand,
-                        TextColor = Color.White
+                        TextColor = mainAccentColor
                     },
                     new Label
                     {
                         Text = "Longitude: " + longitude.ToString(),
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
                         VerticalOptions = LayoutOptions.StartAndExpand,
-                        TextColor = Color.White
+                        TextColor = mainAccentColor
                     }
                 }
             };
@@ -408,7 +409,7 @@ namespace SpotFinder.ViewModels
                 {
                     new Label
                     {
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         Text = AppResources.NamePlaceholder + ":",
                         Margin = new Thickness(5,0,5,0)
@@ -416,7 +417,7 @@ namespace SpotFinder.ViewModels
                     NameEntry,
                     new Label
                     {
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         Text = AppResources.DescriptionPlaceholder + ":",
                         Margin = new Thickness(5,0,5,0)
@@ -424,7 +425,7 @@ namespace SpotFinder.ViewModels
                     DescriptionEntry,
                     new Label
                     {
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         Text = AppResources.TypeLabel,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(5,0,5,0)
@@ -445,7 +446,7 @@ namespace SpotFinder.ViewModels
                     new Label
                     {
                         VerticalOptions = LayoutOptions.Start,
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         Text = item.Key
                     }
                 );
@@ -465,8 +466,8 @@ namespace SpotFinder.ViewModels
 
         private StackLayout CreateAddingLayout()
         {
-            AddPhotoButton = Utils.CreateGridButton(AddPhotoCommand, AppResources.AddPhotoButton, 5);
-            ReportButton = Utils.CreateGridButton(ReportCommand, AppResources.NextCommandTitle, 5);
+            AddPhotoButton = Utils.CreateDownSiteButton(AddPhotoCommand, AppResources.AddPhotoButton, 5);
+            ReportButton = Utils.CreateDownSiteButton(ReportCommand, AppResources.NextCommandTitle, 5);
             ReportButton.IsVisible = false;
             var layout = new StackLayout
             {

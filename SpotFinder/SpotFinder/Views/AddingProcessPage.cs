@@ -18,13 +18,13 @@ namespace SpotFinder.Views
 
         public AddingProcessPage ()
 		{
-            NavigationPage.SetHasNavigationBar(this, false);
             var addingProcessViewModel = ServiceLocator.Current.GetInstance<AddingProcessViewModel>();
             BindingContext = addingProcessViewModel;
         }
 
         protected override async void OnAppearing()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             var addingProcessViewModel = (AddingProcessViewModel)BindingContext;
             if (hasStart == false)
             {

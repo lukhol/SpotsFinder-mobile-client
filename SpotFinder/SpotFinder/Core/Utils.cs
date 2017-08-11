@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SpotFinder.Core
 {
     static class Utils
     {
+        static Color mainAccentColor = Color.White;
+
         public static ImageSource Base64ImageToImageSource(string base64Image)
         {
             var imageBytes = Convert.FromBase64String(base64Image);
@@ -21,7 +19,7 @@ namespace SpotFinder.Core
             return new Grid
             {
                 HeightRequest = 2,
-                BackgroundColor = Color.White,
+                BackgroundColor = mainAccentColor,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 Margin = new Thickness(marginSiteValue, 0, marginSiteValue, 0)
             };
@@ -52,13 +50,13 @@ namespace SpotFinder.Core
 
             var grid = new Grid
             {
-                BackgroundColor = Color.White, 
+                BackgroundColor = mainAccentColor, 
                 Margin = spaceThickness,
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
             var boxView = new BoxView
             {
-                BackgroundColor = Color.White
+                BackgroundColor = mainAccentColor
             };
             var innerGrid = new Grid
             {
@@ -70,7 +68,7 @@ namespace SpotFinder.Core
                 Text = text,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 VerticalOptions = LayoutOptions.Center,
-                TextColor = Color.White,
+                TextColor = mainAccentColor,
                 Margin = new Thickness(10, 10, 10, 10)
             };
             var tapGestureRecognizer = new TapGestureRecognizer();
@@ -88,6 +86,29 @@ namespace SpotFinder.Core
                     grid
                 }
             };
+        }
+
+        public static Button CreateDownSiteButton(Command ClickCommand, string text, int marginValue = 0)
+        {
+            Thickness spaceThickness;
+            if (marginValue == 0)
+                spaceThickness = new Thickness(12, 12, 12, 12);
+            else
+                spaceThickness = new Thickness(marginValue);
+
+            var button = new Button
+            {
+                Command = ClickCommand,
+                Text = text,
+                Margin = spaceThickness,
+                BorderRadius = 20,
+                BorderWidth = 1,
+                BackgroundColor = Color.Transparent,
+                TextColor = mainAccentColor,
+                BorderColor = mainAccentColor
+            };
+
+            return button;
         }
 
         public static StackLayout CreateItemOnItemLayout(params View[] views)

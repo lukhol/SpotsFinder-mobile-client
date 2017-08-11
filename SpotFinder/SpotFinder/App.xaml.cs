@@ -15,7 +15,7 @@ namespace SpotFinder
             _sqLiteConnection.CreateTable<SQLitePlace>();
 
             InitializeComponent();
-            MainPage = new NavigationPage(new Views.TabbedPage1());
+            MainPage = new NavigationPage(new Views.Root.RootMasterDetailPage());
         }
 
         protected override void OnStart()

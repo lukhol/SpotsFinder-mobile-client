@@ -12,6 +12,7 @@ namespace SpotFinder.ViewModels
         private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
+        private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
         private ContentPage CurrentPage { get; set; }
         private Map map;
 
@@ -31,42 +32,49 @@ namespace SpotFinder.ViewModels
 
         public void ShowMap()
         {
-            if (map == null)
+            CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
+            CurrentPage.Content = CreateMapLayout();
+            if(map.Pins.Count == 0)
+                UpdateMapPins();
+        }
+
+        public bool UpdateMapPins()
+        {
+            var allPlaces = LocalPlaceRepository.GetAllPlaces();
+
+            if (allPlaces == null || allPlaces.Count == 0)
+                return false;
+
+            map.Pins.Clear();
+
+            foreach (var place in allPlaces)
             {
-                CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
-                CurrentPage.Content = CreateMapLayout();
-
-                var allPlaces = LocalPlaceRepository.GetAllPlaces();
-
-                if (allPlaces == null || allPlaces.Count == 0)
-                    return;
-
-                foreach (var place in allPlaces)
+                var pin = new Pin
                 {
-                    var pin = new Pin
-                    {
-                        Type = PinType.Place,
-                        Position = new Position(place.Location.Latitude, place.Location.Longitude),
-                        Label = place.Name + " ",
-                        Address = place.Description + " "
-                    };
-                    map.Pins.Add(pin);
-                }
+                    Type = PinType.Place,
+                    Position = new Position(place.Location.Latitude, place.Location.Longitude),
+                    Label = place.Name + " ",
+                    Address = place.Description + " "
+                };
+                map.Pins.Add(pin);
             }
+
+            return true;
         }
 
         private StackLayout CreateMapLayout()
         {
             StackLayout layout;
 
-            map = new Map(
-            MapSpan.FromCenterAndRadius(new Position(51.75924850, 19.45598330), Distance.FromMiles(0.3)))
-            {
-                IsShowingUser = true,
-                HeightRequest = 2480,
-                WidthRequest = 960,
-                VerticalOptions = LayoutOptions.FillAndExpand,
-            };
+            if(map == null)
+                map = new Map(
+                MapSpan.FromCenterAndRadius(new Position(51.75924850, 19.45598330), Distance.FromMiles(0.3)))
+                {
+                    IsShowingUser = true,
+                    HeightRequest = 2480,
+                    WidthRequest = 960,
+                    VerticalOptions = LayoutOptions.FillAndExpand,
+                };
 
             var addPlaceButton = new Button
             {

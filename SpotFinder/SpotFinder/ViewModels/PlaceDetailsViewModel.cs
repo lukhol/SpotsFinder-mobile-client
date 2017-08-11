@@ -1,10 +1,5 @@
 ﻿using SpotFinder.Core;
 using SpotFinder.Resx;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -15,6 +10,8 @@ namespace SpotFinder.ViewModels
         private INavigation Navigation { get; }
         private ContentPage CurrentPage;
         private Place place;
+
+        private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
         private Command buttonCommand;
         private string textOnButton;
@@ -55,7 +52,7 @@ namespace SpotFinder.ViewModels
                     new Label
                     {
                         Text = place.Name,
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontSize = 25,
                         HorizontalOptions = LayoutOptions.CenterAndExpand
                     },
@@ -71,7 +68,7 @@ namespace SpotFinder.ViewModels
                     Utils.CreateGridSeparator(12),
                     CreateMapLayout(),
                     Utils.CreateGridSeparator(12),
-                    Utils.CreateGridButton(new Command(() => 
+                    Utils.CreateDownSiteButton(new Command(() => 
                     {
                         Navigation.PopAsync();
                     }), AppResources.GoBackCommandTitle)
@@ -80,8 +77,7 @@ namespace SpotFinder.ViewModels
 
             if(buttonCommand != null)
             {
-                layout.Children.Add(Utils.CreateGridSeparator(12));
-                var button = Utils.CreateGridButton(buttonCommand, textOnButton);
+                var button = Utils.CreateDownSiteButton(buttonCommand, textOnButton);
                 layout.Children.Add(button);
             }
 
@@ -97,14 +93,14 @@ namespace SpotFinder.ViewModels
                     new Label
                     {
                         Text = AppResources.TypeLabel,
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(12, 0, 12, 0)
                     },
                     new Label
                     {
                         Text = "-" + place.Type.ToString(),
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         Margin = new Thickness(15, 0 ,12 ,0)
                     }
                 }
@@ -121,20 +117,20 @@ namespace SpotFinder.ViewModels
                     new Label
                     {
                         Text = "Location:",
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(12, 0, 12, 0)
                     },
                     new Label
                     {
                         Text = "Latitude: " + place.Location.Latitude.ToString(),
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         Margin = new Thickness(15, 0 ,12 ,0)
                     },
                     new Label
                     {
                         Text = "Longitude: " + place.Location.Longitude.ToString(),
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         Margin = new Thickness(15, 0 ,12 ,0)
                     }
                 }
@@ -151,7 +147,7 @@ namespace SpotFinder.ViewModels
                     new Label
                     {
                         Text = AppResources.ObstaclesLabel,
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(12, 0, 12, 0)
                     }
@@ -204,7 +200,7 @@ namespace SpotFinder.ViewModels
         {
             var label = new Label
             {
-                TextColor = Color.White,
+                TextColor = mainAccentColor,
                 Text = text,
                 Margin = new Thickness(15, 0, 12, 0)
             };
@@ -236,14 +232,14 @@ namespace SpotFinder.ViewModels
                     new Label
                     {
                         Text = AppResources.DescriptionPlaceholder + ":",
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         FontAttributes = FontAttributes.Bold,
                         Margin = new Thickness(12, 0, 12, 0)
                     },
                     new Label
                     {
                         Text = place.Description,
-                        TextColor = Color.White,
+                        TextColor = mainAccentColor,
                         Margin = new Thickness(15, 0 ,12 ,0)
                     }
                 }

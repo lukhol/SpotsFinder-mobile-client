@@ -13,6 +13,7 @@ namespace SpotFinder.ViewModels
         private INavigation Navigation { get; }
         private ContentPage CurrentPage { get; set; }
         private IPlaceRepository PlaceRepository { get; }
+        private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
         private Map map;
 
         public LocateOnMapViewModel(INavigation navigation, IPlaceRepository placeRepository)
@@ -52,7 +53,7 @@ namespace SpotFinder.ViewModels
 
             var label = new Label
             {
-                TextColor = Color.White,
+                TextColor = mainAccentColor,
                 Text = AppResources.UseMapLabel,
                 VerticalOptions = LayoutOptions.Start,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -90,7 +91,7 @@ namespace SpotFinder.ViewModels
                 HorizontalOptions = LayoutOptions.CenterAndExpand
             };
 
-            var button = Utils.CreateGridButton(LocateCommand, AppResources.LocateCommandTitle, 5);
+            var button = Utils.CreateDownSiteButton(LocateCommand, AppResources.LocateCommandTitle, 5);
             button.MinimumHeightRequest = 80;
 
             layout.Children.Add(label);

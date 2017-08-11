@@ -8,7 +8,6 @@ namespace SpotFinder.Views
     {
         public PlaceDetailsPage(Place place, Command command = null, string message = null)
         {
-            NavigationPage.SetHasNavigationBar(this, false);
             var placeDetailsViewModel = new PlaceDetailsViewModel(Navigation);
             
             if (command != null)
@@ -22,6 +21,12 @@ namespace SpotFinder.Views
 
             placeDetailsViewModel.InjectPage(this, "DetailsPage");
             BindingContext = placeDetailsViewModel;
+        }
+
+        protected override void OnAppearing()
+        {
+            NavigationPage.SetHasNavigationBar(this, false);
+            base.OnAppearing();
         }
     }
 }
