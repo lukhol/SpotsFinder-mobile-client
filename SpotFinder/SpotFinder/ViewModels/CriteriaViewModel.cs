@@ -12,6 +12,7 @@ namespace SpotFinder.ViewModels
         private Dictionary<string, Switch> booleanFieldsMap;
         private Dictionary<Core.Type, Switch> typeFieldsMap;
         private ContentPage CurrentPage { get; set; }
+        private Entry CityEntry;
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
         public CriteriaViewModel(INavigation navigation)
@@ -25,6 +26,7 @@ namespace SpotFinder.ViewModels
                 {"Rail", CreateParameterSwitch(mainAccentColor) },
                 {"Ledge", CreateParameterSwitch(mainAccentColor) },
                 {"Handrail", CreateParameterSwitch(mainAccentColor) },
+                {"Hubba", CreateParameterSwitch(mainAccentColor) },
                 {"Corners", CreateParameterSwitch(mainAccentColor) },
                 {"Manualpad", CreateParameterSwitch(mainAccentColor) },
                 {"Wallride", CreateParameterSwitch(mainAccentColor) },
@@ -78,7 +80,8 @@ namespace SpotFinder.ViewModels
                         Text = AppResources.ObstaclesLabel,
                         Margin = new Thickness(5,0,5,0)
                     }
-                }
+                },
+                Margin = new Thickness(12)
             };
 
             foreach(var field in booleanFieldsMap)
@@ -107,7 +110,8 @@ namespace SpotFinder.ViewModels
                         Text = AppResources.TypeLabel,
                         Margin = new Thickness(5,0,5,0)
                     }
-                }
+                },
+                Margin = new Thickness(12)
             };
 
             foreach (var field in typeFieldsMap)
@@ -123,6 +127,27 @@ namespace SpotFinder.ViewModels
             return layout;
         }
 
+        private StackLayout CreateCityEntryLayout()
+        {
+            CityEntry = new Entry
+            {
+                //BackgroundColor = Color.FromRgba(128, 128, 128, 220),
+                PlaceholderColor = Color.Black,
+                Placeholder = AppResources.CityPlaceholder,
+                Margin = new Thickness(12),
+            };
+
+            var layout = new StackLayout
+            {
+                Children =
+                {
+                    CityEntry
+                }
+            };
+
+            return layout;
+        }
+
         private StackLayout CreateCriteriaLayout()
         {
             var layout = new StackLayout
@@ -133,10 +158,9 @@ namespace SpotFinder.ViewModels
                     Utils.CreateGridSeparator(12),
                     CreateObstaclesLayout(),
                     Utils.CreateGridSeparator(12),
-                    //Utils.CreateGridButton(SelectAllCommand, AppResources.SelectAllCommand),
-                    //Utils.CreateGridButton(FilterButtonCommand, AppResources.FilterLabel)
-                    Utils.CreateDownSiteButton(SelectAllCommand, AppResources.SelectAllCommand),
-                    Utils.CreateDownSiteButton(FilterButtonCommand, AppResources.FilterLabel)
+                    CreateCityEntryLayout(),
+                    Utils.CreateDownSiteButton(SelectAllCommand, AppResources.SelectAllCommand, new Thickness(12 ,0 ,12, 12)),
+                    Utils.CreateDownSiteButton(FilterButtonCommand, AppResources.FilterLabel, new Thickness(12 ,0 ,12, 12))
                 }
             };
 
@@ -151,9 +175,17 @@ namespace SpotFinder.ViewModels
             }
         });
 
-        public Command FilterButtonCommand => new Command(() =>
+        public Command FilterButtonCommand => new Command(async () =>
         {
+            if (CityEntry.Text == null)
+                return;
 
+            var repo = new RestAdressRepository();
+            var position = await repo.GetPositionOfTheCity(CityEntry.Text, true);
+            if (position != null)
+                await CurrentPage.DisplayAlert("Message", position.Longitude.ToString() + "\n" + position.Latitude.ToString(), "Ok");
+            else
+                await CurrentPage.DisplayAlert("Message", "Problem with position", "Ok");
         });
     }
 }

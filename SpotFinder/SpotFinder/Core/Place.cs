@@ -36,6 +36,7 @@ namespace SpotFinder.Core
         public bool Curb { get; set; }
         public bool Bank { get; set; }
         public bool Bowl { get; set; }
+        public bool Hubba { get; set; }
         
         [JsonIgnore]
         public ImageSource MainPhoto

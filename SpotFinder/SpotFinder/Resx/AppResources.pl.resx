@@ -145,6 +145,9 @@
   <data name="CancelReportAlert" xml:space="preserve">
     <value>Czy chcesz przerwać dodawanie miejsca?</value>
   </data>
+  <data name="CityPlaceholder" xml:space="preserve">
+    <value>Miasto</value>
+  </data>
   <data name="DescriptionPlaceholder" xml:space="preserve">
     <value>Opis</value>
   </data>

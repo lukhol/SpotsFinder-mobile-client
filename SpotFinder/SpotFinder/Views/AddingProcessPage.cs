@@ -47,7 +47,15 @@ namespace SpotFinder.Views
                 var result = await this.DisplayAlert(AppResources.AlertTitle, AppResources.CancelReportAlert, AppResources.AlertYes, AppResources.AlertNo);
                 if (result)
                 {
-                    await this.Navigation.PopToRootAsync();
+                    if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
+                        await Navigation.PopToRootAsync();
+                    else
+                    {
+                        //On phone (windows) Navigation.PopToRootAsync() does not work!
+                        var stackCount = Navigation.NavigationStack.Count;
+                        for (int i = 0; i < stackCount; i++)
+                            await Navigation.PopAsync();
+                    }
                 }
             });
             return true;

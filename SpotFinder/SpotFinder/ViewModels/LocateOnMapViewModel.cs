@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using SpotFinder.Core;
 using SpotFinder.Resx;
+using SpotFinder.Views.Root;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -33,13 +34,26 @@ namespace SpotFinder.ViewModels
             var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
             var reportManager = (ReportManager)serviceLocator.GetService(typeof(ReportManager));
 
-            var centerPosition = map.VisibleRegion.Center;
+            Position centerPosition = new Position();
+
+            if (map != null && map.VisibleRegion != null)
+                centerPosition = map.VisibleRegion.Center;
+            else
+                return;
 
             reportManager.Place.Location.Latitude = centerPosition.Latitude;
             reportManager.Place.Location.Longitude = centerPosition.Longitude;
 
             PlaceRepository.Send(reportManager.Place);
-            Navigation.PopToRootAsync();
+            if(Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
+                Navigation.PopToRootAsync();
+            else
+            {
+                //On phone (windows) Navigation.PopToRootAsync() does not work!
+                var stackCount = Navigation.NavigationStack.Count;
+                for (int i = 0; i < stackCount; i++)
+                    Navigation.PopAsync();
+            }
         });
 
         private StackLayout CreateMainLayout()
@@ -64,7 +78,7 @@ namespace SpotFinder.ViewModels
             MapSpan.FromCenterAndRadius(
                     new Position(reportManager.Place.Location.Latitude, reportManager.Place.Location.Longitude), Distance.FromMiles(0.05)))
             {
-                IsShowingUser = false,
+                IsShowingUser = true,
                 MapType = MapType.Satellite,
                 HeightRequest = 2048,
                 WidthRequest = 960,
@@ -91,7 +105,7 @@ namespace SpotFinder.ViewModels
                 HorizontalOptions = LayoutOptions.CenterAndExpand
             };
 
-            var button = Utils.CreateDownSiteButton(LocateCommand, AppResources.LocateCommandTitle, 5);
+            var button = Utils.CreateDownSiteButton(LocateCommand, AppResources.LocateCommandTitle, new Thickness(5,5,5,12));
             button.MinimumHeightRequest = 80;
 
             layout.Children.Add(label);

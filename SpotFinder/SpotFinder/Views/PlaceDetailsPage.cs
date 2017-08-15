@@ -12,10 +12,12 @@ namespace SpotFinder.Views
             
             if (command != null)
             {
+                NavigationPage.SetHasNavigationBar(this, false);
                 placeDetailsViewModel.Initialize(place, command, message);
             }
             else
             {
+                NavigationPage.SetHasNavigationBar(this, true);
                 placeDetailsViewModel.Initialize(place);
             }
 
@@ -25,7 +27,7 @@ namespace SpotFinder.Views
 
         protected override void OnAppearing()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            //NavigationPage.SetHasNavigationBar(this, false);
             base.OnAppearing();
         }
     }

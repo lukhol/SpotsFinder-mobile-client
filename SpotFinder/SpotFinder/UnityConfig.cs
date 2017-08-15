@@ -69,6 +69,10 @@ namespace SpotFinder
             //Config:
             var unityServiceLocator = new UnityServiceLocator(unityContainer);
             ServiceLocator.SetLocatorProvider(() => unityServiceLocator);
+
+            unityServiceLocator.GetInstance<MapPageViewModel>();
+            unityServiceLocator.GetInstance<ListViewModel>();
+            unityServiceLocator.GetInstance<CriteriaViewModel>();
         }
     }
 }

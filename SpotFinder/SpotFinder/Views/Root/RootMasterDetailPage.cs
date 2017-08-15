@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SpotFinder.Views.Root
@@ -13,8 +9,6 @@ namespace SpotFinder.Views.Root
 
         public RootMasterDetailPage()
         {
-            Application.Current.Resources["UnityContainer"] = new UnityConfig(Navigation);
-
             Title = "Spots Finder";
 
             MasterBehavior = MasterBehavior.Popover;
@@ -34,7 +28,9 @@ namespace SpotFinder.Views.Root
             {
                 menuMasterDetailPage.ListView.SelectedItem = null;
                 await Navigation.PushAsync((Page)Activator.CreateInstance(item.TargetType));
-                IsPresented = false;
+
+                if (Device.RuntimePlatform != Device.Windows)
+                    IsPresented = false;
             }
         }
     }

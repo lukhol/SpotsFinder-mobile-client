@@ -68,6 +68,7 @@ namespace SpotFinder.ViewModels
                 {"Rail", CreateParameterSwitch(mainAccentColor) },
                 {"Ledge", CreateParameterSwitch(mainAccentColor) },
                 {"Handrail", CreateParameterSwitch(mainAccentColor) },
+                {"Hubba", CreateParameterSwitch(mainAccentColor) },
                 {"Corners", CreateParameterSwitch(mainAccentColor) },
                 {"Manualpad", CreateParameterSwitch(mainAccentColor) },
                 {"Wallride", CreateParameterSwitch(mainAccentColor) },
@@ -113,7 +114,7 @@ namespace SpotFinder.ViewModels
                 var locator = CrossGeolocator.Current;
                 locator.DesiredAccuracy = 10;
 
-                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(10));
+                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(3));
                 if (position == null)
                 {
                     return;
@@ -191,17 +192,35 @@ namespace SpotFinder.ViewModels
 
         public Command ReportCommand => new Command(() =>
         {
+            var message = string.Empty;
+
+            if (DescriptionEntry.Text == null || NameEntry.Text == null)
+                message += "Name and description must be provided.\n";
+
+            if (NameEntry.Text != null && NameEntry.Text.Length < 5)
+                message += "Name have to be longer than 5.\n";
+
+            if (DescriptionEntry.Text != null && DescriptionEntry.Text.Length < 5)
+                message += "Description have to be longer than 5.";
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                CurrentPage.DisplayAlert("Validation", message, "Ok");
+                return;
+            }
+
             //Tutaj cała aktualizacja
             ReportManager.Place.Location.Latitude = latitude;
             ReportManager.Place.Location.Longitude = longitude;
-            ReportManager.Place.Description = DescriptionEntry.Text;
-            ReportManager.Place.Name = NameEntry.Text;
+            ReportManager.Place.Description = Utils.FirstLetterToUpperCase(DescriptionEntry.Text);
+            ReportManager.Place.Name = Utils.FirstLetterToUpperCase(NameEntry.Text);
 
             ReportManager.Place.Gap = booleanFieldsMap["Gap"].IsToggled;
             ReportManager.Place.Stairs = booleanFieldsMap["Stairs"].IsToggled;
             ReportManager.Place.Rail = booleanFieldsMap["Rail"].IsToggled;
             ReportManager.Place.Ledge = booleanFieldsMap["Ledge"].IsToggled;
             ReportManager.Place.Handrail = booleanFieldsMap["Handrail"].IsToggled;
+            ReportManager.Place.Hubba = booleanFieldsMap["Hubba"].IsToggled;
             ReportManager.Place.Corners = booleanFieldsMap["Corners"].IsToggled;
             ReportManager.Place.Manualpad = booleanFieldsMap["Manualpad"].IsToggled;
             ReportManager.Place.Wallride = booleanFieldsMap["Wallride"].IsToggled;
@@ -269,7 +288,7 @@ namespace SpotFinder.ViewModels
             var streamTwo = file.GetStream();
             var bytes = new byte[streamTwo.Length];
             await streamTwo.ReadAsync(bytes, 0, (int)streamTwo.Length);
-            string base64 = System.Convert.ToBase64String(bytes);
+            string base64 = Convert.ToBase64String(bytes);
 
             return new Tuple<Image, string>(image, base64);
         }
@@ -312,7 +331,7 @@ namespace SpotFinder.ViewModels
             {
                 Title = AppResources.SpotTypePlaceholder,
                 TextColor = Color.Black,
-                BackgroundColor = new Color(128,128,128,50),
+                //BackgroundColor = new Color(128,128,128,50),
                 Margin = new Thickness(5,0,5,0)
             };
 
@@ -391,15 +410,15 @@ namespace SpotFinder.ViewModels
         {
             NameEntry = new Entry
             {
-                BackgroundColor = new Color(128, 128, 128, 50),
-                PlaceholderColor = Color.Black,
+                //BackgroundColor = new Color(128, 128, 128, 50),
+                PlaceholderColor = Color.Gray,
                 Placeholder = AppResources.NamePlaceholder,
-                Margin = new Thickness(5,0,5,0)
+                Margin = new Thickness(5,0,5,0),
             };
             DescriptionEntry = new Entry
             {
-                BackgroundColor = new Color(128, 128, 128, 50),
-                PlaceholderColor = Color.Black,
+                //BackgroundColor = new Color(128, 128, 128, 50),
+                PlaceholderColor = Color.Gray,
                 Placeholder = AppResources.DescriptionPlaceholder,
                 Margin = new Thickness(5, 0, 5, 0)
             };
@@ -431,14 +450,18 @@ namespace SpotFinder.ViewModels
                         Margin = new Thickness(5,0,5,0)
                     },
                     CreatePlaceTypePicker()
-                }
+                },
+                Margin = new Thickness(12)
             };
             return layout;
         }
 
         private StackLayout CreateBooleanFieldsLayout()
         {
-            var layout = new StackLayout();
+            var layout = new StackLayout
+            {
+                Margin = new Thickness(12)
+            };
             foreach (var item in booleanFieldsMap)
             {
                 item.Value.IsToggled = false;
@@ -466,19 +489,17 @@ namespace SpotFinder.ViewModels
 
         private StackLayout CreateAddingLayout()
         {
-            AddPhotoButton = Utils.CreateDownSiteButton(AddPhotoCommand, AppResources.AddPhotoButton, 5);
-            ReportButton = Utils.CreateDownSiteButton(ReportCommand, AppResources.NextCommandTitle, 5);
+            AddPhotoButton = Utils.CreateDownSiteButton(AddPhotoCommand, AppResources.AddPhotoButton, new Thickness(12));
+            ReportButton = Utils.CreateDownSiteButton(ReportCommand, AppResources.NextCommandTitle, new Thickness(12, 0, 12, 12));
             ReportButton.IsVisible = false;
             var layout = new StackLayout
             {
                 Children =
                 {
-                    CreateLocationLabels(),
-                    Utils.CreateGridSeparator(5),
                     CreateEntryLayout(),
-                    Utils.CreateGridSeparator(5),
+                    Utils.CreateGridSeparator(12),
                     CreateBooleanFieldsLayout(),
-                    Utils.CreateGridSeparator(5),
+                    Utils.CreateGridSeparator(12),
                     AddPhotoButton,
                     ReportButton
                 }

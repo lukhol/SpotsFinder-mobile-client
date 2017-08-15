@@ -6,7 +6,7 @@ namespace SpotFinder.Core
 {
     static class Utils
     {
-        static Color mainAccentColor = Color.White;
+        static Xamarin.Forms.Color mainAccentColor = Xamarin.Forms.Color.White;
 
         public static ImageSource Base64ImageToImageSource(string base64Image)
         {
@@ -103,7 +103,26 @@ namespace SpotFinder.Core
                 Margin = spaceThickness,
                 BorderRadius = 20,
                 BorderWidth = 1,
-                BackgroundColor = Color.Transparent,
+                //BackgroundColor = Color.Transparent,
+                BackgroundColor = Color.FromHex("0962c1"),
+                TextColor = mainAccentColor,
+                BorderColor = mainAccentColor
+            };
+
+            return button;
+        }
+
+        public static Button CreateDownSiteButton(Command ClickCommand, string text, Thickness spaceThickness)
+        {
+            var button = new Button
+            {
+                Command = ClickCommand,
+                Text = text,
+                Margin = spaceThickness,
+                BorderRadius = 20,
+                BorderWidth = 1,
+                //BackgroundColor = Color.Transparent,
+                BackgroundColor = Color.FromHex("0962c1"),
                 TextColor = mainAccentColor,
                 BorderColor = mainAccentColor
             };
@@ -128,6 +147,16 @@ namespace SpotFinder.Core
             {
                 Children = { grid }
             };
+        }
+
+        public static string FirstLetterToUpperCase(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return string.Empty;
+
+            char[] a = s.ToCharArray();
+            a[0] = char.ToUpper(a[0]);
+            return new string(a);
         }
     }
 }

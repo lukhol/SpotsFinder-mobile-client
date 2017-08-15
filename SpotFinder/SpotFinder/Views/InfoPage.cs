@@ -1,4 +1,5 @@
-﻿using SpotFinder.Resx;
+﻿using SpotFinder.Core;
+using SpotFinder.Resx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace SpotFinder.Views
 		{
             BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
             Title = "Info";
-			Content = new StackLayout {
+			var firstLayout = new StackLayout {
 				Children = {
 					new Label
                     {
@@ -24,8 +25,31 @@ namespace SpotFinder.Views
                         VerticalOptions = LayoutOptions.CenterAndExpand,
                         Margin = new Thickness(12)
                     }
-				}
+				},
 			};
+
+            var secondLayout = new StackLayout
+            {
+                Children =
+                {
+                    new Image
+                    {
+                        Source = "logo.png",
+                        VerticalOptions = LayoutOptions.EndAndExpand,
+                        HorizontalOptions = LayoutOptions.CenterAndExpand
+                    },
+                    new Label
+                    {
+                        Text = AppResources.AppDescriptionLabel,
+                        TextColor = (Color)Application.Current.Resources["MainAccentColor"],
+                        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                        VerticalOptions = LayoutOptions.StartAndExpand,
+                        Margin = new Thickness(12)
+                    }
+                }
+            };
+            Content = secondLayout;
+            //Content = Utils.CreateItemOnItemLayout(secondLayout, firstLayout);
 		}
 	}
 }

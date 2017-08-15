@@ -145,6 +145,9 @@
   <data name="CancelReportAlert" xml:space="preserve">
     <value>Do you want cancell this report?</value>
   </data>
+  <data name="CityPlaceholder" xml:space="preserve">
+    <value>City</value>
+  </data>
   <data name="DescriptionPlaceholder" xml:space="preserve">
     <value>Description</value>
   </data>

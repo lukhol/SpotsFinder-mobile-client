@@ -32,7 +32,7 @@ namespace SpotFinder.Views.Root
                 new MasterPageItem
                 {
                     Title = "List",
-                    TargetType = typeof(ListPage),
+                    TargetType = typeof(ListPage2),
                     IconSource = "listIcon.png"
                 },
                 new MasterPageItem
@@ -43,10 +43,17 @@ namespace SpotFinder.Views.Root
                 },
                 new MasterPageItem
                 {
+                    Title = "Add spot",
+                    TargetType = typeof(AddingProcessPage),
+                    IconSource = "plusIcon.png"
+                },
+                new MasterPageItem
+                {
                     Title = "Settings",
                     TargetType = typeof(SettingsPage),
                     IconSource = "settingsIcon.png"
-                }
+                },
+                
             };
 
             listView = new ListView

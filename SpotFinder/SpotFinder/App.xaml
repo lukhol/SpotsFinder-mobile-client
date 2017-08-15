@@ -6,8 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <!-- <Color x:Key="PageBackgroundColor">#203b56</Color> -->
-            <!-- <Color x:Key="PageBackgroundColor">#99D9EA</Color> -->
-            <Color x:Key="PageBackgroundColor">#31465b</Color>
+            <Color x:Key="PageBackgroundColor">#282828</Color>
+            <!--<Color x:Key="PageBackgroundColor">#31465b</Color> -->
             <Color x:Key="MainAccentColor">#FFFFFF</Color>
         </ResourceDictionary>
     </Application.Resources>

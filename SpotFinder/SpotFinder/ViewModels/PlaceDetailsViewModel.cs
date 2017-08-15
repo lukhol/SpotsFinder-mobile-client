@@ -54,7 +54,8 @@ namespace SpotFinder.ViewModels
                         Text = place.Name,
                         TextColor = mainAccentColor,
                         FontSize = 25,
-                        HorizontalOptions = LayoutOptions.CenterAndExpand
+                        HorizontalOptions = LayoutOptions.CenterAndExpand,
+                        FontAttributes = FontAttributes.Bold
                     },
                     CreateTypeLayout(),
                     Utils.CreateGridSeparator(12),
@@ -77,7 +78,7 @@ namespace SpotFinder.ViewModels
 
             if(buttonCommand != null)
             {
-                var button = Utils.CreateDownSiteButton(buttonCommand, textOnButton);
+                var button = Utils.CreateDownSiteButton(buttonCommand, textOnButton, new Thickness(12, 0, 12, 12));
                 layout.Children.Add(button);
             }
 
@@ -166,6 +167,9 @@ namespace SpotFinder.ViewModels
             if (place.Handrail == true)
                 layout.Children.Add(CreateObstacleLabel("-Handrail"));
 
+            if (place.Hubba == true)
+                layout.Children.Add(CreateObstacleLabel("-Hubba"));
+
             if (place.Corners == true)
                 layout.Children.Add(CreateObstacleLabel("-Corners"));
 
@@ -253,7 +257,7 @@ namespace SpotFinder.ViewModels
             var map = new Map(
             MapSpan.FromCenterAndRadius(new Position(place.Location.Latitude, place.Location.Longitude), Distance.FromMiles(0.3)))
             {
-                IsShowingUser = true,
+                //IsShowingUser = true,
                 HeightRequest = 100,
                 WidthRequest = 960,
                 VerticalOptions = LayoutOptions.FillAndExpand
