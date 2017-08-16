@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using Plugin.Geolocator;
 using Plugin.Media;
+using Plugin.Media.Abstractions;
 using SpotFinder.Core;
 using SpotFinder.OwnControls;
 using SpotFinder.Resx;
@@ -85,7 +86,6 @@ namespace SpotFinder.ViewModels
         {
             CurrentPage = contentPage;
             CurrentPage.Title = pageTitle;
-
             await StartAsync();
         }
 
@@ -140,7 +140,14 @@ namespace SpotFinder.ViewModels
             {
                 //To muszę sobie opisać komentarzem:
                 var insertAtIndex = mainLayout.Children.Count - 2;
-                var imageTuple = await GetPhotoAsync();
+
+                var pickTypeResult = await CurrentPage.DisplayAlert("Where?", "Chose from where you want pick photo:", "Camera", "Gallery");
+                Tuple<Image, string> imageTuple = null;
+
+                if (pickTypeResult)
+                    imageTuple = await GetPhotoAsync(GetPhotoType.Camera);
+                else
+                    imageTuple = await GetPhotoAsync(GetPhotoType.Gallery);
 
                 if (imageTuple == null)
                     return;
@@ -248,24 +255,39 @@ namespace SpotFinder.ViewModels
                 }), AppResources.NextCommandTitle));
         });
 
-        private async Task<Tuple<Image, string>> GetPhotoAsync()
+        private async Task<Tuple<Image, string>> GetPhotoAsync(GetPhotoType getPhotoType)
         {
             await CrossMedia.Current.Initialize();
 
-            if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+            MediaFile file = null;
+            
+            if(getPhotoType == GetPhotoType.Camera)
             {
-                return null;
-            }
+                if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+                {
+                    return null;
+                }
 
-            var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
+                {
+                    Directory = "SpotsFindePictures",
+                    Name = "SpotsFinder.jpg",
+                    PhotoSize = PhotoSize.Small,
+                    SaveToAlbum = true
+                });
+            } 
+            else if(getPhotoType == GetPhotoType.Gallery)
             {
-                Directory = "SpotsFindePictures",
-                Name = "SpotsFinder.jpg",
-                //PhotoSize = Plugin.Media.Abstractions.PhotoSize.Custom,
-                //CustomPhotoSize = 40,
-                PhotoSize = Plugin.Media.Abstractions.PhotoSize.Small,
-                SaveToAlbum = true
-            });
+                if (!CrossMedia.Current.IsPickPhotoSupported)
+                {
+                    return null;
+                }
+
+                file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
+                {
+                    CustomPhotoSize = 10
+                });
+            }
 
             if (file == null)
                 return null;
@@ -487,6 +509,22 @@ namespace SpotFinder.ViewModels
             };
         }
 
+        private StackLayout CreateTipLayout()
+        {
+            return new StackLayout
+            {
+                Children =
+                {
+                    new Label
+                    {
+                        TextColor = mainAccentColor,
+                        Text = AppResources.AddingInformation,
+                        Margin = new Thickness(12)
+                    }
+                }
+            };
+        }
+
         private StackLayout CreateAddingLayout()
         {
             AddPhotoButton = Utils.CreateDownSiteButton(AddPhotoCommand, AppResources.AddPhotoButton, new Thickness(12));
@@ -496,6 +534,8 @@ namespace SpotFinder.ViewModels
             {
                 Children =
                 {
+                    CreateTipLayout(),
+                    Utils.CreateGridSeparator(12),
                     CreateEntryLayout(),
                     Utils.CreateGridSeparator(12),
                     CreateBooleanFieldsLayout(),
@@ -510,6 +550,11 @@ namespace SpotFinder.ViewModels
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private enum GetPhotoType
+        {
+            Camera, Gallery
         }
     }
 }

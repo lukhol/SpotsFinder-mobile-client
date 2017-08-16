@@ -28,16 +28,24 @@ namespace SpotFinder.Views
 				},
 			};
 
+            var logoImage = new Image
+            {
+                Source = "logo.png",
+                VerticalOptions = LayoutOptions.EndAndExpand,
+                HorizontalOptions = LayoutOptions.CenterAndExpand
+            };
+
+            if(Device.RuntimePlatform == Device.Windows || Device.RuntimePlatform == Device.WinPhone)
+            {
+                logoImage.WidthRequest = 120;
+                logoImage.HeightRequest = 120;
+            }
+
             var secondLayout = new StackLayout
             {
                 Children =
                 {
-                    new Image
-                    {
-                        Source = "logo.png",
-                        VerticalOptions = LayoutOptions.EndAndExpand,
-                        HorizontalOptions = LayoutOptions.CenterAndExpand
-                    },
+                    logoImage,
                     new Label
                     {
                         Text = AppResources.AppDescriptionLabel,

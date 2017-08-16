@@ -54,7 +54,10 @@ namespace SpotFinder.Views
                         //On phone (windows) Navigation.PopToRootAsync() does not work!
                         var stackCount = Navigation.NavigationStack.Count;
                         for (int i = 0; i < stackCount; i++)
+                        {
+                            if(Navigation.NavigationStack.Count != 0)
                             await Navigation.PopAsync();
+                        }
                     }
                 }
             });

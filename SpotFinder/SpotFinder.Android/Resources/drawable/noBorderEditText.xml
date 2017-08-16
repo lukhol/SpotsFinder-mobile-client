@@ -10,7 +10,8 @@ xmlns:android="http://schemas.android.com/apk/res/android">
           android:angle="270" />
       <stroke
           android:width="3dp"
-          android:color="#0962c1" />
+          android:color="#409e17" />
+      <!-- #0962c1 - blue, #409e17 - green-->
       <corners
           android:radius="20dp" />
     </shape>

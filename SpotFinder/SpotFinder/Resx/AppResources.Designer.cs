@@ -71,6 +71,15 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Każdy spot powinien mieć tytuł, typ oraz opis. W celu jak najlepszego późniejszego wyszukiwania zaznacz przeszkody, które znajdują się w dodawanym miejscu. Pierwsze zdjęcie powinno być możliwie jak najlepsze ponieważ jest zdjęciem głównym. Po kliknięciu na zdjęcie można je usunąć. Powodzenia!.
+        /// </summary>
+        internal static string AddingInformation {
+            get {
+                return ResourceManager.GetString("AddingInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add photo.
         /// </summary>
         internal static string AddPhotoButton {

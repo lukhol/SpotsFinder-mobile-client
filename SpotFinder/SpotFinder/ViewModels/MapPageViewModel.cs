@@ -2,23 +2,28 @@
 using SpotFinder.Resx;
 using SpotFinder.Views;
 using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace SpotFinder.ViewModels
 {
-    public class MapPageViewModel
+    public class MapPageViewModel : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
         private ContentPage CurrentPage { get; set; }
         private Map map;
+        private IList<Place> allPlaces;
 
         private StackLayout mainStackLayout;
+        private StackLayout loadingStackLayout;
 
         public MapPageViewModel(INavigation navigation, IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
         {
@@ -45,12 +50,16 @@ namespace SpotFinder.ViewModels
                 CurrentPage.Content = mainStackLayout;
         }
 
-        public Task<bool> UpdateMapPins()
+        private void GetSpots()
         {
-            var allPlaces = LocalPlaceRepository.GetAllPlaces();
+            allPlaces = LocalPlaceRepository.GetAllPlaces();
+            IsBussy = false;
+        }
 
+        public void UpdateMapPins()
+        {
             if (allPlaces == null || allPlaces.Count == 0)
-                return Task.FromResult<bool>(false);
+                return;
 
             map.Pins.Clear();
 
@@ -71,13 +80,11 @@ namespace SpotFinder.ViewModels
 
                 map.Pins.Add(pin);
             }
-
-            return Task.FromResult<bool>(true);
         }
 
         private StackLayout CreateMapLayout()
         {
-            if(map == null)
+            if (map == null)
                 map = new Map(
                 MapSpan.FromCenterAndRadius(new Position(51.75924850, 19.45598330), Distance.FromMiles(0.3)))
                 {
@@ -85,6 +92,24 @@ namespace SpotFinder.ViewModels
                     WidthRequest = 960,
                     VerticalOptions = LayoutOptions.FillAndExpand,
                 };
+
+            loadingStackLayout = new StackLayout
+            {
+                Children =
+                {
+                    new ActivityIndicator
+                    {
+                        IsVisible = true,
+                        IsRunning = true,
+                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Color = mainAccentColor
+                    }
+                },
+                IsVisible = false,
+                BackgroundColor = Color.FromRgba(12, 12, 12, 200)
+            };
+            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBussy");
 
             var addPlaceButton = new Button
             {
@@ -110,21 +135,9 @@ namespace SpotFinder.ViewModels
                 Text = "Refresh"
             };
 
-            addPlaceButton.Command = new Command(() =>
-            {
-                Navigation.PushAsync(new AddingProcessPage());
-            });
-
-            filterButton.Command = new Command(() =>
-            {
-                Navigation.PushAsync(new CriteriaPage());
-            });
-
-            
-            refreshButton.Command = new Command(() =>
-            {
-                UpdateMapPins();
-            }); 
+            addPlaceButton.Command = new Command(() => { Navigation.PushAsync(new AddingProcessPage()); });
+            filterButton.Command = new Command(() => { Navigation.PushAsync(new CriteriaPage()); });
+            refreshButton.Command = new Command(() => { IsBussy = true; });
 
             var buttonsLayout = new StackLayout
             {
@@ -134,7 +147,35 @@ namespace SpotFinder.ViewModels
                 }
             };
 
-            return Utils.CreateItemOnItemLayout(map, buttonsLayout);
+            return Utils.CreateItemOnItemLayout(map, buttonsLayout, loadingStackLayout);
+        }
+
+        private bool isBussy = false;
+        public bool IsBussy
+        {
+            get => isBussy;
+            set
+            {
+                isBussy = value;
+                OnPropertyChanged();
+
+                if (value == true)
+                {
+                    Task.Run(() => { GetSpots(); }).ContinueWith((t) => { IsBussy = false; });
+                }
+                else
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        UpdateMapPins();
+                    });
+                }
+            }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
