@@ -50,7 +50,7 @@ namespace SpotFinder.Core
             return true;
         }
 
-        public IList<Place> GetAllPlaces()
+        public async Task<List<Place>> GetAllPlaces()
         {
             var allSpots = new List<Place>();
 

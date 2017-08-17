@@ -1,4 +1,5 @@
-﻿using SpotFinder.Core;
+﻿using Microsoft.Practices.ServiceLocation;
+using SpotFinder.Core;
 using SpotFinder.Resx;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -8,6 +9,7 @@ namespace SpotFinder.ViewModels
     public class CriteriaViewModel
     {
         private INavigation Navigation { get; }
+        private IPlaceRepository PlaceRepository { get; }
 
         private Dictionary<string, Switch> booleanFieldsMap;
         private Dictionary<Core.Type, Switch> typeFieldsMap;
@@ -15,9 +17,10 @@ namespace SpotFinder.ViewModels
         private Entry CityEntry;
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
-        public CriteriaViewModel(INavigation navigation)
+        public CriteriaViewModel(INavigation navigation, IPlaceRepository placeRepository)
         {
             Navigation = navigation;
+            PlaceRepository = placeRepository;
 
             booleanFieldsMap = new Dictionary<string, Switch>
             {
@@ -54,6 +57,61 @@ namespace SpotFinder.ViewModels
                 Content = CreateCriteriaLayout()
             };
         }
+
+        public Command SelectAllCommand => new Command(() =>
+        {
+            foreach (var item in booleanFieldsMap)
+            {
+                item.Value.IsToggled = true;
+            }
+        });
+
+        public Command FilterButtonCommand => new Command(async () =>
+        {
+            if (CityEntry.Text == null)
+                return;
+
+            var criteria = new Criteria();
+
+            criteria.Gap = booleanFieldsMap["Gap"].IsToggled;
+            criteria.Stairs = booleanFieldsMap["Stairs"].IsToggled;
+            criteria.Rail = booleanFieldsMap["Rail"].IsToggled;
+            criteria.Ledge = booleanFieldsMap["Ledge"].IsToggled;
+            criteria.Handrail = booleanFieldsMap["Handrail"].IsToggled;
+            criteria.Hubba = booleanFieldsMap["Hubba"].IsToggled;
+            criteria.Corners = booleanFieldsMap["Corners"].IsToggled;
+            criteria.Manualpad = booleanFieldsMap["Manualpad"].IsToggled;
+            criteria.Wallride = booleanFieldsMap["Wallride"].IsToggled;
+            criteria.Downhill = booleanFieldsMap["Downhill"].IsToggled;
+            criteria.OpenYourMind = booleanFieldsMap["OpenYourMind"].IsToggled;
+            criteria.Pyramid = booleanFieldsMap["Pyramid"].IsToggled;
+            criteria.Curb = booleanFieldsMap["Curb"].IsToggled;
+            criteria.Bank = booleanFieldsMap["Bank"].IsToggled;
+            criteria.Bowl = booleanFieldsMap["Bowl"].IsToggled;
+
+            var repo = new RestAdressRepository();
+            var position = await repo.GetPositionOfTheCity(CityEntry.Text, true);
+
+            if (position == null)
+            {
+                await CurrentPage.DisplayAlert("Message", "Problem with position", "Ok");
+                return;
+            }
+
+            criteria.Location.Longitude = position.Longitude;
+            criteria.Location.Latitude = position.Latitude;
+
+            foreach (var item in typeFieldsMap)
+            {
+                if (item.Value.IsToggled)
+                    criteria.Types.Add(item.Key);
+            }
+
+            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+            reportManager.Criteria = criteria;
+
+            await Navigation.PopAsync();
+        });
 
         private Switch CreateParameterSwitch(Color color)
         {
@@ -166,26 +224,5 @@ namespace SpotFinder.ViewModels
 
             return layout;
         }
-
-        public Command SelectAllCommand => new Command(() => 
-        {
-            foreach(var item in booleanFieldsMap)
-            {
-                item.Value.IsToggled = true;
-            }
-        });
-
-        public Command FilterButtonCommand => new Command(async () =>
-        {
-            if (CityEntry.Text == null)
-                return;
-
-            var repo = new RestAdressRepository();
-            var position = await repo.GetPositionOfTheCity(CityEntry.Text, true);
-            if (position != null)
-                await CurrentPage.DisplayAlert("Message", position.Longitude.ToString() + "\n" + position.Latitude.ToString(), "Ok");
-            else
-                await CurrentPage.DisplayAlert("Message", "Problem with position", "Ok");
-        });
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
+using SpotFinder.Core;
 using SpotFinder.Redux;
 using SpotFinder.SQLite.Models;
 using SQLite;
@@ -20,6 +21,7 @@ namespace SpotFinder
             _sqLiteConnection.CreateTable<SQLitePlace>();
 
             InitializeComponent();
+
             MainPage = new NavigationPage(new Views.Root.RootMasterDetailPage())
             {
                 BarBackgroundColor = Color.Green,
@@ -28,7 +30,7 @@ namespace SpotFinder
                 BackgroundColor = Color.FromRgb(0,0,0)
             };
 
-            CheckPermissions();
+            CheckPermissionsAsync();
 
             var unity = new UnityConfig(MainPage.Navigation);
 
@@ -53,7 +55,7 @@ namespace SpotFinder
             // Handle when your app resumes
         }
 
-        private async void CheckPermissions()
+        private async void CheckPermissionsAsync()
         {
             var locationStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
             if (locationStatus != PermissionStatus.Granted)

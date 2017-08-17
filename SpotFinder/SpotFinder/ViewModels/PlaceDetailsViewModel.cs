@@ -221,6 +221,7 @@ namespace SpotFinder.ViewModels
                     Source = Utils.Base64ImageToImageSource(base64Image)
                 };
                 image.Margin = new Thickness(5, 5, 5, 5);
+                image.HorizontalOptions = LayoutOptions.CenterAndExpand;
                 layout.Children.Add(image);
             }
 

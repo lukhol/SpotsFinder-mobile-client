@@ -3002,11 +3002,11 @@ namespace SpotFinder.Droid
 			// aapt resource value: 0x7f020138
 			public const int notification_icon_background = 2130837816;
 			
-			// aapt resource value: 0x7f02013e
-			public const int notification_template_icon_bg = 2130837822;
-			
 			// aapt resource value: 0x7f02013f
-			public const int notification_template_icon_low_bg = 2130837823;
+			public const int notification_template_icon_bg = 2130837823;
+			
+			// aapt resource value: 0x7f020140
+			public const int notification_template_icon_low_bg = 2130837824;
 			
 			// aapt resource value: 0x7f020139
 			public const int notification_tile_bg = 2130837817;
@@ -3018,10 +3018,13 @@ namespace SpotFinder.Droid
 			public const int plusIcon = 2130837819;
 			
 			// aapt resource value: 0x7f02013c
-			public const int settingsIcon = 2130837820;
+			public const int refreshIcon = 2130837820;
 			
 			// aapt resource value: 0x7f02013d
-			public const int splashscreen = 2130837821;
+			public const int settingsIcon = 2130837821;
+			
+			// aapt resource value: 0x7f02013e
+			public const int splashscreen = 2130837822;
 			
 			static Drawable()
 			{

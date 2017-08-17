@@ -28,6 +28,8 @@ namespace SpotFinder.ViewModels
         private ContentPage CurrentPage { get; set; }
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
+        private StackLayout photoStackLayout = new StackLayout();
+
         private double latitude;
         private double longitude;
         private bool canGoBack;
@@ -57,7 +59,6 @@ namespace SpotFinder.ViewModels
 
         public AddingProcessViewModel(INavigation navigation, IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
         {
-            //Jeżeli placeRepository jest null to rzuci się wyjątek?
             Navigation = navigation ?? throw new ArgumentNullException("navigation is null in AddingProcessViewModel");            
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in AddingProcessViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in AddingProcessViewModel");
@@ -93,21 +94,18 @@ namespace SpotFinder.ViewModels
         public async Task StartAsync()
         {
             CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
-
-            var serviceLocator = (UnityServiceLocator)ServiceLocator.Current;
-            ReportManager = (ReportManager)serviceLocator.GetService(typeof(ReportManager));
+            ReportManager = ServiceLocator.Current.GetInstance<ReportManager>();
 
             ReportManager.CreateNewReport();
 
             CanGoBack = false;
-            var currPage = (ContentPage)Navigation.NavigationStack[Navigation.NavigationStack.Count - 1];
 
             scrollView = new ScrollView
             {
                 Content = CreateWaitingLayout()
             };
 
-            currPage.Content = scrollView;
+            CurrentPage.Content = scrollView;
 
             try
             {
@@ -138,9 +136,6 @@ namespace SpotFinder.ViewModels
 
             if(ReportManager.Place.PhotosAsImage.Count < 5)
             {
-                //To muszę sobie opisać komentarzem:
-                var insertAtIndex = mainLayout.Children.Count - 2;
-
                 var pickTypeResult = await CurrentPage.DisplayAlert("Where?", "Chose from where you want pick photo:", "Camera", "Gallery");
                 Tuple<Image, string> imageTuple = null;
 
@@ -157,15 +152,13 @@ namespace SpotFinder.ViewModels
 
                 if(image != null)
                 {
-                    //Usuwanie po kliknięciu - należałoby dodać komunikat
                     var tapGestureRecognizer = new TapGestureRecognizer();
                     tapGestureRecognizer.Tapped += (s, e) => {
                         var img = (MyImage)s;
 
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            var currPage = Navigation.NavigationStack[Navigation.NavigationStack.Count() - 1];
-                            var result = await currPage.DisplayAlert("Alert!", AppResources.AlertRemovePhoto, AppResources.AlertYes, AppResources.AlertNo);
+                            var result = await CurrentPage.DisplayAlert("Alert!", AppResources.AlertRemovePhoto, AppResources.AlertYes, AppResources.AlertNo);
                             if (result)
                             {
                                 img.RemoveFromParent();
@@ -178,12 +171,10 @@ namespace SpotFinder.ViewModels
                                     AddPhotoButton.IsVisible = true;
                             }
                         });
-
-                        
                     };
                     image.GestureRecognizers.Add(tapGestureRecognizer);
 
-                    mainLayout.Children.Insert(insertAtIndex, image);
+                    photoStackLayout.Children.Add(image);
                     ReportManager.Place.PhotosAsImage.Add(image);
                 }
 
@@ -299,20 +290,19 @@ namespace SpotFinder.ViewModels
                 VerticalOptions = LayoutOptions.Start
             };
 
+            //Ten stream może być tworzyny w zły sposób. Nie wiem czy jest potrzeba pobierać go aż 2 razy.
+            var stream = file.GetStream();
             image.Source = ImageSource.FromStream(() =>
             {
-                var stream = file.GetStream();
-                file.Dispose();
                 return stream;
             });
 
-            //Tutaj refactor itd
             var streamTwo = file.GetStream();
+            file.Dispose();
             var bytes = new byte[streamTwo.Length];
             await streamTwo.ReadAsync(bytes, 0, (int)streamTwo.Length);
-            string base64 = Convert.ToBase64String(bytes);
 
-            return new Tuple<Image, string>(image, base64);
+            return new Tuple<Image, string>(image, Convert.ToBase64String(bytes));
         }
 
         //=================================================================================
@@ -540,6 +530,7 @@ namespace SpotFinder.ViewModels
                     Utils.CreateGridSeparator(12),
                     CreateBooleanFieldsLayout(),
                     Utils.CreateGridSeparator(12),
+                    photoStackLayout,
                     AddPhotoButton,
                     ReportButton
                 }

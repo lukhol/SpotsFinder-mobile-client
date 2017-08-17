@@ -21,7 +21,10 @@ namespace SpotFinder
             );
             unityContainer.RegisterType<CriteriaViewModel>(
                 new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(navigation)
+                new InjectionConstructor(
+                    new InjectionParameter(navigation),
+                    new ResolvedParameter<IPlaceRepository>()
+                )
             );
             unityContainer.RegisterType<AddingProcessViewModel>(
                 new ContainerControlledLifetimeManager(),
@@ -63,7 +66,10 @@ namespace SpotFinder
 
             //ReportManager
             unityContainer.RegisterType<ReportManager>(
-                new ContainerControlledLifetimeManager()
+                new ContainerControlledLifetimeManager(),
+                new InjectionConstructor(
+                    new ResolvedParameter<IPlaceRepository>()
+                )
             );
 
             //Config:
@@ -72,7 +78,7 @@ namespace SpotFinder
 
             unityServiceLocator.GetInstance<MapPageViewModel>();
             unityServiceLocator.GetInstance<ListViewModel>();
-            unityServiceLocator.GetInstance<CriteriaViewModel>();
+            //unityServiceLocator.GetInstance<CriteriaViewModel>();
         }
     }
 }

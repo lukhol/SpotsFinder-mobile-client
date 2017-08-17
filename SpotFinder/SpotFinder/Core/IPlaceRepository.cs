@@ -9,6 +9,7 @@ namespace SpotFinder.Core
     public interface IPlaceRepository
     {
         List<Place> GetAllPlace();
+        Task<List<Place>> GetPlacesByCriteria(Criteria criteria);
         bool Send(Place place);
     }
 }

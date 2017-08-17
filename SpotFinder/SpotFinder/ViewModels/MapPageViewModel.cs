@@ -1,4 +1,5 @@
-﻿using SpotFinder.Core;
+﻿using Microsoft.Practices.ServiceLocation;
+using SpotFinder.Core;
 using SpotFinder.Resx;
 using SpotFinder.Views;
 using System;
@@ -31,6 +32,11 @@ namespace SpotFinder.ViewModels
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in MapPageViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in MapPageViewModel");
 
+            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+
+            reportManager.StartEvent += StartLoading;
+            reportManager.StopEvent += StopLoading;
+
             mainStackLayout = CreateMapLayout();
         }
 
@@ -50,10 +56,22 @@ namespace SpotFinder.ViewModels
                 CurrentPage.Content = mainStackLayout;
         }
 
-        private void GetSpots()
+        public void StartLoading()
         {
-            allPlaces = LocalPlaceRepository.GetAllPlaces();
+            IsBussy = true;
+        }
+
+        public void StopLoading()
+        {
+            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+            allPlaces = reportManager.DownloadedPlaces;
+            Device.BeginInvokeOnMainThread(() => { UpdateMapPins(); });
             IsBussy = false;
+        }
+
+        public void GetSpotsTest()
+        {
+            IsBussy = true;
         }
 
         public void UpdateMapPins()
@@ -97,11 +115,18 @@ namespace SpotFinder.ViewModels
             {
                 Children =
                 {
+                    new Label
+                    {
+                        Text = "Refreshing spots on map...",
+                        TextColor = mainAccentColor,
+                        VerticalOptions = LayoutOptions.EndAndExpand,
+                        HorizontalOptions = LayoutOptions.Center
+                    },
                     new ActivityIndicator
                     {
                         IsVisible = true,
                         IsRunning = true,
-                        VerticalOptions = LayoutOptions.CenterAndExpand,
+                        VerticalOptions = LayoutOptions.StartAndExpand,
                         HorizontalOptions = LayoutOptions.Center,
                         Color = mainAccentColor
                     }
@@ -137,7 +162,7 @@ namespace SpotFinder.ViewModels
 
             addPlaceButton.Command = new Command(() => { Navigation.PushAsync(new AddingProcessPage()); });
             filterButton.Command = new Command(() => { Navigation.PushAsync(new CriteriaPage()); });
-            refreshButton.Command = new Command(() => { IsBussy = true; });
+            refreshButton.Command = new Command(() => { StopLoading(); });
 
             var buttonsLayout = new StackLayout
             {
@@ -158,18 +183,6 @@ namespace SpotFinder.ViewModels
             {
                 isBussy = value;
                 OnPropertyChanged();
-
-                if (value == true)
-                {
-                    Task.Run(() => { GetSpots(); }).ContinueWith((t) => { IsBussy = false; });
-                }
-                else
-                {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        UpdateMapPins();
-                    });
-                }
             }
         }
 
