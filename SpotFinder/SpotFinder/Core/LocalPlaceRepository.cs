@@ -35,7 +35,7 @@ namespace SpotFinder.Core
             return FromSQLitePlaceToCorePlace(sqlitePlace);            
         }
 
-        public bool InsertPlace(string placeJson)
+        public async Task<bool> InsertPlace(string placeJson)
         {
             try
             {

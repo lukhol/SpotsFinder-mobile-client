@@ -1,5 +1,8 @@
-﻿using System;
+﻿using SpotFinder.Models.WebModels;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SpotFinder.Core
@@ -40,7 +43,7 @@ namespace SpotFinder.Core
             return layout;
         }
 
-        public static StackLayout CreateGridButton(Command ClickCommand, string text, int marginValue = 0)
+        public static StackLayout CreateGridButton(ICommand ClickCommand, string text, int marginValue = 0)
         {
             Thickness spaceThickness;
             if (marginValue == 0)
@@ -87,32 +90,8 @@ namespace SpotFinder.Core
                 }
             };
         }
-
-        public static Button CreateDownSiteButton(Command ClickCommand, string text, int marginValue = 0)
-        {
-            Thickness spaceThickness;
-            if (marginValue == 0)
-                spaceThickness = new Thickness(12, 12, 12, 12);
-            else
-                spaceThickness = new Thickness(marginValue);
-
-            var button = new Button
-            {
-                Command = ClickCommand,
-                Text = text,
-                Margin = spaceThickness,
-                BorderRadius = 20,
-                BorderWidth = 1,
-                //BackgroundColor = Color.Transparent,
-                BackgroundColor = Color.FromHex("0962c1"),
-                TextColor = mainAccentColor,
-                BorderColor = mainAccentColor
-            };
-
-            return button;
-        }
-
-        public static Button CreateDownSiteButton(Command ClickCommand, string text, Thickness spaceThickness)
+        
+        public static Button CreateDownSiteButton(ICommand ClickCommand, string text, Thickness spaceThickness)
         {
             var button = new Button
             {
@@ -121,7 +100,6 @@ namespace SpotFinder.Core
                 Margin = spaceThickness,
                 BorderRadius = 20,
                 BorderWidth = 1,
-                //BackgroundColor = Color.Transparent,
                 BackgroundColor = Color.FromHex("0962c1"),
                 TextColor = mainAccentColor,
                 BorderColor = mainAccentColor
@@ -157,6 +135,91 @@ namespace SpotFinder.Core
             char[] a = s.ToCharArray();
             a[0] = char.ToUpper(a[0]);
             return new string(a);
+        }
+
+        public static PlaceWeb PlaceToPlaceWeb(Place place)
+        {
+            var webImagesList = new List<ImageWeb>();
+            int imageId = 0;
+            foreach (var base64Image in place.PhotosBase64)
+            {
+                var img = new ImageWeb
+                {
+                    Id = imageId++,
+                    Image = base64Image
+                };
+                webImagesList.Add(img);
+            }
+
+            return new PlaceWeb
+            {
+                Id = place.Id,
+                Description = place.Description,
+                Location = new Location
+                {
+                    Latitude = place.Location.Latitude,
+                    Longitude = place.Location.Longitude
+                },
+                Type = place.Type,
+                Name = place.Name,
+                Images = webImagesList,
+                
+                Bank = place.Bank,
+                Bowl = place.Bowl,
+                Corners = place.Corners,
+                Curb = place.Curb,
+                Downhill = place.Downhill,
+                Gap = place.Gap,
+                Handrail = place.Handrail,
+                Hubba = place.Hubba,
+                Ledge = place.Ledge,
+                Manualpad = place.Manualpad,
+                Pyramid = place.Pyramid,
+                Rail = place.Rail,
+                Wallride = place.Wallride, 
+                OpenYourMind = place.OpenYourMind,
+                Stairs = place.Stairs
+            };
+        }
+
+        public static Place PlaceWebToPlace(PlaceWeb placeWeb)
+        {
+            var base64ImagesList = new List<string>();
+
+            foreach(var tempImageWeb in placeWeb.Images)
+            {
+                base64ImagesList.Add(tempImageWeb.Image);
+            }
+
+            return new Place
+            {
+                Id = placeWeb.Id,
+                Description = placeWeb.Description,
+                Location = new Location
+                {
+                    Latitude = placeWeb.Location.Latitude,
+                    Longitude = placeWeb.Location.Longitude
+                },
+                Type = placeWeb.Type,
+                Name = placeWeb.Name,
+                PhotosBase64 = base64ImagesList,
+
+                Bank = placeWeb.Bank,
+                Bowl = placeWeb.Bowl,
+                Corners = placeWeb.Corners,
+                Curb = placeWeb.Curb,
+                Downhill = placeWeb.Downhill,
+                Gap = placeWeb.Gap,
+                Handrail = placeWeb.Handrail,
+                Hubba = placeWeb.Hubba,
+                Ledge = placeWeb.Ledge,
+                Manualpad = placeWeb.Manualpad,
+                Pyramid = placeWeb.Pyramid,
+                Rail = placeWeb.Rail,
+                Wallride = placeWeb.Wallride,
+                OpenYourMind = placeWeb.OpenYourMind,
+                Stairs = placeWeb.Stairs
+            };
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using SpotFinder.Core;
-using SpotFinder.Resx;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using SpotFinder.Resx;
 using Xamarin.Forms;
 
 namespace SpotFinder.Views
@@ -37,8 +31,9 @@ namespace SpotFinder.Views
 
             if(Device.RuntimePlatform == Device.Windows || Device.RuntimePlatform == Device.WinPhone)
             {
-                logoImage.WidthRequest = 120;
-                logoImage.HeightRequest = 120;
+                //logoImage.WidthRequest = 120;
+                //logoImage.HeightRequest = 120;
+                logoImage.Aspect = Aspect.AspectFill;
             }
 
             var secondLayout = new StackLayout

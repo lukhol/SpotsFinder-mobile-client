@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using Microsoft.Practices.ServiceLocation;
+using SpotFinder.ViewModels;
+using Xamarin.Forms;
 
 namespace SpotFinder.Views
 {
@@ -6,12 +8,10 @@ namespace SpotFinder.Views
     {
         public SettingsPage()
         {
-            Content = new StackLayout
-            {
-                Children = {
-                    new Label { Text = "Welcome to Xamarin Forms!" }
-                }
-            };
+            Title = "Settings";
+            var settingsViewModel = ServiceLocator.Current.GetInstance<SettingsViewModel>();
+            settingsViewModel.InjectPage(this);
+            BindingContext = settingsViewModel;
         }
     }
 }

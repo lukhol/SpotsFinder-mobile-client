@@ -1,25 +1,24 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using SpotFinder.Core;
+using SpotFinder.Core.Enums;
 using SpotFinder.Resx;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace SpotFinder.ViewModels
 {
-    public class CriteriaViewModel
+    public class CriteriaViewModel : BaseViewModel
     {
-        private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
 
         private Dictionary<string, Switch> booleanFieldsMap;
-        private Dictionary<Core.Type, Switch> typeFieldsMap;
+        private Dictionary<PlaceType, Switch> typeFieldsMap;
         private ContentPage CurrentPage { get; set; }
         private Entry CityEntry;
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
-        public CriteriaViewModel(INavigation navigation, IPlaceRepository placeRepository)
+        public CriteriaViewModel(IPlaceRepository placeRepository)
         {
-            Navigation = navigation;
             PlaceRepository = placeRepository;
 
             booleanFieldsMap = new Dictionary<string, Switch>
@@ -41,11 +40,11 @@ namespace SpotFinder.ViewModels
                 {"Bowl", CreateParameterSwitch(mainAccentColor) }
             };
 
-            typeFieldsMap = new Dictionary<Core.Type, Switch>
+            typeFieldsMap = new Dictionary<PlaceType, Switch>
             {
-                {Core.Type.Skatepark, CreateParameterSwitch(mainAccentColor) },
-                {Core.Type.Skatespot, CreateParameterSwitch(mainAccentColor) },
-                {Core.Type.DIY, CreateParameterSwitch(mainAccentColor) }
+                {PlaceType.Skatepark, CreateParameterSwitch(mainAccentColor) },
+                {PlaceType.Skatespot, CreateParameterSwitch(mainAccentColor) },
+                {PlaceType.DIY, CreateParameterSwitch(mainAccentColor) }
             };
         }
 
@@ -94,7 +93,7 @@ namespace SpotFinder.ViewModels
 
             if (position == null)
             {
-                await CurrentPage.DisplayAlert("Message", "Problem with position", "Ok");
+                await CurrentPage.DisplayAlert("Error", "Problem with position. Are you connected to the internet?", "Ok");
                 return;
             }
 
@@ -107,10 +106,17 @@ namespace SpotFinder.ViewModels
                     criteria.Types.Add(item.Key);
             }
 
+            if(criteria.Types.Count == 0)
+            {
+                await CurrentPage.DisplayAlert("Validation", "You have to choose at least one type of places", "Ok");
+                return;
+            }
+                
+
             var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
             reportManager.Criteria = criteria;
 
-            await Navigation.PopAsync();
+            await CurrentPage.Navigation.PopAsync();
         });
 
         private Switch CreateParameterSwitch(Color color)

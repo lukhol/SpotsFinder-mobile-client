@@ -39,6 +39,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Criteria.cs" />
+    <Compile Include="Core\Enums\PlaceType.cs" />
+    <Compile Include="Core\GlobalSettings.cs" />
     <Compile Include="Core\ILocalPlaceRepository.cs" />
     <Compile Include="Core\IPlaceRepository.cs" />
     <Compile Include="Core\IRestAdressRepository.cs" />
@@ -50,9 +52,14 @@
     <Compile Include="Core\RestAdressRepository.cs" />
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Core\Utils.cs" />
+    <Compile Include="Helpers\PermissionHelper.cs" />
+    <Compile Include="Models\WebModels\ImageWeb.cs" />
+    <Compile Include="Models\WebModels\PlaceWeb.cs" />
     <Compile Include="OwnControls\MyImage.cs" />
     <Compile Include="Redux\Action.cs" />
+    <Compile Include="Redux\GoNextAction.cs" />
     <Compile Include="Redux\IAction.cs" />
+    <Compile Include="Redux\Reducer.cs" />
     <Compile Include="Redux\State.cs" />
     <Compile Include="Redux\Store.cs" />
     <Compile Include="Resx\AppResources.pl.Designer.cs">
@@ -65,26 +72,30 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\INavigationService.cs" />
+    <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\ViewModelLocator.cs" />
     <Compile Include="SQLite\ISQLite.cs" />
     <Compile Include="SQLite\Models\SQLitePlace.cs" />
+    <Compile Include="SQLite\SQLiteConfig.cs" />
     <Compile Include="ViewModels\AddingProcessViewModel.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CriteriaViewModel.cs" />
+    <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="ViewModels\ListViewModel.cs" />
-    <Compile Include="ViewModels\AddViewModel.cs" />
     <Compile Include="ViewModels\LocateOnMapViewModel.cs" />
     <Compile Include="ViewModels\MapPageViewModel.cs" />
     <Compile Include="ViewModels\PlaceDetailsViewModel.cs" />
     <Compile Include="ViewModels\Root\MenuMasterDetailPageViewModel.cs" />
+    <Compile Include="ViewModels\Root\RootMasterDetailViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Views\AddingProcessPage.cs" />
-    <Compile Include="Views\AddPage.cs" />
     <Compile Include="Views\CriteriaPage.cs" />
     <Compile Include="Views\InfoPage.cs" />
-    <Compile Include="Views\ListPage.xaml.cs">
-      <DependentUpon>ListPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnityConfig.cs" />
-    <Compile Include="Views\ListPage2.cs" />
+    <Compile Include="Views\IPageWithParameters.cs" />
+    <Compile Include="Views\ListPage.cs" />
     <Compile Include="Views\LocateOnMapPage.cs" />
     <Compile Include="Views\MapPage.cs" />
     <Compile Include="Views\PlaceDetailsPage.cs" />
@@ -165,12 +176,6 @@
     <EmbeddedResource Include="Resx\AppResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Views\ListPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

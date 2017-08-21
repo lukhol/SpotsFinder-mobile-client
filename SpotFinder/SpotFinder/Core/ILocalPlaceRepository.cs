@@ -8,7 +8,7 @@ namespace SpotFinder.Core
 {
     public interface ILocalPlaceRepository
     {
-        bool InsertPlace(string placeJson);
+        Task<bool> InsertPlace(string placeJson);
         Place GetPlace(int id);
         Task<List<Place>> GetAllPlaces();
     }

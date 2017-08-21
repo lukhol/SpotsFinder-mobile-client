@@ -1,13 +1,6 @@
 ﻿using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
 using SpotFinder.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Xamarin.Forms;
-using System.Threading.Tasks;
 using SpotFinder.Resx;
 
 namespace SpotFinder.Views

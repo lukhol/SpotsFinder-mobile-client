@@ -1,11 +1,5 @@
 ﻿using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
 using SpotFinder.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Xamarin.Forms;
 
 namespace SpotFinder.Views
@@ -17,7 +11,14 @@ namespace SpotFinder.Views
             NavigationPage.SetHasNavigationBar(this, false);
             Title = "Locate on map page";
             var locateOnMapViewModel = ServiceLocator.Current.GetInstance<LocateOnMapViewModel>();
+            BindingContext = locateOnMapViewModel;
             locateOnMapViewModel.InjectPage(this);
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            var locateViewModel = (LocateOnMapViewModel)BindingContext;
+            return locateViewModel.IsBussy;
         }
     }
 }

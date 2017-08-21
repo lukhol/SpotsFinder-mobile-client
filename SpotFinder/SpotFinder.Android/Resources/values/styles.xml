@@ -28,7 +28,10 @@
 
     <!-- TextColor for Editor:-->
     <item name="android:editTextStyle">@style/MyTextViewStyle</item>
-    
+
+
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <item name="android:windowTranslucentStatus">true</item>
   </style>
 
   <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">

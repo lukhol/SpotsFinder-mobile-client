@@ -7,19 +7,14 @@ namespace SpotFinder.ViewModels
 {
     public class PlaceDetailsViewModel
     {
-        private INavigation Navigation { get; }
         private ContentPage CurrentPage;
         private Place place;
+        private StackLayout mapLayout;
 
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
         private Command buttonCommand;
         private string textOnButton;
-
-        public PlaceDetailsViewModel(INavigation navigation)
-        {
-            Navigation = navigation;
-        }
 
         public void Initialize(Place place, Command buttonCommand = null, string textOnButton = null)
         {
@@ -40,11 +35,16 @@ namespace SpotFinder.ViewModels
             {
                 Content = CreateAllLayout()
             };
+            mapLayout.IsVisible = true;
         }
 
         private StackLayout CreateAllLayout()
         {
             CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
+
+            mapLayout = CreateMapLayout();
+            mapLayout.IsVisible = false;
+
             var layout = new StackLayout
             {
                 Children =
@@ -67,12 +67,12 @@ namespace SpotFinder.ViewModels
                     Utils.CreateGridSeparator(12),
                     CreatePhotoLayout(),
                     Utils.CreateGridSeparator(12),
-                    CreateMapLayout(),
+                    mapLayout,
                     Utils.CreateGridSeparator(12),
                     Utils.CreateDownSiteButton(new Command(() => 
                     {
-                        Navigation.PopAsync();
-                    }), AppResources.GoBackCommandTitle)
+                        CurrentPage.Navigation.PopAsync();
+                    }), AppResources.GoBackCommandTitle, new Thickness(12))
                 }
             };
 
@@ -213,15 +213,21 @@ namespace SpotFinder.ViewModels
 
         private StackLayout CreatePhotoLayout()
         {
-            var layout = new StackLayout();
+            var layout = new StackLayout
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand
+            };
+
+            var pageWidth = Application.Current.MainPage.Width;
+
             foreach (var base64Image in place.PhotosBase64)
             {
                 var image = new Image
                 {
-                    Source = Utils.Base64ImageToImageSource(base64Image)
+                    Source = Utils.Base64ImageToImageSource(base64Image),
                 };
                 image.Margin = new Thickness(5, 5, 5, 5);
-                image.HorizontalOptions = LayoutOptions.CenterAndExpand;
+                image.Aspect = Aspect.AspectFill;
                 layout.Children.Add(image);
             }
 

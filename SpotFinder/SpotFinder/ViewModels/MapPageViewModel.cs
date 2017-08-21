@@ -4,18 +4,13 @@ using SpotFinder.Resx;
 using SpotFinder.Views;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace SpotFinder.ViewModels
 {
-    public class MapPageViewModel : INotifyPropertyChanged
+    public class MapPageViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
@@ -26,9 +21,8 @@ namespace SpotFinder.ViewModels
         private StackLayout mainStackLayout;
         private StackLayout loadingStackLayout;
 
-        public MapPageViewModel(INavigation navigation, IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
+        public MapPageViewModel(IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
         {
-            Navigation = navigation ?? throw new ArgumentNullException("navigation is null in MapPageViewModel");
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in MapPageViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in MapPageViewModel");
 
@@ -93,7 +87,7 @@ namespace SpotFinder.ViewModels
 
                 pin.Clicked += (s, e) =>
                 {
-                    Navigation.PushAsync(new PlaceDetailsPage(place));
+                    CurrentPage.Navigation.PushAsync(new PlaceDetailsPage(place));
                 };
 
                 map.Pins.Add(pin);
@@ -101,7 +95,7 @@ namespace SpotFinder.ViewModels
         }
 
         private StackLayout CreateMapLayout()
-        {
+        {         
             if (map == null)
                 map = new Map(
                 MapSpan.FromCenterAndRadius(new Position(51.75924850, 19.45598330), Distance.FromMiles(0.3)))
@@ -136,59 +130,7 @@ namespace SpotFinder.ViewModels
             };
             loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBussy");
 
-            var addPlaceButton = new Button
-            {
-                Margin = new Thickness(10, 10, 0, 0),
-                BackgroundColor = new Color(24, 178, 40, 0.5),
-                HorizontalOptions = LayoutOptions.Start,
-                Text = AppResources.AddSpotButton
-            };
-
-            var filterButton = new Button
-            {
-                Margin = new Thickness(10, 0, 0, 0),
-                BackgroundColor = new Color(24, 178, 40, 0.5),
-                HorizontalOptions = LayoutOptions.Start,
-                Text = AppResources.FilterLabel
-            };
-
-            var refreshButton = new Button
-            {
-                Margin = new Thickness(10, 0, 0, 0),
-                BackgroundColor = new Color(24, 178, 40, 0.5),
-                HorizontalOptions = LayoutOptions.Start,
-                Text = "Refresh"
-            };
-
-            addPlaceButton.Command = new Command(() => { Navigation.PushAsync(new AddingProcessPage()); });
-            filterButton.Command = new Command(() => { Navigation.PushAsync(new CriteriaPage()); });
-            refreshButton.Command = new Command(() => { StopLoading(); });
-
-            var buttonsLayout = new StackLayout
-            {
-                Children =
-                {
-                    addPlaceButton, filterButton, refreshButton
-                }
-            };
-
-            return Utils.CreateItemOnItemLayout(map, buttonsLayout, loadingStackLayout);
-        }
-
-        private bool isBussy = false;
-        public bool IsBussy
-        {
-            get => isBussy;
-            set
-            {
-                isBussy = value;
-                OnPropertyChanged();
-            }
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            return Utils.CreateItemOnItemLayout(map, loadingStackLayout);
         }
     }
 }

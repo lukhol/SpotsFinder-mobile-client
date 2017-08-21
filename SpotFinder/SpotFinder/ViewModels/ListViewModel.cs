@@ -2,20 +2,15 @@
 using SpotFinder.Core;
 using SpotFinder.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using System.Linq;
+using System.Windows.Input;
 
 namespace SpotFinder.ViewModels
 {
-    public class ListViewModel : INotifyPropertyChanged
+    public class ListViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
 
@@ -36,12 +31,10 @@ namespace SpotFinder.ViewModels
                 OnPropertyChanged();
             }
         }
-        private bool isBussy = false;
 
-        public ListViewModel(INavigation navigation, IPlaceRepository placeRepository)
+        public ListViewModel(IPlaceRepository placeRepository)
         {
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in ListViewModel");
-            Navigation = navigation ?? throw new ArgumentNullException("navigation is null in ListViewModel");
 
             var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
 
@@ -63,6 +56,12 @@ namespace SpotFinder.ViewModels
         public void StopLoading()
         {
             var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+            if(reportManager.DownloadedPlaces == null)
+            {
+                CurrentPage.DisplayAlert("Message", "Chose criteria and try again.", "Ok");
+                IsBussy = false;
+                return;
+            }
             var placeList = reportManager.DownloadedPlaces;
             Device.BeginInvokeOnMainThread(() =>
             {
@@ -70,44 +69,23 @@ namespace SpotFinder.ViewModels
                 if(placeList != null)
                 {
                     foreach (var place in placeList)
-                        observablePlaceList.Add(place);
+                    {
+                        if(place.PhotosBase64.Count > 0)
+                            observablePlaceList.Add(place);
+                    }
                 }
             });
             
             IsBussy = false;
         }
 
-        public bool IsBussy
+        public ICommand RefreshCommand => new Command(() => 
         {
-            get => isBussy;
-            set
-            {
-                isBussy = value;
-                OnPropertyChanged();
-            }
-        }
+            StopLoading();
+        });
 
         private StackLayout CreateMainLayout()
         {
-            CurrentPage.ToolbarItems.Add(new ToolbarItem
-            {
-                Icon = "criteriaIcon.png",
-                Command = new Command(async () => { await Navigation.PushAsync(new CriteriaPage()); })
-            });
-
-            CurrentPage.ToolbarItems.Add(new ToolbarItem
-            {
-                Icon = "plusIcon.png",
-                Command = new Command(async () => { await Navigation.PushAsync(new AddingProcessPage()); }),
-                
-            });
-
-            CurrentPage.ToolbarItems.Add(new ToolbarItem
-            {
-                Icon = "refreshIcon.png",
-                Command = new Command(() => { StopLoading(); })
-            });
-
             loadingStackLayout = new StackLayout
             {
                 Children =
@@ -185,7 +163,10 @@ namespace SpotFinder.ViewModels
                 }),
                 ItemsSource = ObservablePlaceList,
                 BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"],
+                IsPullToRefreshEnabled = true,
+                RefreshCommand = RefreshCommand
             };
+            listView.SetBinding(ListView.IsRefreshingProperty, "IsBussy");
             
             listView.ItemSelected += (s, e) =>
             {
@@ -193,17 +174,12 @@ namespace SpotFinder.ViewModels
                 if (place != null)
                 {
                     listView.SelectedItem = null;
-                    Navigation.PushAsync(new PlaceDetailsPage(place));
+                    CurrentPage.Navigation.PushAsync(new PlaceDetailsPage(place));
                 }
             };
 
             var mainLayout = Utils.CreateItemOnItemLayout(listView, loadingStackLayout);
             return mainLayout;
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

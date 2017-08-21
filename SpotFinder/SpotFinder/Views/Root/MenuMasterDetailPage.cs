@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace SpotFinder.Views.Root
@@ -32,7 +28,7 @@ namespace SpotFinder.Views.Root
                 new MasterPageItem
                 {
                     Title = "List",
-                    TargetType = typeof(ListPage2),
+                    TargetType = typeof(ListPage),
                     IconSource = "listIcon.png"
                 },
                 new MasterPageItem

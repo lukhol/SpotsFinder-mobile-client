@@ -16,43 +16,49 @@ namespace SpotFinder.Core
 
             if (string.IsNullOrEmpty(cityName))
                 return null;
-
-            using (var httpClient = new HttpClient())
+            try
             {
-                var urlBuilder = new StringBuilder();
-                urlBuilder.Append("http://maps.googleapis.com/maps/api/geocode/json?address=");
-                urlBuilder.Append(cityName);
-                urlBuilder.Append("&sensor=");
-                urlBuilder.Append(sensor.ToString());
-
-                var uri = new Uri(urlBuilder.ToString());
-
-                var response = await httpClient.GetAsync(uri);
-
-                if (response.IsSuccessStatusCode)
+                using (var httpClient = new HttpClient())
                 {
-                    try
+                    var urlBuilder = new StringBuilder();
+                    urlBuilder.Append("http://maps.googleapis.com/maps/api/geocode/json?address=");
+                    urlBuilder.Append(cityName);
+                    urlBuilder.Append("&sensor=");
+                    urlBuilder.Append(sensor.ToString());
+
+                    var uri = new Uri(urlBuilder.ToString());
+
+                    var response = await httpClient.GetAsync(uri);
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        var stringResponse = await response.Content.ReadAsStringAsync();
+                        try
+                        {
+                            var stringResponse = await response.Content.ReadAsStringAsync();
 
-                        var jObject = JObject.Parse(stringResponse);
-                        var locationToken = jObject["results"][0]["geometry"]["location"];
+                            var jObject = JObject.Parse(stringResponse);
+                            var locationToken = jObject["results"][0]["geometry"]["location"];
 
-                        var position = new Position();
+                            var position = new Position();
 
-                        double lat = double.Parse(locationToken["lat"].ToString());
-                        double lng = double.Parse(locationToken["lng"].ToString());
+                            double lat = double.Parse(locationToken["lat"].ToString());
+                            double lng = double.Parse(locationToken["lng"].ToString());
 
-                        position.Latitude = lat;
-                        position.Longitude = lng;
+                            position.Latitude = lat;
+                            position.Longitude = lng;
 
-                        return position;
-                    }
-                    catch
-                    {
-                        System.Diagnostics.Debug.WriteLine("Error during parsing");
+                            return position;
+                        }
+                        catch
+                        {
+                            throw new Exception("Error during parsing");
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
 
             return null;

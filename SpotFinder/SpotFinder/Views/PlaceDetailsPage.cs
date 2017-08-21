@@ -8,7 +8,7 @@ namespace SpotFinder.Views
     {
         public PlaceDetailsPage(Place place, Command command = null, string message = null)
         {
-            var placeDetailsViewModel = new PlaceDetailsViewModel(Navigation);
+            var placeDetailsViewModel = new PlaceDetailsViewModel();
             
             if (command != null)
             {

@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
+using SpotFinder.Core.Enums;
 using SpotFinder.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SpotFinder.Core
@@ -16,7 +15,7 @@ namespace SpotFinder.Core
         public Location Location { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public Type Type { get; set; }
+        public PlaceType Type { get; set; }
         public IList<string> PhotosBase64;
 
         [JsonIgnore]
@@ -77,10 +76,5 @@ namespace SpotFinder.Core
         {
             Application.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage(this));
         });
-    }
-
-    public enum Type
-    {
-        Skatepark, Skatespot, DIY
     }
 }

@@ -10,74 +10,41 @@ namespace SpotFinder
     {
         private readonly UnityContainer unityContainer;
 
-        public UnityConfig(INavigation navigation)
+        private static readonly UnityConfig unityConfig = new UnityConfig();
+
+        public static UnityConfig Instance
+        {
+            get => unityConfig;
+        }
+
+        public static void Start()
+        {
+            var instante = UnityConfig.Instance;
+        }
+
+        protected UnityConfig()
         {
             unityContainer = new UnityContainer();
 
             //ViewModels:
-            unityContainer.RegisterType<AddViewModel>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(navigation)
-            );
-            unityContainer.RegisterType<CriteriaViewModel>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    new InjectionParameter(navigation),
-                    new ResolvedParameter<IPlaceRepository>()
-                )
-            );
-            unityContainer.RegisterType<AddingProcessViewModel>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    new InjectionParameter(navigation),
-                    new ResolvedParameter<IPlaceRepository>(),
-                    new ResolvedParameter<ILocalPlaceRepository>()
-                )
-            );
-            unityContainer.RegisterType<ListViewModel>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    new InjectionParameter(navigation), 
-                    new ResolvedParameter<IPlaceRepository>()
-                )
-            );
-            unityContainer.RegisterType<MapPageViewModel>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    new InjectionParameter(navigation),
-                    new ResolvedParameter<IPlaceRepository>(),
-                    new ResolvedParameter<ILocalPlaceRepository>()
-                )
-            );
-            unityContainer.RegisterType<LocateOnMapViewModel>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    new InjectionParameter(navigation),
-                    new ResolvedParameter<IPlaceRepository>()
-                )
-            );
+            unityContainer.RegisterType<CriteriaViewModel>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<AddingProcessViewModel>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<ListViewModel>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<MapPageViewModel>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<LocateOnMapViewModel>(new ContainerControlledLifetimeManager() );
             //Services:
-            unityContainer.RegisterType<IPlaceRepository, PlaceRepository>(
-                new InjectionConstructor(
-                    new ResolvedParameter<ILocalPlaceRepository>()
-                )
-            );
+            unityContainer.RegisterType<IPlaceRepository, PlaceRepository>();
             unityContainer.RegisterType<ILocalPlaceRepository, LocalPlaceRepository>();
 
             //ReportManager
-            unityContainer.RegisterType<ReportManager>(
-                new ContainerControlledLifetimeManager(),
-                new InjectionConstructor(
-                    new ResolvedParameter<IPlaceRepository>()
-                )
-            );
+            unityContainer.RegisterType<ReportManager>(new ContainerControlledLifetimeManager());
 
             //Config:
             var unityServiceLocator = new UnityServiceLocator(unityContainer);
             ServiceLocator.SetLocatorProvider(() => unityServiceLocator);
 
-            unityServiceLocator.GetInstance<MapPageViewModel>();
-            unityServiceLocator.GetInstance<ListViewModel>();
+            unityContainer.Resolve<MapPageViewModel>();
+            unityContainer.Resolve<ListViewModel>();
             //unityServiceLocator.GetInstance<CriteriaViewModel>();
         }
     }

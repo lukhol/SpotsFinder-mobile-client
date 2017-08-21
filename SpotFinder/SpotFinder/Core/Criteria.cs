@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using SpotFinder.Core.Enums;
+using System.Collections.Generic;
 
 namespace SpotFinder.Core
 {
     public class Criteria
     {
-        public List<Type> Types { get; set; }
+        public List<PlaceType> Types { get; set; }
         public Location Location { get; set; }
+        public int Distance { get; set; }
         public bool Gap { get; set; }
         public bool Stairs { get; set; }
         public bool Rail { get; set; }
@@ -39,7 +41,8 @@ namespace SpotFinder.Core
             Bank = false;
             Bowl = false;
             Location = new Location();
-            Types = new List<Type>();
+            Types = new List<PlaceType>();
+            Distance = 15;
         }
     }
 }

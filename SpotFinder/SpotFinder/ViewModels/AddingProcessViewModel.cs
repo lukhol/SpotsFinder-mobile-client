@@ -1,28 +1,21 @@
 ﻿using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
 using Plugin.Geolocator;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using SpotFinder.Core;
+using SpotFinder.Core.Enums;
 using SpotFinder.OwnControls;
 using SpotFinder.Resx;
 using SpotFinder.Views;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace SpotFinder.ViewModels
 {
-    public class AddingProcessViewModel : INotifyPropertyChanged
+    public class AddingProcessViewModel : BaseViewModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private INavigation Navigation { get; }
         private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
         private ContentPage CurrentPage { get; set; }
@@ -57,9 +50,8 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public AddingProcessViewModel(INavigation navigation, IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
-        {
-            Navigation = navigation ?? throw new ArgumentNullException("navigation is null in AddingProcessViewModel");            
+        public AddingProcessViewModel(IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
+        {          
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in AddingProcessViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in AddingProcessViewModel");
 
@@ -239,10 +231,10 @@ namespace SpotFinder.ViewModels
             //Spot type added runtime
             //Id missing there
 
-            Navigation.PushAsync(new PlaceDetailsPage(ReportManager.Place,
+            CurrentPage.Navigation.PushAsync(new PlaceDetailsPage(ReportManager.Place,
                 new Command(() =>
                 {
-                    Navigation.PushAsync(new LocateOnMapPage());
+                    CurrentPage.Navigation.PushAsync(new LocateOnMapPage());
                 }), AppResources.NextCommandTitle));
         });
 
@@ -276,7 +268,8 @@ namespace SpotFinder.ViewModels
 
                 file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
                 {
-                    CustomPhotoSize = 10
+                    PhotoSize = PhotoSize.Small,
+                    CompressionQuality = 0
                 });
             }
 
@@ -332,11 +325,11 @@ namespace SpotFinder.ViewModels
 
         private Picker CreatePlaceTypePicker()
         {
-            var types = new Dictionary<string, Core.Type>
+            var types = new Dictionary<string, PlaceType>
             {
-                {"Skatepark", Core.Type.Skatepark },
-                {"Skatespot", Core.Type.Skatespot },
-                {"DIY", Core.Type.DIY}
+                {"Skatepark", PlaceType.Skatepark },
+                {"Skatespot", PlaceType.Skatespot },
+                {"DIY", PlaceType.DIY}
             };
 
             var picker = new Picker
@@ -536,11 +529,6 @@ namespace SpotFinder.ViewModels
                 }
             };
             return layout;
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private enum GetPhotoType

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SpotFinder.Core
@@ -40,9 +38,12 @@ namespace SpotFinder.Core
                 StartEvent?.Invoke();
                 Task.Run(async () => 
                 {
+                    DownloadedPlaces = await PlaceRepository.GetAllPlace();
+
                     //DownloadedPlaces = await PlaceRepository.GetPlacesByCriteria(criteria);
-                    var localPlaceRepository = new LocalPlaceRepository();
-                    DownloadedPlaces = await localPlaceRepository.GetAllPlaces();
+                    
+                    //var localPlaceRepository = new LocalPlaceRepository();
+                    //DownloadedPlaces = await localPlaceRepository.GetAllPlaces();
                 })
                 .ContinueWith((t) =>
                 {
