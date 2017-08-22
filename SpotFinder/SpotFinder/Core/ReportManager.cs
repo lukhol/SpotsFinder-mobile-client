@@ -38,7 +38,7 @@ namespace SpotFinder.Core
                 StartEvent?.Invoke();
                 Task.Run(async () => 
                 {
-                    DownloadedPlaces = await PlaceRepository.GetAllPlace();
+                    DownloadedPlaces = await PlaceRepository.GetAllPlaceAsync();
 
                     //DownloadedPlaces = await PlaceRepository.GetPlacesByCriteria(criteria);
                     

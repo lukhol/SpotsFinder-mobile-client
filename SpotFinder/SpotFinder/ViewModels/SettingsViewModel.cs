@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using FFImageLoading.Svg;
 
 namespace SpotFinder.ViewModels
 {
@@ -13,16 +14,16 @@ namespace SpotFinder.ViewModels
     {
         private ContentPage CurrentPage;
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
-        private Label distanceValueLabel;
+        private Label distanceLabel;
 
-        private int distance;
-        public int Distance
+        private double distance;
+        public double Distance
         {
             get => distance;
             set
             {
                 distance = value;
-                distanceValueLabel.Text = value.ToString() + " km";
+                distanceLabel.Text = "Ustal zasięg wyszukiwania: " + ((int)distance).ToString() + " km";
                 OnPropertyChanged();
             }
         }
@@ -43,7 +44,7 @@ namespace SpotFinder.ViewModels
         public async void SaveSettings()
         {
             Application.Current.Properties["MainCity"] = city;
-            Application.Current.Properties["Distance"] = distance;
+            Application.Current.Properties["MainDistance"] = distance;
 
             await Application.Current.SavePropertiesAsync();
 
@@ -52,17 +53,22 @@ namespace SpotFinder.ViewModels
 
         public SettingsViewModel()
         {
-            if (Application.Current.Properties.ContainsKey("MainCity"))
-                City = Application.Current.Properties["MainCity"] as string;
 
-            if (Application.Current.Properties.ContainsKey("Distance"))
-                distance = (int)Application.Current.Properties["Distance"];
         }
 
         public void InjectPage(ContentPage contentPage)
         {
             CurrentPage = contentPage;
             CurrentPage.Content = CreateMainLayout();
+        }
+
+        public void CheckProperties()
+        {
+            if (Application.Current.Properties.ContainsKey("MainCity"))
+                City = Application.Current.Properties["MainCity"] as string;
+
+            if (Application.Current.Properties.ContainsKey("MainDistance"))
+                Distance = (double)Application.Current.Properties["MainDistance"];     
         }
 
         private StackLayout CreateMainLayout()
@@ -72,6 +78,7 @@ namespace SpotFinder.ViewModels
 
             var cityLabel = new Label
             {
+                FontAttributes = FontAttributes.Bold,
                 TextColor = mainAccentColor,
                 Text = "Wpisz swoje miasto główne:",
                 Margin = new Thickness(12,12,12,12)
@@ -84,27 +91,21 @@ namespace SpotFinder.ViewModels
             };
             cityEntry.SetBinding(Entry.TextProperty, "City");
 
-            var distanceLabel = new Label
+            distanceLabel = new Label
             {
+                FontAttributes = FontAttributes.Bold,
                 TextColor = mainAccentColor,
-                Text = "Wybierz odległość:",
+                Text = "Ustal zasięg wyszukiwania: 1 km",
                 Margin = new Thickness(12, 0, 12, 12)
             };
 
             var distanceSlider = new Slider
             {
-                Minimum = 0,
-                Maximum = 30,
-                Margin = new Thickness(12)
+                Maximum = 50,
+                Minimum = 1,
+                Value = 5
             };
             distanceSlider.SetBinding(Slider.ValueProperty, "Distance");
-
-            distanceValueLabel = new Label
-            {
-                TextColor = mainAccentColor,
-                Text = "0 km",
-                Margin = new Thickness(12, 0, 10, 12)
-            };
 
             var saveButton = Utils.CreateDownSiteButton(SaveCommand, "Zapisz", new Thickness(12));
             saveButton.VerticalOptions = LayoutOptions.EndAndExpand;
@@ -113,7 +114,6 @@ namespace SpotFinder.ViewModels
             layout.Children.Add(cityEntry);
             layout.Children.Add(distanceLabel);
             layout.Children.Add(distanceSlider);
-            layout.Children.Add(distanceValueLabel);
             layout.Children.Add(saveButton);
 
             return layout;

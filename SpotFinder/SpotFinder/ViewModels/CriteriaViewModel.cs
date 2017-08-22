@@ -15,7 +15,20 @@ namespace SpotFinder.ViewModels
         private Dictionary<PlaceType, Switch> typeFieldsMap;
         private ContentPage CurrentPage { get; set; }
         private Entry CityEntry;
+        private Label distanceInfoLabel;
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
+
+        private double distance;
+        public double Distance
+        {
+            get => distance;
+            set
+            {
+                distance = value;
+                distanceInfoLabel.Text = "Ustal zasięg wyszukiwania: " + ((int)distance).ToString() + " km";
+                OnPropertyChanged();
+            }
+        }
 
         public CriteriaViewModel(IPlaceRepository placeRepository)
         {
@@ -198,7 +211,7 @@ namespace SpotFinder.ViewModels
                 //BackgroundColor = Color.FromRgba(128, 128, 128, 220),
                 PlaceholderColor = Color.Black,
                 Placeholder = AppResources.CityPlaceholder,
-                Margin = new Thickness(12),
+                Margin = new Thickness(12,12,12,0)
             };
 
             var layout = new StackLayout
@@ -206,6 +219,36 @@ namespace SpotFinder.ViewModels
                 Children =
                 {
                     CityEntry
+                }
+            };
+
+            return layout;
+        }
+
+        private StackLayout CreateDistanceLayout()
+        {
+            distanceInfoLabel = new Label
+            {
+                Text = "Ustal zasięg wyszukiwania: 1 km",
+                TextColor = mainAccentColor,
+                Margin = new Thickness(12,12,12,0)
+            };
+
+            var distanceSlider = new Slider
+            {
+                Maximum = 50,
+                Minimum = 1,
+                Value = 5,
+                Margin = new Thickness(0)
+            };
+            distanceSlider.SetBinding(Slider.ValueProperty, "Distance");
+
+            var layout = new StackLayout
+            {
+                Children =
+                {
+                    distanceInfoLabel,
+                    distanceSlider
                 }
             };
 
@@ -221,10 +264,13 @@ namespace SpotFinder.ViewModels
                     CreateTypeLayout(),
                     Utils.CreateGridSeparator(12),
                     CreateObstaclesLayout(),
+                    //Utils.CreateDownSiteButton(SelectAllCommand, AppResources.SelectAllCommand, new Thickness(12 ,0 ,12, 12)),
                     Utils.CreateGridSeparator(12),
                     CreateCityEntryLayout(),
-                    Utils.CreateDownSiteButton(SelectAllCommand, AppResources.SelectAllCommand, new Thickness(12 ,0 ,12, 12)),
-                    Utils.CreateDownSiteButton(FilterButtonCommand, AppResources.FilterLabel, new Thickness(12 ,0 ,12, 12))
+                    //Utils.CreateGridSeparator(12),
+                    CreateDistanceLayout(),
+                    //Utils.CreateGridSeparator(12),
+                    Utils.CreateDownSiteButton(FilterButtonCommand, AppResources.FilterLabel, new Thickness(12 ,12 ,12, 12))
                 }
             };
 

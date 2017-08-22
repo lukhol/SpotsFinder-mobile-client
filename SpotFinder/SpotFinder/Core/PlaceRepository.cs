@@ -14,21 +14,15 @@ namespace SpotFinder.Core
 {
     public class PlaceRepository : IPlaceRepository
     {
-        private ILocalPlaceRepository LocalPlaceRepository { get; }
-
         private List<Place> placeList = new List<Place>();
 
-        public PlaceRepository(ILocalPlaceRepository localPlaceRepository)
-        {
-            LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in PlaceRepository");
-        }
-
-        public async Task<List<Place>> GetAllPlace()
+        public async Task<List<Place>> GetAllPlaceAsync()
         {
             try
             {
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.Timeout = TimeSpan.FromSeconds(30);
                     var uri = new Uri(GlobalSettings.GetAllUrl);
                     var response = await httpClient.GetAsync(uri);
 
@@ -70,6 +64,7 @@ namespace SpotFinder.Core
 
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.Timeout = TimeSpan.FromSeconds(30);
                     var uri = new Uri(GlobalSettings.PostSpotUrl);
                     var response = await httpClient.PostAsync(uri, content);
 
@@ -84,8 +79,6 @@ namespace SpotFinder.Core
                         result = 0;
                     }
                 }
-
-                await LocalPlaceRepository.InsertPlace(jObject.ToString());
             }
             catch(Exception ex)
             {
@@ -95,7 +88,7 @@ namespace SpotFinder.Core
             return result;
         }
 
-        public async Task<List<Place>> GetPlacesByCriteria(Criteria criteria)
+        public async Task<List<Place>> GetPlacesByCriteriaAsync(Criteria criteria)
         {
             var criteriaJson = JObject.FromObject(criteria, GlobalSettings.GetCamelCaseSerializer());
             var content = new StringContent(criteriaJson.ToString(), Encoding.UTF8, "application/json");
@@ -104,6 +97,7 @@ namespace SpotFinder.Core
             {
                 using (var httpClient = new HttpClient())
                 {
+                    httpClient.Timeout = TimeSpan.FromSeconds(30);
                     var uri = new Uri(GlobalSettings.GetPlaceByCriteriaUrl);
                     var response =  await httpClient.PostAsync(uri, content);
 

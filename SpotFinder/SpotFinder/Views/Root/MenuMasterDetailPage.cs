@@ -49,7 +49,12 @@ namespace SpotFinder.Views.Root
                     TargetType = typeof(SettingsPage),
                     IconSource = "settingsIcon.png"
                 },
-                
+                new MasterPageItem
+                {
+                    Title = "Offline list",
+                    TargetType = typeof(LocalListPage),
+                    IconSource = "listIcon.png"
+                }
             };
 
             listView = new ListView

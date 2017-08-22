@@ -27,11 +27,14 @@ namespace SpotFinder
             unityContainer = new UnityContainer();
 
             //ViewModels:
-            unityContainer.RegisterType<CriteriaViewModel>(new ContainerControlledLifetimeManager());
-            unityContainer.RegisterType<AddingProcessViewModel>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<CriteriaViewModel>();
+            unityContainer.RegisterType<AddingProcessViewModel>();
             unityContainer.RegisterType<ListViewModel>(new ContainerControlledLifetimeManager());
             unityContainer.RegisterType<MapPageViewModel>(new ContainerControlledLifetimeManager());
-            unityContainer.RegisterType<LocateOnMapViewModel>(new ContainerControlledLifetimeManager() );
+            unityContainer.RegisterType<LocateOnMapViewModel>();
+            unityContainer.RegisterType<SettingsViewModel>();
+            unityContainer.RegisterType<LocalListViewModel>();
+
             //Services:
             unityContainer.RegisterType<IPlaceRepository, PlaceRepository>();
             unityContainer.RegisterType<ILocalPlaceRepository, LocalPlaceRepository>();

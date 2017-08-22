@@ -12,14 +12,14 @@ namespace SpotFinder.Services
     public class ViewModelLocator
     {
         private readonly IUnityContainer unityContainer;
-
+        /*
         private static readonly ViewModelLocator instance = new ViewModelLocator();
-
+        
         public static ViewModelLocator Instance
         {
             get => instance;
         }
-            
+            */
         protected ViewModelLocator()
         {
             unityContainer = new UnityContainer();

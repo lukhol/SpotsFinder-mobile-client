@@ -2,6 +2,21 @@
   "version": 2,
   "targets": {
     "UAP,Version=v10.0": {
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -27,6 +42,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.29": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.Net.Native.Compiler/1.6.2": {
@@ -526,6 +556,65 @@
           "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so": {
             "assetType": "native",
             "rid": "ubuntu.16.10-x64"
+          }
+        }
+      },
+      "SkiaSharp/1.56.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "runtimeTargets": {
+          "runtimes/osx/native/libSkiaSharp.dylib": {
+            "assetType": "native",
+            "rid": "osx"
+          },
+          "runtimes/win10-arm/native/libEGL.dll": {
+            "assetType": "native",
+            "rid": "win10-arm"
+          },
+          "runtimes/win10-arm/native/libGLESv2.dll": {
+            "assetType": "native",
+            "rid": "win10-arm"
+          },
+          "runtimes/win10-arm/native/libSkiaSharp.dll": {
+            "assetType": "native",
+            "rid": "win10-arm"
+          },
+          "runtimes/win10-x64/native/libEGL.dll": {
+            "assetType": "native",
+            "rid": "win10-x64"
+          },
+          "runtimes/win10-x64/native/libGLESv2.dll": {
+            "assetType": "native",
+            "rid": "win10-x64"
+          },
+          "runtimes/win10-x64/native/libSkiaSharp.dll": {
+            "assetType": "native",
+            "rid": "win10-x64"
+          },
+          "runtimes/win10-x86/native/libEGL.dll": {
+            "assetType": "native",
+            "rid": "win10-x86"
+          },
+          "runtimes/win10-x86/native/libGLESv2.dll": {
+            "assetType": "native",
+            "rid": "win10-x86"
+          },
+          "runtimes/win10-x86/native/libSkiaSharp.dll": {
+            "assetType": "native",
+            "rid": "win10-x86"
+          },
+          "runtimes/win7-x64/native/libSkiaSharp.dll": {
+            "assetType": "native",
+            "rid": "win7-x64"
+          },
+          "runtimes/win7-x86/native/libSkiaSharp.dll": {
+            "assetType": "native",
+            "rid": "win7-x86"
           }
         }
       },
@@ -2521,6 +2610,61 @@
           "lib/UAP10/Plugin.Media.dll": {}
         }
       },
+      "Xamarin.FFImageLoading/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.29"
+        },
+        "compile": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        },
+        "runtime": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading": "2.2.9",
+          "Xamarin.Forms": "1.4.4.6392"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "1.56.1",
+          "Xamarin.FFImageLoading": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading.Forms": "2.2.9",
+          "Xamarin.FFImageLoading.Svg": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        }
+      },
       "Xamarin.Forms/2.3.4.247": {
         "type": "package",
         "compile": {
@@ -2562,6 +2706,21 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -2587,6 +2746,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.29": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.Net.Native.Compiler/1.6.2": {
@@ -3301,6 +3475,20 @@
         "type": "package",
         "native": {
           "runtimes/win8-arm/native/clrcompression.dll": {}
+        }
+      },
+      "SkiaSharp/1.56.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "native": {
+          "runtimes/win10-arm/native/libEGL.dll": {},
+          "runtimes/win10-arm/native/libGLESv2.dll": {},
+          "runtimes/win10-arm/native/libSkiaSharp.dll": {}
         }
       },
       "sqlite-net-pcl/1.1.1": {
@@ -5111,6 +5299,61 @@
           "lib/UAP10/Plugin.Media.dll": {}
         }
       },
+      "Xamarin.FFImageLoading/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.29"
+        },
+        "compile": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        },
+        "runtime": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading": "2.2.9",
+          "Xamarin.Forms": "1.4.4.6392"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "1.56.1",
+          "Xamarin.FFImageLoading": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading.Forms": "2.2.9",
+          "Xamarin.FFImageLoading.Svg": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        }
+      },
       "Xamarin.Forms/2.3.4.247": {
         "type": "package",
         "compile": {
@@ -5152,6 +5395,21 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -5177,6 +5435,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.29": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.Net.Native.Compiler/1.6.2": {
@@ -5930,6 +6203,20 @@
         },
         "native": {
           "runtimes/win8-arm-aot/native/_._": {}
+        }
+      },
+      "SkiaSharp/1.56.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "native": {
+          "runtimes/win10-arm/native/libEGL.dll": {},
+          "runtimes/win10-arm/native/libGLESv2.dll": {},
+          "runtimes/win10-arm/native/libSkiaSharp.dll": {}
         }
       },
       "sqlite-net-pcl/1.1.1": {
@@ -7740,6 +8027,61 @@
           "lib/UAP10/Plugin.Media.dll": {}
         }
       },
+      "Xamarin.FFImageLoading/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.29"
+        },
+        "compile": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        },
+        "runtime": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading": "2.2.9",
+          "Xamarin.Forms": "1.4.4.6392"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "1.56.1",
+          "Xamarin.FFImageLoading": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading.Forms": "2.2.9",
+          "Xamarin.FFImageLoading.Svg": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        }
+      },
       "Xamarin.Forms/2.3.4.247": {
         "type": "package",
         "compile": {
@@ -7781,6 +8123,21 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -7806,6 +8163,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.29": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.Net.Native.Compiler/1.6.2": {
@@ -8529,6 +8901,20 @@
         },
         "runtime": {
           "runtimes/win/lib/netcore50/System.Private.Uri.dll": {}
+        }
+      },
+      "SkiaSharp/1.56.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "native": {
+          "runtimes/win10-x64/native/libEGL.dll": {},
+          "runtimes/win10-x64/native/libGLESv2.dll": {},
+          "runtimes/win10-x64/native/libSkiaSharp.dll": {}
         }
       },
       "sqlite-net-pcl/1.1.1": {
@@ -10339,6 +10725,61 @@
           "lib/UAP10/Plugin.Media.dll": {}
         }
       },
+      "Xamarin.FFImageLoading/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.29"
+        },
+        "compile": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        },
+        "runtime": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading": "2.2.9",
+          "Xamarin.Forms": "1.4.4.6392"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "1.56.1",
+          "Xamarin.FFImageLoading": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading.Forms": "2.2.9",
+          "Xamarin.FFImageLoading.Svg": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        }
+      },
       "Xamarin.Forms/2.3.4.247": {
         "type": "package",
         "compile": {
@@ -10380,6 +10821,21 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -10405,6 +10861,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.29": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.Net.Native.Compiler/1.6.2": {
@@ -11169,6 +11640,20 @@
           "runtimes/aot/lib/netcore50/System.Private.Uri.dll": {}
         }
       },
+      "SkiaSharp/1.56.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "native": {
+          "runtimes/win10-x64/native/libEGL.dll": {},
+          "runtimes/win10-x64/native/libGLESv2.dll": {},
+          "runtimes/win10-x64/native/libSkiaSharp.dll": {}
+        }
+      },
       "sqlite-net-pcl/1.1.1": {
         "type": "package",
         "dependencies": {
@@ -12977,6 +13462,61 @@
           "lib/UAP10/Plugin.Media.dll": {}
         }
       },
+      "Xamarin.FFImageLoading/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.29"
+        },
+        "compile": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        },
+        "runtime": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading": "2.2.9",
+          "Xamarin.Forms": "1.4.4.6392"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "1.56.1",
+          "Xamarin.FFImageLoading": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading.Forms": "2.2.9",
+          "Xamarin.FFImageLoading.Svg": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        }
+      },
       "Xamarin.Forms/2.3.4.247": {
         "type": "package",
         "compile": {
@@ -13018,6 +13558,21 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -13043,6 +13598,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.29": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.Net.Native.Compiler/1.6.2": {
@@ -13766,6 +14336,20 @@
         },
         "runtime": {
           "runtimes/win/lib/netcore50/System.Private.Uri.dll": {}
+        }
+      },
+      "SkiaSharp/1.56.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "native": {
+          "runtimes/win10-x86/native/libEGL.dll": {},
+          "runtimes/win10-x86/native/libGLESv2.dll": {},
+          "runtimes/win10-x86/native/libSkiaSharp.dll": {}
         }
       },
       "sqlite-net-pcl/1.1.1": {
@@ -15576,6 +16160,61 @@
           "lib/UAP10/Plugin.Media.dll": {}
         }
       },
+      "Xamarin.FFImageLoading/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.29"
+        },
+        "compile": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        },
+        "runtime": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading": "2.2.9",
+          "Xamarin.Forms": "1.4.4.6392"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "1.56.1",
+          "Xamarin.FFImageLoading": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading.Forms": "2.2.9",
+          "Xamarin.FFImageLoading.Svg": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        }
+      },
       "Xamarin.Forms/2.3.4.247": {
         "type": "package",
         "compile": {
@@ -15617,6 +16256,21 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
+      "Microsoft.Bcl/1.1.10": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/_._": {}
+        },
+        "runtime": {
+          "lib/win8/_._": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {
+        "type": "package"
+      },
       "Microsoft.CSharp/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -15642,6 +16296,21 @@
         },
         "runtime": {
           "lib/netcore50/Microsoft.CSharp.dll": {}
+        }
+      },
+      "Microsoft.Net.Http/2.2.29": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.10",
+          "Microsoft.Bcl.Build": "1.0.14"
+        },
+        "compile": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
+        },
+        "runtime": {
+          "lib/win8/System.Net.Http.Extensions.dll": {},
+          "lib/win8/System.Net.Http.Primitives.dll": {}
         }
       },
       "Microsoft.Net.Native.Compiler/1.6.2": {
@@ -16404,6 +17073,20 @@
         },
         "runtime": {
           "runtimes/aot/lib/netcore50/System.Private.Uri.dll": {}
+        }
+      },
+      "SkiaSharp/1.56.1": {
+        "type": "package",
+        "compile": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/SkiaSharp.dll": {}
+        },
+        "native": {
+          "runtimes/win10-x86/native/libEGL.dll": {},
+          "runtimes/win10-x86/native/libGLESv2.dll": {},
+          "runtimes/win10-x86/native/libSkiaSharp.dll": {}
         }
       },
       "sqlite-net-pcl/1.1.1": {
@@ -18214,6 +18897,61 @@
           "lib/UAP10/Plugin.Media.dll": {}
         }
       },
+      "Xamarin.FFImageLoading/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Net.Http": "2.2.29"
+        },
+        "compile": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        },
+        "runtime": {
+          "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll": {},
+          "lib/portable-netcore45+wpa81/FFImageLoading.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading": "2.2.9",
+          "Xamarin.Forms": "1.4.4.6392"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll": {},
+          "lib/uap10.0/FFImageLoading.Forms.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "SkiaSharp": "1.56.1",
+          "Xamarin.FFImageLoading": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Platform.dll": {}
+        }
+      },
+      "Xamarin.FFImageLoading.Svg.Forms/2.2.9": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.FFImageLoading.Forms": "2.2.9",
+          "Xamarin.FFImageLoading.Svg": "2.2.9"
+        },
+        "compile": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/uap10.0/FFImageLoading.Svg.Forms.dll": {}
+        }
+      },
       "Xamarin.Forms/2.3.4.247": {
         "type": "package",
         "compile": {
@@ -18256,6 +18994,115 @@
     }
   },
   "libraries": {
+    "Microsoft.Bcl/1.1.10": {
+      "sha512": "+tTqoh/M1pyL8El3qLy30EcwnAtyvFoDZJtdG9Cbg/WdFbh4N8kyrq198XHuEL7lnJbeD0DRO8jcX5IIOh05cQ==",
+      "type": "package",
+      "path": "microsoft.bcl/1.1.10",
+      "files": [
+        "License-Stable.rtf",
+        "lib/Xamarin.iOS10/_._",
+        "lib/monoandroid/_._",
+        "lib/monotouch/_._",
+        "lib/net40/System.IO.dll",
+        "lib/net40/System.IO.xml",
+        "lib/net40/System.Runtime.dll",
+        "lib/net40/System.Runtime.xml",
+        "lib/net40/System.Threading.Tasks.dll",
+        "lib/net40/System.Threading.Tasks.xml",
+        "lib/net40/ensureRedirect.xml",
+        "lib/net45/_._",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.IO.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.IO.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Runtime.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Runtime.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Threading.Tasks.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Threading.Tasks.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/ensureRedirect.xml",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.IO.dll",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.IO.xml",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.Runtime.dll",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.Runtime.xml",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.Threading.Tasks.dll",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/System.Threading.Tasks.xml",
+        "lib/portable-net40+sl4+win8+wp8+wpa81/ensureRedirect.xml",
+        "lib/portable-net40+sl4+win8/System.IO.dll",
+        "lib/portable-net40+sl4+win8/System.IO.xml",
+        "lib/portable-net40+sl4+win8/System.Runtime.dll",
+        "lib/portable-net40+sl4+win8/System.Runtime.xml",
+        "lib/portable-net40+sl4+win8/System.Threading.Tasks.dll",
+        "lib/portable-net40+sl4+win8/System.Threading.Tasks.xml",
+        "lib/portable-net40+sl4+win8/ensureRedirect.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.IO.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.IO.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.Runtime.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.Runtime.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.Threading.Tasks.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/System.Threading.Tasks.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/ensureRedirect.xml",
+        "lib/portable-net40+win8+wp8+wpa81/System.IO.dll",
+        "lib/portable-net40+win8+wp8+wpa81/System.IO.xml",
+        "lib/portable-net40+win8+wp8+wpa81/System.Runtime.dll",
+        "lib/portable-net40+win8+wp8+wpa81/System.Runtime.xml",
+        "lib/portable-net40+win8+wp8+wpa81/System.Threading.Tasks.dll",
+        "lib/portable-net40+win8+wp8+wpa81/System.Threading.Tasks.xml",
+        "lib/portable-net40+win8+wp8+wpa81/ensureRedirect.xml",
+        "lib/portable-net40+win8/System.IO.dll",
+        "lib/portable-net40+win8/System.IO.xml",
+        "lib/portable-net40+win8/System.Runtime.dll",
+        "lib/portable-net40+win8/System.Runtime.xml",
+        "lib/portable-net40+win8/System.Threading.Tasks.dll",
+        "lib/portable-net40+win8/System.Threading.Tasks.xml",
+        "lib/portable-net40+win8/ensureRedirect.xml",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/portable-net45+win8+wpa81/_._",
+        "lib/portable-net451+win81+wpa81/_._",
+        "lib/portable-net451+win81/_._",
+        "lib/portable-win81+wp81+wpa81/_._",
+        "lib/sl4-windowsphone71/System.IO.dll",
+        "lib/sl4-windowsphone71/System.IO.xml",
+        "lib/sl4-windowsphone71/System.Runtime.dll",
+        "lib/sl4-windowsphone71/System.Runtime.xml",
+        "lib/sl4-windowsphone71/System.Threading.Tasks.dll",
+        "lib/sl4-windowsphone71/System.Threading.Tasks.xml",
+        "lib/sl4-windowsphone71/ensureRedirect.xml",
+        "lib/sl4/System.IO.dll",
+        "lib/sl4/System.IO.xml",
+        "lib/sl4/System.Runtime.dll",
+        "lib/sl4/System.Runtime.xml",
+        "lib/sl4/System.Threading.Tasks.dll",
+        "lib/sl4/System.Threading.Tasks.xml",
+        "lib/sl5/System.IO.dll",
+        "lib/sl5/System.IO.xml",
+        "lib/sl5/System.Runtime.dll",
+        "lib/sl5/System.Runtime.xml",
+        "lib/sl5/System.Threading.Tasks.dll",
+        "lib/sl5/System.Threading.Tasks.xml",
+        "lib/win8/_._",
+        "lib/wp8/_._",
+        "lib/wpa81/_._",
+        "microsoft.bcl.1.1.10.nupkg.sha512",
+        "microsoft.bcl.nuspec"
+      ]
+    },
+    "Microsoft.Bcl.Build/1.0.14": {
+      "sha512": "cDLKSvNvRa519hplsbSoYqO69TjdDIhfjtKUM0g20/nVROoWsGav9KCI9HtnGjLmdV1+TcUUDhbotcllibjPEA==",
+      "type": "package",
+      "path": "microsoft.bcl.build/1.0.14",
+      "files": [
+        "License-Stable.rtf",
+        "content/net40/_._",
+        "content/netcore45/_._",
+        "content/portable-net40+win8+sl4+wp71+wpa81/_._",
+        "content/sl4-windowsphone71/_._",
+        "content/sl4/_._",
+        "microsoft.bcl.build.1.0.14.nupkg.sha512",
+        "microsoft.bcl.build.nuspec",
+        "tools/Install.ps1",
+        "tools/Microsoft.Bcl.Build.Tasks.dll",
+        "tools/Microsoft.Bcl.Build.targets",
+        "tools/Uninstall.ps1"
+      ]
+    },
     "Microsoft.CSharp/4.3.0": {
       "sha512": "P+MBhIM0YX+JqROuf7i306ZLJEjQYA9uUyRDE+OqwUI5sh41e2ZbPQV3LfAPh+29cmceE1pUffXsGfR4eMY3KA==",
       "type": "package",
@@ -18311,6 +19158,73 @@
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._"
+      ]
+    },
+    "Microsoft.Net.Http/2.2.29": {
+      "sha512": "fc4CPEewJ30Xgal+fSq1lYIBt582A7eKlAL7O4HXiYAiTp2VTnA4osSvk7T2n8aS4xTCPVJusQk3yKLT0XSpkg==",
+      "type": "package",
+      "path": "microsoft.net.http/2.2.29",
+      "files": [
+        "License-Stable.rtf",
+        "lib/Xamarin.iOS10/System.Net.Http.Extensions.XML",
+        "lib/Xamarin.iOS10/System.Net.Http.Extensions.dll",
+        "lib/Xamarin.iOS10/System.Net.Http.Primitives.dll",
+        "lib/Xamarin.iOS10/System.Net.Http.Primitives.xml",
+        "lib/monoandroid/System.Net.Http.Extensions.XML",
+        "lib/monoandroid/System.Net.Http.Extensions.dll",
+        "lib/monoandroid/System.Net.Http.Primitives.dll",
+        "lib/monoandroid/System.Net.Http.Primitives.xml",
+        "lib/monotouch/System.Net.Http.Extensions.XML",
+        "lib/monotouch/System.Net.Http.Extensions.dll",
+        "lib/monotouch/System.Net.Http.Primitives.dll",
+        "lib/monotouch/System.Net.Http.Primitives.xml",
+        "lib/net40/System.Net.Http.Extensions.XML",
+        "lib/net40/System.Net.Http.Extensions.dll",
+        "lib/net40/System.Net.Http.Primitives.dll",
+        "lib/net40/System.Net.Http.Primitives.xml",
+        "lib/net40/System.Net.Http.WebRequest.dll",
+        "lib/net40/System.Net.Http.WebRequest.xml",
+        "lib/net40/System.Net.Http.dll",
+        "lib/net40/System.Net.Http.xml",
+        "lib/net40/ensureRedirect.xml",
+        "lib/net45/System.Net.Http.Extensions.XML",
+        "lib/net45/System.Net.Http.Extensions.dll",
+        "lib/net45/System.Net.Http.Primitives.dll",
+        "lib/net45/System.Net.Http.Primitives.xml",
+        "lib/net45/ensureRedirect.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.Extensions.XML",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.Extensions.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.Primitives.XML",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.Primitives.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.dll",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/System.Net.Http.xml",
+        "lib/portable-net40+sl4+win8+wp71+wpa81/ensureRedirect.xml",
+        "lib/portable-net45+win8+wpa81/System.Net.Http.Extensions.XML",
+        "lib/portable-net45+win8+wpa81/System.Net.Http.Extensions.dll",
+        "lib/portable-net45+win8+wpa81/System.Net.Http.Primitives.dll",
+        "lib/portable-net45+win8+wpa81/System.Net.Http.Primitives.xml",
+        "lib/portable-net45+win8+wpa81/ensureRedirect.xml",
+        "lib/portable-net45+win8/System.Net.Http.Extensions.XML",
+        "lib/portable-net45+win8/System.Net.Http.Extensions.dll",
+        "lib/portable-net45+win8/System.Net.Http.Primitives.dll",
+        "lib/portable-net45+win8/System.Net.Http.Primitives.xml",
+        "lib/portable-net45+win8/ensureRedirect.xml",
+        "lib/sl4-windowsphone71/System.Net.Http.Extensions.XML",
+        "lib/sl4-windowsphone71/System.Net.Http.Extensions.dll",
+        "lib/sl4-windowsphone71/System.Net.Http.Primitives.XML",
+        "lib/sl4-windowsphone71/System.Net.Http.Primitives.dll",
+        "lib/sl4-windowsphone71/System.Net.Http.dll",
+        "lib/sl4-windowsphone71/System.Net.Http.xml",
+        "lib/win8/System.Net.Http.Extensions.XML",
+        "lib/win8/System.Net.Http.Extensions.dll",
+        "lib/win8/System.Net.Http.Primitives.dll",
+        "lib/win8/System.Net.Http.Primitives.xml",
+        "lib/wpa81/System.Net.Http.Extensions.XML",
+        "lib/wpa81/System.Net.Http.Extensions.dll",
+        "lib/wpa81/System.Net.Http.Primitives.dll",
+        "lib/wpa81/System.Net.Http.Primitives.xml",
+        "microsoft.net.http.2.2.29.nupkg.sha512",
+        "microsoft.net.http.nuspec"
       ]
     },
     "Microsoft.Net.Native.Compiler/1.6.2": {
@@ -21839,6 +22753,47 @@
         "runtime.win8-arm.runtime.native.system.io.compression.4.3.0.nupkg.sha512",
         "runtime.win8-arm.runtime.native.system.io.compression.nuspec",
         "runtimes/win8-arm/native/clrcompression.dll"
+      ]
+    },
+    "SkiaSharp/1.56.1": {
+      "sha512": "osC6Zum63yx+B07c5tFqGYzdm/JUX0CbzZ8Th8+a9a2Uuo/PhT1yjZVQZDsBYrQ27eZOkXNsmaa5gdJlcGp4TA==",
+      "type": "package",
+      "path": "skiasharp/1.56.1",
+      "files": [
+        "build/XamarinMac/SkiaSharp.targets",
+        "build/net45/SkiaSharp.dll.config",
+        "build/net45/SkiaSharp.targets",
+        "lib/MonoAndroid/SkiaSharp.dll",
+        "lib/MonoAndroid/SkiaSharp.xml",
+        "lib/XamarinMac/SkiaSharp.dll",
+        "lib/XamarinMac/SkiaSharp.xml",
+        "lib/XamariniOS/SkiaSharp.dll",
+        "lib/XamariniOS/SkiaSharp.xml",
+        "lib/XamarintvOS/SkiaSharp.dll",
+        "lib/XamarintvOS/SkiaSharp.xml",
+        "lib/net45/SkiaSharp.dll",
+        "lib/net45/SkiaSharp.dll.config",
+        "lib/net45/SkiaSharp.xml",
+        "lib/netstandard1.3/SkiaSharp.dll",
+        "lib/netstandard1.3/SkiaSharp.xml",
+        "lib/portable-net45+win8+wpa81+wp8/SkiaSharp.dll",
+        "lib/portable-net45+win8+wpa81+wp8/SkiaSharp.xml",
+        "lib/uap10.0/SkiaSharp.dll",
+        "lib/uap10.0/SkiaSharp.xml",
+        "runtimes/osx/native/libSkiaSharp.dylib",
+        "runtimes/win10-arm/native/libEGL.dll",
+        "runtimes/win10-arm/native/libGLESv2.dll",
+        "runtimes/win10-arm/native/libSkiaSharp.dll",
+        "runtimes/win10-x64/native/libEGL.dll",
+        "runtimes/win10-x64/native/libGLESv2.dll",
+        "runtimes/win10-x64/native/libSkiaSharp.dll",
+        "runtimes/win10-x86/native/libEGL.dll",
+        "runtimes/win10-x86/native/libGLESv2.dll",
+        "runtimes/win10-x86/native/libSkiaSharp.dll",
+        "runtimes/win7-x64/native/libSkiaSharp.dll",
+        "runtimes/win7-x86/native/libSkiaSharp.dll",
+        "skiasharp.1.56.1.nupkg.sha512",
+        "skiasharp.nuspec"
       ]
     },
     "sqlite-net-pcl/1.1.1": {
@@ -27196,6 +28151,114 @@
         "xam.plugin.media.nuspec"
       ]
     },
+    "Xamarin.FFImageLoading/2.2.9": {
+      "sha512": "+ynlYKS42vQdVUzBTydlw+DyyagQ2GOqjaHjMI7ekHD21ituiRwljkepphAi5YXFepNEODXsuRBEFOF+714fgg==",
+      "type": "package",
+      "path": "xamarin.ffimageloading/2.2.9",
+      "files": [
+        "lib/MonoAndroid10/FFImageLoading.Platform.dll",
+        "lib/MonoAndroid10/FFImageLoading.Platform.pdb",
+        "lib/MonoAndroid10/FFImageLoading.Platform.xml",
+        "lib/MonoAndroid10/FFImageLoading.dll",
+        "lib/MonoAndroid10/FFImageLoading.pdb",
+        "lib/MonoAndroid10/FFImageLoading.xml",
+        "lib/Xamarin.iOS10/FFImageLoading.Platform.dll",
+        "lib/Xamarin.iOS10/FFImageLoading.Platform.pdb",
+        "lib/Xamarin.iOS10/FFImageLoading.Platform.xml",
+        "lib/Xamarin.iOS10/FFImageLoading.dll",
+        "lib/Xamarin.iOS10/FFImageLoading.pdb",
+        "lib/Xamarin.iOS10/FFImageLoading.xml",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Platform.dll",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Platform.xml",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.dll",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.pdb",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.xml",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Platform.dll",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Platform.pdb",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Platform.xml",
+        "lib/portable-netcore45+wpa81/FFImageLoading.dll",
+        "lib/portable-netcore45+wpa81/FFImageLoading.pdb",
+        "lib/portable-netcore45+wpa81/FFImageLoading.xml",
+        "xamarin.ffimageloading.2.2.9.nupkg.sha512",
+        "xamarin.ffimageloading.nuspec"
+      ]
+    },
+    "Xamarin.FFImageLoading.Forms/2.2.9": {
+      "sha512": "B0P2HABxBT8vLiiTjVVtCUG/iSc/MmDsEDgaU52xYzhu/PwwOD+9dFp/pLoQSfS1sRBKnMEjvgLCei07zjul7A==",
+      "type": "package",
+      "path": "xamarin.ffimageloading.forms/2.2.9",
+      "files": [
+        "lib/MonoAndroid10/FFImageLoading.Forms.Droid.dll",
+        "lib/MonoAndroid10/FFImageLoading.Forms.Droid.pdb",
+        "lib/MonoAndroid10/FFImageLoading.Forms.Droid.xml",
+        "lib/MonoAndroid10/FFImageLoading.Forms.dll",
+        "lib/MonoAndroid10/FFImageLoading.Forms.pdb",
+        "lib/MonoAndroid10/FFImageLoading.Forms.xml",
+        "lib/Xamarin.iOS10/FFImageLoading.Forms.Touch.dll",
+        "lib/Xamarin.iOS10/FFImageLoading.Forms.Touch.pdb",
+        "lib/Xamarin.iOS10/FFImageLoading.Forms.Touch.xml",
+        "lib/Xamarin.iOS10/FFImageLoading.Forms.dll",
+        "lib/Xamarin.iOS10/FFImageLoading.Forms.pdb",
+        "lib/Xamarin.iOS10/FFImageLoading.Forms.xml",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Forms.dll",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Forms.pdb",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Forms.xml",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Forms.WinRT.dll",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Forms.WinRT.pdb",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Forms.WinRT.xml",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Forms.dll",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Forms.pdb",
+        "lib/portable-netcore45+wpa81/FFImageLoading.Forms.xml",
+        "lib/uap10.0/FFImageLoading.Forms.WinUWP.dll",
+        "lib/uap10.0/FFImageLoading.Forms.WinUWP.pdb",
+        "lib/uap10.0/FFImageLoading.Forms.WinUWP.xml",
+        "lib/uap10.0/FFImageLoading.Forms.dll",
+        "lib/uap10.0/FFImageLoading.Forms.pdb",
+        "lib/uap10.0/FFImageLoading.Forms.xml",
+        "xamarin.ffimageloading.forms.2.2.9.nupkg.sha512",
+        "xamarin.ffimageloading.forms.nuspec"
+      ]
+    },
+    "Xamarin.FFImageLoading.Svg/2.2.9": {
+      "sha512": "EBsx8DUrziygzcElV6ck4Tku4Ory0wwAf9jgG6YMfLkSMvTdk7SQJZkNfGQhrakruRDXoFjSZ9hXknMaplgudw==",
+      "type": "package",
+      "path": "xamarin.ffimageloading.svg/2.2.9",
+      "files": [
+        "lib/MonoAndroid10/FFImageLoading.Svg.Platform.dll",
+        "lib/MonoAndroid10/FFImageLoading.Svg.Platform.pdb",
+        "lib/MonoAndroid10/FFImageLoading.Svg.Platform.xml",
+        "lib/Xamarin.iOS10/FFImageLoading.Svg.Platform.dll",
+        "lib/Xamarin.iOS10/FFImageLoading.Svg.Platform.pdb",
+        "lib/Xamarin.iOS10/FFImageLoading.Svg.Platform.xml",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Svg.Platform.dll",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Svg.Platform.xml",
+        "lib/uap10.0/FFImageLoading.Svg.Platform.dll",
+        "lib/uap10.0/FFImageLoading.Svg.Platform.pdb",
+        "lib/uap10.0/FFImageLoading.Svg.Platform.xml",
+        "xamarin.ffimageloading.svg.2.2.9.nupkg.sha512",
+        "xamarin.ffimageloading.svg.nuspec"
+      ]
+    },
+    "Xamarin.FFImageLoading.Svg.Forms/2.2.9": {
+      "sha512": "0YS1FYtxkoYAxw+J4IYebSSvxQGigL/w9t24SO9Oxha12Sex7J8Aj2LX/UKe4oKBWkRTuyptFhGXJXD/CctJ3Q==",
+      "type": "package",
+      "path": "xamarin.ffimageloading.svg.forms/2.2.9",
+      "files": [
+        "lib/MonoAndroid10/FFImageLoading.Svg.Forms.dll",
+        "lib/MonoAndroid10/FFImageLoading.Svg.Forms.pdb",
+        "lib/MonoAndroid10/FFImageLoading.Svg.Forms.xml",
+        "lib/Xamarin.iOS10/FFImageLoading.Svg.Forms.dll",
+        "lib/Xamarin.iOS10/FFImageLoading.Svg.Forms.pdb",
+        "lib/Xamarin.iOS10/FFImageLoading.Svg.Forms.xml",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Svg.Forms.dll",
+        "lib/portable-net45+win8+wpa81+wp8/FFImageLoading.Svg.Forms.xml",
+        "lib/uap10.0/FFImageLoading.Svg.Forms.dll",
+        "lib/uap10.0/FFImageLoading.Svg.Forms.pdb",
+        "lib/uap10.0/FFImageLoading.Svg.Forms.xml",
+        "xamarin.ffimageloading.svg.forms.2.2.9.nupkg.sha512",
+        "xamarin.ffimageloading.svg.forms.nuspec"
+      ]
+    },
     "Xamarin.Forms/2.3.4.247": {
       "sha512": "+6VN8IBSah7EcNJ4SV3pIhNA8tNlBaPLfr3+hQpPIllueJrXI5QtjM0tAJusPc2V1cYyC4YKvA1fs5c/A8RrBw==",
       "type": "package",
@@ -27429,6 +28492,8 @@
       "Plugin.SQLite >= 1.0.4",
       "Xam.Plugin.Geolocator >= 4.0.1",
       "Xam.Plugin.Media >= 3.0.1",
+      "Xamarin.FFImageLoading.Svg >= 2.2.9",
+      "Xamarin.FFImageLoading.Svg.Forms >= 2.2.9",
       "Xamarin.Forms >= 2.3.4.247",
       "Xamarin.Forms.Maps >= 2.3.4.247"
     ],
@@ -27461,6 +28526,8 @@
       "Plugin.SQLite": "1.0.4",
       "Xam.Plugin.Geolocator": "4.0.1",
       "Xam.Plugin.Media": "3.0.1",
+      "Xamarin.FFImageLoading.Svg": "2.2.9",
+      "Xamarin.FFImageLoading.Svg.Forms": "2.2.9",
       "Xamarin.Forms": "2.3.4.247",
       "Xamarin.Forms.Maps": "2.3.4.247"
     },

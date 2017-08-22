@@ -3,15 +3,14 @@ using SpotFinder.Core;
 using SpotFinder.Views;
 using System;
 using System.Collections.ObjectModel;
-using Xamarin.Forms;
 using System.Linq;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace SpotFinder.ViewModels
 {
-    public class ListViewModel : BaseViewModel
+    public class LocalListViewModel : BaseViewModel
     {
-        private IPlaceRepository PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
 
         private ContentPage CurrentPage { get; set; }
@@ -32,14 +31,9 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public ListViewModel(IPlaceRepository placeRepository)
+        public LocalListViewModel(ILocalPlaceRepository localPlaceRepository)
         {
-            PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in ListViewModel");
-
-            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
-
-            reportManager.StartEvent += StartLoading;
-            reportManager.StopEvent += StopLoading;
+            LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in ListViewModel");
         }
 
         public void InjectPage(ContentPage contentPage)
@@ -48,37 +42,32 @@ namespace SpotFinder.ViewModels
             CurrentPage.Content = CreateMainLayout();
         }
 
-        public void StartLoading()
+        public async void StopLoading()
         {
-            IsBussy = true;
-        }
-
-        public void StopLoading()
-        {
-            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
-            if(reportManager.DownloadedPlaces == null)
+            var listOfLocalPlaces = await LocalPlaceRepository.GetAllPlacesAsync();
+            if (listOfLocalPlaces == null || listOfLocalPlaces.Count == 0)
             {
                 IsBussy = false;
                 return;
             }
-            var placeList = reportManager.DownloadedPlaces;
+
             Device.BeginInvokeOnMainThread(() =>
             {
                 observablePlaceList.Clear();
-                if(placeList != null)
+                if (listOfLocalPlaces != null)
                 {
-                    foreach (var place in placeList)
+                    foreach (var place in listOfLocalPlaces)
                     {
-                        if(place.PhotosBase64.Count > 0)
+                        if (place.PhotosBase64.Count > 0)
                             observablePlaceList.Add(place);
                     }
                 }
             });
-            
+
             IsBussy = false;
         }
 
-        public ICommand RefreshCommand => new Command(() => 
+        public ICommand RefreshCommand => new Command(() =>
         {
             StopLoading();
         });
@@ -166,7 +155,7 @@ namespace SpotFinder.ViewModels
                 RefreshCommand = RefreshCommand
             };
             listView.SetBinding(ListView.IsRefreshingProperty, "IsBussy");
-            
+
             listView.ItemSelected += (s, e) =>
             {
                 var place = e.SelectedItem as Place;

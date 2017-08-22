@@ -72,6 +72,7 @@ namespace SpotFinder.Services
         
         protected Page CreateAndBindPage(Type viewModelType, object parameter)
         {
+            /*
             Type pageType = GetPageTypeForViewModel(viewModelType);
 
             if(pageType == null)
@@ -87,6 +88,8 @@ namespace SpotFinder.Services
                 ((IPageWithParameters)page).InitializeWith(parameter);
 
             return page;
+            */
+            return new Page();
         }
         
 

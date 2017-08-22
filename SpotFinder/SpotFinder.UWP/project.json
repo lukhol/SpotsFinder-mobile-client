@@ -6,6 +6,8 @@
     "Plugin.SQLite": "1.0.4",
     "Xam.Plugin.Geolocator": "4.0.1",
     "Xam.Plugin.Media": "3.0.1",
+    "Xamarin.FFImageLoading.Svg": "2.2.9",
+    "Xamarin.FFImageLoading.Svg.Forms": "2.2.9",
     "Xamarin.Forms": "2.3.4.247",
     "Xamarin.Forms.Maps": "2.3.4.247"
   },

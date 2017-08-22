@@ -12,6 +12,7 @@ namespace SpotFinder.Views
             var settingsViewModel = ServiceLocator.Current.GetInstance<SettingsViewModel>();
             settingsViewModel.InjectPage(this);
             BindingContext = settingsViewModel;
+            settingsViewModel.CheckProperties();
         }
     }
 }

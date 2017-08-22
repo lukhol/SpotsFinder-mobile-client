@@ -17,13 +17,15 @@ namespace SpotFinder.ViewModels
     {
         private ContentPage CurrentPage { get; set; }
         private IPlaceRepository PlaceRepository { get; }
+        private ILocalPlaceRepository LocalPlaceRepository { get; }
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
         private Map map;
         private StackLayout loadingStackLayout;
 
-        public LocateOnMapViewModel(IPlaceRepository placeRepository)
+        public LocateOnMapViewModel(IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
         {
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in LocateOnMapViewModel");
+            LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in LocateOnMapViewModel");
 
             IsBussy = false;
         }
@@ -55,12 +57,22 @@ namespace SpotFinder.ViewModels
 
             if (result == 0)
             {
-                await CurrentPage.DisplayAlert("Error.", "Problem with publishing spot. Try again later", "Ok");
-                IsBussy = false;
-                return;
+                var alertResult = await CurrentPage.DisplayAlert("Error.", "Problem with publishing spot. Try again or add to offline list", "Try again", "Add local");
+
+                if(alertResult == true)
+                {
+                    IsBussy = false;
+                    return;
+                }
+                else
+                {
+                    await LocalPlaceRepository.InsertPlaceAsync(reportManager.Place);
+                }
+                
             }
 
-            
+            var aaa = await LocalPlaceRepository.GetAllPlacesAsync();
+
             IsBussy = false;
 
             if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)

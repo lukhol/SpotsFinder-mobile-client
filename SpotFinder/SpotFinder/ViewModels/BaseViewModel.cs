@@ -29,7 +29,7 @@ namespace SpotFinder.ViewModels
 
         public BaseViewModel()
         {
-            NavigationService = ViewModelLocator.Instance.Resolve<INavigationService>();
+            //NavigationService = ViewModelLocator.Instance.Resolve<INavigationService>();
         }
 
         public virtual void InjectPage(Page page)

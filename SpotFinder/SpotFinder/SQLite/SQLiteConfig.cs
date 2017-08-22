@@ -25,6 +25,7 @@ namespace SpotFinder.SQLite
         {
             _sqLiteConnection = DependencyService.Get<ISQLite>().GetConnection();
             _sqLiteConnection.CreateTable<SQLitePlace>();
+            _sqLiteConnection.CreateTable<SQLitePlaceLocal>();
         }
         
     }
