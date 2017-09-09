@@ -1,4 +1,5 @@
-﻿using SpotFinder.Models.WebModels;
+﻿using SpotFinder.Models.Core;
+using SpotFinder.Models.WebModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -191,9 +192,8 @@ namespace SpotFinder.Core
                 base64ImagesList.Add(tempImageWeb.Image);
             }
 
-            return new Place
+            var place =  new Place
             {
-                Id = placeWeb.Id,
                 Description = placeWeb.Description,
                 Location = new Location
                 {
@@ -220,6 +220,13 @@ namespace SpotFinder.Core
                 OpenYourMind = placeWeb.OpenYourMind,
                 Stairs = placeWeb.Stairs
             };
+
+            if (placeWeb.Id == null)
+                place.Id = 0;
+            else
+                place.Id = (int)placeWeb.Id;
+
+            return place;
         }
 
         public static Place PlaceWebLightToPlace(PlaceWebLight placeWebLight)

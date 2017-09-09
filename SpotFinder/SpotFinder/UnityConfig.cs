@@ -1,6 +1,8 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using SpotFinder.Core;
+using SpotFinder.DataServices;
+using SpotFinder.Repositories;
 using SpotFinder.ViewModels;
 using Xamarin.Forms;
 
@@ -36,7 +38,7 @@ namespace SpotFinder
             unityContainer.RegisterType<LocalListViewModel>();
 
             //Services:
-            unityContainer.RegisterType<IPlaceRepository, PlaceRepository>();
+            unityContainer.RegisterType<IPlaceService, PlaceService>();
             unityContainer.RegisterType<ILocalPlaceRepository, LocalPlaceRepository>();
 
             //ReportManager

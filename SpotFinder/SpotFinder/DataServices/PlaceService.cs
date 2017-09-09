@@ -9,10 +9,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Net;
 using SpotFinder.Models.WebModels;
+using SpotFinder.Models.Core;
+using SpotFinder.Core;
 
-namespace SpotFinder.Core
+namespace SpotFinder.DataServices
 {
-    public class PlaceRepository : IPlaceRepository
+    public class PlaceService : IPlaceService
     {
         private List<Place> placeList = new List<Place>();
 
@@ -59,8 +61,13 @@ namespace SpotFinder.Core
             int result = 0;
             try
             {
-                var jObject = JObject.FromObject(Utils.PlaceToPlaceWeb(place), GlobalSettings.GetCamelCaseSerializer());
+                var placeDTO = Utils.PlaceToPlaceWeb(place);
+                PrepareDTOToAdd(placeDTO);
+
+                var jObject = JObject.FromObject(placeDTO, GlobalSettings.GetCamelCaseSerializer());
                 var content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+
+                var strinJObject = jObject.ToString();
 
                 using (var httpClient = new HttpClient())
                 {
@@ -158,6 +165,16 @@ namespace SpotFinder.Core
             }
 
             return place;
+        }
+
+        private void PrepareDTOToAdd(PlaceWeb placeDTO)
+        {
+            placeDTO.Id = null;
+
+            foreach (var item in placeDTO.Images)
+            {
+                item.Id = null;
+            }
         }
     }
 }

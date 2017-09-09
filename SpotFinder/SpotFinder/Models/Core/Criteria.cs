@@ -2,7 +2,8 @@
 using SpotFinder.Core.Enums;
 using System.Collections.Generic;
 
-namespace SpotFinder.Core
+
+namespace SpotFinder.Models.Core
 {
     public class Criteria
     {

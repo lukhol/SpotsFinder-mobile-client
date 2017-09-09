@@ -38,21 +38,19 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\CityLocation.cs" />
-    <Compile Include="Core\Criteria.cs" />
+    <Compile Include="Models\Core\CityLocation.cs" />
+    <Compile Include="Models\Core\Criteria.cs" />
     <Compile Include="Core\Enums\PlaceType.cs" />
     <Compile Include="Core\GlobalSettings.cs" />
-    <Compile Include="Core\ILocalPlaceRepository.cs" />
-    <Compile Include="Core\IPlaceRepository.cs" />
-    <Compile Include="Core\IRestAdressRepository.cs" />
-    <Compile Include="Core\LightPlace.cs" />
-    <Compile Include="Core\LocalPlaceRepository.cs" />
-    <Compile Include="Core\Location.cs" />
-    <Compile Include="Core\Place.cs" />
-    <Compile Include="Core\PlaceRepository.cs" />
+    <Compile Include="Repositories\ILocalPlaceRepository.cs" />
+    <Compile Include="DataServices\IPlaceService.cs" />
+    <Compile Include="DataServices\IRestAdressRepository.cs" />
+    <Compile Include="Repositories\LocalPlaceRepository.cs" />
+    <Compile Include="Models\Core\Location.cs" />
+    <Compile Include="Models\Core\Place.cs" />
+    <Compile Include="DataServices\PlaceService.cs" />
     <Compile Include="Core\ReportManager.cs" />
-    <Compile Include="Core\RestAdressRepository.cs" />
-    <Compile Include="Core\Settings.cs" />
+    <Compile Include="DataServices\RestAdressRepository.cs" />
     <Compile Include="Core\Utils.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\PermissionHelper.cs" />
@@ -80,8 +78,8 @@
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\ViewModelLocator.cs" />
     <Compile Include="SQLite\ISQLite.cs" />
-    <Compile Include="SQLite\Models\SQLitePlace.cs" />
-    <Compile Include="SQLite\Models\SQLitePlaceLocal.cs" />
+    <Compile Include="Models\SQLite\SQLitePlace.cs" />
+    <Compile Include="Models\SQLite\SQLitePlaceLocal.cs" />
     <Compile Include="SQLite\SQLiteConfig.cs" />
     <Compile Include="ViewModels\AddingProcessViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />

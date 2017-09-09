@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SpotFinder.Models.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotFinder.Core
+namespace SpotFinder.Repositories
 {
     public interface ILocalPlaceRepository
     {

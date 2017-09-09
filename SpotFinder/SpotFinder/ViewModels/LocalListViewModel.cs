@@ -1,5 +1,7 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using SpotFinder.Core;
+using SpotFinder.Models.Core;
+using SpotFinder.Repositories;
 using SpotFinder.Views;
 using System;
 using System.Collections.ObjectModel;

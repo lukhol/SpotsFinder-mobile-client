@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SpotFinder.DataServices;
+using SpotFinder.Models.Core;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,9 +14,9 @@ namespace SpotFinder.Core
         public event Stop StopEvent;
         public event Start StartEvent;
 
-        private IPlaceRepository PlaceRepository;
+        private IPlaceService PlaceRepository;
 
-        public ReportManager(IPlaceRepository placeRepository)
+        public ReportManager(IPlaceService placeRepository)
         {
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in PlaceRepository");
         }

@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SpotFinder.Core.Enums;
-using SpotFinder.SQLite.Models;
+using SpotFinder.Models.Core;
+using SpotFinder.Models.SQLite;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinForms.SQLite.SQLite;
 
-namespace SpotFinder.Core
+namespace SpotFinder.Repositories
 {
     public class LocalPlaceRepository : ILocalPlaceRepository
     {

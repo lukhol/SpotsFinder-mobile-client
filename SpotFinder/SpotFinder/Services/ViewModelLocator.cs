@@ -1,5 +1,7 @@
 ﻿using Microsoft.Practices.Unity;
 using SpotFinder.Core;
+using SpotFinder.DataServices;
+using SpotFinder.Repositories;
 using SpotFinder.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -34,7 +36,7 @@ namespace SpotFinder.Services
             unityContainer.RegisterType<MapPageViewModel>(new ContainerControlledLifetimeManager());
             unityContainer.RegisterType<LocateOnMapViewModel>();
             //Services:
-            unityContainer.RegisterType<IPlaceRepository, PlaceRepository>();
+            unityContainer.RegisterType<IPlaceService, PlaceService>();
             unityContainer.RegisterType<ILocalPlaceRepository, LocalPlaceRepository>();
 
             //ReportManager

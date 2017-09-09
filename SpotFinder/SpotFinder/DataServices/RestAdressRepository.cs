@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 
-namespace SpotFinder.Core
+namespace SpotFinder.DataServices
 {
     public class RestAdressRepository : IRestAdressRepository
     {

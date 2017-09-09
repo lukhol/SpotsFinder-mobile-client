@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotFinder.Core
+namespace SpotFinder.Models.Core
 {
     public class Location
     {

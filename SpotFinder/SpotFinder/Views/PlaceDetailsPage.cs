@@ -1,5 +1,7 @@
 ﻿using SpotFinder.Core;
-using SpotFinder.SQLite.Models;
+using SpotFinder.DataServices;
+using SpotFinder.Models.Core;
+using SpotFinder.Repositories;
 using SpotFinder.ViewModels;
 using Xamarin.Forms;
 using XamarinForms.SQLite.SQLite;
@@ -10,7 +12,7 @@ namespace SpotFinder.Views
     {
         public PlaceDetailsPage(Place place, Command command = null, string message = null)
         {
-            var placeDetailsViewModel = new PlaceDetailsViewModel();
+            var placeDetailsViewModel = new PlaceDetailsViewModel(new PlaceService(), new LocalPlaceRepository());
 
             placeDetailsViewModel.InjectPage(this, "DetailsPage");
 
@@ -26,12 +28,6 @@ namespace SpotFinder.Views
             }
 
             BindingContext = placeDetailsViewModel;
-        }
-
-        protected override void OnAppearing()
-        {
-            //NavigationPage.SetHasNavigationBar(this, false);
-            base.OnAppearing();
         }
     }
 }

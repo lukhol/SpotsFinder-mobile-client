@@ -1,7 +1,7 @@
 ﻿using Plugin.Geolocator.Abstractions;
 using System.Threading.Tasks;
 
-namespace SpotFinder.Core
+namespace SpotFinder.DataServices
 {
     public interface IRestAdressRepository
     {

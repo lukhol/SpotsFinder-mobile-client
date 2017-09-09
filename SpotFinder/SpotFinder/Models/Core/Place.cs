@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using Xamarin.Forms;
 
-namespace SpotFinder.Core
+namespace SpotFinder.Models.Core
 {
     public class Place
     {

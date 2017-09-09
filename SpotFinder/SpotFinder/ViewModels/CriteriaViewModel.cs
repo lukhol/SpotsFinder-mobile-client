@@ -1,6 +1,8 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using SpotFinder.Core;
 using SpotFinder.Core.Enums;
+using SpotFinder.DataServices;
+using SpotFinder.Models.Core;
 using SpotFinder.Resx;
 using System.Collections.Generic;
 using Xamarin.Forms;
@@ -9,7 +11,7 @@ namespace SpotFinder.ViewModels
 {
     public class CriteriaViewModel : BaseViewModel
     {
-        private IPlaceRepository PlaceRepository { get; }
+        private IPlaceService PlaceRepository { get; }
 
         private Dictionary<string, Switch> booleanFieldsMap;
         private Dictionary<PlaceType, Switch> typeFieldsMap;
@@ -30,7 +32,7 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public CriteriaViewModel(IPlaceRepository placeRepository)
+        public CriteriaViewModel(IPlaceService placeRepository)
         {
             PlaceRepository = placeRepository;
 

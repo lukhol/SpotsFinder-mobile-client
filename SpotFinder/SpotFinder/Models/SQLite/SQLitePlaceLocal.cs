@@ -1,6 +1,6 @@
 ﻿using SQLite;
 
-namespace SpotFinder.SQLite.Models
+namespace SpotFinder.Models.SQLite
 {
     public class SQLitePlaceLocal
     {

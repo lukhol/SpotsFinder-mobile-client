@@ -1,15 +1,19 @@
 ﻿using SpotFinder.Core;
+using SpotFinder.DataServices;
+using SpotFinder.Models.Core;
+using SpotFinder.Repositories;
 using SpotFinder.Resx;
-using SpotFinder.SQLite.Models;
-using System.Linq;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using XamarinForms.SQLite.SQLite;
 
 namespace SpotFinder.ViewModels
 {
     public class PlaceDetailsViewModel : BaseViewModel
     {
+        private IPlaceService PlaceService;
+        private ILocalPlaceRepository LocalPlaceRepository;
+
         private ContentPage CurrentPage;
         private Place place;
         private StackLayout mapLayout;
@@ -19,6 +23,12 @@ namespace SpotFinder.ViewModels
 
         private Command buttonCommand;
         private string textOnButton;
+
+        public PlaceDetailsViewModel(IPlaceService placeService, ILocalPlaceRepository localPlaceRepository)
+        {
+            PlaceService = placeService ?? throw new ArgumentNullException("placeService is null in PlaceDetailsViewModel");
+            LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in PlaceDetailsViewModel");
+        }
 
         public async void Initialize(Place place, Command buttonCommand = null, string textOnButton = null)
         {
@@ -35,13 +45,11 @@ namespace SpotFinder.ViewModels
                 this.buttonCommand = buttonCommand;
 
                 int id = place.Id;
-                var localPlaceRepository = new LocalPlaceRepository();
-                var placeRepository = new PlaceRepository();
 
-                this.place = localPlaceRepository.GetPlaceOryginal(id);
+                this.place = LocalPlaceRepository.GetPlaceOryginal(id);
 
                 if (this.place == null)
-                    this.place = await placeRepository.GetPlaceById(id);
+                    this.place = await PlaceService.GetPlaceById(id);
 
                 scrollView.Content = CreateAllLayout();
                 mapLayout.IsVisible = true;
@@ -276,14 +284,14 @@ namespace SpotFinder.ViewModels
 
             var pageWidth = Application.Current.MainPage.Width;
 
-            var firstImage = true;
+            //var firstImage = true;
             foreach (var base64Image in place.PhotosBase64)
             {
-                if (firstImage)
-                {
-                    firstImage = false;
-                    continue;
-                }
+                //if (firstImage)
+                //{
+                //    firstImage = false;
+                //    continue;
+                //}
                 var image = new Image
                 {
                     Source = Utils.Base64ImageToImageSource(base64Image),

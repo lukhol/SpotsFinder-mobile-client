@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using SpotFinder.Models.Core;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SpotFinder.Core
+namespace SpotFinder.DataServices
 {
-    public interface IPlaceRepository
+    public interface IPlaceService
     {
         Task<List<Place>> GetAllPlaceAsync();
         Task<List<Place>> GetPlacesByCriteriaAsync(Criteria criteria);

@@ -6,12 +6,15 @@ using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using System.Linq;
 using System.Windows.Input;
+using SpotFinder.Models.Core;
+using SpotFinder.DataServices;
+using SpotFinder.Repositories;
 
 namespace SpotFinder.ViewModels
 {
     public class ListViewModel : BaseViewModel
     {
-        private IPlaceRepository PlaceRepository { get; }
+        private IPlaceService PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
 
         private ContentPage CurrentPage { get; set; }
@@ -32,7 +35,7 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public ListViewModel(IPlaceRepository placeRepository)
+        public ListViewModel(IPlaceService placeRepository)
         {
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in ListViewModel");
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpotFinder.Redux
 {
@@ -17,7 +13,6 @@ namespace SpotFinder.Redux
                 {
                     PageType = goNextAction.PageType,
                     ReportManager = state.ReportManager,
-                    Settings = state.Settings
                 };
             }
             return state;

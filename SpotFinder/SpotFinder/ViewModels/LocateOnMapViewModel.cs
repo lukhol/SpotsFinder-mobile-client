@@ -1,6 +1,8 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
 using SpotFinder.Core;
+using SpotFinder.DataServices;
+using SpotFinder.Repositories;
 using SpotFinder.Resx;
 using SpotFinder.Views.Root;
 using System;
@@ -16,13 +18,13 @@ namespace SpotFinder.ViewModels
     public class LocateOnMapViewModel : BaseViewModel
     {
         private ContentPage CurrentPage { get; set; }
-        private IPlaceRepository PlaceRepository { get; }
+        private IPlaceService PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
         private Map map;
         private StackLayout loadingStackLayout;
 
-        public LocateOnMapViewModel(IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
+        public LocateOnMapViewModel(IPlaceService placeRepository, ILocalPlaceRepository localPlaceRepository)
         {
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in LocateOnMapViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in LocateOnMapViewModel");

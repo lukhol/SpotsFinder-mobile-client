@@ -4,7 +4,9 @@ using Plugin.Media;
 using Plugin.Media.Abstractions;
 using SpotFinder.Core;
 using SpotFinder.Core.Enums;
+using SpotFinder.DataServices;
 using SpotFinder.OwnControls;
+using SpotFinder.Repositories;
 using SpotFinder.Resx;
 using SpotFinder.Views;
 using System;
@@ -16,7 +18,7 @@ namespace SpotFinder.ViewModels
 {
     public class AddingProcessViewModel : BaseViewModel
     {
-        private IPlaceRepository PlaceRepository { get; }
+        private IPlaceService PlaceRepository { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
         private ContentPage CurrentPage { get; set; }
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
@@ -50,7 +52,7 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public AddingProcessViewModel(IPlaceRepository placeRepository, ILocalPlaceRepository localPlaceRepository)
+        public AddingProcessViewModel(IPlaceService placeRepository, ILocalPlaceRepository localPlaceRepository)
         {          
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in AddingProcessViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in AddingProcessViewModel");
