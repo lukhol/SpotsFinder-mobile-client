@@ -230,12 +230,15 @@ namespace SpotFinder.ViewModels
 
             //Spot type added runtime
             //Id missing there
-
+            /*
             CurrentPage.Navigation.PushAsync(new PlaceDetailsPage(ReportManager.Place,
                 new Command(() =>
                 {
                     CurrentPage.Navigation.PushAsync(new LocateOnMapPage());
                 }), AppResources.NextCommandTitle));
+            */
+
+            CurrentPage.Navigation.PushAsync(new LocateOnMapPage());
         });
 
         private async Task<Tuple<Image, string>> GetPhotoAsync(GetPhotoType getPhotoType)

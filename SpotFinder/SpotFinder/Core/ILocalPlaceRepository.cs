@@ -11,5 +11,7 @@ namespace SpotFinder.Core
         Task<bool> InsertPlaceAsync(Place place);
         Place GetPlace(int id);
         Task<List<Place>> GetAllPlacesAsync();
+
+        Place GetPlaceOryginal(int id);
     }
 }

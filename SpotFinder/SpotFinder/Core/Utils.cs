@@ -221,5 +221,21 @@ namespace SpotFinder.Core
                 Stairs = placeWeb.Stairs
             };
         }
+
+        public static Place PlaceWebLightToPlace(PlaceWebLight placeWebLight)
+        {
+            var place = new Place();
+
+            place.Description = placeWebLight.Description;
+            place.Name = placeWebLight.Name;
+            place.Id = placeWebLight.Id;
+            place.Location.Latitude = placeWebLight.Location.Latitude;
+            place.Location.Longitude = placeWebLight.Location.Longitude;
+
+            place.PhotosBase64 = new List<string>();
+            place.PhotosBase64.Add(placeWebLight.MainPhoto);
+
+            return place;
+        }
     }
 }

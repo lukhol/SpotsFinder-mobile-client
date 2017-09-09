@@ -35,8 +35,8 @@ namespace SpotFinder.Core
                         var jArray = JArray.Parse(responseContent);
                         foreach (var item in jArray)
                         {
-                            var placeWeb = item.ToObject<PlaceWeb>();
-                            placeList.Add(Utils.PlaceWebToPlace(placeWeb));
+                            var placeWebLight = item.ToObject<PlaceWebLight>();
+                            placeList.Add(Utils.PlaceWebLightToPlace(placeWebLight));
                         }
                     }
                     else
@@ -109,8 +109,8 @@ namespace SpotFinder.Core
                         var jArray = JArray.Parse(stringResponse);
                         foreach(var item in jArray)
                         {
-                            var placeWeb = item.ToObject<PlaceWeb>();
-                            placeList.Add(Utils.PlaceWebToPlace(placeWeb));
+                            var placeWebLight = item.ToObject<PlaceWebLight>();
+                            placeList.Add(Utils.PlaceWebLightToPlace(placeWebLight));
                         }
                     }
                     else
@@ -126,6 +126,38 @@ namespace SpotFinder.Core
             }
 
             return placeList;
+        }
+
+        public async Task<Place> GetPlaceById(int id)
+        {
+            Place place;
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    httpClient.Timeout = TimeSpan.FromSeconds(30);
+                    var uri = new Uri(GlobalSettings.GetByIdUrl + id.ToString());
+                    var response = await httpClient.GetAsync(uri);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        var jObjectPlace = JObject.Parse(responseContent);
+                        place = Utils.PlaceWebToPlace(jObjectPlace.ToObject<PlaceWeb>());
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch
+            {
+                Debug.WriteLine("Error during geting all.");
+                return null;
+            }
+
+            return place;
         }
     }
 }

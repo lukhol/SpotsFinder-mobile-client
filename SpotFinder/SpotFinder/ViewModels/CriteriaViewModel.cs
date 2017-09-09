@@ -101,6 +101,7 @@ namespace SpotFinder.ViewModels
             criteria.Bank = booleanFieldsMap["Bank"].IsToggled;
             criteria.Bowl = booleanFieldsMap["Bowl"].IsToggled;
 
+            /*
             var repo = new RestAdressRepository();
             var position = await repo.GetPositionOfTheCity(CityEntry.Text, true);
 
@@ -112,20 +113,24 @@ namespace SpotFinder.ViewModels
 
             criteria.Location.Longitude = position.Longitude;
             criteria.Location.Latitude = position.Latitude;
+            */
+            if(CityEntry.Text != null)
+                criteria.Location.City = CityEntry.Text;
+
+            criteria.Distance = (int)Distance;
 
             foreach (var item in typeFieldsMap)
             {
                 if (item.Value.IsToggled)
-                    criteria.Types.Add(item.Key);
+                    criteria.Type.Add(item.Key);
             }
 
-            if(criteria.Types.Count == 0)
+            if(criteria.Type.Count == 0)
             {
                 await CurrentPage.DisplayAlert("Validation", "You have to choose at least one type of places", "Ok");
                 return;
             }
                 
-
             var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
             reportManager.Criteria = criteria;
 

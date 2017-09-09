@@ -10,12 +10,10 @@ namespace SpotFinder.Core
 {
     public static class GlobalSettings
     {
-        //public static string GetPlaceByCriteriaUrl = "http://demo5878347.mockable.io/spots/criteria";
-        //public static string PostSpotUrl = "http://demo5878347.mockable.io/post";
-
-        public static string PostSpotUrl = "http://8ef07ba5.ngrok.io/places";
-        public static string GetPlaceByCriteriaUrl = "http://8ef07ba5.ngrok.io/places/searches";
-        public static string GetAllUrl = "http://8ef07ba5.ngrok.io/places";
+        public static string PostSpotUrl = "http://5eb47248.ngrok.io/places";
+        public static string GetPlaceByCriteriaUrl = "http://5eb47248.ngrok.io/places/searches";
+        public static string GetAllUrl = "http://5eb47248.ngrok.io/places";
+        public static string GetByIdUrl = "http://5eb47248.ngrok.io/places/";
 
         public static JsonSerializer GetCamelCaseSerializer()
         {

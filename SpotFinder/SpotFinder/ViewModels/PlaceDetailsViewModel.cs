@@ -1,41 +1,96 @@
 ﻿using SpotFinder.Core;
 using SpotFinder.Resx;
+using SpotFinder.SQLite.Models;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
+using XamarinForms.SQLite.SQLite;
 
 namespace SpotFinder.ViewModels
 {
-    public class PlaceDetailsViewModel
+    public class PlaceDetailsViewModel : BaseViewModel
     {
         private ContentPage CurrentPage;
         private Place place;
         private StackLayout mapLayout;
+        private ScrollView scrollView;
 
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
         private Command buttonCommand;
         private string textOnButton;
 
-        public void Initialize(Place place, Command buttonCommand = null, string textOnButton = null)
+        public async void Initialize(Place place, Command buttonCommand = null, string textOnButton = null)
         {
-            this.place = place;
-
-            if(buttonCommand != null)
+            if (buttonCommand != null)
+            {
+                this.place = place;
+                scrollView.Content = CreateAllLayout();
+                mapLayout.IsVisible = true;
+                IsBussy = false;
+            }
+            else
             {
                 this.textOnButton = textOnButton;
                 this.buttonCommand = buttonCommand;
+
+                int id = place.Id;
+                var localPlaceRepository = new LocalPlaceRepository();
+                var placeRepository = new PlaceRepository();
+
+                this.place = localPlaceRepository.GetPlaceOryginal(id);
+
+                if (this.place == null)
+                    this.place = await placeRepository.GetPlaceById(id);
+
+                scrollView.Content = CreateAllLayout();
+                mapLayout.IsVisible = true;
+                IsBussy = false;
             }
+
         }
 
         public void InjectPage(ContentPage contentPage, string pageTitle)
         {
             CurrentPage = contentPage;
             CurrentPage.Title = pageTitle;
+            scrollView = new ScrollView();
+            scrollView.Content = CreateLoadingLayout();
+            IsBussy = true;
             CurrentPage.Content = new ScrollView
             {
-                Content = CreateAllLayout()
+                Content = scrollView
             };
-            mapLayout.IsVisible = true;
+        }
+
+        private StackLayout CreateLoadingLayout()
+        {
+            var loadingStackLayout = new StackLayout
+            {
+                Children =
+                {
+                    new Label
+                    {
+                        Text = "Downloading spot...",
+                        TextColor = mainAccentColor,
+                        VerticalOptions = LayoutOptions.EndAndExpand,
+                        HorizontalOptions = LayoutOptions.Center
+                    },
+                    new ActivityIndicator
+                    {
+                        IsVisible = true,
+                        IsRunning = true,
+                        VerticalOptions = LayoutOptions.StartAndExpand,
+                        HorizontalOptions = LayoutOptions.Center,
+                        Color = mainAccentColor
+                    }
+                },
+                IsVisible = false,
+                BackgroundColor = Color.FromRgba(12, 12, 12, 200)
+            };
+            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBussy");
+
+            return loadingStackLayout;
         }
 
         private StackLayout CreateAllLayout()
@@ -55,7 +110,8 @@ namespace SpotFinder.ViewModels
                         TextColor = mainAccentColor,
                         FontSize = 25,
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
-                        FontAttributes = FontAttributes.Bold
+                        FontAttributes = FontAttributes.Bold,
+                        Margin = new Thickness(12)
                     },
                     CreateTypeLayout(),
                     Utils.CreateGridSeparator(12),
@@ -220,8 +276,14 @@ namespace SpotFinder.ViewModels
 
             var pageWidth = Application.Current.MainPage.Width;
 
+            var firstImage = true;
             foreach (var base64Image in place.PhotosBase64)
             {
+                if (firstImage)
+                {
+                    firstImage = false;
+                    continue;
+                }
                 var image = new Image
                 {
                     Source = Utils.Base64ImageToImageSource(base64Image),

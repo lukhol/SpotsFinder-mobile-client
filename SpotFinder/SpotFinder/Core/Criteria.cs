@@ -1,12 +1,14 @@
-﻿using SpotFinder.Core.Enums;
+﻿using Newtonsoft.Json;
+using SpotFinder.Core.Enums;
 using System.Collections.Generic;
 
 namespace SpotFinder.Core
 {
     public class Criteria
     {
-        public List<PlaceType> Types { get; set; }
-        public Location Location { get; set; }
+        public List<PlaceType> Type { get; set; }
+        //public Location Location { get; set; }
+        public CityLocation Location { get; set; }
         public int Distance { get; set; }
         public bool Gap { get; set; }
         public bool Stairs { get; set; }
@@ -22,6 +24,7 @@ namespace SpotFinder.Core
         public bool Curb { get; set; }
         public bool Bank { get; set; }
         public bool Bowl { get; set; }
+        [JsonIgnore]
         public bool Hubba { get; set; }
 
         public Criteria()
@@ -40,8 +43,8 @@ namespace SpotFinder.Core
             Curb = false;
             Bank = false;
             Bowl = false;
-            Location = new Location();
-            Types = new List<PlaceType>();
+            Location = new CityLocation();
+            Type = new List<PlaceType>();
             Distance = 15;
         }
     }

@@ -38,12 +38,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\CityLocation.cs" />
     <Compile Include="Core\Criteria.cs" />
     <Compile Include="Core\Enums\PlaceType.cs" />
     <Compile Include="Core\GlobalSettings.cs" />
     <Compile Include="Core\ILocalPlaceRepository.cs" />
     <Compile Include="Core\IPlaceRepository.cs" />
     <Compile Include="Core\IRestAdressRepository.cs" />
+    <Compile Include="Core\LightPlace.cs" />
     <Compile Include="Core\LocalPlaceRepository.cs" />
     <Compile Include="Core\Location.cs" />
     <Compile Include="Core\Place.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Helpers\PermissionHelper.cs" />
     <Compile Include="Models\WebModels\ImageWeb.cs" />
     <Compile Include="Models\WebModels\PlaceWeb.cs" />
+    <Compile Include="Models\WebModels\PlaceWebLight.cs" />
     <Compile Include="OwnControls\MyImage.cs" />
     <Compile Include="Redux\Action.cs" />
     <Compile Include="Redux\GoNextAction.cs" />

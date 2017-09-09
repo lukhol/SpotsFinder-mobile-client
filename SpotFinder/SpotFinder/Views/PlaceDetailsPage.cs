@@ -1,6 +1,8 @@
 ﻿using SpotFinder.Core;
+using SpotFinder.SQLite.Models;
 using SpotFinder.ViewModels;
 using Xamarin.Forms;
+using XamarinForms.SQLite.SQLite;
 
 namespace SpotFinder.Views
 {
@@ -9,7 +11,9 @@ namespace SpotFinder.Views
         public PlaceDetailsPage(Place place, Command command = null, string message = null)
         {
             var placeDetailsViewModel = new PlaceDetailsViewModel();
-            
+
+            placeDetailsViewModel.InjectPage(this, "DetailsPage");
+
             if (command != null)
             {
                 NavigationPage.SetHasNavigationBar(this, false);
@@ -21,7 +25,6 @@ namespace SpotFinder.Views
                 placeDetailsViewModel.Initialize(place);
             }
 
-            placeDetailsViewModel.InjectPage(this, "DetailsPage");
             BindingContext = placeDetailsViewModel;
         }
 
