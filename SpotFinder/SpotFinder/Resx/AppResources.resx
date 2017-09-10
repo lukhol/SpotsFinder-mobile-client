@@ -185,4 +185,10 @@
   <data name="UseMapLabel" xml:space="preserve">
     <value>Use map for better locate:</value>
   </data>
+  <data name="DescriptionLabel" xml:space="preserve">
+    <value>Description:</value>
+  </data>
+  <data name="PlaceDetailsTitle" xml:space="preserve">
+    <value>Details</value>
+  </data>
 </root>

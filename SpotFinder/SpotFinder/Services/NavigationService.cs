@@ -31,7 +31,7 @@ namespace SpotFinder.Services
         
         public Task InitializeAsync()
         {
-            return NavigateToAsync<RootMasterDetailViewModel>();
+            return NavigateToAsync<MenuMasterDetailPageViewModel>();
         }
 
         public Task NavigateToAsync<TViewModel>() where TViewModel : BaseViewModel

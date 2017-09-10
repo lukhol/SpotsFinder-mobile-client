@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpotFinder.Views.Xaml.PlaceDetailsPage"
+             xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             Title="{translate:Translate PlaceDetailsTitle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="NormalTextLabel"
+                   TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource MainAccentColor}"/>
+                <Setter Property="Margin" Value="15, 0, 12, 0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <!-- Title: -->
+                <Label Text="{Binding Name}"
+                       Style="{StaticResource TitleLabel}"/>
+        
+                <!-- Description: -->
+                <Label Text="{translate:Translate DescriptionLabel}"
+                       Style="{StaticResource SubtitleLabel}"/>
+                <Label Text="{Binding Description}"
+                       Style="{StaticResource NormalTextLabel}"/>
+                <Grid Style="{StaticResource GridSeparator}"/>
+
+                <!-- Obstacles: -->
+                <Label Text="{translate:Translate ObstaclesLabel}"
+                       Style="{StaticResource SubtitleLabel}"/>
+                <ListView HasUnevenRows="True"
+                          BackgroundColor="Transparent"
+                          SeparatorVisibility="None"
+                          Margin="15, 0, 15, 0"
+                          VerticalOptions="Start"
+                          HeightRequest="{Binding ObstacleListHeight}"
+                          ItemsSource="{Binding ObstacleList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding .}"
+                                   TextColor="{StaticResource MainAccentColor}"
+                                   Margin="0"/>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Grid Style="{StaticResource GridSeparator}"/>
+ 
+                <!-- Images: -->
+                <ListView HasUnevenRows="True"
+                          BackgroundColor="Transparent"
+                          SeparatorVisibility="None"
+                          Margin="15, 0, 15, 0"
+                          VerticalOptions="Fill"
+                          ItemsSource="{Binding ImageList}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Image Source="{Binding .}"
+                                       Aspect="AspectFill"
+                                       Margin="5"
+                                       HorizontalOptions="FillAndExpand"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Grid Style="{StaticResource GridSeparator}"/>
+                
+                <!-- Map: -->
+                <StackLayout HeightRequest="400"
+                             Margin="12">
+                    <maps:Map x:Name="MyMap"
+                         WidthRequest="960"
+                         HeightRequest="100"
+                         VerticalOptions="FillAndExpand"/>
+                </StackLayout>
+                <Grid Style="{StaticResource GridSeparator}"/>
+                
+                <!-- Button -->
+                <Button Style="{StaticResource GlobalButtonStyle}"
+                        Text="{translate:Translate GoBackCommandTitle}"
+                        Command="{Binding GoBackCommand}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

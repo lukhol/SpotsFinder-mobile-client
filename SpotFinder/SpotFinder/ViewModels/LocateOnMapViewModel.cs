@@ -79,12 +79,18 @@ namespace SpotFinder.ViewModels
 
             if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
                 await CurrentPage.Navigation.PopToRootAsync();
+            
             else
             {
                 //On phone (windows) Navigation.PopToRootAsync() does not work!
                 var stackCount = CurrentPage.Navigation.NavigationStack.Count;
-                for (int i = 0; i < stackCount; i++)
+                for (int i = 0; i < stackCount - 1; i++)
+                {
+                    if (CurrentPage.Navigation.NavigationStack.Count == 0)
+                        break;
+
                     await CurrentPage.Navigation.PopAsync();
+                }
             }
         }
 
@@ -132,18 +138,29 @@ namespace SpotFinder.ViewModels
                 Margin = new Thickness(5)
             };
 
+            Position position;
+
+            if (Device.RuntimePlatform == Device.Windows)
+                position = new Position(51, 19);
+            else
+                position = new Position(reportManager.Place.Location.Latitude, reportManager.Place.Location.Longitude);
+
             map = new Map(
             MapSpan.FromCenterAndRadius(
-                    new Position(reportManager.Place.Location.Latitude, reportManager.Place.Location.Longitude), Distance.FromMiles(0.05)))
+                    position, Distance.FromMiles(0.05)))
             {
                 IsShowingUser = true,
-                MapType = MapType.Satellite,
                 HeightRequest = 2048,
                 WidthRequest = 960,
                 VerticalOptions = LayoutOptions.CenterAndExpand,
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 Margin = new Thickness(6, 0, 6, 0)
             };
+
+            if(Device.RuntimePlatform == Device.Android || Device.RuntimePlatform == Device.iOS)
+            {
+                map.MapType = MapType.Satellite;
+            }
 
             var aim = new BoxView
             {

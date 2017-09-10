@@ -161,6 +161,15 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description:.
+        /// </summary>
+        internal static string DescriptionLabel {
+            get {
+                return ResourceManager.GetString("DescriptionLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         internal static string DescriptionPlaceholder {
@@ -220,6 +229,15 @@ namespace SpotFinder.Resx {
         internal static string ObstaclesLabel {
             get {
                 return ResourceManager.GetString("ObstaclesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        internal static string PlaceDetailsTitle {
+            get {
+                return ResourceManager.GetString("PlaceDetailsTitle", resourceCulture);
             }
         }
         

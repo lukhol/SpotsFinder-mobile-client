@@ -1,6 +1,4 @@
 ﻿using SpotFinder.Helpers;
-using SpotFinder.Redux;
-using SpotFinder.Services;
 using SpotFinder.SQLite;
 using SpotFinder.Views.Root;
 using Xamarin.Forms;
@@ -13,12 +11,7 @@ namespace SpotFinder
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new RootMasterDetailPage())
-            {
-                BarBackgroundColor = Color.Green,
-                BarTextColor = Color.White,
-                BackgroundColor = Color.FromRgb(0, 0, 0)
-            };
+            MainPage = new CustomNavigationPage(new RootMasterDetailPageTwo());
 
             PermissionHelper.CheckAllPermissionAsync();
             SQLiteConfig.Start();

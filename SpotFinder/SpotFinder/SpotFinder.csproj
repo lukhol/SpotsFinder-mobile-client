@@ -74,6 +74,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resx\TranslateExtension.cs" />
     <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\ViewModelLocator.cs" />
@@ -91,8 +92,8 @@
     <Compile Include="ViewModels\MapPageViewModel.cs" />
     <Compile Include="ViewModels\PlaceDetailsViewModel.cs" />
     <Compile Include="ViewModels\Root\MenuMasterDetailPageViewModel.cs" />
-    <Compile Include="ViewModels\Root\RootMasterDetailViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Xaml\PlaceDetailsViewModel.cs" />
     <Compile Include="Views\AddingProcessPage.cs" />
     <Compile Include="Views\CriteriaPage.cs" />
     <Compile Include="Views\InfoPage.cs" />
@@ -104,10 +105,25 @@
     <Compile Include="Views\LocateOnMapPage.cs" />
     <Compile Include="Views\MapPage.cs" />
     <Compile Include="Views\PlaceDetailsPage.cs" />
+    <Compile Include="Views\Xaml\CustomNavigationPage.xaml.cs">
+      <DependentUpon>CustomNavigationPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Root\MasterPageItem.cs" />
     <Compile Include="Views\Root\MenuMasterDetailPage.cs" />
+    <Compile Include="Views\Root\Xaml\MenuMasterDetailPageTwo.xaml.cs">
+      <DependentUpon>MenuMasterDetailPageTwo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Root\RootMasterDetailPage.cs" />
+    <Compile Include="Views\Root\Xaml\RootMasterDetailPageTwo.xaml.cs">
+      <DependentUpon>RootMasterDetailPageTwo.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsPage.cs" />
+    <Compile Include="Views\Xaml\InfoPage.xaml.cs">
+      <DependentUpon>InfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Xaml\PlaceDetailsPage.xaml.cs">
+      <DependentUpon>PlaceDetailsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -202,7 +218,36 @@
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Root\Xaml\MenuMasterDetailPageTwo.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Root\Xaml\RootMasterDetailPageTwo.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Xaml\CustomNavigationPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Xaml\InfoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Xaml\PlaceDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

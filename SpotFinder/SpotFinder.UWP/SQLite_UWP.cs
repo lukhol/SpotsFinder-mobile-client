@@ -2,8 +2,9 @@
 using Windows.Storage;
 using SQLite;
 using Xamarin.Forms;
-using XamarinForms.SQLite.SQLite;
+using XamarinForms.SQLite;
 using XamarinForms.SQLite.UWP;
+using XamarinForms.SQLite.SQLite;
 
 [assembly: Dependency(typeof(SQLite_Uwp))]
 

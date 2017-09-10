@@ -185,4 +185,10 @@
   <data name="UseMapLabel" xml:space="preserve">
     <value>Użyj mapy w celu lepszego lokalizownia:</value>
   </data>
+  <data name="DescriptionLabel" xml:space="preserve">
+    <value>Opis</value>
+  </data>
+  <data name="PlaceDetailsTitle" xml:space="preserve">
+    <value>Szczegóły</value>
+  </data>
 </root>
