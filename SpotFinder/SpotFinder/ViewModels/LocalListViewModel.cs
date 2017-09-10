@@ -49,7 +49,7 @@ namespace SpotFinder.ViewModels
             var listOfLocalPlaces = await LocalPlaceRepository.GetAllPlacesAsync();
             if (listOfLocalPlaces == null || listOfLocalPlaces.Count == 0)
             {
-                IsBussy = false;
+                IsBusy = false;
                 return;
             }
 
@@ -66,7 +66,7 @@ namespace SpotFinder.ViewModels
                 }
             });
 
-            IsBussy = false;
+            IsBusy = false;
         }
 
         public ICommand RefreshCommand => new Command(() =>
@@ -99,7 +99,7 @@ namespace SpotFinder.ViewModels
                 IsVisible = false,
                 BackgroundColor = Color.FromRgba(12, 12, 12, 200)
             };
-            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBussy");
+            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBusy");
 
             listView = new ListView
             {
@@ -156,7 +156,7 @@ namespace SpotFinder.ViewModels
                 IsPullToRefreshEnabled = true,
                 RefreshCommand = RefreshCommand
             };
-            listView.SetBinding(ListView.IsRefreshingProperty, "IsBussy");
+            listView.SetBinding(ListView.IsRefreshingProperty, "IsBusy");
 
             listView.ItemSelected += (s, e) =>
             {

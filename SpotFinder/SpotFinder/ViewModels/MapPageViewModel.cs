@@ -55,7 +55,7 @@ namespace SpotFinder.ViewModels
 
         public void StartLoading()
         {
-            IsBussy = true;
+            IsBusy = true;
         }
 
         public void StopLoading()
@@ -63,12 +63,12 @@ namespace SpotFinder.ViewModels
             var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
             allPlaces = reportManager.DownloadedPlaces;
             Device.BeginInvokeOnMainThread(() => { UpdateMapPins(); });
-            IsBussy = false;
+            IsBusy = false;
         }
 
         public void GetSpotsTest()
         {
-            IsBussy = true;
+            IsBusy = true;
         }
 
         public void UpdateMapPins()
@@ -131,7 +131,7 @@ namespace SpotFinder.ViewModels
                 IsVisible = false,
                 BackgroundColor = Color.FromRgba(12, 12, 12, 200)
             };
-            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBussy");
+            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBusy");
 
             return Utils.CreateItemOnItemLayout(map, loadingStackLayout);
         }

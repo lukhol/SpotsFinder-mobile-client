@@ -18,7 +18,7 @@ namespace SpotFinder.Views
         protected override bool OnBackButtonPressed()
         {
             var locateViewModel = (LocateOnMapViewModel)BindingContext;
-            return locateViewModel.IsBussy;
+            return locateViewModel.IsBusy;
         }
     }
 }

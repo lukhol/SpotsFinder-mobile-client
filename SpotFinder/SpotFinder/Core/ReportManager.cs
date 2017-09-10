@@ -11,6 +11,8 @@ namespace SpotFinder.Core
         public delegate void Start();
         public delegate void Stop();
 
+        public event Start DownloadFinished;
+
         public event Stop StopEvent;
         public event Start StartEvent;
 
@@ -30,6 +32,8 @@ namespace SpotFinder.Core
             get => place;
             set { place = value; }
         }
+
+        public Place CurrentPlaceToShow { get; set; }
 
         public Criteria Criteria
         {
@@ -53,6 +57,18 @@ namespace SpotFinder.Core
         public void CreateNewReport()
         {
             place = new Place();
+        }
+
+        public void RequestDownloadPlace(int id)
+        {
+            Task.Run(async () =>
+            {
+                CurrentPlaceToShow = await PlaceRepository.GetPlaceById(id);
+            })
+            .ContinueWith((task) =>
+            {
+                DownloadFinished?.Invoke();
+            });
         }
     }
 }

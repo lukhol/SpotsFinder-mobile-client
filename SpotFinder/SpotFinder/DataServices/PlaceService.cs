@@ -71,7 +71,7 @@ namespace SpotFinder.DataServices
 
                 using (var httpClient = new HttpClient())
                 {
-                    httpClient.Timeout = TimeSpan.FromSeconds(30);
+                    httpClient.Timeout = TimeSpan.FromSeconds(90);
                     var uri = new Uri(GlobalSettings.PostSpotUrl);
                     var response = await httpClient.PostAsync(uri, content);
 

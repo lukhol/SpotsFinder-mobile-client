@@ -1,4 +1,5 @@
-﻿using SpotFinder.Core;
+﻿using Microsoft.Practices.ServiceLocation;
+using SpotFinder.Core;
 using SpotFinder.Models.Core;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,36 @@ namespace SpotFinder.ViewModels.Xaml
     public class PlaceDetailsViewModel : BaseViewModel
     {
         private Place place;
+        private ReportManager ReportManager;
+
+        public Place Place
+        {
+            get => place;
+            set
+            {
+                place = value;
+                OnPropertyChanged("Name");
+                OnPropertyChanged("Description");
+                OnPropertyChanged("ObstacleList");
+                OnPropertyChanged("ObstacleListHeight");
+                //OnPropertyChanged("ImageList");
+                //OnPropertyChanged("ImageListHeight");
+                IsBusy = false;
+            }
+        }
 
         public PlaceDetailsViewModel(Place place)
         {
             this.place = place;
+            if (place == null)
+                IsBusy = true;
+        }
+
+        public PlaceDetailsViewModel()
+        {
+            IsBusy = true;
+            ReportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+            ReportManager.DownloadFinished += Update;
         }
 
         public string Name
@@ -26,7 +53,7 @@ namespace SpotFinder.ViewModels.Xaml
                 if (place != null)
                     return place.Name;
                 else
-                    return "Place == null.";
+                    return "Place = null.";
             }
         }
 
@@ -37,7 +64,7 @@ namespace SpotFinder.ViewModels.Xaml
                 if (place != null)
                     return place.Description;
                 else
-                    return "Place == null.";
+                    return "Place = null.";
             }
         }
 
@@ -53,11 +80,12 @@ namespace SpotFinder.ViewModels.Xaml
         {
             get => PrepareObstacleList().Count * 20;
         }
-
+        /*
         public List<ImageSource> ImageList
         {
             get => PrepareImageList();
         }
+        */
 
         public ICommand GoBackCommand => new Command(() =>
         {
@@ -67,6 +95,12 @@ namespace SpotFinder.ViewModels.Xaml
         private List<string> PrepareObstacleList()
         {
             var list = new List<string>();
+
+            if (place == null)
+            {
+                list.Add("Place is null. Pleace report this bug.");
+                return list;
+            }
 
             if (place.Stairs == true)
                 list.Add("-Stairs");
@@ -112,16 +146,25 @@ namespace SpotFinder.ViewModels.Xaml
 
             return list;
         }
-
+        /*
         private List<ImageSource> PrepareImageList()
         {
             var list = new List<ImageSource>();
+
+            if (place == null)
+                return list;
+
             foreach(var item in place.PhotosBase64)
             {
                 list.Add(Utils.Base64ImageToImageSource(item));
             }
-
+            
             return list;
+        }
+        */
+        public void Update()
+        {
+            Place = ReportManager.CurrentPlaceToShow;
         }
     }
 }

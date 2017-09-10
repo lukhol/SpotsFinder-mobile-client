@@ -16,13 +16,23 @@ namespace SpotFinder.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool isBussy;
-        public bool IsBussy
+        private bool isBusy;
+        public bool IsBusy
         {
-            get => isBussy;
+            get => isBusy;
             set
             {
-                isBussy = value;
+                isBusy = value;
+                IsMainContentVisible = !value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsMainContentVisible
+        {
+            get => !IsBusy;
+            set
+            {
                 OnPropertyChanged();
             }
         }

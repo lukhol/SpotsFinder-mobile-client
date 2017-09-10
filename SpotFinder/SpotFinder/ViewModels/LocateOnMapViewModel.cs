@@ -29,7 +29,7 @@ namespace SpotFinder.ViewModels
             PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in LocateOnMapViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in LocateOnMapViewModel");
 
-            IsBussy = false;
+            IsBusy = false;
         }
 
         public void InjectPage(ContentPage page)
@@ -53,7 +53,7 @@ namespace SpotFinder.ViewModels
             reportManager.Place.Location.Latitude = centerPosition.Latitude;
             reportManager.Place.Location.Longitude = centerPosition.Longitude;
 
-            IsBussy = true;
+            IsBusy = true;
 
             int result = await PlaceRepository.SendAsync(reportManager.Place);
 
@@ -63,7 +63,7 @@ namespace SpotFinder.ViewModels
 
                 if(alertResult == true)
                 {
-                    IsBussy = false;
+                    IsBusy = false;
                     return;
                 }
                 else
@@ -75,7 +75,7 @@ namespace SpotFinder.ViewModels
 
             var aaa = await LocalPlaceRepository.GetAllPlacesAsync();
 
-            IsBussy = false;
+            IsBusy = false;
 
             if (Device.RuntimePlatform == Device.iOS || Device.RuntimePlatform == Device.Android)
                 await CurrentPage.Navigation.PopToRootAsync();
@@ -123,7 +123,7 @@ namespace SpotFinder.ViewModels
                 IsVisible = false,
                 BackgroundColor = Color.FromRgba(12, 12, 12, 200)
             };
-            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBussy");
+            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBusy");
 
             var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
 

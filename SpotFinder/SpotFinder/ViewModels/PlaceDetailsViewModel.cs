@@ -37,7 +37,7 @@ namespace SpotFinder.ViewModels
                 this.place = place;
                 scrollView.Content = CreateAllLayout();
                 mapLayout.IsVisible = true;
-                IsBussy = false;
+                IsBusy = false;
             }
             else
             {
@@ -53,7 +53,7 @@ namespace SpotFinder.ViewModels
 
                 scrollView.Content = CreateAllLayout();
                 mapLayout.IsVisible = true;
-                IsBussy = false;
+                IsBusy = false;
             }
 
         }
@@ -64,7 +64,7 @@ namespace SpotFinder.ViewModels
             CurrentPage.Title = pageTitle;
             scrollView = new ScrollView();
             scrollView.Content = CreateLoadingLayout();
-            IsBussy = true;
+            IsBusy = true;
             CurrentPage.Content = new ScrollView
             {
                 Content = scrollView
@@ -96,7 +96,7 @@ namespace SpotFinder.ViewModels
                 IsVisible = false,
                 BackgroundColor = Color.FromRgba(12, 12, 12, 200)
             };
-            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBussy");
+            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBusy");
 
             return loadingStackLayout;
         }

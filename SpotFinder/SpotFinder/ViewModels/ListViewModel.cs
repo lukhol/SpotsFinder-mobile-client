@@ -53,7 +53,7 @@ namespace SpotFinder.ViewModels
 
         public void StartLoading()
         {
-            IsBussy = true;
+            IsBusy = true;
         }
 
         public void StopLoading()
@@ -61,7 +61,7 @@ namespace SpotFinder.ViewModels
             var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
             if(reportManager.DownloadedPlaces == null)
             {
-                IsBussy = false;
+                IsBusy = false;
                 return;
             }
             var placeList = reportManager.DownloadedPlaces;
@@ -78,7 +78,7 @@ namespace SpotFinder.ViewModels
                 }
             });
             
-            IsBussy = false;
+            IsBusy = false;
         }
 
         public ICommand RefreshCommand => new Command(() => 
@@ -111,7 +111,7 @@ namespace SpotFinder.ViewModels
                 IsVisible = false,
                 BackgroundColor = Color.FromRgba(12, 12, 12, 200)
             };
-            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBussy");
+            loadingStackLayout.SetBinding(StackLayout.IsVisibleProperty, "IsBusy");
 
             listView = new ListView
             {
@@ -168,7 +168,7 @@ namespace SpotFinder.ViewModels
                 IsPullToRefreshEnabled = true,
                 RefreshCommand = RefreshCommand
             };
-            listView.SetBinding(ListView.IsRefreshingProperty, "IsBussy");
+            listView.SetBinding(ListView.IsRefreshingProperty, "IsBusy");
             
             listView.ItemSelected += (s, e) =>
             {
