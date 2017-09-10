@@ -42,6 +42,7 @@ namespace SpotFinder.ViewModels
         {
             CurrentPage = contentPage;
             CurrentPage.Content = CreateMainLayout();
+            StopLoading();
         }
 
         public async void StopLoading()
@@ -164,7 +165,7 @@ namespace SpotFinder.ViewModels
                 if (place != null)
                 {
                     listView.SelectedItem = null;
-                    CurrentPage.Navigation.PushAsync(new PlaceDetailsPage(place));
+                    CurrentPage.Navigation.PushAsync(new Views.Xaml.PlaceDetailsPage(place));
                 }
             };
 

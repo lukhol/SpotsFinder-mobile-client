@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotFinder.Redux
+namespace SpotFinder.Redux.OwnImplementation
 {
-    public class Action : IAction
+    public interface IAction
     {
     }
 }

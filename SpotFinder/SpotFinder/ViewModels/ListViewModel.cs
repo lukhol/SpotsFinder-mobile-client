@@ -94,7 +94,7 @@ namespace SpotFinder.ViewModels
                 {
                     new Label
                     {
-                        Text = "Refreshing spots on map...",
+                        Text = "Refreshing spots on list...",
                         TextColor = mainAccentColor,
                         VerticalOptions = LayoutOptions.EndAndExpand,
                         HorizontalOptions = LayoutOptions.Center

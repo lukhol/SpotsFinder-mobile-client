@@ -12,7 +12,7 @@ namespace SpotFinder.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        protected readonly INavigationService NavigationService;
+        protected readonly NavigationService NavigationService;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

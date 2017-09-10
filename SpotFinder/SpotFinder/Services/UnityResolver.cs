@@ -11,36 +11,30 @@ using System.Threading.Tasks;
 
 namespace SpotFinder.Services
 {
-    public class ViewModelLocator
+    public class UnityResolver
     {
         private readonly IUnityContainer unityContainer;
-        /*
-        private static readonly ViewModelLocator instance = new ViewModelLocator();
+
+        private static readonly UnityResolver instance = new UnityResolver();
         
-        public static ViewModelLocator Instance
+        public static UnityResolver Instance
         {
             get => instance;
         }
-            */
-        protected ViewModelLocator()
+        protected UnityResolver()
         {
             unityContainer = new UnityContainer();
 
             //NavigationService
-            unityContainer.RegisterType<INavigationService, NavigationService>(new ContainerControlledLifetimeManager());
+            unityContainer.RegisterType<NavigationService>(new ContainerControlledLifetimeManager());
 
             //ViewModels:
-            unityContainer.RegisterType<CriteriaViewModel>();
-            unityContainer.RegisterType<AddingProcessViewModel>();
-            unityContainer.RegisterType<ListViewModel>(new ContainerControlledLifetimeManager());
-            unityContainer.RegisterType<MapPageViewModel>(new ContainerControlledLifetimeManager());
-            unityContainer.RegisterType<LocateOnMapViewModel>();
+            unityContainer.RegisterType<ViewModels.Xaml.PlaceDetailsViewModel>();
+            unityContainer.RegisterType<ViewModels.Root.MenuMasterDetailPageViewModel>();
+
             //Services:
             unityContainer.RegisterType<IPlaceService, PlaceService>();
             unityContainer.RegisterType<ILocalPlaceRepository, LocalPlaceRepository>();
-
-            //ReportManager
-            unityContainer.RegisterType<ReportManager>(new ContainerControlledLifetimeManager());
         }
 
         public T Resolve<T>()

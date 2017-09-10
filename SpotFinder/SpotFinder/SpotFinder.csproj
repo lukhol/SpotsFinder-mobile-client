@@ -42,6 +42,9 @@
     <Compile Include="Models\Core\Criteria.cs" />
     <Compile Include="Core\Enums\PlaceType.cs" />
     <Compile Include="Core\GlobalSettings.cs" />
+    <Compile Include="Redux\Actions.cs" />
+    <Compile Include="Redux\ApplicationReducer.cs" />
+    <Compile Include="Redux\ApplicationState.cs" />
     <Compile Include="Repositories\ILocalPlaceRepository.cs" />
     <Compile Include="DataServices\IPlaceService.cs" />
     <Compile Include="DataServices\IRestAdressRepository.cs" />
@@ -58,12 +61,12 @@
     <Compile Include="Models\WebModels\PlaceWeb.cs" />
     <Compile Include="Models\WebModels\PlaceWebLight.cs" />
     <Compile Include="OwnControls\MyImage.cs" />
-    <Compile Include="Redux\Action.cs" />
-    <Compile Include="Redux\GoNextAction.cs" />
-    <Compile Include="Redux\IAction.cs" />
-    <Compile Include="Redux\Reducer.cs" />
-    <Compile Include="Redux\State.cs" />
-    <Compile Include="Redux\Store.cs" />
+    <Compile Include="Redux\OwnImplementation\Action.cs" />
+    <Compile Include="Redux\OwnImplementation\GoNextAction.cs" />
+    <Compile Include="Redux\OwnImplementation\IAction.cs" />
+    <Compile Include="Redux\OwnImplementation\Reducer.cs" />
+    <Compile Include="Redux\OwnImplementation\State.cs" />
+    <Compile Include="Redux\OwnImplementation\Store.cs" />
     <Compile Include="Resx\AppResources.pl.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -75,9 +78,8 @@
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resx\TranslateExtension.cs" />
-    <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\NavigationService.cs" />
-    <Compile Include="Services\ViewModelLocator.cs" />
+    <Compile Include="Services\UnityResolver.cs" />
     <Compile Include="SQLite\ISQLite.cs" />
     <Compile Include="Models\SQLite\SQLitePlace.cs" />
     <Compile Include="Models\SQLite\SQLitePlaceLocal.cs" />
@@ -177,6 +179,9 @@
     <Reference Include="Plugin.Permissions.Abstractions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Plugin.Permissions.2.0.1\lib\netstandard1.0\Plugin.Permissions.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Redux, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Redux.NET.2.0.0\lib\netstandard1.1\Redux.dll</HintPath>
+    </Reference>
     <Reference Include="SkiaSharp, Version=1.56.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SkiaSharp.1.56.1\lib\portable-net45+win8+wpa81+wp8\SkiaSharp.dll</HintPath>
     </Reference>
@@ -188,6 +193,18 @@
     </Reference>
     <Reference Include="System.Net.Http">
       <HintPath>..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v1.0\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Core.3.1.1\lib\netstandard1.0\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Interfaces.3.1.1\lib\netstandard1.0\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.Linq.3.1.1\lib\netstandard1.0\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=3.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Reactive.PlatformServices.3.1.1\lib\netstandard1.0\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.4.247\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>

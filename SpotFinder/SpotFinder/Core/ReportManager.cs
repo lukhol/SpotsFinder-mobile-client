@@ -8,13 +8,10 @@ namespace SpotFinder.Core
 {
     public class ReportManager
     {
-        public delegate void Start();
-        public delegate void Stop();
+        public event Action DownloadFinished;
 
-        public event Start DownloadFinished;
-
-        public event Stop StopEvent;
-        public event Start StartEvent;
+        public event Action StopEvent;
+        public event Action StartEvent;
 
         private IPlaceService PlaceRepository;
 
@@ -27,13 +24,13 @@ namespace SpotFinder.Core
         private Criteria criteria;
         public List<Place> DownloadedPlaces { get; set; }
 
-        public Place Place
+        public Place AddingPlace
         {
             get => place;
             set { place = value; }
         }
 
-        public Place CurrentPlaceToShow { get; set; }
+        public Place ShowingPlace { get; set; }
 
         public Criteria Criteria
         {
@@ -63,7 +60,7 @@ namespace SpotFinder.Core
         {
             Task.Run(async () =>
             {
-                CurrentPlaceToShow = await PlaceRepository.GetPlaceById(id);
+                ShowingPlace = await PlaceRepository.GetPlaceById(id);
             })
             .ContinueWith((task) =>
             {

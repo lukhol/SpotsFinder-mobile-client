@@ -128,7 +128,7 @@ namespace SpotFinder.ViewModels
         {
             var mainLayout = (StackLayout)scrollView.Content;
 
-            if(ReportManager.Place.PhotosAsImage.Count < 5)
+            if(ReportManager.AddingPlace.PhotosAsImage.Count < 5)
             {
                 var pickTypeResult = await CurrentPage.DisplayAlert("Where?", "Chose from where you want pick photo:", "Camera", "Gallery");
                 Tuple<Image, string> imageTuple = null;
@@ -156,12 +156,12 @@ namespace SpotFinder.ViewModels
                             if (result)
                             {
                                 img.RemoveFromParent();
-                                ReportManager.Place.PhotosAsImage.Remove(img);
+                                ReportManager.AddingPlace.PhotosAsImage.Remove(img);
 
-                                if (ReportManager.Place.PhotosAsImage.Count == 0)
+                                if (ReportManager.AddingPlace.PhotosAsImage.Count == 0)
                                     ReportButton.IsVisible = false;
 
-                                if (ReportManager.Place.PhotosAsImage.Count == 4)
+                                if (ReportManager.AddingPlace.PhotosAsImage.Count == 4)
                                     AddPhotoButton.IsVisible = true;
                             }
                         });
@@ -169,14 +169,14 @@ namespace SpotFinder.ViewModels
                     image.GestureRecognizers.Add(tapGestureRecognizer);
 
                     photoStackLayout.Children.Add(image);
-                    ReportManager.Place.PhotosAsImage.Add(image);
+                    ReportManager.AddingPlace.PhotosAsImage.Add(image);
                 }
 
-                if(ReportManager.Place.PhotosAsImage.Count == 5)
+                if(ReportManager.AddingPlace.PhotosAsImage.Count == 5)
                     AddPhotoButton.IsVisible = false;
             }
 
-            if (ReportManager.Place.PhotosAsImage.Count >= 1)
+            if (ReportManager.AddingPlace.PhotosAsImage.Count >= 1)
                 ReportButton.IsVisible = true;
             else
                 ReportButton.IsVisible = false;
@@ -202,32 +202,32 @@ namespace SpotFinder.ViewModels
             }
 
             //Tutaj cała aktualizacja
-            ReportManager.Place.Location.Latitude = latitude;
-            ReportManager.Place.Location.Longitude = longitude;
-            ReportManager.Place.Description = Utils.FirstLetterToUpperCase(DescriptionEntry.Text);
-            ReportManager.Place.Name = Utils.FirstLetterToUpperCase(NameEntry.Text);
+            ReportManager.AddingPlace.Location.Latitude = latitude;
+            ReportManager.AddingPlace.Location.Longitude = longitude;
+            ReportManager.AddingPlace.Description = Utils.FirstLetterToUpperCase(DescriptionEntry.Text);
+            ReportManager.AddingPlace.Name = Utils.FirstLetterToUpperCase(NameEntry.Text);
 
-            ReportManager.Place.Gap = booleanFieldsMap["Gap"].IsToggled;
-            ReportManager.Place.Stairs = booleanFieldsMap["Stairs"].IsToggled;
-            ReportManager.Place.Rail = booleanFieldsMap["Rail"].IsToggled;
-            ReportManager.Place.Ledge = booleanFieldsMap["Ledge"].IsToggled;
-            ReportManager.Place.Handrail = booleanFieldsMap["Handrail"].IsToggled;
-            ReportManager.Place.Hubba = booleanFieldsMap["Hubba"].IsToggled;
-            ReportManager.Place.Corners = booleanFieldsMap["Corners"].IsToggled;
-            ReportManager.Place.Manualpad = booleanFieldsMap["Manualpad"].IsToggled;
-            ReportManager.Place.Wallride = booleanFieldsMap["Wallride"].IsToggled;
-            ReportManager.Place.Downhill = booleanFieldsMap["Downhill"].IsToggled;
-            ReportManager.Place.OpenYourMind = booleanFieldsMap["OpenYourMind"].IsToggled;
-            ReportManager.Place.Pyramid = booleanFieldsMap["Pyramid"].IsToggled;
-            ReportManager.Place.Curb = booleanFieldsMap["Curb"].IsToggled;
-            ReportManager.Place.Bank = booleanFieldsMap["Bank"].IsToggled;
-            ReportManager.Place.Bowl = booleanFieldsMap["Bowl"].IsToggled;
+            ReportManager.AddingPlace.Gap = booleanFieldsMap["Gap"].IsToggled;
+            ReportManager.AddingPlace.Stairs = booleanFieldsMap["Stairs"].IsToggled;
+            ReportManager.AddingPlace.Rail = booleanFieldsMap["Rail"].IsToggled;
+            ReportManager.AddingPlace.Ledge = booleanFieldsMap["Ledge"].IsToggled;
+            ReportManager.AddingPlace.Handrail = booleanFieldsMap["Handrail"].IsToggled;
+            ReportManager.AddingPlace.Hubba = booleanFieldsMap["Hubba"].IsToggled;
+            ReportManager.AddingPlace.Corners = booleanFieldsMap["Corners"].IsToggled;
+            ReportManager.AddingPlace.Manualpad = booleanFieldsMap["Manualpad"].IsToggled;
+            ReportManager.AddingPlace.Wallride = booleanFieldsMap["Wallride"].IsToggled;
+            ReportManager.AddingPlace.Downhill = booleanFieldsMap["Downhill"].IsToggled;
+            ReportManager.AddingPlace.OpenYourMind = booleanFieldsMap["OpenYourMind"].IsToggled;
+            ReportManager.AddingPlace.Pyramid = booleanFieldsMap["Pyramid"].IsToggled;
+            ReportManager.AddingPlace.Curb = booleanFieldsMap["Curb"].IsToggled;
+            ReportManager.AddingPlace.Bank = booleanFieldsMap["Bank"].IsToggled;
+            ReportManager.AddingPlace.Bowl = booleanFieldsMap["Bowl"].IsToggled;
 
-            foreach(var img in ReportManager.Place.PhotosAsImage)
+            foreach(var img in ReportManager.AddingPlace.PhotosAsImage)
             {
                 var myImg = (MyImage)img;
-                if(!ReportManager.Place.PhotosBase64.Contains(myImg.Base64Representation))
-                    ReportManager.Place.PhotosBase64.Add(myImg.Base64Representation);
+                if(!ReportManager.AddingPlace.PhotosBase64.Contains(myImg.Base64Representation))
+                    ReportManager.AddingPlace.PhotosBase64.Add(myImg.Base64Representation);
             }
 
             //Spot type added runtime
@@ -352,7 +352,7 @@ namespace SpotFinder.ViewModels
 
             picker.SelectedIndexChanged += (sender, args) =>
             {
-                ReportManager.Place.Type = types[picker.Items[picker.SelectedIndex]];
+                ReportManager.AddingPlace.Type = types[picker.Items[picker.SelectedIndex]];
             };
 
             return picker;

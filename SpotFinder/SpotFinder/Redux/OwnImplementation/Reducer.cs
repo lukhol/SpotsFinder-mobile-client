@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpotFinder.Redux
+namespace SpotFinder.Redux.OwnImplementation
 {
     public static class Reducer
     {

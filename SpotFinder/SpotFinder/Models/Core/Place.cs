@@ -74,7 +74,7 @@ namespace SpotFinder.Models.Core
         [JsonIgnore]
         public Command PlaceCommand => new Command(() =>
         {
-            Application.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage(this));
+            Application.Current.MainPage.Navigation.PushAsync(new Views.Xaml.PlaceDetailsPage(this));
         });
     }
 }

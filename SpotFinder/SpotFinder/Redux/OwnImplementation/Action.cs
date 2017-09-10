@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotFinder.Services
+namespace SpotFinder.Redux.OwnImplementation
 {
-    public interface INavigationService
+    public class Action : IAction
     {
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using SpotFinder.Core;
 
-namespace SpotFinder.Redux
+namespace SpotFinder.Redux.OwnImplementation
 {
     public class State
     {

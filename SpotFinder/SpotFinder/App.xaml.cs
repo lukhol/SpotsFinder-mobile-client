@@ -1,4 +1,7 @@
-﻿using SpotFinder.Helpers;
+﻿using Redux;
+using SpotFinder.DataServices;
+using SpotFinder.Helpers;
+using SpotFinder.Redux;
 using SpotFinder.SQLite;
 using SpotFinder.Views.Root;
 using Xamarin.Forms;
@@ -7,9 +10,16 @@ namespace SpotFinder
 {
     public partial class App : Application
     {
+        public static Store<ApplicationState> AppStore { get; private set; }
+
         public App()
         {
             InitializeComponent();
+
+            AppStore = new Store<ApplicationState>(
+                ApplicationReducer.Reducer, 
+                new ApplicationState(new PlaceService())
+            );
 
             MainPage = new CustomNavigationPage(new RootMasterDetailPageTwo());
 

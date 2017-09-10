@@ -50,12 +50,12 @@ namespace SpotFinder.ViewModels
             else
                 return;
 
-            reportManager.Place.Location.Latitude = centerPosition.Latitude;
-            reportManager.Place.Location.Longitude = centerPosition.Longitude;
+            reportManager.AddingPlace.Location.Latitude = centerPosition.Latitude;
+            reportManager.AddingPlace.Location.Longitude = centerPosition.Longitude;
 
             IsBusy = true;
 
-            int result = await PlaceRepository.SendAsync(reportManager.Place);
+            int result = await PlaceRepository.SendAsync(reportManager.AddingPlace);
 
             if (result == 0)
             {
@@ -68,7 +68,7 @@ namespace SpotFinder.ViewModels
                 }
                 else
                 {
-                    await LocalPlaceRepository.InsertPlaceAsync(reportManager.Place);
+                    await LocalPlaceRepository.InsertPlaceAsync(reportManager.AddingPlace);
                 }
                 
             }
@@ -143,7 +143,7 @@ namespace SpotFinder.ViewModels
             if (Device.RuntimePlatform == Device.Windows)
                 position = new Position(51, 19);
             else
-                position = new Position(reportManager.Place.Location.Latitude, reportManager.Place.Location.Longitude);
+                position = new Position(reportManager.AddingPlace.Location.Latitude, reportManager.AddingPlace.Location.Longitude);
 
             map = new Map(
             MapSpan.FromCenterAndRadius(

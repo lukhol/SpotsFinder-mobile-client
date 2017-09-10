@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpotFinder.Redux
+namespace SpotFinder.Redux.OwnImplementation
 {
     public class GoNextAction : IAction
     {

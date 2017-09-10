@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpotFinder.Redux
+namespace SpotFinder.Redux.OwnImplementation
 {
     using ActionType = System.Object;
     public delegate T Reducer<T>(T state, ActionType action);
