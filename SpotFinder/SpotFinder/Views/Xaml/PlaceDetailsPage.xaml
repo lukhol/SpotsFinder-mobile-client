@@ -4,7 +4,8 @@
              x:Class="SpotFinder.Views.Xaml.PlaceDetailsPage"
              xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-             Title="{translate:Translate PlaceDetailsTitle}">
+             Title="{translate:Translate PlaceDetailsTitle}"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="NormalTextLabel"
@@ -21,7 +22,8 @@
                 <StackLayout>
                     <!-- Title: -->
                     <Label Text="{Binding Name}"
-                       Style="{StaticResource TitleLabel}"/>
+                           Style="{StaticResource TitleLabel}"/>
+                    <Grid Style="{StaticResource GridSeparator}"/>
 
                     <!-- Description: -->
                     <Label Text="{translate:Translate DescriptionLabel}"

@@ -51,19 +51,13 @@ namespace SpotFinder.ViewModels.Root
                 new MasterPageItem
                 {
                     Title = "Settings",
-                    TargetType = typeof(SettingsPage),
+                    TargetType = typeof(Views.Xaml.SettingsPage),
                     IconSource = "settingsIcon.png"
                 },
                 new MasterPageItem
                 {
                     Title = "Offline list",
                     TargetType = typeof(LocalListPage),
-                    IconSource = "listIcon.png"
-                },
-                new MasterPageItem
-                {
-                    Title = "Test page",
-                    TargetType = typeof(Views.Xaml.PlaceDetailsPage),
                     IconSource = "listIcon.png"
                 }
             };

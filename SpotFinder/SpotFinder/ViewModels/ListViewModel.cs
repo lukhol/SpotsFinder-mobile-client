@@ -176,7 +176,8 @@ namespace SpotFinder.ViewModels
                 if (place != null)
                 {
                     listView.SelectedItem = null;
-                    CurrentPage.Navigation.PushAsync(new PlaceDetailsPage(place));
+                    //CurrentPage.Navigation.PushAsync(new PlaceDetailsPage(place));
+                    CurrentPage.Navigation.PushAsync(new Views.Xaml.PlaceDetailsPage(place.Id));
                 }
             };
 

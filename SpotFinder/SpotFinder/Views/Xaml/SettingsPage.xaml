@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpotFinder.Views.Xaml.SettingsPage"
+             xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
+             Title="{translate:Translate SettingsTitle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LocalSettingsLabelStyle"
+                   TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="{StaticResource MainAccentColor}"/>
+                <Setter Property="Margin" Value="12"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Style="{StaticResource LocalSettingsLabelStyle}"
+                   Text="{translate:Translate MainCityInfo}"/>
+            <Entry Placeholder="{translate:Translate MainCityPlaceholder}"
+                   Margin="12, 0, 12, 12"
+                   Text="{Binding City}"/>
+            <Label Style="{StaticResource LocalSettingsLabelStyle}"
+                   Text="{Binding DistanceLabelText}"/>
+            <Slider Maximum="50"
+                    Minimum="1"
+                    Value="{Binding Distance}"/>
+            <Button Style="{StaticResource GlobalButtonStyle}"
+                    VerticalOptions="EndAndExpand"
+                    Text="{translate:Translate SaveSettingsButton}"
+                    Command="{Binding SaveCommad}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

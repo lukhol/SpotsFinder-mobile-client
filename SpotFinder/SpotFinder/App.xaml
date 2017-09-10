@@ -9,6 +9,7 @@
             <Color x:Key="PageBackgroundColor">#282828</Color>
             <!--<Color x:Key="PageBackgroundColor">#31465b</Color> -->
             <Color x:Key="MainAccentColor">#FFFFFF</Color>
+            <Color x:Key="ButtonColor">#0962C1</Color>
 
             <Style x:Key="TitleLabel"
                    TargetType="Label">
@@ -40,7 +41,7 @@
                 <Setter Property="Margin" Value="12" />
                 <Setter Property="BorderRadius" Value="20" />
                 <Setter Property="BorderWidth" Value="1" />
-                <Setter Property="BackgroundColor" Value="#0962c1" />
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
                 <Setter Property="TextColor" Value="{StaticResource MainAccentColor}" />
                 <Setter Property="BorderColor" Value="{StaticResource MainAccentColor}" />
             </Style>

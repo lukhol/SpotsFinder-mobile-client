@@ -188,6 +188,15 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Determine global search distance: .
+        /// </summary>
+        internal static string GlobalDistanceSettingsLabel {
+            get {
+                return ResourceManager.GetString("GlobalDistanceSettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go back.
         /// </summary>
         internal static string GoBackCommandTitle {
@@ -202,6 +211,24 @@ namespace SpotFinder.Resx {
         internal static string LocateCommandTitle {
             get {
                 return ResourceManager.GetString("LocateCommandTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provide your main city:.
+        /// </summary>
+        internal static string MainCityInfo {
+            get {
+                return ResourceManager.GetString("MainCityInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to city.
+        /// </summary>
+        internal static string MainCityPlaceholder {
+            get {
+                return ResourceManager.GetString("MainCityPlaceholder", resourceCulture);
             }
         }
         
@@ -242,11 +269,29 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        internal static string SaveSettingsButton {
+            get {
+                return ResourceManager.GetString("SaveSettingsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select all.
         /// </summary>
         internal static string SelectAllCommand {
             get {
                 return ResourceManager.GetString("SelectAllCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string SettingsTitle {
+            get {
+                return ResourceManager.GetString("SettingsTitle", resourceCulture);
             }
         }
         

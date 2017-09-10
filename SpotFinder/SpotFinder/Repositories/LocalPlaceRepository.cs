@@ -1,14 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using SpotFinder.Core.Enums;
+﻿using SpotFinder.Core.Enums;
 using SpotFinder.Models.Core;
 using SpotFinder.Models.SQLite;
 using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using XamarinForms.SQLite.SQLite;
 
@@ -33,7 +29,7 @@ namespace SpotFinder.Repositories
             return FromSQLitePlaceLocalToPlace(list.FirstOrDefault());            
         }
 
-        public async Task<bool> InsertPlaceAsync(Place place)
+        public bool InsertPlace(Place place)
         {
             try
             {
@@ -48,7 +44,7 @@ namespace SpotFinder.Repositories
             return true;
         }
 
-        public async Task<List<Place>> GetAllPlacesAsync()
+        public List<Place> GetAllPlaces()
         {
             var allSpots = new List<Place>();
 
@@ -63,6 +59,42 @@ namespace SpotFinder.Repositories
             }
 
             return allSpots;
+        }
+
+        public Place GetPlaceOryginal(int id)
+        {
+            var list = SQLiteConnection.Query<SQLitePlace>("SELECT * FROM SQLitePlace WHERE Id = ?", id);
+
+            if (list == null || list.Count == 0)
+            {
+                return null;
+            }
+
+            return FromSQLitePlaceToPlace(list.FirstOrDefault());
+        }
+
+        public bool InsertPlaceOryginal(Place place)
+        {
+            if (place.Id == 0)
+                return false;
+
+            try
+            {
+                var checkIfPlaceExist = GetPlaceOryginal(place.Id);
+                
+                if(checkIfPlaceExist == null)
+                {
+                    var sqlitePlace = FromPlaceToSQLitePlace(place);
+                    SQLiteConnection.Insert(sqlitePlace);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e);
+                return false;
+            }
+
+            return true;
         }
 
         private Place FromSQLitePlaceLocalToPlace(SQLitePlaceLocal sqlitePlaceLocal)
@@ -273,6 +305,7 @@ namespace SpotFinder.Repositories
         {
             var sqlitePlace = new SQLitePlace
             {
+                Id = place.Id,
                 Description = place.Description,
                 Name = place.Name,
                 Latitude = place.Location.Latitude,
@@ -329,18 +362,6 @@ namespace SpotFinder.Repositories
                 sqlitePlace.Image5 = place.PhotosBase64.ElementAt(5);
 
             return sqlitePlace;
-        }
-
-        public Place GetPlaceOryginal(int id)
-        {
-            var list = SQLiteConnection.Query<SQLitePlace>("SELECT * FROM SQLitePlace WHERE Id = ?", id);
-
-            if (list == null || list.Count == 0)
-            {
-                return null;
-            }
-
-            return FromSQLitePlaceToPlace(list.FirstOrDefault());
         }
     }
 }

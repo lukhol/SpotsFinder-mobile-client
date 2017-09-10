@@ -9,10 +9,11 @@ namespace SpotFinder.Repositories
 {
     public interface ILocalPlaceRepository
     {
-        Task<bool> InsertPlaceAsync(Place place);
+        bool InsertPlace(Place place);
         Place GetPlace(int id);
-        Task<List<Place>> GetAllPlacesAsync();
+        List<Place> GetAllPlaces();
 
         Place GetPlaceOryginal(int id);
+        bool InsertPlaceOryginal(Place place);
     }
 }

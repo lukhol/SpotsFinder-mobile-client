@@ -90,7 +90,7 @@ namespace SpotFinder.ViewModels
 
                 pin.Clicked += (s, e) =>
                 {
-                    CurrentPage.Navigation.PushAsync(new PlaceDetailsPage(place));
+                    CurrentPage.Navigation.PushAsync(new Views.Xaml.PlaceDetailsPage(place.Id));
                 };
 
                 map.Pins.Add(pin);

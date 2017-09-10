@@ -4,11 +4,7 @@ using SpotFinder.Core;
 using SpotFinder.DataServices;
 using SpotFinder.Repositories;
 using SpotFinder.Resx;
-using SpotFinder.Views.Root;
 using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -68,12 +64,12 @@ namespace SpotFinder.ViewModels
                 }
                 else
                 {
-                    await LocalPlaceRepository.InsertPlaceAsync(reportManager.AddingPlace);
+                    LocalPlaceRepository.InsertPlace(reportManager.AddingPlace);
                 }
                 
             }
 
-            var aaa = await LocalPlaceRepository.GetAllPlacesAsync();
+            var aaa = LocalPlaceRepository.GetAllPlaces();
 
             IsBusy = false;
 

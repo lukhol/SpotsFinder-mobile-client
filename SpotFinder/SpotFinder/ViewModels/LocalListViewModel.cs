@@ -45,9 +45,9 @@ namespace SpotFinder.ViewModels
             StopLoading();
         }
 
-        public async void StopLoading()
+        public void StopLoading()
         {
-            var listOfLocalPlaces = await LocalPlaceRepository.GetAllPlacesAsync();
+            var listOfLocalPlaces =  LocalPlaceRepository.GetAllPlaces();
             if (listOfLocalPlaces == null || listOfLocalPlaces.Count == 0)
             {
                 IsBusy = false;

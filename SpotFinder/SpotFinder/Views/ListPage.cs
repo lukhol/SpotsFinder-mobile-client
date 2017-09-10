@@ -29,13 +29,6 @@ namespace SpotFinder.Views
                 Command = new Command(async () => { await Navigation.PushAsync(new AddingProcessPage()); }),
 
             });
-            /*
-            CurrentPage.ToolbarItems.Add(new ToolbarItem
-            {
-                Icon = "refreshIcon.png",
-                Command = new Command(() => { StopLoading(); })
-            });
-            */
         }
     }
 }

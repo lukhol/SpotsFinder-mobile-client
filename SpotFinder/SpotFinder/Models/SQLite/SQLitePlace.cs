@@ -5,7 +5,7 @@ namespace SpotFinder.Models.SQLite
 {
     public class SQLitePlace
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey]
         public int Id { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }

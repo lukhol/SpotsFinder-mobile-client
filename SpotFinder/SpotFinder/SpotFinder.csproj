@@ -96,6 +96,7 @@
     <Compile Include="ViewModels\Root\MenuMasterDetailPageViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\Xaml\PlaceDetailsViewModel.cs" />
+    <Compile Include="ViewModels\Xaml\SettingsViewModel.cs" />
     <Compile Include="Views\AddingProcessPage.cs" />
     <Compile Include="Views\CriteriaPage.cs" />
     <Compile Include="Views\InfoPage.cs" />
@@ -125,6 +126,9 @@
     </Compile>
     <Compile Include="Views\Xaml\PlaceDetailsPage.xaml.cs">
       <DependentUpon>PlaceDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Xaml\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +265,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\Xaml\PlaceDetailsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Xaml\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

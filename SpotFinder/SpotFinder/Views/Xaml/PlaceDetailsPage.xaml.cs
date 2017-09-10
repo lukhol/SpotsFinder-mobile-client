@@ -13,13 +13,13 @@ namespace SpotFinder.Views.Xaml
     {
         private Place place;
 
-        public PlaceDetailsPage()
+        public PlaceDetailsPage(int id)
         {
             InitializeComponent();
             BindingContext = new PlaceDetailsViewModel();
 
             App.AppStore.GetState().PlaceDownloaded += Update;
-            App.AppStore.Dispatch(new DownloadSinglePlaceAction(26));  
+            App.AppStore.Dispatch(new DownloadSinglePlaceAction(id));
 
             PreapreListItemSelected();
         }

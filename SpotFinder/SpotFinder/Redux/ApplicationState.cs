@@ -1,5 +1,6 @@
 ﻿using SpotFinder.DataServices;
 using SpotFinder.Models.Core;
+using SpotFinder.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace SpotFinder.Redux
     public class ApplicationState
     {
         private IPlaceService PlaceService;
+        private ILocalPlaceRepository LocalPlaceRepository;
 
         public event Action PlaceDownloaded;
         public event Action StopEvent;
@@ -76,17 +78,35 @@ namespace SpotFinder.Redux
         {
             Task.Run(async () =>
             {
-                ShowingPlace = await PlaceService.GetPlaceById(id);
+                //Try to get from localRepository
+                var placeFromLocalRepository = LocalPlaceRepository.GetPlaceOryginal(id);
+                if (placeFromLocalRepository == null)
+                {
+                    //Download if place does not exist in local db
+                    ShowingPlace = await PlaceService.GetPlaceById(id);
+                }
+                else
+                {
+                    ShowingPlace = placeFromLocalRepository;
+                }
+
             })
             .ContinueWith((task) =>
             {
+                //Save downloaded spot to local db
+                if (ShowingPlace != null)
+                {
+                    LocalPlaceRepository.InsertPlaceOryginal(ShowingPlace);
+                }
+
                 PlaceDownloaded?.Invoke();
             });
         }
 
-        public ApplicationState(IPlaceService placeService)
+        public ApplicationState(IPlaceService placeService, ILocalPlaceRepository localPlaceRepository)
         {
-            PlaceService = placeService ?? throw new ArgumentNullException("placeService is null in ApplicationState constructor");
+            PlaceService = placeService ?? throw new ArgumentNullException("placeService is null in ApplicationState constructor,");
+            LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("localPlaceRepository is null in ApplicationState constructor.");
         }
     }
 }

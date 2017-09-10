@@ -191,4 +191,19 @@
   <data name="PlaceDetailsTitle" xml:space="preserve">
     <value>Szczegóły</value>
   </data>
+  <data name="GlobalDistanceSettingsLabel" xml:space="preserve">
+    <value>Ustal zasięg wyszukiwania: </value>
+  </data>
+  <data name="MainCityInfo" xml:space="preserve">
+    <value>Wpisz swoje miasto główne:</value>
+  </data>
+  <data name="MainCityPlaceholder" xml:space="preserve">
+    <value>miasto</value>
+  </data>
+  <data name="SaveSettingsButton" xml:space="preserve">
+    <value>Zapisz</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Ustawienia</value>
+  </data>
 </root>
