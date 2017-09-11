@@ -10,7 +10,7 @@ namespace SpotFinder.ViewModels.Xaml
         public SettingsViewModel()
         {
             distance = App.AppStore.GetState().GlobalDistance;
-             city = App.AppStore.GetState().MainCity;
+            city = App.AppStore.GetState().MainCity;
         }
 
         private double distance;

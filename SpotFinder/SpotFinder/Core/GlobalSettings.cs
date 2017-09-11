@@ -10,10 +10,10 @@ namespace SpotFinder.Core
 {
     public static class GlobalSettings
     {
-        public static string PostSpotUrl = "http://5eb47248.ngrok.io/places";
-        public static string GetPlaceByCriteriaUrl = "http://5eb47248.ngrok.io/places/searches";
-        public static string GetAllUrl = "http://5eb47248.ngrok.io/places";
-        public static string GetByIdUrl = "http://5eb47248.ngrok.io/places/";
+        public static string PostSpotUrl = "http://85.255.10.140:8080/places";
+        public static string GetPlaceByCriteriaUrl = "http://85.255.10.140:8080/places/searches";
+        public static string GetAllUrl = "http://85.255.10.140:8080/places";
+        public static string GetByIdUrl = "http://85.255.10.140:8080/places/";
 
         public static JsonSerializer GetCamelCaseSerializer()
         {

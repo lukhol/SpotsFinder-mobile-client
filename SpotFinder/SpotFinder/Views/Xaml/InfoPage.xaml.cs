@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpotFinder.ViewModels.Xaml;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,8 @@ namespace SpotFinder.Views.Xaml
         public InfoPage()
         {
             InitializeComponent();
+            BindingContext = new InfoViewModel();
+
             if(Device.RuntimePlatform == Device.Windows || Device.RuntimePlatform == Device.WinPhone)
             {
                 LogoImage.WidthRequest = 150;

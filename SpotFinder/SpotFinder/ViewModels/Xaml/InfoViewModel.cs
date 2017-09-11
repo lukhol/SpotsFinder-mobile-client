@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotFinder.ViewModels
+namespace SpotFinder.ViewModels.Xaml
 {
     public class InfoViewModel : BaseViewModel
     {

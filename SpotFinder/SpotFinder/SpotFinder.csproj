@@ -88,7 +88,7 @@
     <Compile Include="ViewModels\AddingProcessViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CriteriaViewModel.cs" />
-    <Compile Include="ViewModels\InfoViewModel.cs" />
+    <Compile Include="ViewModels\Xaml\InfoViewModel.cs" />
     <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\LocalListViewModel.cs" />
     <Compile Include="ViewModels\LocateOnMapViewModel.cs" />
