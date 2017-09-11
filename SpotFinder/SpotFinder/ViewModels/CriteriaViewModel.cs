@@ -16,6 +16,7 @@ namespace SpotFinder.ViewModels
         private Dictionary<string, Switch> booleanFieldsMap;
         private Dictionary<PlaceType, Switch> typeFieldsMap;
         private ContentPage CurrentPage { get; set; }
+        private StackLayout EntryLayout;
         private Entry CityEntry;
         private Label distanceInfoLabel;
         private Slider DistanceSlider;
@@ -40,7 +41,7 @@ namespace SpotFinder.ViewModels
             set
             {
                 CityEntry.IsEnabled = !value;
-                DistanceSlider.IsEnabled = !value;
+                EntryLayout.IsEnabled = !value;
 
                 usePhoneLocation = value;
                 OnPropertyChanged();
@@ -131,8 +132,8 @@ namespace SpotFinder.ViewModels
                 if (reportManager.Location == null)
                     return;
 
-                criteria.Location.Longitude = (int)reportManager.Location.Longitude;
-                criteria.Location.Latitude = (int)reportManager.Location.Latitude;
+                criteria.Location.Longitude = (double)reportManager.Location.Longitude;
+                criteria.Location.Latitude = (double)reportManager.Location.Latitude;
                 criteria.Location.City = null;
             }
             
@@ -234,7 +235,7 @@ namespace SpotFinder.ViewModels
                 //BackgroundColor = Color.FromRgba(128, 128, 128, 220),
                 PlaceholderColor = Color.Black,
                 Placeholder = AppResources.CityPlaceholder,
-                Margin = new Thickness(12,12,12,0)
+                Margin = new Thickness(12,12,12,12)
             };
 
             var layout = new StackLayout
@@ -295,6 +296,7 @@ namespace SpotFinder.ViewModels
 
         private StackLayout CreateCriteriaLayout()
         {
+            EntryLayout = CreateCityEntryLayout();
             var layout = new StackLayout
             {
                 Children =
@@ -304,9 +306,10 @@ namespace SpotFinder.ViewModels
                     CreateObstaclesLayout(),
                     //Utils.CreateDownSiteButton(SelectAllCommand, AppResources.SelectAllCommand, new Thickness(12 ,0 ,12, 12)),
                     Utils.CreateGridSeparator(12),
-                    CreateCityEntryLayout(),
                     //Utils.CreateGridSeparator(12),
                     CreateDistanceLayout(),
+                    EntryLayout,
+                    Utils.CreateGridSeparator(12),
                     CreateMyLocationLayout(),
                     //Utils.CreateGridSeparator(12),
                     Utils.CreateDownSiteButton(FilterButtonCommand, AppResources.FilterLabel, new Thickness(12 ,12 ,12, 12))
