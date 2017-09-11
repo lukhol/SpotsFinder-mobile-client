@@ -3,8 +3,6 @@ using SpotFinder.Core;
 using SpotFinder.DataServices;
 using SpotFinder.Models.Core;
 using SpotFinder.Repositories;
-using SpotFinder.Resx;
-using SpotFinder.Views;
 using System;
 using System.Collections.Generic;
 using Xamarin.Forms;

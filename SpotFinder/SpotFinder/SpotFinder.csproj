@@ -38,6 +38,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\Temporary.cs" />
     <Compile Include="Models\Core\CityLocation.cs" />
     <Compile Include="Models\Core\Criteria.cs" />
     <Compile Include="Core\Enums\PlaceType.cs" />

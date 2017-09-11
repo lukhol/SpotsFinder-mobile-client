@@ -1,10 +1,5 @@
-﻿using SpotFinder.ViewModels.Xaml;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using SpotFinder.Resx;
+using SpotFinder.ViewModels.Xaml;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,6 +12,19 @@ namespace SpotFinder.Views.Xaml
         {
             InitializeComponent();
             BindingContext = new SettingsViewModel();
+
+            //Windows bugs...
+            if(Device.RuntimePlatform == Device.Windows)
+            {
+                var globalDistance = App.AppStore.GetState().GlobalDistance;
+
+                DistanceLabel.Text =
+                    AppResources.GlobalDistanceSettingsLabel
+                    + globalDistance.ToString()
+                    + " km";
+
+                DistanceSlider.Value = globalDistance;
+            }
         }
     }
 }

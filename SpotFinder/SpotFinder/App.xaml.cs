@@ -1,4 +1,5 @@
 ﻿using Redux;
+using SpotFinder.Core;
 using SpotFinder.DataServices;
 using SpotFinder.Helpers;
 using SpotFinder.Redux;
@@ -32,6 +33,9 @@ namespace SpotFinder
             PermissionHelper.CheckAllPermissionAsync();
             SQLiteConfig.Start();
             UnityConfig.Start();
+
+            //Temporary:
+            Temporary.GetLocationAndSaveInReportManagerOnStartAsync();
         }
 
         protected override void OnStart()

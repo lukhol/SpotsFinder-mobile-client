@@ -39,7 +39,7 @@ namespace SpotFinder.Core
             {
                 criteria = value;
                 StartEvent?.Invoke();
-                Task.Run(async () => 
+                Task.Run(async () =>
                 {
                     DownloadedPlaces = await PlaceRepository.GetPlacesByCriteriaAsync(criteria);
                     //DownloadedPlaces = await PlaceRepository.GetAllPlaceAsync();
@@ -67,5 +67,8 @@ namespace SpotFinder.Core
                 DownloadFinished?.Invoke();
             });
         }
+
+        public Location Location { get; set; }
+
     }
 }

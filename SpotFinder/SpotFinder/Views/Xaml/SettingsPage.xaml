@@ -22,9 +22,11 @@
             <Entry Placeholder="{translate:Translate MainCityPlaceholder}"
                    Margin="12, 0, 12, 12"
                    Text="{Binding City}"/>
-            <Label Style="{StaticResource LocalSettingsLabelStyle}"
+            <Label x:Name="DistanceLabel"
+                   Style="{StaticResource LocalSettingsLabelStyle}"
                    Text="{Binding DistanceLabelText}"/>
-            <Slider Maximum="50"
+            <Slider x:Name="DistanceSlider"
+                    Maximum="50"
                     Minimum="1"
                     Value="{Binding Distance}"/>
             <Button Style="{StaticResource GlobalButtonStyle}"

@@ -18,6 +18,7 @@ namespace SpotFinder.ViewModels
         private ContentPage CurrentPage { get; set; }
         private Entry CityEntry;
         private Label distanceInfoLabel;
+        private Slider DistanceSlider;
         private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
 
         private double distance;
@@ -28,6 +29,20 @@ namespace SpotFinder.ViewModels
             {
                 distance = value;
                 distanceInfoLabel.Text = "Ustal zasięg wyszukiwania: " + ((int)distance).ToString() + " km";
+                OnPropertyChanged();
+            }
+        }
+
+        private bool usePhoneLocation;
+        public bool UsePhoneLocation
+        {
+            get => usePhoneLocation;
+            set
+            {
+                CityEntry.IsEnabled = !value;
+                DistanceSlider.IsEnabled = !value;
+
+                usePhoneLocation = value;
                 OnPropertyChanged();
             }
         }
@@ -82,7 +97,9 @@ namespace SpotFinder.ViewModels
 
         public Command FilterButtonCommand => new Command(async () =>
         {
-            if (CityEntry.Text == null)
+            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+
+            if (CityEntry.Text == null && CityEntry.IsEnabled == true)
                 return;
 
             var criteria = new Criteria();
@@ -103,22 +120,22 @@ namespace SpotFinder.ViewModels
             criteria.Bank = booleanFieldsMap["Bank"].IsToggled;
             criteria.Bowl = booleanFieldsMap["Bowl"].IsToggled;
 
-            /*
-            var repo = new RestAdressRepository();
-            var position = await repo.GetPositionOfTheCity(CityEntry.Text, true);
-
-            if (position == null)
+            if (CityEntry.IsEnabled)
             {
-                await CurrentPage.DisplayAlert("Error", "Problem with position. Are you connected to the internet?", "Ok");
-                return;
-            }
-
-            criteria.Location.Longitude = position.Longitude;
-            criteria.Location.Latitude = position.Latitude;
-            */
-            if(CityEntry.Text != null)
                 criteria.Location.City = CityEntry.Text;
+                criteria.Location.Latitude = null;
+                criteria.Location.Longitude = null;
+            }
+            else
+            {
+                if (reportManager.Location == null)
+                    return;
 
+                criteria.Location.Longitude = (int)reportManager.Location.Longitude;
+                criteria.Location.Latitude = (int)reportManager.Location.Latitude;
+                criteria.Location.City = null;
+            }
+            
             criteria.Distance = (int)Distance;
 
             foreach (var item in typeFieldsMap)
@@ -133,7 +150,6 @@ namespace SpotFinder.ViewModels
                 return;
             }
                 
-            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
             reportManager.Criteria = criteria;
 
             await CurrentPage.Navigation.PopAsync();
@@ -232,6 +248,21 @@ namespace SpotFinder.ViewModels
             return layout;
         }
 
+        private  StackLayout CreateMyLocationLayout()
+        {
+            var infoLabel = new Label
+            {
+                Text = "Czy chcesz użyć swojej lokalizacji?",
+                TextColor = mainAccentColor,
+                Margin = new Thickness(12, 12, 12, 0)
+            };
+            var usePhoneLocationSwitch = CreateParameterSwitch(mainAccentColor);
+            usePhoneLocationSwitch.Margin = new Thickness(0, 8, 0, 0);
+            usePhoneLocationSwitch.SetBinding(Switch.IsToggledProperty, "UsePhoneLocation");
+
+            return Utils.CreateHorizontalStackLayout(infoLabel, usePhoneLocationSwitch);
+        }
+
         private StackLayout CreateDistanceLayout()
         {
             distanceInfoLabel = new Label
@@ -241,21 +272,21 @@ namespace SpotFinder.ViewModels
                 Margin = new Thickness(12,12,12,0)
             };
 
-            var distanceSlider = new Slider
+            DistanceSlider = new Slider
             {
                 Maximum = 50,
                 Minimum = 1,
                 Value = 5,
                 Margin = new Thickness(0)
             };
-            distanceSlider.SetBinding(Slider.ValueProperty, "Distance");
+            DistanceSlider.SetBinding(Slider.ValueProperty, "Distance");
 
             var layout = new StackLayout
             {
                 Children =
                 {
                     distanceInfoLabel,
-                    distanceSlider
+                    DistanceSlider
                 }
             };
 
@@ -276,6 +307,7 @@ namespace SpotFinder.ViewModels
                     CreateCityEntryLayout(),
                     //Utils.CreateGridSeparator(12),
                     CreateDistanceLayout(),
+                    CreateMyLocationLayout(),
                     //Utils.CreateGridSeparator(12),
                     Utils.CreateDownSiteButton(FilterButtonCommand, AppResources.FilterLabel, new Thickness(12 ,12 ,12, 12))
                 }

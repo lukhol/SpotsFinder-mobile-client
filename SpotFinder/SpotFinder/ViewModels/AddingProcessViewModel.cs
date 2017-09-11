@@ -124,62 +124,65 @@ namespace SpotFinder.ViewModels
             CanGoBack = true;
         }
 
-        public Command AddPhotoCommand  => new Command(async () => 
+        public Command AddPhotoCommand  => new Command(() => 
         {
-            var mainLayout = (StackLayout)scrollView.Content;
-
-            if(ReportManager.AddingPlace.PhotosAsImage.Count < 5)
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                var pickTypeResult = await CurrentPage.DisplayAlert("Where?", "Chose from where you want pick photo:", "Camera", "Gallery");
-                Tuple<Image, string> imageTuple = null;
+                var mainLayout = (StackLayout)scrollView.Content;
 
-                if (pickTypeResult)
-                    imageTuple = await GetPhotoAsync(GetPhotoType.Camera);
-                else
-                    imageTuple = await GetPhotoAsync(GetPhotoType.Gallery);
-
-                if (imageTuple == null)
-                    return;
-
-                var image = (MyImage)imageTuple.Item1;
-                image.Base64Representation = imageTuple.Item2;
-
-                if(image != null)
+                if (ReportManager.AddingPlace.PhotosAsImage.Count < 5)
                 {
-                    var tapGestureRecognizer = new TapGestureRecognizer();
-                    tapGestureRecognizer.Tapped += (s, e) => {
-                        var img = (MyImage)s;
+                    var pickTypeResult = await CurrentPage.DisplayAlert("Where?", "Chose from where you want pick photo:", "Camera", "Gallery");
+                    Tuple<Image, string> imageTuple = null;
 
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            var result = await CurrentPage.DisplayAlert("Alert!", AppResources.AlertRemovePhoto, AppResources.AlertYes, AppResources.AlertNo);
-                            if (result)
+                    if (pickTypeResult)
+                        imageTuple = await GetPhotoAsync(GetPhotoType.Camera);
+                    else
+                        imageTuple = await GetPhotoAsync(GetPhotoType.Gallery);
+
+                    if (imageTuple == null)
+                        return;
+
+                    var image = (MyImage)imageTuple.Item1;
+                    image.Base64Representation = imageTuple.Item2;
+
+                    if (image != null)
+                    {
+                        var tapGestureRecognizer = new TapGestureRecognizer();
+                        tapGestureRecognizer.Tapped += (s, e) => {
+                            var img = (MyImage)s;
+
+                            Device.BeginInvokeOnMainThread(async () =>
                             {
-                                img.RemoveFromParent();
-                                ReportManager.AddingPlace.PhotosAsImage.Remove(img);
+                                var result = await CurrentPage.DisplayAlert("Alert!", AppResources.AlertRemovePhoto, AppResources.AlertYes, AppResources.AlertNo);
+                                if (result)
+                                {
+                                    img.RemoveFromParent();
+                                    ReportManager.AddingPlace.PhotosAsImage.Remove(img);
 
-                                if (ReportManager.AddingPlace.PhotosAsImage.Count == 0)
-                                    ReportButton.IsVisible = false;
+                                    if (ReportManager.AddingPlace.PhotosAsImage.Count == 0)
+                                        ReportButton.IsVisible = false;
 
-                                if (ReportManager.AddingPlace.PhotosAsImage.Count == 4)
-                                    AddPhotoButton.IsVisible = true;
-                            }
-                        });
-                    };
-                    image.GestureRecognizers.Add(tapGestureRecognizer);
+                                    if (ReportManager.AddingPlace.PhotosAsImage.Count == 4)
+                                        AddPhotoButton.IsVisible = true;
+                                }
+                            });
+                        };
+                        image.GestureRecognizers.Add(tapGestureRecognizer);
 
-                    photoStackLayout.Children.Add(image);
-                    ReportManager.AddingPlace.PhotosAsImage.Add(image);
+                        photoStackLayout.Children.Add(image);
+                        ReportManager.AddingPlace.PhotosAsImage.Add(image);
+                    }
+
+                    if (ReportManager.AddingPlace.PhotosAsImage.Count == 5)
+                        AddPhotoButton.IsVisible = false;
                 }
 
-                if(ReportManager.AddingPlace.PhotosAsImage.Count == 5)
-                    AddPhotoButton.IsVisible = false;
-            }
-
-            if (ReportManager.AddingPlace.PhotosAsImage.Count >= 1)
-                ReportButton.IsVisible = true;
-            else
-                ReportButton.IsVisible = false;
+                if (ReportManager.AddingPlace.PhotosAsImage.Count >= 1)
+                    ReportButton.IsVisible = true;
+                else
+                    ReportButton.IsVisible = false;
+            });
         });
 
         public Command ReportCommand => new Command(() =>

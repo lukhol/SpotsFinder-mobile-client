@@ -80,12 +80,10 @@ namespace SpotFinder.ViewModels
             {
                 //On phone (windows) Navigation.PopToRootAsync() does not work!
                 var stackCount = CurrentPage.Navigation.NavigationStack.Count;
-                for (int i = 0; i < stackCount - 1; i++)
+                for (int i = 0; i < stackCount ; i++)
                 {
-                    if (CurrentPage.Navigation.NavigationStack.Count == 0)
-                        break;
-
-                    await CurrentPage.Navigation.PopAsync();
+                    if(CurrentPage.Navigation.NavigationStack.Count > 1)
+                        await CurrentPage.Navigation.PopAsync();
                 }
             }
         }
