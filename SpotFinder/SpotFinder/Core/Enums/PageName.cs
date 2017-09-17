@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotFinder.Helpers
+namespace SpotFinder.Core.Enums
 {
-    public class ImageHelper
+    public enum PageName
     {
-        
+        MainPage,
+        InfoPage
     }
 }

@@ -1,5 +1,5 @@
 ﻿
-namespace SpotFinder.Models.WebModels
+namespace SpotFinder.Models.DTO
 {
     public class ImageWeb
     {

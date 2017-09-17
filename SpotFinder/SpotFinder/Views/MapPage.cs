@@ -13,7 +13,8 @@ namespace SpotFinder.Views
 		{
             CreateToolbarItems();
             var mapPageViewModel = ServiceLocator.Current.GetInstance<MapPageViewModel>();
-            mapPageViewModel.InjectPage(this, "Mapa");
+            mapPageViewModel.InjectPage(this);
+            Title = "Mapa";
             BindingContext = mapPageViewModel;
         }
 

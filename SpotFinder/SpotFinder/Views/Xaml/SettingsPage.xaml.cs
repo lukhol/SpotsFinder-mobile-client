@@ -12,19 +12,6 @@ namespace SpotFinder.Views.Xaml
         {
             InitializeComponent();
             BindingContext = new SettingsViewModel();
-
-            //Windows bugs...
-            if(Device.RuntimePlatform == Device.Windows)
-            {
-                var globalDistance = App.AppStore.GetState().GlobalDistance;
-
-                DistanceLabel.Text =
-                    AppResources.GlobalDistanceSettingsLabel
-                    + globalDistance.ToString()
-                    + " km";
-
-                DistanceSlider.Value = globalDistance;
-            }
         }
     }
 }

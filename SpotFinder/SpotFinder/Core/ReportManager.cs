@@ -1,5 +1,6 @@
 ﻿using SpotFinder.DataServices;
 using SpotFinder.Models.Core;
+using SpotFinder.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,16 +9,18 @@ namespace SpotFinder.Core
 {
     public class ReportManager
     {
-        public event Action DownloadFinished;
+        public event Action PlaceDownloaded;
 
         public event Action StopEvent;
         public event Action StartEvent;
 
-        private IPlaceService PlaceRepository;
+        private IPlaceService PlaceService;
+        private ILocalPlaceRepository LocalPlaceRepository;
 
         public ReportManager(IPlaceService placeRepository)
         {
-            PlaceRepository = placeRepository ?? throw new ArgumentNullException("placeRepository is null in PlaceRepository");
+            PlaceService = placeRepository ?? throw new ArgumentNullException("placeRepository is null in PlaceRepository");
+            LocalPlaceRepository = new LocalPlaceRepository();
         }
 
         private Place place;
@@ -41,8 +44,7 @@ namespace SpotFinder.Core
                 StartEvent?.Invoke();
                 Task.Run(async () =>
                 {
-                    DownloadedPlaces = await PlaceRepository.GetPlacesByCriteriaAsync(criteria);
-                    //DownloadedPlaces = await PlaceRepository.GetAllPlaceAsync();
+                    DownloadedPlaces = await PlaceService.GetPlacesByCriteriaAsync(criteria);
                 })
                 .ContinueWith((t) =>
                 {
@@ -60,11 +62,28 @@ namespace SpotFinder.Core
         {
             Task.Run(async () =>
             {
-                ShowingPlace = await PlaceRepository.GetPlaceById(id);
+                //Try to get from localRepository
+                var placeFromLocalRepository = LocalPlaceRepository.GetPlaceOryginal(id);
+                if (placeFromLocalRepository == null)
+                {
+                    //Download if place does not exist in local db
+                    ShowingPlace = await PlaceService.GetPlaceById(id);
+                }
+                else
+                {
+                    ShowingPlace = placeFromLocalRepository;
+                }
+
             })
             .ContinueWith((task) =>
             {
-                DownloadFinished?.Invoke();
+                //Save downloaded spot to local db
+                if (ShowingPlace != null)
+                {
+                    LocalPlaceRepository.InsertPlaceOryginal(ShowingPlace);
+                }
+
+                PlaceDownloaded?.Invoke();
             });
         }
 

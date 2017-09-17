@@ -38,14 +38,32 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Temporary.cs" />
+    <Compile Include="Core\Enums\MapType.cs" />
+    <Compile Include="Core\Enums\PageName.cs" />
+    <Compile Include="Helpers\DeviceLocationHelper.cs" />
+    <Compile Include="Helpers\IDeviceLocationHelper.cs" />
+    <Compile Include="Helpers\IPermissionHelper.cs" />
+    <Compile Include="Helpers\ISettingsHelper.cs" />
+    <Compile Include="Helpers\SettingsHelper.cs" />
     <Compile Include="Models\Core\CityLocation.cs" />
     <Compile Include="Models\Core\Criteria.cs" />
     <Compile Include="Core\Enums\PlaceType.cs" />
     <Compile Include="Core\GlobalSettings.cs" />
-    <Compile Include="Redux\Actions.cs" />
+    <Compile Include="OwnControls\BindableMap.cs" />
+    <Compile Include="OwnControls\BindableStackLayout.cs" />
+    <Compile Include="Redux\Actions\ReadSettingsAction.cs" />
+    <Compile Include="Redux\Actions\SaveSettingsAction.cs" />
     <Compile Include="Redux\ApplicationReducer.cs" />
     <Compile Include="Redux\ApplicationState.cs" />
+    <Compile Include="Redux\IReducer.cs" />
+    <Compile Include="Redux\StateModels\PageName.cs" />
+    <Compile Include="Redux\Reducers\DeviceDataReducer.cs" />
+    <Compile Include="Redux\Reducers\NavigationReducer.cs" />
+    <Compile Include="Redux\Reducers\PlaceDataReducer.cs" />
+    <Compile Include="Redux\Reducers\SettingsReducer.cs" />
+    <Compile Include="Redux\StateModels\DeviceData.cs" />
+    <Compile Include="Redux\StateModels\PlacesData.cs" />
+    <Compile Include="Redux\StateModels\Settings.cs" />
     <Compile Include="Repositories\ILocalPlaceRepository.cs" />
     <Compile Include="DataServices\IPlaceService.cs" />
     <Compile Include="DataServices\IRestAdressRepository.cs" />
@@ -56,18 +74,11 @@
     <Compile Include="Core\ReportManager.cs" />
     <Compile Include="DataServices\RestAdressRepository.cs" />
     <Compile Include="Core\Utils.cs" />
-    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\PermissionHelper.cs" />
-    <Compile Include="Models\WebModels\ImageWeb.cs" />
-    <Compile Include="Models\WebModels\PlaceWeb.cs" />
-    <Compile Include="Models\WebModels\PlaceWebLight.cs" />
+    <Compile Include="Models\DTO\ImageWeb.cs" />
+    <Compile Include="Models\DTO\PlaceWeb.cs" />
+    <Compile Include="Models\DTO\PlaceWebLight.cs" />
     <Compile Include="OwnControls\MyImage.cs" />
-    <Compile Include="Redux\OwnImplementation\Action.cs" />
-    <Compile Include="Redux\OwnImplementation\GoNextAction.cs" />
-    <Compile Include="Redux\OwnImplementation\IAction.cs" />
-    <Compile Include="Redux\OwnImplementation\Reducer.cs" />
-    <Compile Include="Redux\OwnImplementation\State.cs" />
-    <Compile Include="Redux\OwnImplementation\Store.cs" />
     <Compile Include="Resx\AppResources.pl.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -79,8 +90,9 @@
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Resx\TranslateExtension.cs" />
+    <Compile Include="Services\INavigationService.cs" />
     <Compile Include="Services\NavigationService.cs" />
-    <Compile Include="Services\UnityResolver.cs" />
+    <Compile Include="Services\Unity.cs" />
     <Compile Include="SQLite\ISQLite.cs" />
     <Compile Include="Models\SQLite\SQLitePlace.cs" />
     <Compile Include="Models\SQLite\SQLitePlaceLocal.cs" />
@@ -88,42 +100,41 @@
     <Compile Include="ViewModels\AddingProcessViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\CriteriaViewModel.cs" />
+    <Compile Include="ViewModels\Xaml\CriteriaViewModel.cs" />
     <Compile Include="ViewModels\Xaml\InfoViewModel.cs" />
     <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\LocalListViewModel.cs" />
     <Compile Include="ViewModels\LocateOnMapViewModel.cs" />
     <Compile Include="ViewModels\MapPageViewModel.cs" />
-    <Compile Include="ViewModels\PlaceDetailsViewModel.cs" />
     <Compile Include="ViewModels\Root\MenuMasterDetailPageViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Xaml\MapViewModel.cs" />
     <Compile Include="ViewModels\Xaml\PlaceDetailsViewModel.cs" />
     <Compile Include="ViewModels\Xaml\SettingsViewModel.cs" />
     <Compile Include="Views\AddingProcessPage.cs" />
     <Compile Include="Views\CriteriaPage.cs" />
-    <Compile Include="Views\InfoPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnityConfig.cs" />
-    <Compile Include="Views\IPageWithParameters.cs" />
     <Compile Include="Views\ListPage.cs" />
     <Compile Include="Views\LocalListPage.cs" />
     <Compile Include="Views\LocateOnMapPage.cs" />
     <Compile Include="Views\MapPage.cs" />
-    <Compile Include="Views\PlaceDetailsPage.cs" />
     <Compile Include="Views\Xaml\CustomNavigationPage.xaml.cs">
       <DependentUpon>CustomNavigationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Root\MasterPageItem.cs" />
     <Compile Include="Views\Root\MenuMasterDetailPage.cs" />
-    <Compile Include="Views\Root\Xaml\MenuMasterDetailPageTwo.xaml.cs">
-      <DependentUpon>MenuMasterDetailPageTwo.xaml</DependentUpon>
+    <Compile Include="Views\Root\Xaml\MenuMasterDetailPage.xaml.cs">
+      <DependentUpon>MenuMasterDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Root\RootMasterDetailPage.cs" />
-    <Compile Include="Views\Root\Xaml\RootMasterDetailPageTwo.xaml.cs">
-      <DependentUpon>RootMasterDetailPageTwo.xaml</DependentUpon>
+    <Compile Include="Views\Root\Xaml\RootMasterDetailPage.xaml.cs">
+      <DependentUpon>RootMasterDetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPage.cs" />
     <Compile Include="Views\Xaml\InfoPage.xaml.cs">
       <DependentUpon>InfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Xaml\MapPage.xaml.cs">
+      <DependentUpon>MapPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Xaml\PlaceDetailsPage.xaml.cs">
       <DependentUpon>PlaceDetailsPage.xaml</DependentUpon>
@@ -241,13 +252,13 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\Root\Xaml\MenuMasterDetailPageTwo.xaml">
+    <EmbeddedResource Include="Views\Root\Xaml\MenuMasterDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\Root\Xaml\RootMasterDetailPageTwo.xaml">
+    <EmbeddedResource Include="Views\Root\Xaml\RootMasterDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -276,6 +287,13 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\Xaml\MapPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.4.247\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -27,9 +27,9 @@
 
                     <!-- Description: -->
                     <Label Text="{translate:Translate DescriptionLabel}"
-                       Style="{StaticResource SubtitleLabel}"/>
+                           Style="{StaticResource SubtitleLabel}"/>
                     <Label Text="{Binding Description}"
-                       Style="{StaticResource NormalTextLabel}"/>
+                           Style="{StaticResource NormalTextLabel}"/>
                     <Grid Style="{StaticResource GridSeparator}"/>
 
                     <!-- Obstacles: -->
@@ -55,33 +55,10 @@
                     </ListView>
                     <Grid Style="{StaticResource GridSeparator}"/>
 
-                    <!-- Images: -->
-                    <!--
-                    <ListView HasUnevenRows="True"
-                          BackgroundColor="Transparent"
-                          SeparatorVisibility="None"
-                          Margin="15, 0, 15, 0"
-                          ItemsSource="{Binding ImageList}"
-                          x:Name="ImagesListView">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout>
-                                        <Image Source="{Binding .}"
-                                               Aspect="AspectFill"
-                                               Margin="5"
-                                               HorizontalOptions="FillAndExpand"/>
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <Grid Style="{StaticResource GridSeparator}"/>
-                    -->
-                    <!-- Images StackLayout Test -->
+                    <!-- Images StackLayout -->
                     <StackLayout x:Name="ImagesStackLayout"
                                  Margin="15, 10, 15, 10">
-                        
+
                     </StackLayout>
                     <Grid Style="{StaticResource GridSeparator}"/>
                     

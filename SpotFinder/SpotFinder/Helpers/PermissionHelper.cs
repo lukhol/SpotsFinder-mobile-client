@@ -3,9 +3,9 @@ using Plugin.Permissions.Abstractions;
 
 namespace SpotFinder.Helpers
 {
-    public class PermissionHelper
+    public class PermissionHelper : IPermissionHelper
     {
-        public static async void CheckAllPermissionAsync()
+        public async void CheckAllPermissionAsync()
         {
             var locationStatus = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
             if (locationStatus != PermissionStatus.Granted)

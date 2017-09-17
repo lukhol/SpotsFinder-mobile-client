@@ -206,4 +206,7 @@
   <data name="SettingsTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="SearchDistanceLabel" xml:space="preserve">
+    <value>Determine search distance: </value>
+  </data>
 </root>

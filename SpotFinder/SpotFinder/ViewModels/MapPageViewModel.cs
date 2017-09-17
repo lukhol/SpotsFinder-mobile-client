@@ -35,10 +35,9 @@ namespace SpotFinder.ViewModels
             mainStackLayout = CreateMapLayout();
         }
 
-        public void InjectPage(ContentPage contentPage, string pageTitle)
+        public void InjectPage(ContentPage contentPage)
         {
             CurrentPage = contentPage;
-            CurrentPage.Title = pageTitle;
             ShowMap();
         }
 
@@ -62,11 +61,6 @@ namespace SpotFinder.ViewModels
             allPlaces = reportManager.DownloadedPlaces;
             Device.BeginInvokeOnMainThread(() => { UpdateMapPins(); });
             IsBusy = false;
-        }
-
-        public void GetSpotsTest()
-        {
-            IsBusy = true;
         }
 
         public void UpdateMapPins()
@@ -99,7 +93,7 @@ namespace SpotFinder.ViewModels
         {         
             if (map == null)
                 map = new Map(
-                MapSpan.FromCenterAndRadius(new Position(51.75924850, 19.45598330), Distance.FromMiles(0.3)))
+                MapSpan.FromCenterAndRadius(new Position(51.75924850, 19.45598330), Distance.FromMiles(3)))
                 {
                     HeightRequest = 2480,
                     WidthRequest = 960,

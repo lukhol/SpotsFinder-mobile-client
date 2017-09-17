@@ -18,9 +18,15 @@ namespace SpotFinder.Resx
             if (Text == null)
                 return null;
 
-            ResourceManager resourceManager = new ResourceManager(ResourceId, typeof(TranslateExtension).GetTypeInfo().Assembly);
+            var resourceManager = new ResourceManager(ResourceId, typeof(TranslateExtension).GetTypeInfo().Assembly);
 
-            return resourceManager.GetString(Text, CultureInfo.CurrentCulture);
+            var text = resourceManager.GetString(Text, CultureInfo.CurrentCulture);
+
+            if (string.IsNullOrEmpty(text))
+                return "String not found in AppResources!";
+
+            return text;
+
         }
     }
 }

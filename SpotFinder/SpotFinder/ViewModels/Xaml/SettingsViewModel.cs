@@ -1,5 +1,8 @@
-﻿using SpotFinder.Redux;
+﻿using SpotFinder.Core.Enums;
+using System;
+using SpotFinder.Redux.Actions;
 using SpotFinder.Resx;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -9,8 +12,13 @@ namespace SpotFinder.ViewModels.Xaml
     {
         public SettingsViewModel()
         {
-            distance = App.AppStore.GetState().GlobalDistance;
-            city = App.AppStore.GetState().MainCity;
+            App.AppStore
+                .DistinctUntilChanged(state => new { state.Settings })
+                .Subscribe(state =>
+                {
+                    Distance = state.Settings.MainDistance;
+                    City = state.Settings.MainCity;
+                });
         }
 
         private double distance;
@@ -45,7 +53,8 @@ namespace SpotFinder.ViewModels.Xaml
 
         public ICommand SaveCommad => new Command(() =>
         {
-            App.AppStore.Dispatch(new SaveSettingsAction(city, (int)distance));
+            App.AppStore.Dispatch(new SaveSettingsAction(city, (int)distance, MapType.Normal));
+            App.Current.MainPage.Navigation.PopAsync();
         });
     }
 }

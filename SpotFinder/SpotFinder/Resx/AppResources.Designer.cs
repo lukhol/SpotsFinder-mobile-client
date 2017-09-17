@@ -278,6 +278,15 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Determine search distance: .
+        /// </summary>
+        internal static string SearchDistanceLabel {
+            get {
+                return ResourceManager.GetString("SearchDistanceLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select all.
         /// </summary>
         internal static string SelectAllCommand {

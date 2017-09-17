@@ -59,6 +59,12 @@ namespace SpotFinder.ViewModels.Root
                     Title = "Offline list",
                     TargetType = typeof(LocalListPage),
                     IconSource = "listIcon.png"
+                },
+                new MasterPageItem
+                {
+                    Title = "Nowa mapa",
+                    TargetType = typeof(Views.Xaml.MapPage),
+                    IconSource = "mapIcon.png"
                 }
             };
         }

@@ -151,13 +151,14 @@ namespace SpotFinder.ViewModels
                             image,
                             new StackLayout
                             {
-                                Margin = new Thickness(0,10,0,10),
+                                Margin = new Thickness(5,10,5,10),
                                 Children =
                                 {
                                     label1, label2
                                 }
                             }
-                        }
+                        },
+                        Margin = new Thickness(0,5,0,5)
                     };
 
                     viewCell.View = cellLayout;

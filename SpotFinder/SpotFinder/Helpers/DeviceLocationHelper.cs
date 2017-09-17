@@ -1,16 +1,13 @@
 ﻿using Microsoft.Practices.ServiceLocation;
 using Plugin.Geolocator;
+using SpotFinder.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SpotFinder.Core
+namespace SpotFinder.Helpers
 {
-    public static class Temporary
+    public class DeviceLocationHelper : IDeviceLocationHelper
     {
-        public static async void GetLocationAndSaveInReportManagerOnStartAsync()
+        public async void GetLocationAndSaveInReportManagerOnStartAsync()
         {
             var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
 
@@ -19,7 +16,7 @@ namespace SpotFinder.Core
                 var locator = CrossGeolocator.Current;
                 locator.DesiredAccuracy = 10;
 
-                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(3));
+                var position = await locator.GetPositionAsync(TimeSpan.FromSeconds(5));
                 if (position == null)
                 {
                     return;
@@ -33,7 +30,6 @@ namespace SpotFinder.Core
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine("", e);
-                Temporary.GetLocationAndSaveInReportManagerOnStartAsync();
             }
         }
     }

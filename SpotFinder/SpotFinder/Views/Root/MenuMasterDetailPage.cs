@@ -46,7 +46,7 @@ namespace SpotFinder.Views.Root
                 new MasterPageItem
                 {
                     Title = "Settings",
-                    TargetType = typeof(SettingsPage),
+                    TargetType = typeof(Views.Xaml.SettingsPage),
                     IconSource = "settingsIcon.png"
                 },
                 new MasterPageItem

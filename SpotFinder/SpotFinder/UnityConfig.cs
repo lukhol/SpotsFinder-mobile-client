@@ -34,7 +34,6 @@ namespace SpotFinder
             unityContainer.RegisterType<ListViewModel>(new ContainerControlledLifetimeManager());
             unityContainer.RegisterType<MapPageViewModel>(new ContainerControlledLifetimeManager());
             unityContainer.RegisterType<LocateOnMapViewModel>();
-            unityContainer.RegisterType<SettingsViewModel>();
             unityContainer.RegisterType<LocalListViewModel>();
 
             //Services:

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpotFinder.Views.Xaml.MapPage"
+             xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             xmlns:ownControls="clr-namespace:SpotFinder.OwnControls;assembly=SpotFinder"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
+             Title="Mapa">
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- Map layout-->
+            <StackLayout x:Name="MapLayoutXaml"
+                         Grid.Row="0"
+                         Grid.Column="0">
+                <!--
+                <maps:Map VerticalOptions="FillAndExpand"
+                          HeightRequest="1200"
+                          WidthRequest="960"
+                          IsShowingUser="True"/>
+                -->
+                <ownControls:BindableMap VerticalOptions="FillAndExpand"
+                                         WidthRequest="500"
+                                         IsShowingUser="True"
+                                         MapPosition="{Binding DeviceLocation}"/>
+            </StackLayout>
+            <!-- Loading layout -->
+            <StackLayout IsVisible="{Binding IsBusy}"
+                         BackgroundColor="#DD111111">
+                <Label Text="Refreshing spots on map..."
+                       TextColor="{StaticResource MainAccentColor}"
+                       VerticalOptions="EndAndExpand"
+                       HorizontalOptions="Center"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   VerticalOptions="StartAndExpand"
+                                   HorizontalOptions="Center"
+                                   Color="{StaticResource MainAccentColor}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

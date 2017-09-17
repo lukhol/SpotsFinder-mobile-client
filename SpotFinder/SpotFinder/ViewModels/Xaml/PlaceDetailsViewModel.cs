@@ -1,4 +1,6 @@
-﻿using SpotFinder.Models.Core;
+﻿using Microsoft.Practices.ServiceLocation;
+using SpotFinder.Core;
+using SpotFinder.Models.Core;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -26,6 +28,7 @@ namespace SpotFinder.ViewModels.Xaml
         public PlaceDetailsViewModel(Place place)
         {
             this.place = place;
+
             if (place == null)
                 IsBusy = true;
         }
@@ -132,7 +135,8 @@ namespace SpotFinder.ViewModels.Xaml
 
         public void Update()
         {
-            Place = App.AppStore.GetState().ShowingPlace;
+            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+            Place = reportManager.ShowingPlace;
         }
     }
 }

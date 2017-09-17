@@ -1,55 +1,35 @@
-﻿using Redux;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Redux;
+using SpotFinder.Redux.StateModels;
 
 namespace SpotFinder.Redux
 {
-    public class ApplicationReducer
+    public class ApplicationReducer : IReducer<ApplicationState>
     {
-        public static ApplicationState Reducer(ApplicationState state, IAction action)
+        private IReducer<Stack<PageName>> NavigationReducer { get; }
+        private IReducer<Settings> SettingsReducer { get; }
+        private IReducer<PlacesData> PlaceDataReducer { get; }
+        private IReducer<DeviceData> DeviceDataReducer { get; }
+
+        public ApplicationReducer(IReducer<Stack<PageName>> navigationReducer, IReducer<Settings> settingsReducer,
+            IReducer<PlacesData>placeDataReducer, IReducer<DeviceData> deviceDataReducer)
         {
-            if(action is InitAction)
-            {
-                var initAction = (InitAction)action;
-                ReadSettings(state);
-            }
-
-            if(action is DownloadSinglePlaceAction)
-            {
-                var downloadSinglePlaceAction = (DownloadSinglePlaceAction)action;
-                state.RequestDownloadPlace(downloadSinglePlaceAction.Id);
-            }
-
-            if(action is SaveSettingsAction)
-            {
-                var saveSettingsAction = (SaveSettingsAction)action;
-                SaveSettingsAsync(saveSettingsAction.City, saveSettingsAction.Distance);
-                state.MainCity = saveSettingsAction.City;
-                state.GlobalDistance = saveSettingsAction.Distance;
-                App.Current.MainPage.Navigation.PopAsync();
-            }
-
-            return state;
+            SettingsReducer = settingsReducer ?? throw new ArgumentNullException("SettingsReducer is null in ApplicationReducer");
+            NavigationReducer = navigationReducer ?? throw new ArgumentNullException("NavigationReducer is null in ApplicationReducer");
+            PlaceDataReducer = placeDataReducer ?? throw new ArgumentNullException("PlaceDataReducer is null in ApplicationReducer");
+            DeviceDataReducer = deviceDataReducer ?? throw new ArgumentNullException("DeviceDataReducer is null in ApplicationReducer");
         }
 
-        private static async void SaveSettingsAsync(string city, int distance)
+        public ApplicationState Reduce(ApplicationState applicationState, IAction action)
         {
-            App.Current.Properties["MainCity"] = city;
-            App.Current.Properties["MainDistance"] = distance;
-
-            await App.Current.SavePropertiesAsync();
-        }
-
-        private static void ReadSettings(ApplicationState state)
-        {
-            if (App.Current.Properties.ContainsKey("MainCity"))
-                state.MainCity = App.Current.Properties["MainCity"] as string;
-
-            if (App.Current.Properties.ContainsKey("MainDistance"))
-                state.GlobalDistance = (int)App.Current.Properties["MainDistance"];
+            return new ApplicationState
+            {
+                NavigationStack = NavigationReducer.Reduce(applicationState.NavigationStack, action),
+                Settings = SettingsReducer.Reduce(applicationState.Settings, action),
+                PlacesData = PlaceDataReducer.Reduce(applicationState.PlacesData, action),
+                DeviceData = DeviceDataReducer.Reduce(applicationState.DeviceData, action)
+            };
         }
     }
 }

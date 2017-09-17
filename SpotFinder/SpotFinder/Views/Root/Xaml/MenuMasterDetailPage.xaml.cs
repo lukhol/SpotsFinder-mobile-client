@@ -1,17 +1,15 @@
 ﻿using SpotFinder.ViewModels.Root;
-using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SpotFinder.Views.Root
+namespace SpotFinder.Views.Root.Xaml
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MenuMasterDetailPageTwo : ContentPage
+    public partial class MenuMasterDetailPage : ContentPage
     {
         public ListView ListView { get; set; }
 
-        public MenuMasterDetailPageTwo()
+        public MenuMasterDetailPage()
         {
             InitializeComponent();
             BindingContext = new MenuMasterDetailPageViewModel();

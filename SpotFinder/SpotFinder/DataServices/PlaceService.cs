@@ -8,7 +8,7 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Net;
-using SpotFinder.Models.WebModels;
+using SpotFinder.Models.DTO;
 using SpotFinder.Models.Core;
 using SpotFinder.Core;
 

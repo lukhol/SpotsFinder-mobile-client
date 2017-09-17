@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SpotFinder.Views.Root
+namespace SpotFinder.Views.Root.Xaml
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RootMasterDetailPageTwo : MasterDetailPage
+    public partial class RootMasterDetailPage : MasterDetailPage
     {
-        public RootMasterDetailPageTwo()
+        public RootMasterDetailPage()
         {
             InitializeComponent();
             MenuMasterDetailPage.ListView.ItemSelected += OnMenuItemSelected;

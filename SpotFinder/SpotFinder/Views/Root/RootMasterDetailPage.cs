@@ -5,7 +5,7 @@ namespace SpotFinder.Views.Root
 {
     public class RootMasterDetailPage : MasterDetailPage
     {
-        MenuMasterDetailPageTwo menuMasterDetailPage;
+        MenuMasterDetailPage menuMasterDetailPage;
 
         public RootMasterDetailPage()
         {
@@ -13,10 +13,10 @@ namespace SpotFinder.Views.Root
 
             MasterBehavior = MasterBehavior.Popover;
 
-            menuMasterDetailPage = new MenuMasterDetailPageTwo();
+            menuMasterDetailPage = new MenuMasterDetailPage();
 
             Master = menuMasterDetailPage;
-            Detail = new InfoPage();
+            Detail = new Views.Xaml.InfoPage();
 
             menuMasterDetailPage.ListView.ItemSelected += OnItemSelected;
         }

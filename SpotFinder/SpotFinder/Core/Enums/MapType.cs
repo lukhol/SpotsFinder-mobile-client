@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotFinder.Redux.OwnImplementation
+namespace SpotFinder.Core.Enums
 {
-    public class Action : IAction
+    public enum MapType
     {
+        Satelite,
+        Normal
     }
 }

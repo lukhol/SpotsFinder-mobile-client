@@ -1,5 +1,5 @@
 ﻿using SpotFinder.Models.Core;
-using SpotFinder.Models.WebModels;
+using SpotFinder.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -238,6 +238,7 @@ namespace SpotFinder.Core
             place.Id = placeWebLight.Id;
             place.Location.Latitude = placeWebLight.Location.Latitude;
             place.Location.Longitude = placeWebLight.Location.Longitude;
+            place.Type = placeWebLight.Type;
 
             place.PhotosBase64 = new List<string>();
             place.PhotosBase64.Add(placeWebLight.MainPhoto);

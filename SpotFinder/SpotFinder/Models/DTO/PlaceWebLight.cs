@@ -2,7 +2,7 @@
 using SpotFinder.Core.Enums;
 using SpotFinder.Models.Core;
 
-namespace SpotFinder.Models.WebModels
+namespace SpotFinder.Models.DTO
 {
     public class PlaceWebLight
     {

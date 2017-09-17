@@ -1,4 +1,5 @@
-﻿using SpotFinder.Core;
+﻿using Microsoft.Practices.ServiceLocation;
+using SpotFinder.Core;
 using SpotFinder.Models.Core;
 using SpotFinder.Redux;
 using SpotFinder.ViewModels.Xaml;
@@ -18,8 +19,9 @@ namespace SpotFinder.Views.Xaml
             InitializeComponent();
             BindingContext = new PlaceDetailsViewModel();
 
-            App.AppStore.GetState().PlaceDownloaded += Update;
-            App.AppStore.Dispatch(new DownloadSinglePlaceAction(id));
+            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+            reportManager.PlaceDownloaded += Update;
+            reportManager.RequestDownloadPlace(id);
 
             PreapreListItemSelected();
         }
@@ -37,8 +39,10 @@ namespace SpotFinder.Views.Xaml
 
         public void Update()
         {
-            if(place == null)
-                place = App.AppStore.GetState().ShowingPlace;
+            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
+
+            if (place == null)
+                place = reportManager.ShowingPlace;
 
             if (place != null)
             {
@@ -59,6 +63,7 @@ namespace SpotFinder.Views.Xaml
                     foreach (var item in place.PhotosBase64)
                     {
                         var image = new Image();
+                        image.Aspect = Aspect.AspectFill;
                         image.Source = Utils.Base64ImageToImageSource(item);
                             ImagesStackLayout.Children.Add(image);
                     }

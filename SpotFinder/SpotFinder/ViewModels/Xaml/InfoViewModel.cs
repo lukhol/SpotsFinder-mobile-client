@@ -8,5 +8,6 @@ namespace SpotFinder.ViewModels.Xaml
 {
     public class InfoViewModel : BaseViewModel
     {
+
     }
 }
