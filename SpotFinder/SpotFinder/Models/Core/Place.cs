@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Xamarin.Forms;
+using SpotFinder.Redux.Actions;
 
 namespace SpotFinder.Models.Core
 {
@@ -74,7 +75,8 @@ namespace SpotFinder.Models.Core
         [JsonIgnore]
         public Command PlaceCommand => new Command(() =>
         {
-            Application.Current.MainPage.Navigation.PushAsync(new Views.Xaml.PlaceDetailsPage(this));
+            App.AppStore.Dispatch(new PassSpotToShowAction(this));
+            Application.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
         });
     }
 }

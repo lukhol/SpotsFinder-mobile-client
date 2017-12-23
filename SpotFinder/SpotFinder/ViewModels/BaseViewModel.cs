@@ -1,19 +1,12 @@
-﻿using SpotFinder.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SpotFinder.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        protected readonly NavigationService NavigationService;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private bool isBusy;
@@ -37,15 +30,15 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public BaseViewModel()
+        public virtual ICommand GoBackCommand => new Command(() => 
         {
-            //NavigationService = ViewModelLocator.Instance.Resolve<INavigationService>();
-        }
+            App.Current.MainPage.Navigation.PopAsync();
+        });
 
-        public virtual void InjectPage(Page page)
+        public virtual ICommand PopToRootAsync => new Command(() =>
         {
-
-        }
+            App.Current.MainPage.Navigation.PopToRootAsync();
+        });
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

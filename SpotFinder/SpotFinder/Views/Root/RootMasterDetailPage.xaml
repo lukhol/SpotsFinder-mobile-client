@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  x:Class="SpotFinder.Views.Root.RootMasterDetailPage"
+                  xmlns:XAMLPages="clr-namespace:SpotFinder.Views"
+                  xmlns:rootPages="clr-namespace:SpotFinder.Views.Root"
+                  MasterBehavior="Popover"
+                  Title=" ">
+    <MasterDetailPage.Master>
+        <rootPages:MenuMasterDetailPage x:Name="MenuMasterDetailPageXaml" />
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <XAMLPages:InfoPage x:Name="InfoPage" />
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

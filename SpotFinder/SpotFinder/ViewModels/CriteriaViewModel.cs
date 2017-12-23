@@ -1,26 +1,225 @@
-﻿using Microsoft.Practices.ServiceLocation;
-using SpotFinder.Core;
-using SpotFinder.Core.Enums;
-using SpotFinder.DataServices;
+﻿using SpotFinder.Core.Enums;
 using SpotFinder.Models.Core;
+using SpotFinder.Redux.Actions;
 using SpotFinder.Resx;
+using System.Linq;
+using SpotFinder.Views.Root;
 using System.Collections.Generic;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SpotFinder.ViewModels
 {
     public class CriteriaViewModel : BaseViewModel
     {
-        private IPlaceService PlaceRepository { get; }
+        public CriteriaViewModel()
+        {
+            distance = 10;
+            usePhoneLocation = true;
+            skatepark = true;
+            skatespot = true;
+            diy = true;
+        }
 
-        private Dictionary<string, Switch> booleanFieldsMap;
-        private Dictionary<PlaceType, Switch> typeFieldsMap;
-        private ContentPage CurrentPage { get; set; }
-        private StackLayout EntryLayout;
-        private Entry CityEntry;
-        private Label distanceInfoLabel;
-        private Slider DistanceSlider;
-        private Color mainAccentColor = (Color)Application.Current.Resources["MainAccentColor"];
+        private bool skatepark;
+        public bool Skatepark
+        {
+            get => skatepark;
+            set
+            {
+                skatepark = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool skatespot;
+        public bool Skatespot
+        {
+            get => skatespot;
+            set
+            {
+                skatespot = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool diy;
+        public bool Diy
+        {
+            get => diy;
+            set
+            {
+                diy = value;
+                OnPropertyChanged();
+            }
+        }
+
+        //Obstacles: ========================================
+
+        private bool gap;
+        public bool Gap
+        {
+            get => gap;
+            set
+            {
+                gap = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool stairs;
+        public bool Stairs
+        {
+            get => stairs;
+            set
+            {
+                stairs = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool rail;
+        public bool Rail
+        {
+            get => rail;
+            set
+            {
+                rail = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool ledge;
+        public bool Ledge
+        {
+            get => ledge;
+            set
+            {
+                ledge = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool handrail;
+        public bool Handrail
+        {
+            get => handrail;
+            set
+            {
+                handrail = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool hubba;
+        public bool Hubba
+        {
+            get => hubba;
+            set
+            {
+                hubba = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool corners;
+        public bool Corners
+        {
+            get => corners;
+            set
+            {
+                corners = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool manualpad;
+        public bool Manualpad
+        {
+            get => manualpad;
+            set
+            {
+                manualpad = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool wallride;
+        public bool Wallride
+        {
+            get => wallride;
+            set
+            {
+                wallride = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool downhill;
+        public bool Downhill
+        {
+            get => downhill;
+            set
+            {
+                downhill = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool openYourMind;
+        public bool OpenYourMind
+        {
+            get => openYourMind;
+            set
+            {
+                openYourMind = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool pyramid;
+        public bool Pyramid
+        {
+            get => pyramid;
+            set
+            {
+                pyramid = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool curb;
+        public bool Curb
+        {
+            get => curb;
+            set
+            {
+                curb = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool bank;
+        public bool Bank
+        {
+            get => bank;
+            set
+            {
+                bank = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool bowl;
+        public bool Bowl
+        {
+            get => bowl;
+            set
+            {
+                bowl = value;
+                OnPropertyChanged();
+            }
+        }
 
         private double distance;
         public double Distance
@@ -29,9 +228,16 @@ namespace SpotFinder.ViewModels
             set
             {
                 distance = value;
-                distanceInfoLabel.Text = "Ustal zasięg wyszukiwania: " + ((int)distance).ToString() + " km";
+                distanceLabelText = AppResources.CriteriaDistanceLabel + ((int)distance).ToString() + " km";
                 OnPropertyChanged();
+                OnPropertyChanged("DistanceLabelText");
             }
+        }
+
+        private string distanceLabelText = AppResources.CriteriaDistanceLabel + "1 km";
+        public string DistanceLabelText
+        {
+            get => distanceLabelText;
         }
 
         private bool usePhoneLocation;
@@ -40,283 +246,114 @@ namespace SpotFinder.ViewModels
             get => usePhoneLocation;
             set
             {
-                CityEntry.IsEnabled = !value;
-                EntryLayout.IsEnabled = !value;
-
                 usePhoneLocation = value;
+                useCity = !value;
+                OnPropertyChanged();
+                OnPropertyChanged("UseCity");
+            }
+        }
+
+
+        private bool useCity;
+        public bool UseCity
+        {
+            get => !usePhoneLocation;
+            set
+            {
+                useCity = value;
+                usePhoneLocation = !value;
+                OnPropertyChanged();
+                OnPropertyChanged("UsePhoneLocation");
+            }
+        }
+
+        private string city;
+        public string City
+        {
+            get => city;
+            set
+            {
+                city = value;
                 OnPropertyChanged();
             }
         }
 
-        public CriteriaViewModel(IPlaceService placeRepository)
+        public ICommand SearchCommand => new Command(SearchRequest);
+
+        private async void SearchRequest()
         {
-            PlaceRepository = placeRepository;
+            var deviceLocation = App.AppStore.GetState().DeviceData.Location;
 
-            booleanFieldsMap = new Dictionary<string, Switch>
-            {
-                {"Gap", CreateParameterSwitch(mainAccentColor) },
-                {"Stairs", CreateParameterSwitch(mainAccentColor) },
-                {"Rail", CreateParameterSwitch(mainAccentColor) },
-                {"Ledge", CreateParameterSwitch(mainAccentColor) },
-                {"Handrail", CreateParameterSwitch(mainAccentColor) },
-                {"Hubba", CreateParameterSwitch(mainAccentColor) },
-                {"Corners", CreateParameterSwitch(mainAccentColor) },
-                {"Manualpad", CreateParameterSwitch(mainAccentColor) },
-                {"Wallride", CreateParameterSwitch(mainAccentColor) },
-                {"Downhill", CreateParameterSwitch(mainAccentColor) },
-                {"OpenYourMind", CreateParameterSwitch(mainAccentColor) },
-                {"Pyramid", CreateParameterSwitch(mainAccentColor) },
-                {"Curb", CreateParameterSwitch(mainAccentColor) },
-                {"Bank", CreateParameterSwitch(mainAccentColor) },
-                {"Bowl", CreateParameterSwitch(mainAccentColor) }
-            };
-
-            typeFieldsMap = new Dictionary<PlaceType, Switch>
-            {
-                {PlaceType.Skatepark, CreateParameterSwitch(mainAccentColor) },
-                {PlaceType.Skatespot, CreateParameterSwitch(mainAccentColor) },
-                {PlaceType.DIY, CreateParameterSwitch(mainAccentColor) }
-            };
-        }
-
-        public void InjectPage(ContentPage contentPage)
-        {
-            CurrentPage = contentPage;
-            CurrentPage.Content = new ScrollView
-            {
-                Content = CreateCriteriaLayout()
-            };
-        }
-
-        public Command SelectAllCommand => new Command(() =>
-        {
-            foreach (var item in booleanFieldsMap)
-            {
-                item.Value.IsToggled = true;
-            }
-        });
-
-        public Command FilterButtonCommand => new Command(async () =>
-        {
-            var reportManager = ServiceLocator.Current.GetInstance<ReportManager>();
-
-            if (CityEntry.Text == null && CityEntry.IsEnabled == true)
+            if (deviceLocation == null)
                 return;
 
-            var criteria = new Criteria();
-
-            criteria.Gap = booleanFieldsMap["Gap"].IsToggled;
-            criteria.Stairs = booleanFieldsMap["Stairs"].IsToggled;
-            criteria.Rail = booleanFieldsMap["Rail"].IsToggled;
-            criteria.Ledge = booleanFieldsMap["Ledge"].IsToggled;
-            criteria.Handrail = booleanFieldsMap["Handrail"].IsToggled;
-            criteria.Hubba = booleanFieldsMap["Hubba"].IsToggled;
-            criteria.Corners = booleanFieldsMap["Corners"].IsToggled;
-            criteria.Manualpad = booleanFieldsMap["Manualpad"].IsToggled;
-            criteria.Wallride = booleanFieldsMap["Wallride"].IsToggled;
-            criteria.Downhill = booleanFieldsMap["Downhill"].IsToggled;
-            criteria.OpenYourMind = booleanFieldsMap["OpenYourMind"].IsToggled;
-            criteria.Pyramid = booleanFieldsMap["Pyramid"].IsToggled;
-            criteria.Curb = booleanFieldsMap["Curb"].IsToggled;
-            criteria.Bank = booleanFieldsMap["Bank"].IsToggled;
-            criteria.Bowl = booleanFieldsMap["Bowl"].IsToggled;
-
-            if (CityEntry.IsEnabled)
+            var criteria = new Criteria
             {
-                criteria.Location.City = CityEntry.Text;
-                criteria.Location.Latitude = null;
-                criteria.Location.Longitude = null;
+                Pyramid = pyramid,
+                Hubba = hubba,
+                Wallride = wallride,
+                Gap = gap,
+                Bank = bank,
+                Bowl = bowl,
+                Corners = corners,
+                Curb = curb,
+                Downhill = downhill,
+                Handrail = handrail,
+                Ledge = ledge,
+                Manualpad = manualpad,
+                Stairs = stairs,
+                Rail = rail,
+                OpenYourMind = openYourMind,
+                Distance = (int)distance
+            };
+
+            //Types:
+            var listOfTypes = new List<PlaceType>();
+
+            if (skatespot)
+                listOfTypes.Add(PlaceType.Skatepark);
+
+            if (skatepark)
+                listOfTypes.Add(PlaceType.Skatespot);
+
+            if (diy)
+                listOfTypes.Add(PlaceType.DIY);
+
+            criteria.Type = listOfTypes;
+
+            if (usePhoneLocation)
+            {
+                criteria.Location = new CityLocation
+                {
+                    Longitude = deviceLocation.Longitude,
+                    Latitude = deviceLocation.Latitude
+                };
             }
             else
             {
-                if (reportManager.Location == null)
-                    return;
-
-                criteria.Location.Longitude = (double)reportManager.Location.Longitude;
-                criteria.Location.Latitude = (double)reportManager.Location.Latitude;
-                criteria.Location.City = null;
-            }
-            
-            criteria.Distance = (int)Distance;
-
-            foreach (var item in typeFieldsMap)
-            {
-                if (item.Value.IsToggled)
-                    criteria.Type.Add(item.Key);
-            }
-
-            if(criteria.Type.Count == 0)
-            {
-                await CurrentPage.DisplayAlert("Validation", "You have to choose at least one type of places", "Ok");
-                return;
-            }
-                
-            reportManager.Criteria = criteria;
-
-            await CurrentPage.Navigation.PopAsync();
-        });
-
-        private Switch CreateParameterSwitch(Color color)
-        {
-            return new Switch
-            {
-                HorizontalOptions = LayoutOptions.Start,
-                Margin = new Thickness(5, 0, 5, 0)
-            };
-        }
-
-        private StackLayout CreateObstaclesLayout()
-        {
-            CurrentPage.BackgroundColor = (Color)Application.Current.Resources["PageBackgroundColor"];
-            CurrentPage.Title = AppResources.FilterLabel;
-
-            var layout = new StackLayout
-            {
-                Children =
+                if (!string.IsNullOrEmpty(city))
                 {
-                    new Label
+                    criteria.Location = new CityLocation
                     {
-                        TextColor = mainAccentColor,
-                        FontAttributes = FontAttributes.Bold,
-                        Text = AppResources.ObstaclesLabel,
-                        Margin = new Thickness(5,0,5,0)
-                    }
-                },
-                Margin = new Thickness(12)
-            };
-
-            foreach(var field in booleanFieldsMap)
-            {
-                var label = new Label
-                {
-                    TextColor = mainAccentColor,
-                    Text = field.Key
-                };
-                var horizontalLayout = Utils.CreateHorizontalStackLayout(field.Value, label);
-                layout.Children.Add(horizontalLayout);
+                        City = city,
+                        Latitude = null,
+                        Longitude = null
+                    };
+                }
             }
-            return layout;
-        }
 
-        private StackLayout CreateTypeLayout()
-        {
-            var layout = new StackLayout
+            //Wyzeruj spot
+            App.AppStore.Dispatch(new ClearSpotsListAction());
+            //Request pobiernaia
+            App.AppStore.Dispatch(new ReplaceCriteriaAction(criteria));
+
+            await App.Current.MainPage.Navigation.PopAsync();
+
+            Device.BeginInvokeOnMainThread(() =>
             {
-                Children =
-                {
-                    new Label
-                    {
-                        TextColor = mainAccentColor,
-                        FontAttributes = FontAttributes.Bold,
-                        Text = AppResources.TypeLabel,
-                        Margin = new Thickness(5,0,5,0)
-                    }
-                },
-                Margin = new Thickness(12)
-            };
-
-            foreach (var field in typeFieldsMap)
-            {
-                var label = new Label
-                {
-                    TextColor = mainAccentColor,
-                    Text = field.Key.ToString()
-                };
-                var horizontalLayout = Utils.CreateHorizontalStackLayout(field.Value, label);
-                layout.Children.Add(horizontalLayout);
-            }
-            return layout;
-        }
-
-        private StackLayout CreateCityEntryLayout()
-        {
-            CityEntry = new Entry
-            {
-                //BackgroundColor = Color.FromRgba(128, 128, 128, 220),
-                PlaceholderColor = Color.Black,
-                Placeholder = AppResources.CityPlaceholder,
-                Margin = new Thickness(12,12,12,12)
-            };
-
-            var layout = new StackLayout
-            {
-                Children =
-                {
-                    CityEntry
-                }
-            };
-
-            return layout;
-        }
-
-        private  StackLayout CreateMyLocationLayout()
-        {
-            var infoLabel = new Label
-            {
-                Text = "Czy chcesz użyć swojej lokalizacji?",
-                TextColor = mainAccentColor,
-                Margin = new Thickness(12, 12, 12, 0)
-            };
-            var usePhoneLocationSwitch = CreateParameterSwitch(mainAccentColor);
-            usePhoneLocationSwitch.Margin = new Thickness(0, 8, 0, 0);
-            usePhoneLocationSwitch.SetBinding(Switch.IsToggledProperty, "UsePhoneLocation");
-
-            return Utils.CreateHorizontalStackLayout(infoLabel, usePhoneLocationSwitch);
-        }
-
-        private StackLayout CreateDistanceLayout()
-        {
-            distanceInfoLabel = new Label
-            {
-                Text = "Ustal zasięg wyszukiwania: 1 km",
-                TextColor = mainAccentColor,
-                Margin = new Thickness(12,12,12,0)
-            };
-
-            DistanceSlider = new Slider
-            {
-                Maximum = 50,
-                Minimum = 1,
-                Value = 5,
-                Margin = new Thickness(0)
-            };
-            DistanceSlider.SetBinding(Slider.ValueProperty, "Distance");
-
-            var layout = new StackLayout
-            {
-                Children =
-                {
-                    distanceInfoLabel,
-                    DistanceSlider
-                }
-            };
-
-            return layout;
-        }
-
-        private StackLayout CreateCriteriaLayout()
-        {
-            EntryLayout = CreateCityEntryLayout();
-            var layout = new StackLayout
-            {
-                Children =
-                {
-                    CreateTypeLayout(),
-                    Utils.CreateGridSeparator(12),
-                    CreateObstaclesLayout(),
-                    //Utils.CreateDownSiteButton(SelectAllCommand, AppResources.SelectAllCommand, new Thickness(12 ,0 ,12, 12)),
-                    Utils.CreateGridSeparator(12),
-                    //Utils.CreateGridSeparator(12),
-                    CreateDistanceLayout(),
-                    EntryLayout,
-                    Utils.CreateGridSeparator(12),
-                    CreateMyLocationLayout(),
-                    //Utils.CreateGridSeparator(12),
-                    Utils.CreateDownSiteButton(FilterButtonCommand, AppResources.FilterLabel, new Thickness(12 ,12 ,12, 12))
-                }
-            };
-
-            return layout;
+                if(App.Current.MainPage.Navigation.NavigationStack.Last().GetType() == typeof(RootMasterDetailPage))
+                    App.Current.MainPage.DisplayAlert("Wyszukiwanie rozpoczęte!", "Wyszukiwanie zostało rozpoczęte. W celu sprawdzenia rezultatów przejdz do mapy lub listy.", "Ok");
+            });
         }
     }
 }

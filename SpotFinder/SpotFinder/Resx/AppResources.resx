@@ -209,4 +209,49 @@
   <data name="SearchDistanceLabel" xml:space="preserve">
     <value>Determine search distance: </value>
   </data>
+  <data name="MainPageButtonText" xml:space="preserve">
+    <value>Search spots near to you</value>
+  </data>
+  <data name="SearchButton" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="CriteriaDistanceLabel" xml:space="preserve">
+    <value>Determine search distance: </value>
+  </data>
+  <data name="UseDeviceLocationLabel" xml:space="preserve">
+    <value>Use device location</value>
+  </data>
+  <data name="WhereSearchLabel" xml:space="preserve">
+    <value>From where you want search?</value>
+  </data>
+  <data name="CountSpotsInformationFoundPartOne" xml:space="preserve">
+    <value>Found </value>
+  </data>
+  <data name="CountSpotsInformationFoundPartTwo" xml:space="preserve">
+    <value> places.</value>
+  </data>
+  <data name="CountSpotsInformationNotFound" xml:space="preserve">
+    <value>Not found places matches provided criteria.</value>
+  </data>
+  <data name="UploadingPrompt" xml:space="preserve">
+    <value>Uploading...</value>
+  </data>
+  <data name="AddPlacePageTitle" xml:space="preserve">
+    <value>Add place</value>
+  </data>
+  <data name="ListPageTitle" xml:space="preserve">
+    <value>List</value>
+  </data>
+  <data name="LocateOnMapPageTitle" xml:space="preserve">
+    <value>Use map to locate</value>
+  </data>
+  <data name="MapPageTitle" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="SearchPageTitle" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SettingsPageTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
 </root>

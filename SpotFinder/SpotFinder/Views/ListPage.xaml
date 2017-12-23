@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:NavContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      xmlns:pages="clr-namespace:SpotFinder.Views.Base;assembly=SpotFinder"
+                      xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+                      xmlns:ownControls="clr-namespace:SpotFinder.OwnControls;assembly=SpotFinder"
+                      xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+                      x:Class="SpotFinder.Views.ListPage"
+                      BackgroundColor="{StaticResource PageBackgroundColor}"
+                      Title="{translate:Translate ListPageTitle}">
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!-- List layout-->
+            <StackLayout x:Name="ListViewLayout"
+                         Grid.Row="0"
+                         Grid.Column="0">
+                <ListView x:Name="ListViewXaml"
+                          ItemsSource="{Binding ObservablePlaceList}"
+                          HasUnevenRows="True"
+                          SeparatorVisibility="None"
+                          BackgroundColor="{StaticResource PageBackgroundColor}"
+                          SeparatorColor="White"
+                          ItemSelected="ListViewItemSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame CornerRadius="5"
+                                       Margin="6,3,6,3"
+                                       Padding="0"
+                                       BackgroundColor="{StaticResource ListItemBackgroundColor}">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Frame Padding="0"
+                                               BackgroundColor="Transparent"
+                                               CornerRadius="5">
+                                            <Image Source="{Binding MainPhoto}"
+                                                   WidthRequest="150"
+                                                   HeightRequest="150"
+                                                   HorizontalOptions="Start"
+                                                   VerticalOptions="Center"/>
+                                        </Frame>
+                                        <StackLayout Margin="0,10,0,10">
+                                            <Label Text="{Binding Name}"
+                                                   TextColor="White"
+                                                   VerticalOptions="EndAndExpand"
+                                                   FontAttributes="Bold"/>
+                                            <Label Text="{Binding Type}"
+                                                   TextColor="White"
+                                                   VerticalOptions="StartAndExpand"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <!-- Prompt StackLayout -->
+            <StackLayout Grid.Row="0"
+                         Grid.Column="0"
+                         IsVisible="{Binding IsPromptVisible}">
+                <Button Text="{Binding InformationText}"
+                        BackgroundColor="#EEFF0000"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="15"
+                        HeightRequest="75"
+                        IsVisible="{Binding IsPromptVisible}"
+                        TextColor="White"
+                        BorderRadius="10"/>
+            </StackLayout>
+
+            <!-- Loading layout -->
+            <StackLayout IsVisible="{Binding IsBusy}"
+                         BackgroundColor="#DD111111">
+                <Label Text="Refreshing spots on list..."
+                       TextColor="{StaticResource MainAccentColor}"
+                       VerticalOptions="EndAndExpand"
+                       HorizontalOptions="Center"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   VerticalOptions="StartAndExpand"
+                                   HorizontalOptions="Center"
+                                   Color="{StaticResource MainAccentColor}"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</pages:NavContentPage>

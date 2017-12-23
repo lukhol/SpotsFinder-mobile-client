@@ -89,6 +89,15 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add place.
+        /// </summary>
+        internal static string AddPlacePageTitle {
+            get {
+                return ResourceManager.GetString("AddPlacePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
         internal static string AddSpotButton {
@@ -161,6 +170,42 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found .
+        /// </summary>
+        internal static string CountSpotsInformationFoundPartOne {
+            get {
+                return ResourceManager.GetString("CountSpotsInformationFoundPartOne", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  places..
+        /// </summary>
+        internal static string CountSpotsInformationFoundPartTwo {
+            get {
+                return ResourceManager.GetString("CountSpotsInformationFoundPartTwo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not found places matches provided criteria..
+        /// </summary>
+        internal static string CountSpotsInformationNotFound {
+            get {
+                return ResourceManager.GetString("CountSpotsInformationNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Determine search distance: .
+        /// </summary>
+        internal static string CriteriaDistanceLabel {
+            get {
+                return ResourceManager.GetString("CriteriaDistanceLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description:.
         /// </summary>
         internal static string DescriptionLabel {
@@ -206,11 +251,29 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List.
+        /// </summary>
+        internal static string ListPageTitle {
+            get {
+                return ResourceManager.GetString("ListPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Localize.
         /// </summary>
         internal static string LocateCommandTitle {
             get {
                 return ResourceManager.GetString("LocateCommandTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use map to locate.
+        /// </summary>
+        internal static string LocateOnMapPageTitle {
+            get {
+                return ResourceManager.GetString("LocateOnMapPageTitle", resourceCulture);
             }
         }
         
@@ -229,6 +292,24 @@ namespace SpotFinder.Resx {
         internal static string MainCityPlaceholder {
             get {
                 return ResourceManager.GetString("MainCityPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search spots near to you.
+        /// </summary>
+        internal static string MainPageButtonText {
+            get {
+                return ResourceManager.GetString("MainPageButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string MapPageTitle {
+            get {
+                return ResourceManager.GetString("MapPageTitle", resourceCulture);
             }
         }
         
@@ -278,6 +359,15 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string SearchButton {
+            get {
+                return ResourceManager.GetString("SearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Determine search distance: .
         /// </summary>
         internal static string SearchDistanceLabel {
@@ -287,11 +377,29 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        internal static string SearchPageTitle {
+            get {
+                return ResourceManager.GetString("SearchPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select all.
         /// </summary>
         internal static string SelectAllCommand {
             get {
                 return ResourceManager.GetString("SelectAllCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string SettingsPageTitle {
+            get {
+                return ResourceManager.GetString("SettingsPageTitle", resourceCulture);
             }
         }
         
@@ -323,11 +431,38 @@ namespace SpotFinder.Resx {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uploading....
+        /// </summary>
+        internal static string UploadingPrompt {
+            get {
+                return ResourceManager.GetString("UploadingPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use device location.
+        /// </summary>
+        internal static string UseDeviceLocationLabel {
+            get {
+                return ResourceManager.GetString("UseDeviceLocationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Use map for better locate:.
         /// </summary>
         internal static string UseMapLabel {
             get {
                 return ResourceManager.GetString("UseMapLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to From where you want search?.
+        /// </summary>
+        internal static string WhereSearchLabel {
+            get {
+                return ResourceManager.GetString("WhereSearchLabel", resourceCulture);
             }
         }
     }

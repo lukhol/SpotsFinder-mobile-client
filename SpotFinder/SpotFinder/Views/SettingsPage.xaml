@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:NavContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      x:Class="SpotFinder.Views.SettingsPage"
+                      xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+                      xmlns:pages="clr-namespace:SpotFinder.Views.Base;assembly=SpotFinder"
+                      BackgroundColor="{StaticResource PageBackgroundColor}"
+                      Title="{translate:Translate SettingsPageTitle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LocalSettingsLabelStyle"
+                   TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="TextColor" Value="{StaticResource MainAccentColor}"/>
+                <Setter Property="Margin" Value="12"/>
+            </Style>
+            
+            <Style x:Key="GridSeparatorStyle"
+                   TargetType="Grid">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="HeightRequest" Value="1"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource MainAccentColor}" />
+            </Style>
+
+            <Style x:Key="SettingsFrameStyle"
+                   TargetType="Frame">
+                <Setter Property="CornerRadius" Value="7" />
+                <Setter Property="Margin" Value="8,1.5,8,1.5" />
+                <Setter Property="BackgroundColor" Value="{StaticResource ListItemBackgroundColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="0,8,0,0">
+                <!-- MainCity: -->
+                <Frame Style="{StaticResource SettingsFrameStyle}"
+                       Padding="0">
+                    <StackLayout>
+                        <Label Style="{StaticResource LocalSettingsLabelStyle}"
+                               Text="{translate:Translate MainCityInfo}"/>
+                        <Entry Placeholder="{translate:Translate MainCityPlaceholder}"
+                               Margin="12, 0, 12, 12"
+                               Text="{Binding City}"/>
+                    </StackLayout>
+                </Frame>
+            
+                <!-- MainDistance -->
+                <Frame Style="{StaticResource SettingsFrameStyle}"
+                       Padding="0">
+                    <StackLayout>
+                        <Label x:Name="DistanceLabel"
+                               Style="{StaticResource LocalSettingsLabelStyle}"
+                               Text="{Binding DistanceLabelText}"/>
+                        <Slider x:Name="DistanceSlider"
+                                Maximum="50"
+                                Minimum="1"
+                                Value="{Binding Distance}"
+                                Margin="0,0,0,10"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- MapType: -->
+                <Frame Style="{StaticResource SettingsFrameStyle}"
+                       Padding="0">
+                    <StackLayout>
+                        <Label x:Name="MapTypeLabel"
+                               Style="{StaticResource LocalSettingsLabelStyle}"
+                               Text="Wybierz typ mapy:"/>
+                        <Picker ItemsSource="{Binding MapTypeForPickerList}"
+                                SelectedItem="{Binding SelectedMapTypeString}"
+                                Margin="12,0,12,12"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- SaveButton: -->
+                <Button Style="{StaticResource GlobalButtonStyle}"
+                        VerticalOptions="EndAndExpand"
+                        Text="{translate:Translate SaveSettingsButton}"
+                        Command="{Binding SaveCommad}"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</pages:NavContentPage>

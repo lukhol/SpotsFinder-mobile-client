@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:NavContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      xmlns:pages="clr-namespace:SpotFinder.Views.Base;assembly=SpotFinder"
+                      xmlns:ownControls="clr-namespace:SpotFinder.OwnControls;assembly=SpotFinder"
+                      xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+                      x:Class="SpotFinder.Views.CriteriaPage"
+                      BackgroundColor="{StaticResource PageBackgroundColor}"
+                      EnableBackButtonOverride="True"
+                      Title="{translate:Translate SearchPageTitle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="NormalTextLabelCriteria"
+                   TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource MainAccentColor}"/>
+            </Style>
+            <Style x:Key="CriteriaFrameStyle"
+                   TargetType="Frame">
+                <Setter Property="CornerRadius" Value="7" />
+                <Setter Property="Margin" Value="8,1.5,8,1.5" />
+                <Setter Property="BackgroundColor" Value="{StaticResource ListItemBackgroundColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout Margin="0,8,0,0">
+                <!-- Type: ================================================================================-->
+                <Frame Style="{StaticResource CriteriaFrameStyle}"
+                       Padding="3">
+                    <StackLayout>
+                        <Label Text="{translate:Translate TypeLabel}"
+                               Style="{StaticResource SubtitleLabel}"/>
+                        <!-- Skatespot-->
+                        <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                            <ownControls:Checkbox Checked="{Binding Skatespot}"
+                                                  HeightRequest="25"
+                                                  Margin="15, 0, 0, 0"
+                                                  HorizontalOptions="Start"/>
+                            <Label Text="Skatespot"
+                                   Style="{StaticResource NormalTextLabelCriteria}"
+                                   VerticalOptions="Center"/>
+                        </StackLayout>
+
+                        <!-- Skatepark-->
+                        <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                            <ownControls:Checkbox Checked="{Binding Skatepark}"
+                                                  HeightRequest="25"
+                                                  Margin="15, 0, 0, 0"
+                                                  HorizontalOptions="Start"/>
+                            <Label Text="Skatepark"
+                                   Style="{StaticResource NormalTextLabelCriteria}"
+                                   VerticalOptions="Center"/>
+                        </StackLayout>
+
+                        <!-- DIY-->
+                        <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                            <ownControls:Checkbox Checked="{Binding Diy}"
+                                                  HeightRequest="25"
+                                                  Margin="15, 0, 0, 0"
+                                                  HorizontalOptions="Start"/>
+                            <Label Text="DIY"
+                                   Style="{StaticResource NormalTextLabelCriteria}"
+                                   VerticalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <Frame Style="{StaticResource CriteriaFrameStyle}"
+                       Padding="3">
+                    <StackLayout>
+                        <!-- Obstacles: ================================================================================-->
+                        <Label Text="{translate:Translate ObstaclesLabel}"
+                               Style="{StaticResource SubtitleLabel}"/>
+                        <!-- Obstacle Layout: -->
+                        <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                            <!-- First part of obstacles: -->
+                            <StackLayout HorizontalOptions="StartAndExpand">
+                                <!-- Gap: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Gap}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>   
+                                    <Label Text="Gap"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Rail: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Rail}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Rail"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>   
+                                </StackLayout>
+                                <!-- Handrail: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Handrail}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Handrail"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Corners: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Corners}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Corners"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Wallride: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Wallride}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Wallride"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- OpenYourMind: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding OpenYourMind}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="OpenYourMind"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Curb: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Curb}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Curb"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Bowl: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Bowl}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Bowl"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                            </StackLayout>
+                            <!-- Second part of obstacles: -->
+                            <StackLayout HorizontalOptions="StartAndExpand">
+                                <!-- Stairs: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Stairs}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Stairs"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Ledge: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Ledge}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Ledge"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Hubba: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Hubba}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Hubba"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Manualpad: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Manualpad}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Manualpad"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Downhill: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Downhill}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Downhill"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Pyramid: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Pyramid}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Pyramid"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>
+                                </StackLayout>
+                                <!-- Ledge: -->
+                                <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                                    <ownControls:Checkbox Checked="{Binding Bank}"
+                                                          HeightRequest="25"
+                                                          Margin="15, 0, 0, 0"
+                                                          HorizontalOptions="Start"/>
+                                    <Label Text="Bank"
+                                           Style="{StaticResource NormalTextLabelCriteria}"
+                                           VerticalOptions="Center"/>   
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Distance: ================================================================================-->
+                <Frame Style="{StaticResource CriteriaFrameStyle}"
+                       Padding="3">
+                    <StackLayout>
+                        <Label Text="{Binding DistanceLabelText}"
+                               Style="{StaticResource SubtitleLabel}"/>
+                        <Slider x:Name="DistanceSlider"
+                                Maximum="50"
+                                Minimum="1"
+                                Value="{Binding Distance}"
+                                Margin="0,0,0,10"/>
+                    </StackLayout>
+                </Frame>
+
+                <!-- Location: -->
+                <Frame Style="{StaticResource CriteriaFrameStyle}"
+                       Padding="3"
+                       Margin="8,1.5,8,3">
+                    <StackLayout>
+                        <Label Text="{translate:Translate WhereSearchLabel}"
+                               Style="{StaticResource SubtitleLabel}"/>
+                        <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                            <Switch IsToggled="{Binding UsePhoneLocation}"
+                                    HorizontalOptions="Start"
+                                    Margin="15, 0, 0, 0"/>
+                            <Label Text="{translate:Translate UseDeviceLocationLabel}"
+                                   Style="{StaticResource SubtitleLabel}"
+                                   VerticalOptions="Center"
+                                   Margin="0"/>
+                        </StackLayout>
+                        <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}"
+                             VerticalOptions="FillAndExpand">
+                            <Switch IsToggled="{Binding UseCity}"
+                                    HorizontalOptions="Start"
+                                    Margin="15, 0, 0, 0"/>
+                            <Entry Placeholder="{translate:Translate MainCityPlaceholder}"
+                                   Text="{Binding City}"
+                                   IsEnabled="{Binding UseCity}"
+                                   Margin="0, 5, 12, 5"
+                                   HorizontalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                
+                <!-- Filter button -->
+                <Button Style="{StaticResource GlobalButtonStyle}"
+                        Text="{translate:Translate SearchButton}"
+                        VerticalOptions="End"
+                        Command="{Binding SearchCommand}"/>
+                <!-- end -->
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</pages:NavContentPage>

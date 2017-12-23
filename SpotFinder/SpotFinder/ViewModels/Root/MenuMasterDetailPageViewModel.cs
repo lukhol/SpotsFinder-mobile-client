@@ -1,4 +1,5 @@
-﻿using SpotFinder.Views;
+﻿using SpotFinder.Resx;
+using SpotFinder.Views;
 using SpotFinder.Views.Root;
 using System;
 using System.Collections.Generic;
@@ -26,45 +27,33 @@ namespace SpotFinder.ViewModels.Root
             {
                 new MasterPageItem
                 {
-                    Title = "Criteria",
+                    Title = AppResources.SearchPageTitle,
                     TargetType = typeof(CriteriaPage),
                     IconSource = "criteriaIcon.png"
                 },
                 new MasterPageItem
                 {
-                    Title = "List",
+                    Title = AppResources.ListPageTitle,
                     TargetType = typeof(ListPage),
                     IconSource = "listIcon.png"
                 },
                 new MasterPageItem
                 {
-                    Title = "Map",
+                    Title = AppResources.MapPageTitle,
                     TargetType = typeof(MapPage),
                     IconSource = "mapIcon.png"
                 },
                 new MasterPageItem
                 {
-                    Title = "Add spot",
+                    Title = AppResources.AddPlacePageTitle,
                     TargetType = typeof(AddingProcessPage),
                     IconSource = "plusIcon.png"
                 },
                 new MasterPageItem
                 {
-                    Title = "Settings",
-                    TargetType = typeof(Views.Xaml.SettingsPage),
+                    Title = AppResources.SettingsTitle,
+                    TargetType = typeof(SettingsPage),
                     IconSource = "settingsIcon.png"
-                },
-                new MasterPageItem
-                {
-                    Title = "Offline list",
-                    TargetType = typeof(LocalListPage),
-                    IconSource = "listIcon.png"
-                },
-                new MasterPageItem
-                {
-                    Title = "Nowa mapa",
-                    TargetType = typeof(Views.Xaml.MapPage),
-                    IconSource = "mapIcon.png"
                 }
             };
         }

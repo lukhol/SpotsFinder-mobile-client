@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:NavContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      x:Class="SpotFinder.Views.PlaceDetailsPage"
+                      xmlns:pages="clr-namespace:SpotFinder.Views.Base;assembly=SpotFinder"
+                      xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+                      xmlns:ownControls="clr-namespace:SpotFinder.OwnControls;assembly=SpotFinder"
+                      Title="{translate:Translate PlaceDetailsTitle}"
+                      BackgroundColor="{StaticResource PageBackgroundColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="PlaceDetailsFrameStyle"
+                   TargetType="Frame">
+                <Setter Property="CornerRadius" Value="7" />
+                <Setter Property="Margin" Value="8,1.5,8,1.5" />
+                <Setter Property="BackgroundColor" Value="{StaticResource ListItemBackgroundColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <ScrollView x:Name="MainContentScrollView"
+                        IsVisible="{Binding IsMainContentVisible}">
+                <StackLayout>
+                    <!-- Title: -->
+                    <Label Text="{Binding Name}"
+                           Margin="10,10,10,0"
+                           Style="{StaticResource TitleLabel}"/>
+                    
+                    <!-- Type: -->
+                    <Frame Style="{StaticResource PlaceDetailsFrameStyle}"
+                           Padding="3">
+                        <StackLayout>
+                            <Label Text="{translate:Translate TypeLabel}"
+                                   Style="{StaticResource SubtitleLabel}"/>
+                            <Label Text="{Binding Type}"
+                                   Style="{StaticResource NormalTextLabel}"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Description: -->
+                    <Frame Style="{StaticResource PlaceDetailsFrameStyle}"
+                           Padding="3">
+                        <StackLayout>
+                            <Label Text="{translate:Translate DescriptionLabel}"
+                                   Style="{StaticResource SubtitleLabel}"/>
+                            <Label Text="{Binding Description}"
+                                   Style="{StaticResource NormalTextLabel}"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Obstacles: -->
+                    <Frame Style="{StaticResource PlaceDetailsFrameStyle}"
+                           Padding="3">
+                        <StackLayout>
+                            <Label Text="{translate:Translate ObstaclesLabel}"
+                                   Style="{StaticResource SubtitleLabel}"/>
+                            <ListView HasUnevenRows="True"
+                                      BackgroundColor="Transparent"
+                                      SeparatorVisibility="None"
+                                      Margin="15, 0, 15, 0"
+                                      VerticalOptions="Start"
+                                      HeightRequest="{Binding ObstacleListHeight}"
+                                      ItemsSource="{Binding ObstacleList}"
+                                      x:Name="ObstacleListView">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Label Text="{Binding .}"
+                                                   TextColor="{StaticResource MainAccentColor}"
+                                                   Margin="0"/>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Images -->
+                    <Frame Style="{StaticResource PlaceDetailsFrameStyle}"
+                           Padding="0">
+                        <ownControls:BindableStackLayout x:Name="ImagesStackLayout"
+                                                         Margin="0"
+                                                         ChildrenList="{Binding ImagesList}">
+                        </ownControls:BindableStackLayout>
+                    </Frame>
+
+                    <!-- Map: -->
+                    <Frame Style="{StaticResource PlaceDetailsFrameStyle}"
+                           Padding="0">
+                            <StackLayout HeightRequest="400"
+                                         Margin="0">
+                                <ownControls:BindableMap x:Name="MyMap"
+                                                         WidthRequest="960"
+                                                         HeightRequest="100"
+                                                         MapPosition="{Binding SpotPosition}"
+                                                         MapPins="{Binding SpotPin}"
+                                                         MapType="{Binding MapTypeProperty}"
+                                                         VerticalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </Frame>
+
+                    <!-- Button -->
+                    <Button Style="{StaticResource GlobalButtonStyle}"
+                            Text="{translate:Translate GoBackCommandTitle}"
+                            Command="{Binding GoBackCommand}"/>
+                </StackLayout>
+            </ScrollView>
+            <StackLayout x:Name="LoadingLayout"
+                         IsVisible="{Binding IsBusy}"
+                         VerticalOptions="FillAndExpand">
+                <Label Text="Downloading spot..."
+                       TextColor="{StaticResource MainAccentColor}"
+                       VerticalOptions="EndAndExpand"
+                       HorizontalOptions="Center"/>
+                <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                   IsRunning="{Binding IsBusy}"
+                                   VerticalOptions="StartAndExpand"
+                                   HorizontalOptions="Center"
+                                   Color="{StaticResource MainAccentColor}"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</pages:NavContentPage>

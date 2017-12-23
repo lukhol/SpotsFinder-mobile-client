@@ -7,6 +7,8 @@ using SpotFinder.Repositories;
 using SpotFinder.Redux.Reducers;
 using System;
 using System.Collections.Generic;
+using SpotFinder.Core;
+using SpotFinder.SQLite;
 
 namespace SpotFinder.Services
 {
@@ -41,19 +43,19 @@ namespace SpotFinder.Services
             //Data/Test services
             unityContainer.RegisterType<IPlaceService, PlaceService>();
             unityContainer.RegisterType<ILocalPlaceRepository, LocalPlaceRepository>();
+            RegisterSingleton<IPlaceManager, PlaceManager>();
 
             //Helpers
             unityContainer.RegisterType<IPermissionHelper, PermissionHelper>();
             unityContainer.RegisterType<ISettingsHelper, SettingsHelper>();
-            unityContainer.RegisterType<IDeviceLocationHelper, DeviceLocationHelper>();
+            
+            //Providers:
+            RegisterSingleton<IDeviceLocationProvider, DeviceLocationProvider>();
+            unityContainer.RegisterType<IPhotoProvider, PhotoProvider>();
 
-            //ViewModels:
-            unityContainer.RegisterType<ViewModels.Xaml.PlaceDetailsViewModel>();
-            unityContainer.RegisterType<ViewModels.Root.MenuMasterDetailPageViewModel>();
-
-            //Pages:
-            unityContainer.RegisterType<Views.Xaml.PlaceDetailsPage>();
-            unityContainer.RegisterType<Views.Root.Xaml.MenuMasterDetailPage>();
+            //SQLite
+            unityContainer.RegisterType<SQLiteConfig>(new ContainerControlledLifetimeManager());
+            unityContainer.Resolve<SQLiteConfig>();
         }
 
         public T Resolve<T>()

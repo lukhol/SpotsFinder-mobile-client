@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpotFinder.Views.InfoPage"
+             xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
+             Title="Information">
+    <ContentPage.Content>
+        <StackLayout>
+            <Image x:Name="TextLogoImage"
+                   Source="spotsFinderTitleLogo.png"
+                   Margin="25, 10 ,25, 0"
+                   HorizontalOptions="Center"/>
+            <Image x:Name="LogoImage"
+                   Source="logo.png"
+                   VerticalOptions="EndAndExpand"
+                   HorizontalOptions="CenterAndExpand"/>
+            <Label Text="{translate:Translate AppDescriptionLabel}"
+                   TextColor="{StaticResource MainAccentColor}"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="StartAndExpand"
+                   Margin="15"
+                   HorizontalTextAlignment="Center"/>
+            <Button Style="{StaticResource GlobalButtonStyle}"
+                    Text="{translate:Translate MainPageButtonText}"
+                    Command="{Binding SearchSpotsNearCommand}"
+                    VerticalOptions="End"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

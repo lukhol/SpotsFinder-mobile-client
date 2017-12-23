@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using SpotFinder.Redux.StateModels;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpotFinder.Redux
 {
@@ -20,5 +17,11 @@ namespace SpotFinder.Redux
 
         //Device information section
         public DeviceData DeviceData { get; set; }
+
+        public ApplicationState()
+        {
+            PlacesData = new PlacesData();
+            DeviceData = new DeviceData();
+        }
     }
 }

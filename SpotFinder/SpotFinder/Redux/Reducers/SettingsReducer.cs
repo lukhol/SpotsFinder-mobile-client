@@ -19,7 +19,7 @@ namespace SpotFinder.Redux.Reducers
             SettingsHelper = settingsHelper ?? throw new ArgumentNullException("settingsHelper is null in SettingsReducer");
         }
 
-        public Settings Reduce(Settings localState, IAction action)
+        public Settings Reduce(Settings previousState, IAction action)
         {
             if(action is SaveSettingsAction)
             {
@@ -33,7 +33,14 @@ namespace SpotFinder.Redux.Reducers
 
                 SettingsHelper.SaveSettingsAsync(settings);
 
-                return localState;
+                //Nie mogę zwrócić nowego stanu ponieważ na zmianę Settings jest subskrybcja, która zmienia je w stanie.
+                //Dlatego zwracam stary stan, ale z nowymi danymi. Nie wiem czy to dobrze, ale dzięki temu mogę zapisać
+                //się również na subskrybcję dla poszczególnych części Settingsów np. MainCity lub MapType.
+                previousState.MainCity = settings.MainCity;
+                previousState.MainDistance = settings.MainDistance;
+                previousState.MapType = settings.MapType;
+
+                return previousState;
             }
 
             if(action is ReadSettingsAction)
@@ -48,7 +55,7 @@ namespace SpotFinder.Redux.Reducers
                 };
             }
 
-            return localState;
+            return previousState;
         }
     }
 }

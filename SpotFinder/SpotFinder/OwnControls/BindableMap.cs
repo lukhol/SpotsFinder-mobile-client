@@ -19,7 +19,7 @@ namespace SpotFinder.OwnControls
                                       new Position(0,0),
                                       propertyChanged: (b, o, n) => 
                                       {
-                                          ((BindableMap)b).MoveToRegion(MapSpan.FromCenterAndRadius((Position)n, Distance.FromMiles(1)));
+                                          ((BindableMap)b).MoveToRegion(MapSpan.FromCenterAndRadius((Position)n, Distance.FromMeters(50)));
                                       });
 
         public Position MapPosition { get; set; }
@@ -29,12 +29,17 @@ namespace SpotFinder.OwnControls
              typeof(ObservableCollection<Pin>),
              typeof(BindableMap),
              new ObservableCollection<Pin>(),
+             defaultBindingMode: BindingMode.TwoWay,
              propertyChanged: (b, o, n) =>
              {
                  var bindable = (BindableMap)b;
                  bindable.Pins.Clear();
 
                  var collection = (ObservableCollection<Pin>)n;
+
+                 if (collection == null)
+                     return;
+
                  foreach (var item in collection)
                      bindable.Pins.Add(item);
 
@@ -62,6 +67,6 @@ namespace SpotFinder.OwnControls
                  };
              });
 
-        public IList<Pin> MapPins { get; set; }
+        public ObservableCollection<Pin> MapPins { get; set; }
     }
 }

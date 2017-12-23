@@ -9,19 +9,7 @@ namespace SpotFinder.SQLite
     {
         private readonly SQLiteConnection _sqLiteConnection;
 
-        private static readonly SQLiteConfig sqliteConfig = new SQLiteConfig();
-
-        public static SQLiteConfig Instance
-        {
-            get => sqliteConfig;
-        }
-
-        public static void Start()
-        {
-            var instantce = SQLiteConfig.Instance;
-        }
-
-        protected SQLiteConfig()
+        public SQLiteConfig()
         {
             _sqLiteConnection = DependencyService.Get<ISQLite>().GetConnection();
             _sqLiteConnection.CreateTable<SQLitePlace>();

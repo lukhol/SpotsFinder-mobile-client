@@ -9,6 +9,7 @@ namespace SpotFinder.Core.Enums
     public enum MapType
     {
         Satelite,
-        Normal
+        Normal,
+        NoSpecified
     }
 }

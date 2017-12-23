@@ -128,8 +128,10 @@ namespace SpotFinder.DataServices
             }
             catch(Exception e)
             {
+                //Tu trafia jak serwer nie odpowiada oraz jak internet jest wyłączony
                 Debug.WriteLine("Error during getting places with categories.", e.Message);
-                return null;
+
+                throw new WebException("No internet or server error");
             }
 
             return placeList;

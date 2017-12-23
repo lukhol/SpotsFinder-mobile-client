@@ -5,7 +5,6 @@ namespace SpotFinder.OwnControls
     public class MyImage : Image
     {
         private string base64Representation;
-
         public string Base64Representation
         {
             get => base64Representation;
