@@ -19,7 +19,7 @@ namespace SpotFinder.Views
         {
             InitializeComponent();
             PreapreListItemSelected();
-            BindingContext = Unity.Instance.Resolve<PlaceDetailsViewModel>();
+            BindingContext = DIContainer.Instance.Resolve<PlaceDetailsViewModel>();
         }
 
         //Because obstacles are in listview.

@@ -11,7 +11,7 @@ namespace SpotFinder.Views
         public InfoPage()
         {
             InitializeComponent();
-            BindingContext = Unity.Instance.Resolve<InfoViewModel>();
+            BindingContext = DIContainer.Instance.Resolve<InfoViewModel>();
   
             if (Device.RuntimePlatform == Device.WinRT || Device.RuntimePlatform == Device.WinPhone)
             {

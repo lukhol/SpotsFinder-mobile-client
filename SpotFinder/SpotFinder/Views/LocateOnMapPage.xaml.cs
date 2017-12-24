@@ -11,7 +11,7 @@ namespace SpotFinder.Views
         public LocateOnMapPage()
         {
             InitializeComponent();
-            BindingContext = Unity.Instance.Resolve<LocateOnMapViewModel>();
+            BindingContext = DIContainer.Instance.Resolve<LocateOnMapViewModel>();
         }
 
         protected override bool OnBackButtonPressed()

@@ -12,7 +12,7 @@ namespace SpotFinder.Views
         public MapPage()
         {
             InitializeComponent();
-            BindingContext = Unity.Instance.Resolve<MapViewModel>();
+            BindingContext = DIContainer.Instance.Resolve<MapViewModel>();
             CreateToolbarItems(); 
         }
 

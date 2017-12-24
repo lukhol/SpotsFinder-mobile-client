@@ -13,3 +13,6 @@ SpotFinder/SpotFinder.UWP/obj/
 SpotFinder/SpotFinder.UWP/bin/
 .vs/app-xamarin/V15/.suo
 .vs/
+*.bak
+*.user
+.user

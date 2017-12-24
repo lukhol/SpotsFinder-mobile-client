@@ -11,7 +11,7 @@ namespace SpotFinder.Views
         public SettingsPage()
         {
             InitializeComponent();
-            BindingContext = Unity.Instance.Resolve<SettingsViewModel>();
+            BindingContext = DIContainer.Instance.Resolve<SettingsViewModel>();
         }
     }
 }

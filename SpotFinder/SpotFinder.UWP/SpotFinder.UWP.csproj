@@ -160,12 +160,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SpotFinder\SpotFinder.csproj">
-      <Project>{b134e2e4-23cc-485f-a261-d2372eb3ea29}</Project>
-      <Name>SpotFinder</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

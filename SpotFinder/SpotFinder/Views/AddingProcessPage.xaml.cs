@@ -11,7 +11,7 @@ namespace SpotFinder.Views
         public AddingProcessPage()
         {
             InitializeComponent();
-            BindingContext = Unity.Instance.Resolve<AddingProcessViewModel>();
+            BindingContext = DIContainer.Instance.Resolve<AddingProcessViewModel>();
         }
     }
 }

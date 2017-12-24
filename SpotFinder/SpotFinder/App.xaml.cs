@@ -8,7 +8,6 @@ using System.Reactive.Linq;
 using System;
 using Xamarin.Forms;
 using SpotFinder.Redux.Actions;
-using SpotFinder.Core;
 using SpotFinder.Models.Core;
 using SpotFinder.Core.Enums;
 using System.Collections.Generic;
@@ -26,18 +25,18 @@ namespace SpotFinder
 
         public App()
         {
-            permissionHelper = Unity.Instance.Resolve<IPermissionHelper>();
-            settingsHelper = Unity.Instance.Resolve<ISettingsHelper>();
-            deviceLocationProvider = Unity.Instance.Resolve<IDeviceLocationProvider>();
-            placeManager = Unity.Instance.Resolve<IPlaceManager>();
+            permissionHelper = DIContainer.Instance.Resolve<IPermissionHelper>();
+            settingsHelper = DIContainer.Instance.Resolve<ISettingsHelper>();
+            deviceLocationProvider = DIContainer.Instance.Resolve<IDeviceLocationProvider>();
+            placeManager = DIContainer.Instance.Resolve<IPlaceManager>();
 
             InitializeComponent();
 
             permissionHelper.CheckAllPermissionAsync();
 
             AppStore = new Store<ApplicationState>(
-                Unity.Instance.Resolve<IReducer<ApplicationState>>().Reduce, 
-                Unity.Instance.Resolve<ApplicationState>()
+                DIContainer.Instance.Resolve<IReducer<ApplicationState>>().Reduce,
+                DIContainer.Instance.Resolve<ApplicationState>()
             );
 
             //Initial:

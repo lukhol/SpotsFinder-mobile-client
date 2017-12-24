@@ -11,7 +11,7 @@ namespace SpotFinder.Views
 		public CriteriaPage()
 		{
 			InitializeComponent();
-            BindingContext = Unity.Instance.Resolve<CriteriaViewModel>();
+            BindingContext = DIContainer.Instance.Resolve<CriteriaViewModel>();
 		}
 	}
 }

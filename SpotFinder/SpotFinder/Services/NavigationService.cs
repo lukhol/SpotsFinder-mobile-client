@@ -32,8 +32,8 @@ namespace SpotFinder.Services
             Tuple<Type, Type> pageAndViewModelTypesTuple;
             if (PagesDictionary.TryGetValue(pageName, out pageAndViewModelTypesTuple))
             {
-                var displayPage = Unity.Instance.Resolve(pageAndViewModelTypesTuple.Item1) as Page;
-                displayPage.BindingContext = Unity.Instance.Resolve(pageAndViewModelTypesTuple.Item2);
+                var displayPage = DIContainer.Instance.Resolve(pageAndViewModelTypesTuple.Item1) as Page;
+                displayPage.BindingContext = DIContainer.Instance.Resolve(pageAndViewModelTypesTuple.Item2);
                 displayPage.SetNavigationArgs(parameter);
 
                 MainPage.Navigation.PushAsync(displayPage);

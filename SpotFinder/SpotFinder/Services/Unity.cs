@@ -1,5 +1,4 @@
-﻿using Microsoft.Practices.Unity;
-using SpotFinder.Redux.StateModels;
+﻿using SpotFinder.Redux.StateModels;
 using SpotFinder.DataServices;
 using SpotFinder.Helpers;
 using SpotFinder.Redux;
@@ -9,20 +8,23 @@ using System;
 using System.Collections.Generic;
 using SpotFinder.Core;
 using SpotFinder.SQLite;
+using Unity;
+using Unity.Lifetime;
+using Unity.Resolution;
 
 namespace SpotFinder.Services
 {
-    public class Unity
+    public class DIContainer
     {
         private readonly IUnityContainer unityContainer;
 
-        private static readonly Unity instance = new Unity();
+        private static readonly DIContainer instance = new DIContainer();
         
-        public static Unity Instance
+        public static DIContainer Instance
         {
             get => instance;
         }
-        protected Unity()
+        protected DIContainer()
         {
             unityContainer = new UnityContainer();
 

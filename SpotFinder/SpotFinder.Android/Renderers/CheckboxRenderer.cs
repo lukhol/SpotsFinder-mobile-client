@@ -1,17 +1,23 @@
-﻿using System;
-using Android.Content.Res;
+﻿using Android.Content.Res;
 using Android.Support.V7.Widget;
 using Android.Widget;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using SpotFinder.OwnControls;
 using SpotFinder.Droid.Renderers;
+using Android.Content;
+using SpotFinder.OwnControls;
+using System;
 
 [assembly: ExportRenderer(typeof(Checkbox), typeof(CheckboxRenderer))]
 namespace SpotFinder.Droid.Renderers
 {
     public class CheckboxRenderer : ViewRenderer<Checkbox, AppCompatCheckBox>, CompoundButton.IOnCheckedChangeListener
     {
+        public CheckboxRenderer(Context context) : base(context)
+        {
+
+        }
+
         public void OnCheckedChanged(CompoundButton buttonView, bool isChecked)
         {
             ((IViewController)Element).SetValueFromRenderer(Checkbox.CheckedProperty, isChecked);

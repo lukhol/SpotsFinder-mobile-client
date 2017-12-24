@@ -1,4 +1,5 @@
-﻿using Android.Graphics;
+﻿using Android.Content;
+using Android.Graphics;
 using Android.Graphics.Drawables;
 using SpotFinder.Droid.Renderers;
 using System;
@@ -10,6 +11,11 @@ namespace SpotFinder.Droid.Renderers
 {
     public class GenericEntryRenderer : EntryRenderer
     {
+        public GenericEntryRenderer(Context context) : base(context)
+        {
+
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
         {
             base.OnElementChanged(e);

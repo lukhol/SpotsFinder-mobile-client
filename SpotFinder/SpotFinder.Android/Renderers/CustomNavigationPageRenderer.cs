@@ -16,7 +16,7 @@ namespace SpotFinder.Droid.Renderers
 {
     public class CustomNavigationPageRenderer : NavigationPageRenderer
     {
-        public CustomNavigationPageRenderer(Context context)
+        public CustomNavigationPageRenderer(Context context) : base(context)
         {
 
         }

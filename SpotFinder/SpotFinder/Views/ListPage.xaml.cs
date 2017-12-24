@@ -12,7 +12,7 @@ namespace SpotFinder.Views
         public ListPage()
         {
             InitializeComponent();
-            BindingContext = Unity.Instance.Resolve<ListViewModel>();
+            BindingContext = DIContainer.Instance.Resolve<ListViewModel>();
             CreateToolbarItems();
         }
 

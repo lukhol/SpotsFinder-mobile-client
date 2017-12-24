@@ -1,4 +1,5 @@
-﻿using SpotFinder.Droid.Renderers;
+﻿using Android.Content;
+using SpotFinder.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -7,6 +8,11 @@ namespace SpotFinder.Droid.Renderers
 {
     public class GenericPickerRenderer : PickerRenderer
     {
+        public GenericPickerRenderer(Context context) : base(context)
+        {
+
+        }
+
         protected override void OnElementChanged(ElementChangedEventArgs<Picker> e)
         {
             base.OnElementChanged(e);
