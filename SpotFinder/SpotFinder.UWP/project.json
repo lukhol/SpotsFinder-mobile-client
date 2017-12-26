@@ -15,7 +15,7 @@
     "Xamarin.FFImageLoading.Svg": "2.2.9",
     "Xamarin.FFImageLoading.Svg.Forms": "2.2.9",
     "Xamarin.Forms": "2.5.0.91635",
-    "Xamarin.Forms.Maps": "2.3.4.247"
+    "Xamarin.Forms.Maps": "2.5.0.91635"
   },
   "frameworks": {
     "uap10.0.10586": {}
