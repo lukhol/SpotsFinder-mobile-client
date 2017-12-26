@@ -10,12 +10,10 @@ namespace SpotFinder.Redux.Reducers
 {
     public class PlaceDataReducer : IReducer<PlacesData>
     {
-        private IDeviceLocationProvider DeviceLocationProvider { get; }
         private IPlaceManager PlaceManager { get; }
 
-        public PlaceDataReducer(IDeviceLocationProvider deviceLocationProvider, IPlaceManager placeManager)
+        public PlaceDataReducer(IPlaceManager placeManager)
         {
-            DeviceLocationProvider = deviceLocationProvider ?? throw new ArgumentNullException("DeviceLocationProvider is null in PlaceDataReducer");
             PlaceManager = placeManager ?? throw new ArgumentNullException("PlaceManager is null in PlaceDataReducer");
         }
 
@@ -76,12 +74,6 @@ namespace SpotFinder.Redux.Reducers
             if(action is ClearReportAction)
             {
                 previousState.Report = null;
-                return previousState;
-            }
-
-            if(action is RequestDeviceLocationForNewReportAction)
-            {
-                DeviceLocationProvider.RequestDeviceLocationForReportAsync();
                 return previousState;
             }
 

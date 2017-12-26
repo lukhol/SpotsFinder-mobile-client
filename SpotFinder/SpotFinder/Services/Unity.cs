@@ -2,7 +2,8 @@
 using SpotFinder.DataServices;
 using SpotFinder.Helpers;
 using SpotFinder.Redux;
-using SpotFinder.Redux.ActionsCreators;
+using SpotFinder.Redux.Actions.Locations;
+using SpotFinder.Redux.Actions.Permissions;
 using SpotFinder.Redux.Reducers;
 using SpotFinder.Redux.StateModels;
 using SpotFinder.Repositories;
@@ -51,14 +52,13 @@ namespace SpotFinder.Services
             RegisterSingleton<IPlaceManager, PlaceManager>();
 
             //Helpers
-            unityContainer.RegisterType<IPermissionHelper, PermissionHelper>();
             unityContainer.RegisterType<ISettingsHelper, SettingsHelper>();
 
             //ActionsCreators:
             unityContainer.RegisterType<IPermissionActionCreator, PermissionActionCreator>();
+            unityContainer.RegisterType<IDeviceLocationActionCreator, DeviceLocationActionCreator>();
             
             //Providers:
-            RegisterSingleton<IDeviceLocationProvider, DeviceLocationProvider>();
             unityContainer.RegisterType<IPhotoProvider, PhotoProvider>();
 
             //SQLite

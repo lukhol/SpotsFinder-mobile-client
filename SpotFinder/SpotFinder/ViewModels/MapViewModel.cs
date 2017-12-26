@@ -101,8 +101,8 @@ namespace SpotFinder.ViewModels
             {
                 var deviceData = App.AppStore.GetState().DeviceData;
                 Position myPosition;
-                if (deviceData != null && deviceData.Location != null)
-                    myPosition = new Position(deviceData.Location.Latitude, deviceData.Location.Longitude);
+                if (deviceData != null && deviceData.LocationState.Value != null)
+                    myPosition = new Position(deviceData.LocationState.Value.Latitude, deviceData.LocationState.Value.Longitude);
                 else
                     myPosition = new Position(0, 0);
                 return myPosition;

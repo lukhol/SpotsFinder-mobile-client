@@ -282,7 +282,7 @@ namespace SpotFinder.ViewModels
 
         private async void SearchRequest()
         {
-            var deviceLocation = App.AppStore.GetState().DeviceData.Location;
+            var deviceLocation = App.AppStore.GetState().DeviceData.LocationState.Value;
 
             if (deviceLocation == null)
                 return;

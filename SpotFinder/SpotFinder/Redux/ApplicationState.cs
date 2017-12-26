@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SpotFinder.Redux.StateModels;
 using System.Collections.Immutable;
 using SpotFinder.Core.Enums;
+using SpotFinder.Models.Core;
 
 namespace SpotFinder.Redux
 {
@@ -25,8 +26,13 @@ namespace SpotFinder.Redux
 
         public ApplicationState()
         {
+            //TODO: All of this initialization should be inside bootstrapper or DIContainer!
             PlacesData = new PlacesData();
-            DeviceData = new DeviceData();
+
+            var location = new Location(0, 0);
+            var locationState = new LocationState(Status.NotStartedYet, null, location);
+
+            DeviceData = new DeviceData(locationState);
             var permissionDictionary = new Dictionary<PermissionName, Permission>();
             permissionDictionary.Add(PermissionName.Camera, new Permission());
             permissionDictionary.Add(PermissionName.Location, new Permission());

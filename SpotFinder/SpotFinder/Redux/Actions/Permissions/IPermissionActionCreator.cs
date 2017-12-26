@@ -1,6 +1,6 @@
 ﻿using SpotFinder.Core.Enums;
 
-namespace SpotFinder.Redux.ActionsCreators
+namespace SpotFinder.Redux.Actions.Permissions
 {
     public interface IPermissionActionCreator
     {

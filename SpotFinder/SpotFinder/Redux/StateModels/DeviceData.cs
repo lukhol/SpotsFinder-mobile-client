@@ -1,9 +1,19 @@
-﻿using SpotFinder.Models.Core;
+﻿using System;
 
 namespace SpotFinder.Redux.StateModels
 {
     public class DeviceData
     {
-        public Location Location { get; set; }
+        public LocationState LocationState { get; private set; }
+
+        [Obsolete]
+        public DeviceData()
+        {
+        }
+
+        public DeviceData(LocationState locationState)
+        {
+            LocationState = locationState;
+        }
     }
 }

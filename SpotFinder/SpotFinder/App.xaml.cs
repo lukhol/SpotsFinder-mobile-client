@@ -10,7 +10,8 @@ using SpotFinder.Models.Core;
 using SpotFinder.Core.Enums;
 using System.Collections.Generic;
 using Redux;
-using SpotFinder.Redux.ActionsCreators;
+using SpotFinder.Redux.Actions.Permissions;
+using SpotFinder.Redux.Actions.Locations;
 
 namespace SpotFinder
 {
@@ -18,23 +19,20 @@ namespace SpotFinder
     {
         public static IStore<ApplicationState> AppStore { get; private set; }
 
-        //private IPermissionHelper permissionHelper;
         private ISettingsHelper settingsHelper;
-        private IDeviceLocationProvider deviceLocationProvider;
         private IPlaceManager placeManager;
 
         private IPermissionActionCreator permissionActionCreator;
+        private IDeviceLocationActionCreator deviceLocationActionCreator;
 
         public App()
         {
-            //permissionHelper = DIContainer.Instance.Resolve<IPermissionHelper>();
             settingsHelper = DIContainer.Instance.Resolve<ISettingsHelper>();
-            deviceLocationProvider = DIContainer.Instance.Resolve<IDeviceLocationProvider>();
             placeManager = DIContainer.Instance.Resolve<IPlaceManager>();
             permissionActionCreator = DIContainer.Instance.Resolve<IPermissionActionCreator>();
+            deviceLocationActionCreator = DIContainer.Instance.Resolve<IDeviceLocationActionCreator>();
 
             InitializeComponent();
-            //permissionHelper.CheckAllPermissionAsync();
 
             AppStore = new Store<ApplicationState>(
                 DIContainer.Instance.Resolve<IReducer<ApplicationState>>().Reduce,
@@ -49,10 +47,10 @@ namespace SpotFinder
 
             //Initial:
             AppStore.Dispatch(new ReadSettingsAction(settingsHelper.ReadSettings()));
-            AppStore.Dispatch(new RequestGettingDeviceLocationLoop());
    
             MainPage = new CustomNavigationPage(new RootMasterDetailPage());
 
+            DeviceLocationSubscription();
             GetDefaultSpots();
             SaveSettingsSubscription();
             DownloadPlacesByCriteriaSubscription();
@@ -71,6 +69,18 @@ namespace SpotFinder
         protected override void OnResume()
         {
             // Handle when your app resumes
+        }
+
+        private void DeviceLocationSubscription()
+        {
+            AppStore
+                .DistinctUntilChanged(state => new { state.DeviceData.LocationState.Status })
+                .Subscribe(state =>
+                {
+                    var locationStatus = state.DeviceData.LocationState.Status;
+                    if (locationStatus == Status.NotStartedYet || locationStatus == Status.Unknown)
+                        AppStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
+                });
         }
 
         private void GetDefaultSpots()

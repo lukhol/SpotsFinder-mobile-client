@@ -1,10 +1,9 @@
 ﻿using Plugin.Permissions;
 using SpotFinder.Core.Enums;
-using System.Threading.Tasks;
 using SpotFinder.PluginsExtensions;
-using SpotFinder.Redux.Actions.Permissions;
+using System.Threading.Tasks;
 
-namespace SpotFinder.Redux.ActionsCreators
+namespace SpotFinder.Redux.Actions.Permissions
 {
     public class PermissionActionCreator : IPermissionActionCreator
     {

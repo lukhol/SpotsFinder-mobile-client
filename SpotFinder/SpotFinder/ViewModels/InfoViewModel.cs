@@ -13,7 +13,7 @@ namespace SpotFinder.ViewModels
 
         private void SearchSpotsNear()
         {
-            var deviceLocation = App.AppStore.GetState().DeviceData?.Location;
+            var deviceLocation = App.AppStore.GetState().DeviceData?.LocationState.Value;
 
             if (deviceLocation == null)
                 return;

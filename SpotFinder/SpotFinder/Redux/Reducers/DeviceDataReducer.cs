@@ -1,49 +1,52 @@
-﻿using SpotFinder.Redux.StateModels;
-using System;
+﻿using BuilderImmutableObject;
 using Redux;
-using SpotFinder.Redux.Actions;
-using SpotFinder.Models.Core;
-using SpotFinder.Services;
+using SpotFinder.Core.Enums;
+using SpotFinder.Redux.Actions.Locations;
+using SpotFinder.Redux.StateModels;
 
 namespace SpotFinder.Redux.Reducers
 {
+    //TODO: In a future there should be agregate reducer (not now because only location is here)!
     public class DeviceDataReducer : IReducer<DeviceData>
     {
-        private IDeviceLocationProvider DeviceLocationProvider { get; }
-
-        public DeviceDataReducer(IDeviceLocationProvider deviceLocationProvider)
-        {
-            DeviceLocationProvider = deviceLocationProvider ?? throw new ArgumentNullException("DeviceLocationProvider is null in DeviceDataReducer");
-        }
-
         public DeviceData Reduce(DeviceData previousState, IAction action)
         {
-            if(action is UpdateDeviceLocationAction)
+            if(action is GetDeviceLocationStartAction)
             {
-                var updateDeviceLocationAction = action as UpdateDeviceLocationAction;
+                var getDeviceLocationStartAction = action as GetDeviceLocationStartAction;
 
+                var newLocationState = previousState.LocationState
+                    .Set(v => v.Status, Status.Getting)
+                    .Build();
 
-                var location = new Location(updateDeviceLocationAction.Latitude, updateDeviceLocationAction.Longitude);
-
-                previousState.Location = location;
-
-                return previousState;
+                return previousState.Set(v => v.LocationState, newLocationState)
+                    .Build();
             }
 
-            if(action is RequestGettingDeviceLocationOnce)
+            if(action is GetDeviceLocationSuccessCompleteAction)
             {
-                if (DeviceLocationProvider.IsAcquiring == false)
-                    DeviceLocationProvider.RequestDeviceLocationOnesAsync();
+                var getDeviceLocationSuccessCompleteAction = action as GetDeviceLocationSuccessCompleteAction;
 
-                return previousState;
+                var newLocationState = previousState.LocationState
+                    .Set(v => v.Value, getDeviceLocationSuccessCompleteAction.Location)
+                    .Set(v => v.Status, Status.Success)
+                    .Build();
+
+                return previousState.Set(v => v.LocationState, newLocationState)
+                    .Build();
             }
 
-            if(action is RequestGettingDeviceLocationLoop)
+            if(action is GetDeviceLocationErrorCompleteAction)
             {
-                if (DeviceLocationProvider.IsLoopActivated == false)
-                    DeviceLocationProvider.RequestDeviceLocationLoopAsync();
+                var getDeviceLocationErrorCompleteAction = action as GetDeviceLocationErrorCompleteAction;
 
-                return previousState;
+                var newLocationState = previousState.LocationState
+                    .Set(v => v.Error, getDeviceLocationErrorCompleteAction.Error)
+                    .Set(v => v.Status, Status.Error)
+                    .Build();
+
+                return previousState.Set(v => v.LocationState, newLocationState)
+                    .Build();
             }
 
             return previousState;
