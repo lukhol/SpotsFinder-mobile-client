@@ -1,5 +1,7 @@
 ﻿using SpotFinder.Models.Core;
+using SpotFinder.Redux;
 using SpotFinder.Redux.Actions;
+using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Resx;
 using SpotFinder.Views;
 using System;
@@ -14,19 +16,23 @@ namespace SpotFinder.ViewModels
 {
     public class MapViewModel : BaseViewModel
     {
-        public MapViewModel()
+        private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
+
+        public MapViewModel(IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator)
         {
+            this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
+
             App.AppStore
-                .DistinctUntilChanged(state => new { state.PlacesData.ListOfPlaces })
+                .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState })
                 .Subscribe(state =>
                 {
-                    if (state.PlacesData.ListOfPlaces == null)
+                    if (state.PlacesData.PlacesListState == null)
                     {
                         IsBusy = true;
                     }
                     else
                     {
-                        UpdateMap(state.PlacesData.ListOfPlaces);
+                        UpdateMap(state.PlacesData.PlacesListState.Value);
                         IsBusy = false;
                     }
                 });
@@ -49,7 +55,7 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public void UpdateMap(List<Place> places)
+        public void UpdateMap(IList<Place> places)
         {
             if (places == null || places.Count == 0)
             {
@@ -81,8 +87,7 @@ namespace SpotFinder.ViewModels
 
                 pin.Clicked += async (s, e) =>
                 {
-                    App.AppStore.Dispatch(new ClearActuallyShowingPlaceAction());
-                    App.AppStore.Dispatch(new RequestDownloadSpotAction(place.Id));
+                    App.AppStore.DispatchAsync(downloadPlaceByIdActionCreator.DownloadPlaceById(place.Id));
 
                     await App.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
                 };

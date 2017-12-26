@@ -137,7 +137,7 @@ namespace SpotFinder.DataServices
             return placeList;
         }
 
-        public async Task<Place> GetPlaceById(int id)
+        public async Task<Place> GetPlaceByIdAsync(int id)
         {
             Place place;
             try

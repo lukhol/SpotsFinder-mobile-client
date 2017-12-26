@@ -5,90 +5,74 @@ using SpotFinder.Redux.Actions;
 using System.Collections.Generic;
 using SpotFinder.Models.Core;
 using SpotFinder.Services;
+using BuilderImmutableObject;
+using SpotFinder.Redux.Actions.CurrentPlace;
+using SpotFinder.Core.Enums;
+using SpotFinder.Redux.Actions.PlacesList;
 
 namespace SpotFinder.Redux.Reducers
 {
     public class PlaceDataReducer : IReducer<PlacesData>
     {
-        private IPlaceManager PlaceManager { get; }
-
-        public PlaceDataReducer(IPlaceManager placeManager)
-        {
-            PlaceManager = placeManager ?? throw new ArgumentNullException("PlaceManager is null in PlaceDataReducer");
-        }
-
         public PlacesData Reduce(PlacesData previousState, IAction action)
         {
             //List of spots:
-            if(action is ListOfPlacesAction)
+            if(action is DownloadPlacesListByCriteriaStartAction)
             {
-                var listOfPlacesAction = action as ListOfPlacesAction;
+                var downloadPlacesListByCriteriaStartAction = action as DownloadPlacesListByCriteriaStartAction;
 
-                var newListOfPlaces = new List<Place>();
+                var newPlacesListState = previousState.PlacesListState
+                    .Set(v => v.Criteria, downloadPlacesListByCriteriaStartAction.Criteria)
+                    .Set(v => v.Status, Status.Getting)
+                    .Build();
 
-                if (listOfPlacesAction.ListOfPlaces == null)
-                    return previousState;
-
-                foreach(var tempPlace in listOfPlacesAction.ListOfPlaces)
-                {
-                    newListOfPlaces.Add(tempPlace);
-                }
-
-                previousState.ListOfPlaces = newListOfPlaces;
-
-                return previousState;
+                return previousState.Set(v => v.PlacesListState, newPlacesListState)
+                    .Build();
             }
 
-            if(action is ReplaceCriteriaAction)
+            if(action is DownloadPlacesListByCriteriaCompleteAction)
             {
-                var replaceCriteriaAction = action as ReplaceCriteriaAction;
+                var downloadPlacesListByCriteriaCompleteAction = action as DownloadPlacesListByCriteriaCompleteAction;
 
-               previousState.Criteria = replaceCriteriaAction.Criteria;
+                var newPlacesListState = previousState.PlacesListState
+                   .Set(v => v.Value, downloadPlacesListByCriteriaCompleteAction.PlacesList)
+                   .Set(v => v.Status, Status.Success)
+                   .Build();
 
-                return previousState;
-            }
-
-            if(action is SetInitialCriteriaAction)
-            {
-                var setInitialCriteriaAction = action as SetInitialCriteriaAction;
-
-                previousState.Criteria = setInitialCriteriaAction.Criteria;
-
-                return previousState;
-            }
-
-            if(action is ClearSpotsListAction)
-            {
-                previousState.ListOfPlaces = null;
-
-                return previousState;
+                return previousState.Set(v => v.PlacesListState, newPlacesListState)
+                    .Build();
             }
 
             //Adding new place:
-            if(action is CreateNewReportAction)
+            if (action is CreateNewReportAction)
             {
-                previousState.Report = new Report();
-                return previousState;
+                var report = new Report(new Place(), new Location(0 , 0));
+                previousState.Set(v => v.Report, report)
+                    .Build();
             }
 
-            if(action is ClearReportAction)
+            if (action is ClearReportAction)
             {
-                previousState.Report = null;
-                return previousState;
+                return previousState.Set(v => v.Report, null)
+                    .Build();
             }
 
-            if(action is PassPlaceToReportAction)
+            if (action is PassPlaceToReportAction)
             {
                 var passPlaceToReportAction = action as PassPlaceToReportAction;
-                previousState.Report.Place = passPlaceToReportAction.Place;
 
-                return previousState;
+                var newReportObject = previousState.Report
+                    .Set(v => v.Place, passPlaceToReportAction.Place)
+                    .Build();
+
+                return previousState.Set(v => v.Report, newReportObject)
+                    .Build();
             }
 
-            if(action is PassLocationToReportingPlaceAction)
+            if (action is PassLocationToReportingPlaceAction)
             {
                 var passLocationToReportingPlaceAction = action as PassLocationToReportingPlaceAction;
-                if(passLocationToReportingPlaceAction.Latitude == null)
+                if (passLocationToReportingPlaceAction.Latitude == null)
                 {
                     previousState.Report.Place.Location = new Location
                     {
@@ -108,7 +92,7 @@ namespace SpotFinder.Redux.Reducers
                 return previousState;
             }
 
-            if(action is UpdateLocationInReportAction)
+            if (action is UpdateLocationInReportAction)
             {
                 var updateLocationInReportAction = action as UpdateLocationInReportAction;
                 var location = new Location
@@ -117,30 +101,44 @@ namespace SpotFinder.Redux.Reducers
                     Latitude = updateLocationInReportAction.Latitude
                 };
 
-                if(previousState.Report != null)
-                    previousState.Report.Location = location;
+                if (previousState.Report != null)
+                {
+                    var newReportState = previousState.Report
+                        .Set(v => v.Location, location)
+                        .Build();
+
+                    return previousState.Set(v => v.Report, newReportState)
+                        .Build();
+                }
 
                 return previousState;
             }
- 
+
             //Downloading single spot:
-            if(action is ClearActuallyShowingPlaceAction)
+            if (action is DownloadPlaceByIdStartAction)
             {
-                previousState.ShowingPlace = null;
-                return previousState;
+                var downloadPlaceByIdStartAction = action as DownloadPlaceByIdStartAction;
+
+                var newCurrentPlaceState = previousState.CurrentPlaceState
+                    .Set(v => v.Id, downloadPlaceByIdStartAction.Id)
+                    .Set(v => v.Status, Status.Getting)
+                    .Build();
+                
+                return previousState
+                    .Set(v => v.CurrentPlaceState, newCurrentPlaceState)
+                    .Build();
             }
 
-            if(action is RequestDownloadSpotAction)
+            if (action is DownloadPlaceByIdCompleteAction)
             {
-                var requestDownloadSpotAction = action as RequestDownloadSpotAction;
-                PlaceManager.DownloadSinglePlaceByIdAsync(requestDownloadSpotAction.Id);
-                return previousState;
-            }
+                var downloadPlaceByIdCompleteAction = action as DownloadPlaceByIdCompleteAction;
+                var newCurrentPlaceState = previousState.CurrentPlaceState
+                    .Set(v => v.Value, downloadPlaceByIdCompleteAction.Place)
+                    .Set(v => v.Status, Status.Success)
+                    .Build();
 
-            if(action is PassSpotToShowAction)
-            {
-                var passSpotToShowAction = action as PassSpotToShowAction;
-                previousState.ShowingPlace = passSpotToShowAction.Place;
+                return previousState.Set(v => v.CurrentPlaceState, newCurrentPlaceState)
+                    .Build();
             }
 
             return previousState;

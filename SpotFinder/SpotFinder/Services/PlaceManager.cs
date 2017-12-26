@@ -35,28 +35,28 @@ namespace SpotFinder.Services
                 });
             }
 
-            App.AppStore.Dispatch(new ListOfPlacesAction(downloadedPlace));
+            App.AppStore.Dispatch(new SetListOfPlacesAction(downloadedPlace));
         }
 
-        public async void DownloadSinglePlaceByIdAsync(int id)
-        {
-            Place placeToShow = null;
+        //public async void DownloadSinglePlaceByIdAsync(int id)
+        //{
+        //    Place placeToShow = null;
 
-            var placeFromLocalRepository = LocalPlaceRepository.GetPlaceOryginal(id);
-            if(placeFromLocalRepository == null)
-            {
-                placeToShow = await PlaceService.GetPlaceById(id);
-            }
-            else
-            {
-                placeToShow = placeFromLocalRepository;
-            }
+        //    var placeFromLocalRepository = LocalPlaceRepository.GetPlaceOryginal(id);
+        //    if(placeFromLocalRepository == null)
+        //    {
+        //        placeToShow = await PlaceService.GetPlaceByIdAsync(id);
+        //    }
+        //    else
+        //    {
+        //        placeToShow = placeFromLocalRepository;
+        //    }
 
-            if (placeToShow != null)
-                LocalPlaceRepository.InsertPlaceOryginal(placeToShow);
+        //    if (placeToShow != null)
+        //        LocalPlaceRepository.InsertPlaceOryginal(placeToShow);
 
-            App.AppStore.Dispatch(new PassSpotToShowAction(placeToShow));
-        }
+        //    App.AppStore.Dispatch(new PassSpotToShowAction(placeToShow));
+        //}
 
         public void UploadPlaceAsync(Place place)
         {

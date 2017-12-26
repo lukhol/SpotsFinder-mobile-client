@@ -9,6 +9,6 @@ namespace SpotFinder.DataServices
         Task<List<Place>> GetAllPlaceAsync();
         Task<List<Place>> GetPlacesByCriteriaAsync(Criteria criteria);
         Task<int> SendAsync(Place place);
-        Task<Place> GetPlaceById(int id);
+        Task<Place> GetPlaceByIdAsync(int id);
     }
 }

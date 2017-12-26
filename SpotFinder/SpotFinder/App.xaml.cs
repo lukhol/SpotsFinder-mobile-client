@@ -13,6 +13,7 @@ using Redux;
 using SpotFinder.Redux.Actions.Permissions;
 using SpotFinder.Redux.Actions.Locations;
 using SpotFinder.Redux.StateModels;
+using SpotFinder.Config;
 
 namespace SpotFinder
 {
@@ -20,11 +21,15 @@ namespace SpotFinder
     {
         public static IStore<ApplicationState> AppStore { get; private set; }
 
+        private IBootstrapper bootstrapper;
+
         private ISettingsHelper settingsHelper;
         private IPlaceManager placeManager;
 
         public App()
         {
+            bootstrapper = DIContainer.Instance.Resolve<IBootstrapper>();
+
             settingsHelper = DIContainer.Instance.Resolve<ISettingsHelper>();
             placeManager = DIContainer.Instance.Resolve<IPlaceManager>();
 
@@ -35,43 +40,27 @@ namespace SpotFinder
                 DIContainer.Instance.Resolve<ApplicationState>()
             );
 
-            //Initial:
             AppStore.Dispatch(new ReadSettingsAction(settingsHelper.ReadSettings()));
    
             MainPage = new CustomNavigationPage(new RootMasterDetailPage());
 
-            GetDefaultSpots();
             SaveSettingsSubscription();
-            DownloadPlacesByCriteriaSubscription();
+            //DownloadPlacesByCriteriaSubscription();
         }
 
         protected override void OnStart()
         {
-            
+            bootstrapper.OnStart();
         }
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
+            bootstrapper.OnSleep();
         }
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
-        }
-
-        private void GetDefaultSpots()
-        {
-            //To jest potrzebne do ściągnięcia ReportManagerem listy miejsc, który po ściągnięciu ich ustawi Listę w stanie.
-            AppStore.Dispatch(new SetInitialCriteriaAction(new Criteria
-            {
-                Location = new CityLocation
-                {
-                    City = AppStore.GetState().Settings.MainCity
-                },
-                Distance = AppStore.GetState().Settings.MainDistance,
-                Type = new List<PlaceType> { PlaceType.Skatepark, PlaceType.Skatespot, PlaceType.DIY }
-            }));
+            bootstrapper.OnResume();
         }
 
         private void SaveSettingsSubscription()
@@ -85,21 +74,21 @@ namespace SpotFinder
                 });
         }
 
-        private void DownloadPlacesByCriteriaSubscription()
-        {
-            //Subskrybcja, która dzięki zmianie Criteria w stanie powoduje PlaceManagera pobranie listy miejsc
-            //Pobieranie listy:
-            //1. Należy wywołać App.AppStore.Dispatch(new ReplaceCriteriaAction(criteria)); co wywoła poniższą subskrybcję, która następnie ustawi Criteria
-            //   w PlaceManagera, a on zajmie się pobraniem listy, a gdy skończy wywoła  App.AppStore.Dispatch(new ListOfPlacesAction(DownloadedPlacesList));
-            AppStore.
-                DistinctUntilChanged(state => new { state.PlacesData.Criteria })
-                .Subscribe(state =>
-                {
-                    if (state.PlacesData.ListOfPlaces == null)
-                    {
-                        placeManager.DownloadPlacesByCriteriaAsync(state.PlacesData.Criteria);
-                    }
-                });
-        }
+        //private void DownloadPlacesByCriteriaSubscription()
+        //{
+        //    //Subskrybcja, która dzięki zmianie Criteria w stanie powoduje PlaceManagera pobranie listy miejsc
+        //    //Pobieranie listy:
+        //    //1. Należy wywołać App.AppStore.Dispatch(new ReplaceCriteriaAction(criteria)); co wywoła poniższą subskrybcję, która następnie ustawi Criteria
+        //    //   w PlaceManagera, a on zajmie się pobraniem listy, a gdy skończy wywoła  App.AppStore.Dispatch(new ListOfPlacesAction(DownloadedPlacesList));
+        //    AppStore.
+        //        DistinctUntilChanged(state => new { state.PlacesData.Criteria })
+        //        .Subscribe(state =>
+        //        {
+        //            if (state.PlacesData.PlacesListState == null)
+        //            {
+        //                placeManager.DownloadPlacesByCriteriaAsync(state.PlacesData.Criteria);
+        //            }
+        //        });
+        //}
     }
 }

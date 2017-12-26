@@ -71,12 +71,5 @@ namespace SpotFinder.Models.Core
             PhotosBase64 = new List<string>();
             PhotosAsImage = new List<Image>();
         }
-        
-        [JsonIgnore]
-        public Command PlaceCommand => new Command(() =>
-        {
-            App.AppStore.Dispatch(new PassSpotToShowAction(this));
-            Application.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
-        });
     }
 }

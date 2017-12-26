@@ -33,8 +33,7 @@ namespace SpotFinder.ViewModels
             if (criteria == null)
                 return;
 
-            App.AppStore.Dispatch(new ClearSpotsListAction());
-            App.AppStore.Dispatch(new ReplaceCriteriaAction(criteria));
+            App.AppStore.Dispatch(new SetCriteriaAction(criteria));
         }
     }
 }

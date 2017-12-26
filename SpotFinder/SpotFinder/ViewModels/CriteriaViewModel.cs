@@ -342,10 +342,8 @@ namespace SpotFinder.ViewModels
                 }
             }
 
-            //Wyzeruj spot
-            App.AppStore.Dispatch(new ClearSpotsListAction());
             //Request pobiernaia
-            App.AppStore.Dispatch(new ReplaceCriteriaAction(criteria));
+            App.AppStore.Dispatch(new SetCriteriaAction(criteria));
 
             await App.Current.MainPage.Navigation.PopAsync();
 

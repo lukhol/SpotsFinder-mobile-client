@@ -1,14 +1,27 @@
 ﻿using SpotFinder.Models.Core;
-using System.Collections.Generic;
 using System;
 
 namespace SpotFinder.Redux.StateModels
 {
     public class PlacesData
     {
-        public Criteria Criteria { get; set; }
-        public Place ShowingPlace { get; set; }
-        public List<Place> ListOfPlaces { get; set; }
-        public Report Report { get; set; }
+        public Criteria Criteria { get; private set; }
+        public CurrentPlaceState CurrentPlaceState { get; private set; }
+        public PlacesListState PlacesListState { get; private set; }
+        public Report Report { get; private set; }
+
+        [Obsolete]
+        public PlacesData()
+        {
+
+        }
+
+        public PlacesData(Criteria criteria, CurrentPlaceState currentPlaceState, PlacesListState placesListState, Report report)
+        {
+            Criteria = criteria;
+            CurrentPlaceState = currentPlaceState;
+            PlacesListState = placesListState;
+            Report = report;
+        }
     }
 }

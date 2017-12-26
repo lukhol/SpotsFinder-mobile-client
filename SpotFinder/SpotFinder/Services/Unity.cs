@@ -1,9 +1,12 @@
-﻿using SpotFinder.Core.Enums;
+﻿using SpotFinder.Config;
+using SpotFinder.Core.Enums;
 using SpotFinder.DataServices;
 using SpotFinder.Helpers;
 using SpotFinder.Redux;
+using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Redux.Actions.Locations;
 using SpotFinder.Redux.Actions.Permissions;
+using SpotFinder.Redux.Actions.PlacesList;
 using SpotFinder.Redux.Reducers;
 using SpotFinder.Redux.StateModels;
 using SpotFinder.Repositories;
@@ -57,9 +60,14 @@ namespace SpotFinder.Services
             //ActionsCreators:
             unityContainer.RegisterType<IPermissionActionCreator, PermissionActionCreator>();
             unityContainer.RegisterType<IDeviceLocationActionCreator, DeviceLocationActionCreator>();
+            unityContainer.RegisterType<IDownloadPlacesListByCriteriaActionCreator, DownloadPlacesListByCriteriaActionCreator>();
+            unityContainer.RegisterType<IDownloadPlaceByIdActionCreator, DownloadPlaceByIdActionCreator>();
             
             //Providers:
             unityContainer.RegisterType<IPhotoProvider, PhotoProvider>();
+
+            //Bootstrapper:
+            unityContainer.RegisterType<IBootstrapper, Bootstrapper>();
 
             //SQLite
             unityContainer.RegisterType<SQLiteConfig>(new ContainerControlledLifetimeManager());

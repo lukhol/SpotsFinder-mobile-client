@@ -1,39 +1,37 @@
 ﻿using SpotFinder.Models.Core;
+using SpotFinder.Redux;
+using SpotFinder.Redux.Actions.CurrentPlace;
+using SpotFinder.Resx;
+using SpotFinder.Views;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
-using System;
-using System.Collections.Generic;
-using SpotFinder.Resx;
-using SpotFinder.Views;
-using SpotFinder.Redux.Actions;
-using System.Linq;
 
 namespace SpotFinder.ViewModels
 {
     public class ListViewModel : BaseViewModel
     {
-        public ListViewModel()
+        private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
+
+        public ListViewModel(IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator)
         {
+            this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
+
             App.AppStore
-                .DistinctUntilChanged(state => new { state.PlacesData.ListOfPlaces })
+                .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Value })
                 .Subscribe(state =>
                 {
-                    if(state.PlacesData.ListOfPlaces == null)
-                    {
-                        IsBusy = true;
-                        IsPromptVisible = false;
-                    }
-                    else
-                    {
-                        UpdateList(state.PlacesData.ListOfPlaces);
-                        IsBusy = false;
-                    }
+                    var placesList = state.PlacesData.PlacesListState.Value;
+                    if (placesList != null)
+                        UpdateList(placesList);
                 });
         }
 
-        private void UpdateList(List<Place> places)
+        private void UpdateList(IList<Place> places)
         {
             if (places == null || places.Count == 0)
             {
@@ -105,9 +103,7 @@ namespace SpotFinder.ViewModels
 
             if(App.Current.MainPage.Navigation.NavigationStack.Last().GetType() == typeof(ListPage))
             {
-                App.AppStore.Dispatch(new ClearActuallyShowingPlaceAction());
-                App.AppStore.Dispatch(new RequestDownloadSpotAction(selectedPlace.Id));
-
+                App.AppStore.DispatchAsync(downloadPlaceByIdActionCreator.DownloadPlaceById(selectedPlace.Id));
                 App.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
             }
         });

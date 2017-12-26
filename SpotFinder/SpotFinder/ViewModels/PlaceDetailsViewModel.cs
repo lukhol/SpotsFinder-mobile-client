@@ -13,17 +13,20 @@ namespace SpotFinder.ViewModels
     public class PlaceDetailsViewModel : BaseViewModel
     {
         private Place place;
+        private IDisposable placeSubscription;
 
         public PlaceDetailsViewModel()
         {
             IsBusy = true;
 
-            App.AppStore
-                .DistinctUntilChanged(state => new { state.PlacesData.ShowingPlace })
+            placeSubscription = App.AppStore
+                .DistinctUntilChanged(state => new { state.PlacesData.CurrentPlaceState.Value })
                 .Subscribe(state =>
                 {
-                    if (state.PlacesData.ShowingPlace != null)
+                    var place = state.PlacesData.CurrentPlaceState.Value;
+                    if(place != null && state.PlacesData.CurrentPlaceState.Status == Core.Enums.Status.Success)
                     {
+                        this.place = place;
                         Update();
                     }
                 });
@@ -64,6 +67,7 @@ namespace SpotFinder.ViewModels
             {
                 place = value;
                 OnPropertyChanged("Name");
+                OnPropertyChanged("Type");
                 OnPropertyChanged("Description");
                 OnPropertyChanged("ObstacleList");
                 OnPropertyChanged("ObstacleListHeight");
@@ -212,8 +216,6 @@ namespace SpotFinder.ViewModels
 
         private void Update()
         {
-            Place = App.AppStore.GetState().PlacesData.ShowingPlace;
-
             //Add spot as a pin to the map:
             SpotPosition = new Position(place.Location.Latitude, place.Location.Longitude);
 
@@ -240,6 +242,10 @@ namespace SpotFinder.ViewModels
             }
 
             ImagesList = newImagesList;
+
+            Place = this.place;
+            placeSubscription.Dispose();
+            IsBusy = false;
         }
     }
 }

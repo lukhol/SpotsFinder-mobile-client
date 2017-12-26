@@ -3,11 +3,11 @@ using SpotFinder.Models.Core;
 
 namespace SpotFinder.Redux.Actions
 {
-    class ReplaceCriteriaAction : IAction
+    class SetCriteriaAction : IAction
     {
         public Criteria Criteria { get; private set; }
 
-        public ReplaceCriteriaAction(Criteria criteria)
+        public SetCriteriaAction(Criteria criteria)
         {
             Criteria = criteria;
         }
