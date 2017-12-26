@@ -1,4 +1,5 @@
-﻿using SpotFinder.Core.Enums;
+﻿using SpotFinder.Config;
+using SpotFinder.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;

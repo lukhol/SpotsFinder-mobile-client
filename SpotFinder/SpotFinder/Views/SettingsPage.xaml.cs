@@ -1,4 +1,4 @@
-﻿using SpotFinder.Services;
+﻿using SpotFinder.Config;
 using SpotFinder.ViewModels;
 using SpotFinder.Views.Base;
 using Xamarin.Forms.Xaml;

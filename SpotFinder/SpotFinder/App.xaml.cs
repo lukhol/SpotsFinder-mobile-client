@@ -22,16 +22,12 @@ namespace SpotFinder
         public static IStore<ApplicationState> AppStore { get; private set; }
 
         private IBootstrapper bootstrapper;
-
         private ISettingsHelper settingsHelper;
-        private IPlaceManager placeManager;
 
         public App()
         {
             bootstrapper = DIContainer.Instance.Resolve<IBootstrapper>();
-
             settingsHelper = DIContainer.Instance.Resolve<ISettingsHelper>();
-            placeManager = DIContainer.Instance.Resolve<IPlaceManager>();
 
             InitializeComponent();
 
@@ -73,22 +69,5 @@ namespace SpotFinder
                     AppStore.Dispatch(new SaveSettingsAction(state.Settings));
                 });
         }
-
-        //private void DownloadPlacesByCriteriaSubscription()
-        //{
-        //    //Subskrybcja, która dzięki zmianie Criteria w stanie powoduje PlaceManagera pobranie listy miejsc
-        //    //Pobieranie listy:
-        //    //1. Należy wywołać App.AppStore.Dispatch(new ReplaceCriteriaAction(criteria)); co wywoła poniższą subskrybcję, która następnie ustawi Criteria
-        //    //   w PlaceManagera, a on zajmie się pobraniem listy, a gdy skończy wywoła  App.AppStore.Dispatch(new ListOfPlacesAction(DownloadedPlacesList));
-        //    AppStore.
-        //        DistinctUntilChanged(state => new { state.PlacesData.Criteria })
-        //        .Subscribe(state =>
-        //        {
-        //            if (state.PlacesData.PlacesListState == null)
-        //            {
-        //                placeManager.DownloadPlacesByCriteriaAsync(state.PlacesData.Criteria);
-        //            }
-        //        });
-        //}
     }
 }
