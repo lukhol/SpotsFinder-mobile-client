@@ -4823,6 +4823,9 @@ namespace SpotFinder.Droid
 			// aapt resource value: 0x7f0d004d
 			public const int RtlUnderlay_Widget_AppCompat_ActionButton_Overflow = 2131558477;
 			
+			// aapt resource value: 0x7f0d018d
+			public const int SplashTheme = 2131558797;
+			
 			// aapt resource value: 0x7f0d00dd
 			public const int TextAppearance_AppCompat = 2131558621;
 			
@@ -5140,9 +5143,6 @@ namespace SpotFinder.Droid
 			
 			// aapt resource value: 0x7f0d0006
 			public const int Theme_MediaRouter_LightControlPanel = 2131558406;
-			
-			// aapt resource value: 0x7f0d018d
-			public const int Theme_Splash = 2131558797;
 			
 			// aapt resource value: 0x7f0d011f
 			public const int ThemeOverlay_AppCompat = 2131558687;
