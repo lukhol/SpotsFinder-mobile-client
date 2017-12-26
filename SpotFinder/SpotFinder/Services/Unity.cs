@@ -1,13 +1,15 @@
-﻿using SpotFinder.Redux.StateModels;
+﻿using SpotFinder.Core.Enums;
 using SpotFinder.DataServices;
 using SpotFinder.Helpers;
 using SpotFinder.Redux;
-using SpotFinder.Repositories;
+using SpotFinder.Redux.ActionsCreators;
 using SpotFinder.Redux.Reducers;
+using SpotFinder.Redux.StateModels;
+using SpotFinder.Repositories;
+using SpotFinder.SQLite;
 using System;
 using System.Collections.Generic;
-using SpotFinder.Core;
-using SpotFinder.SQLite;
+using System.Collections.Immutable;
 using Unity;
 using Unity.Lifetime;
 using Unity.Resolution;
@@ -31,6 +33,7 @@ namespace SpotFinder.Services
             //Reducers
             unityContainer.RegisterType<IReducer<ApplicationState>, ApplicationReducer>();
 
+            unityContainer.RegisterType<IReducer<IImmutableDictionary<PermissionName, Permission>>, PermissionsReducer>();
             unityContainer.RegisterType<IReducer<Settings>, SettingsReducer>();
             unityContainer.RegisterType<IReducer<Stack<PageName>>, NavigationReducer>();
             unityContainer.RegisterType<IReducer<PlacesData>, PlaceDataReducer>();
@@ -50,6 +53,9 @@ namespace SpotFinder.Services
             //Helpers
             unityContainer.RegisterType<IPermissionHelper, PermissionHelper>();
             unityContainer.RegisterType<ISettingsHelper, SettingsHelper>();
+
+            //ActionsCreators:
+            unityContainer.RegisterType<IPermissionActionCreator, PermissionActionCreator>();
             
             //Providers:
             RegisterSingleton<IDeviceLocationProvider, DeviceLocationProvider>();

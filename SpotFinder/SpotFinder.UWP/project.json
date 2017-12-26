@@ -2,10 +2,11 @@
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
     "Newtonsoft.Json": "10.0.3",
-    "Plugin.Permissions": "2.1.0",
+    "Plugin.Permissions": "2.0.1",
     "Plugin.SQLite": "1.0.4",
     "Redux.NET": "2.0.0",
     "sqlite-net-pcl": "1.4.118",
+    "System.Collections.Immutable": "1.4.0",
     "System.Reactive": "3.1.1",
     "Unity.Abstractions": "3.0.0",
     "Unity.Container": "5.5.0",

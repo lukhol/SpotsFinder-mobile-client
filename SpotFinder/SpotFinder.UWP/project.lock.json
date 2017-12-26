@@ -418,7 +418,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "Plugin.Permissions/2.1.0": {
+      "Plugin.Permissions/2.0.1": {
         "type": "package",
         "compile": {
           "lib/UAP10/Plugin.Permissions.Abstractions.dll": {},
@@ -767,7 +767,7 @@
           "lib/netcore50/System.Collections.Concurrent.dll": {}
         }
       },
-      "System.Collections.Immutable/1.2.0": {
+      "System.Collections.Immutable/1.4.0": {
         "type": "package",
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -3230,7 +3230,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "Plugin.Permissions/2.1.0": {
+      "Plugin.Permissions/2.0.1": {
         "type": "package",
         "compile": {
           "lib/UAP10/Plugin.Permissions.Abstractions.dll": {},
@@ -3784,7 +3784,7 @@
           "lib/netcore50/System.Collections.Concurrent.dll": {}
         }
       },
-      "System.Collections.Immutable/1.2.0": {
+      "System.Collections.Immutable/1.4.0": {
         "type": "package",
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -6069,7 +6069,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "Plugin.Permissions/2.1.0": {
+      "Plugin.Permissions/2.0.1": {
         "type": "package",
         "compile": {
           "lib/UAP10/Plugin.Permissions.Abstractions.dll": {},
@@ -6658,7 +6658,7 @@
           "lib/netcore50/System.Collections.Concurrent.dll": {}
         }
       },
-      "System.Collections.Immutable/1.2.0": {
+      "System.Collections.Immutable/1.4.0": {
         "type": "package",
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -8945,7 +8945,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "Plugin.Permissions/2.1.0": {
+      "Plugin.Permissions/2.0.1": {
         "type": "package",
         "compile": {
           "lib/UAP10/Plugin.Permissions.Abstractions.dll": {},
@@ -9505,7 +9505,7 @@
           "lib/netcore50/System.Collections.Concurrent.dll": {}
         }
       },
-      "System.Collections.Immutable/1.2.0": {
+      "System.Collections.Immutable/1.4.0": {
         "type": "package",
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -11793,7 +11793,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "Plugin.Permissions/2.1.0": {
+      "Plugin.Permissions/2.0.1": {
         "type": "package",
         "compile": {
           "lib/UAP10/Plugin.Permissions.Abstractions.dll": {},
@@ -12388,7 +12388,7 @@
           "lib/netcore50/System.Collections.Concurrent.dll": {}
         }
       },
-      "System.Collections.Immutable/1.2.0": {
+      "System.Collections.Immutable/1.4.0": {
         "type": "package",
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -14675,7 +14675,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "Plugin.Permissions/2.1.0": {
+      "Plugin.Permissions/2.0.1": {
         "type": "package",
         "compile": {
           "lib/UAP10/Plugin.Permissions.Abstractions.dll": {},
@@ -15235,7 +15235,7 @@
           "lib/netcore50/System.Collections.Concurrent.dll": {}
         }
       },
-      "System.Collections.Immutable/1.2.0": {
+      "System.Collections.Immutable/1.4.0": {
         "type": "package",
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -17523,7 +17523,7 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
-      "Plugin.Permissions/2.1.0": {
+      "Plugin.Permissions/2.0.1": {
         "type": "package",
         "compile": {
           "lib/UAP10/Plugin.Permissions.Abstractions.dll": {},
@@ -18118,7 +18118,7 @@
           "lib/netcore50/System.Collections.Concurrent.dll": {}
         }
       },
-      "System.Collections.Immutable/1.2.0": {
+      "System.Collections.Immutable/1.4.0": {
         "type": "package",
         "compile": {
           "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll": {}
@@ -22649,10 +22649,10 @@
         "tools/install.ps1"
       ]
     },
-    "Plugin.Permissions/2.1.0": {
-      "sha512": "2gzHl0FVNtl7BQMcfTH7Eakwv8bCMXLnLFSYgMPgX35WX3G5M3SkiZCC9JOxJJ9mD/3iIEfYiRxPIWkURwEqOw==",
+    "Plugin.Permissions/2.0.1": {
+      "sha512": "R+V3nsj9HB23y8QiopTMp9nATp3jDTbbLSY9Zz/ofizn3JQtJxxrRCBBMnQohsNcqpAvGdZ+DcGBTmU32wUJ2Q==",
       "type": "package",
-      "path": "plugin.permissions/2.1.0",
+      "path": "plugin.permissions/2.0.1",
       "files": [
         "lib/MonoAndroid10/Plugin.Permissions.Abstractions.dll",
         "lib/MonoAndroid10/Plugin.Permissions.Abstractions.pdb",
@@ -22680,7 +22680,7 @@
         "lib/netstandard1.0/Plugin.Permissions.dll",
         "lib/netstandard1.0/Plugin.Permissions.pdb",
         "lib/netstandard1.0/Plugin.Permissions.xml",
-        "plugin.permissions.2.1.0.nupkg.sha512",
+        "plugin.permissions.2.0.1.nupkg.sha512",
         "plugin.permissions.nuspec",
         "readme.txt"
       ]
@@ -24158,19 +24158,25 @@
         "system.collections.concurrent.nuspec"
       ]
     },
-    "System.Collections.Immutable/1.2.0": {
-      "sha512": "Cma8cBW6di16ZLibL8LYQ+cLjGzoKxpOTu/faZfDcx94ZjAGq6Nv5RO7+T1YZXqEXTZP9rt1wLVEONVpURtUqw==",
+    "System.Collections.Immutable/1.4.0": {
+      "sha512": "71hw5RUJRu5+q/geUY69gpXD8Upd12cH+F3MwpXV2zle7Bqqkrmc1JblOTuvUcgmdnUtQvBlV5e1d6RH+H2lvA==",
       "type": "package",
-      "path": "system.collections.immutable/1.2.0",
+      "path": "system.collections.immutable/1.4.0",
       "files": [
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp2.0/_._",
         "lib/netstandard1.0/System.Collections.Immutable.dll",
         "lib/netstandard1.0/System.Collections.Immutable.xml",
+        "lib/netstandard2.0/System.Collections.Immutable.dll",
+        "lib/netstandard2.0/System.Collections.Immutable.xml",
         "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.dll",
         "lib/portable-net45+win8+wp8+wpa81/System.Collections.Immutable.xml",
-        "system.collections.immutable.1.2.0.nupkg.sha512",
-        "system.collections.immutable.nuspec"
+        "ref/netcoreapp2.0/_._",
+        "system.collections.immutable.1.4.0.nupkg.sha512",
+        "system.collections.immutable.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
       ]
     },
     "System.Collections.NonGeneric/4.0.1": {
@@ -29733,9 +29739,10 @@
     "": [
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.3.3",
       "Newtonsoft.Json >= 10.0.3",
-      "Plugin.Permissions >= 2.1.0",
+      "Plugin.Permissions >= 2.0.1",
       "Plugin.SQLite >= 1.0.4",
       "Redux.NET >= 2.0.0",
+      "System.Collections.Immutable >= 1.4.0",
       "System.Reactive >= 3.1.1",
       "Unity.Abstractions >= 3.0.0",
       "Unity.Container >= 5.5.0",
@@ -29778,9 +29785,10 @@
     "dependencies": {
       "Microsoft.NETCore.UniversalWindowsPlatform": "[5.3.3, )",
       "Newtonsoft.Json": "[10.0.3, )",
-      "Plugin.Permissions": "[2.1.0, )",
+      "Plugin.Permissions": "[2.0.1, )",
       "Plugin.SQLite": "[1.0.4, )",
       "Redux.NET": "[2.0.0, )",
+      "System.Collections.Immutable": "[1.4.0, )",
       "System.Reactive": "[3.1.1, )",
       "Unity.Abstractions": "[3.0.0, )",
       "Unity.Container": "[5.5.0, )",

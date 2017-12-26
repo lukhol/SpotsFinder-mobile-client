@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Redux;
 using SpotFinder.Redux.StateModels;
 using SpotFinder.Redux.Actions;
+using SpotFinder.Core.Enums;
 
 namespace SpotFinder.Redux.Reducers
 {

@@ -1,8 +1,6 @@
-﻿using Redux;
-using SpotFinder.Helpers;
+﻿using SpotFinder.Helpers;
 using SpotFinder.Redux;
 using SpotFinder.Services;
-using SpotFinder.SQLite;
 using SpotFinder.Views.Root;
 using System.Reactive.Linq;
 using System;
@@ -11,32 +9,42 @@ using SpotFinder.Redux.Actions;
 using SpotFinder.Models.Core;
 using SpotFinder.Core.Enums;
 using System.Collections.Generic;
+using Redux;
+using SpotFinder.Redux.ActionsCreators;
 
 namespace SpotFinder
 {
     public partial class App : Application
     {
-        public static Store<ApplicationState> AppStore { get; private set; }
+        public static IStore<ApplicationState> AppStore { get; private set; }
 
-        private IPermissionHelper permissionHelper;
+        //private IPermissionHelper permissionHelper;
         private ISettingsHelper settingsHelper;
         private IDeviceLocationProvider deviceLocationProvider;
         private IPlaceManager placeManager;
 
+        private IPermissionActionCreator permissionActionCreator;
+
         public App()
         {
-            permissionHelper = DIContainer.Instance.Resolve<IPermissionHelper>();
+            //permissionHelper = DIContainer.Instance.Resolve<IPermissionHelper>();
             settingsHelper = DIContainer.Instance.Resolve<ISettingsHelper>();
             deviceLocationProvider = DIContainer.Instance.Resolve<IDeviceLocationProvider>();
             placeManager = DIContainer.Instance.Resolve<IPlaceManager>();
+            permissionActionCreator = DIContainer.Instance.Resolve<IPermissionActionCreator>();
 
             InitializeComponent();
-
-            permissionHelper.CheckAllPermissionAsync();
+            //permissionHelper.CheckAllPermissionAsync();
 
             AppStore = new Store<ApplicationState>(
                 DIContainer.Instance.Resolve<IReducer<ApplicationState>>().Reduce,
                 DIContainer.Instance.Resolve<ApplicationState>()
+            );
+
+            AppStore.DispatchAsync(permissionActionCreator.CheckPermissions(
+                PermissionName.Location,
+                PermissionName.Storage,
+                PermissionName.Camera)
             );
 
             //Initial:
@@ -52,7 +60,7 @@ namespace SpotFinder
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            
         }
 
         protected override void OnSleep()

@@ -1,4 +1,5 @@
 ﻿using Plugin.Geolocator;
+using SpotFinder.Core.Enums;
 using SpotFinder.Redux.Actions;
 using System;
 using Xamarin.Forms;
@@ -35,6 +36,9 @@ namespace SpotFinder.Services
         {
             try
             {
+                if(App.AppStore.GetState().PermissionsDictionary[PermissionName.Location].PermissionStatus != PermissionStatus.Granted)
+                    return;
+
                 var locator = CrossGeolocator.Current;
                 locator.DesiredAccuracy = 10;
 
@@ -52,6 +56,9 @@ namespace SpotFinder.Services
 
         private async void GetLocationFromGPSAsync()
         {
+            if (App.AppStore.GetState().PermissionsDictionary[PermissionName.Location].PermissionStatus != PermissionStatus.Granted)
+                return;
+
             if (IsAcquiring == true)
                 return;
 

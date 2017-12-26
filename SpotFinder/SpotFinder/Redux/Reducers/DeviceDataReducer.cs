@@ -22,11 +22,8 @@ namespace SpotFinder.Redux.Reducers
             {
                 var updateDeviceLocationAction = action as UpdateDeviceLocationAction;
 
-                var location = new Location
-                {
-                    Latitude = updateDeviceLocationAction.Latitude,
-                    Longitude = updateDeviceLocationAction.Longitude
-                };
+
+                var location = new Location(updateDeviceLocationAction.Latitude, updateDeviceLocationAction.Longitude);
 
                 previousState.Location = location;
 
@@ -46,12 +43,6 @@ namespace SpotFinder.Redux.Reducers
                 if (DeviceLocationProvider.IsLoopActivated == false)
                     DeviceLocationProvider.RequestDeviceLocationLoopAsync();
 
-                return previousState;
-            }
-
-            if(action is ClearDeviceLocationAction)
-            {
-                previousState.Location = null;
                 return previousState;
             }
 
