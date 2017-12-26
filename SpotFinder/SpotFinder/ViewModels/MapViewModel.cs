@@ -23,18 +23,14 @@ namespace SpotFinder.ViewModels
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
 
             App.AppStore
-                .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState })
+                .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Status })
                 .Subscribe(state =>
                 {
-                    if (state.PlacesData.PlacesListState == null)
-                    {
-                        IsBusy = true;
-                    }
+                    var placesList = state.PlacesData.PlacesListState.Value;
+                    if (placesList != null && state.PlacesData.PlacesListState.Status == Core.Enums.Status.Success)
+                        UpdateMap(placesList);
                     else
-                    {
-                        UpdateMap(state.PlacesData.PlacesListState.Value);
-                        IsBusy = false;
-                    }
+                        IsBusy = true;
                 });
 
             var mapTypeFromSettings = App.AppStore.GetState().Settings.MapType;
@@ -98,6 +94,8 @@ namespace SpotFinder.ViewModels
             MapCenterLocation = new Position(places.First().Location.Latitude, places.First().Location.Longitude);
 
             PinsCollection = pins;
+
+            IsBusy = false;
         }
 
         public Position MapCenterLocation

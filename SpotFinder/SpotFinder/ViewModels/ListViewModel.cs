@@ -22,12 +22,14 @@ namespace SpotFinder.ViewModels
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
 
             App.AppStore
-                .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Value })
+                .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Status })
                 .Subscribe(state =>
                 {
                     var placesList = state.PlacesData.PlacesListState.Value;
-                    if (placesList != null)
+                    if (placesList != null && state.PlacesData.PlacesListState.Status == Core.Enums.Status.Success)
                         UpdateList(placesList);
+                    else
+                        IsBusy = true;
                 });
         }
 

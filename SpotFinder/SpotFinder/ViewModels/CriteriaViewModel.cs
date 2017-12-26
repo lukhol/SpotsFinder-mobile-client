@@ -7,13 +7,20 @@ using SpotFinder.Views.Root;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;
+using SpotFinder.Redux.Actions.PlacesList;
+using System;
+using SpotFinder.Redux;
 
 namespace SpotFinder.ViewModels
 {
     public class CriteriaViewModel : BaseViewModel
     {
-        public CriteriaViewModel()
+        private IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
+
+        public CriteriaViewModel(IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator)
         {
+            this.downloadPlacesListByCriteriaActionCreator = downloadPlacesListByCriteriaActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListByCriteriaActionCreator));
+
             distance = 10;
             usePhoneLocation = true;
             skatepark = true;
@@ -280,7 +287,7 @@ namespace SpotFinder.ViewModels
 
         public ICommand SearchCommand => new Command(SearchRequest);
 
-        private async void SearchRequest()
+        private void SearchRequest()
         {
             var deviceLocation = App.AppStore.GetState().DeviceData.LocationState.Value;
 
@@ -343,9 +350,9 @@ namespace SpotFinder.ViewModels
             }
 
             //Request pobiernaia
-            App.AppStore.Dispatch(new SetCriteriaAction(criteria));
+            App.AppStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
 
-            await App.Current.MainPage.Navigation.PopAsync();
+            App.Current.MainPage.Navigation.PopAsync();
 
             Device.BeginInvokeOnMainThread(() =>
             {
