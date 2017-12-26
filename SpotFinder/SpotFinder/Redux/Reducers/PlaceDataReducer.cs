@@ -133,7 +133,6 @@ namespace SpotFinder.Redux.Reducers
             if(action is RequestDownloadSpotAction)
             {
                 var requestDownloadSpotAction = action as RequestDownloadSpotAction;
-                //This probably should be in App.xaml.cs in subscription.
                 PlaceManager.DownloadSinglePlaceByIdAsync(requestDownloadSpotAction.Id);
                 return previousState;
             }

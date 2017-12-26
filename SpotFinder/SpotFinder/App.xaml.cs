@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Redux;
 using SpotFinder.Redux.Actions.Permissions;
 using SpotFinder.Redux.Actions.Locations;
+using SpotFinder.Redux.StateModels;
 
 namespace SpotFinder
 {
@@ -77,8 +78,17 @@ namespace SpotFinder
                 .DistinctUntilChanged(state => new { state.DeviceData.LocationState.Status })
                 .Subscribe(state =>
                 {
+                    Permission locationPermission = null;
+                    state.PermissionsDictionary.TryGetValue(PermissionName.Location, out locationPermission);
+
+                    if (locationPermission == null)
+                    {
+                        //TODO: Error message!
+                        return;
+                    }
+
                     var locationStatus = state.DeviceData.LocationState.Status;
-                    if (locationStatus == Status.NotStartedYet || locationStatus == Status.Unknown)
+                    if ((locationStatus == Status.NotStartedYet || locationStatus == Status.Unknown))
                         AppStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
                 });
         }

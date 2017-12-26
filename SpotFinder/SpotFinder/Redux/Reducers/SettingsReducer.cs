@@ -1,12 +1,8 @@
-﻿using SpotFinder.Redux.StateModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Redux;
-using SpotFinder.Redux.Actions;
+﻿using Redux;
 using SpotFinder.Helpers;
+using SpotFinder.Redux.Actions;
+using SpotFinder.Redux.StateModels;
+using System;
 
 namespace SpotFinder.Redux.Reducers
 {
