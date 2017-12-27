@@ -34,7 +34,6 @@ namespace SpotFinder.ViewModels
 
             //Request loction for actual report.
             appStore.Dispatch(new CreateNewReportAction());
-            appStore.Dispatch(new RequestDeviceLocationForNewReportAction());
         }
 
         private string description;

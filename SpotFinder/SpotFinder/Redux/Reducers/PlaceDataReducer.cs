@@ -69,49 +69,20 @@ namespace SpotFinder.Redux.Reducers
                     .Build();
             }
 
-            if (action is PassLocationToReportingPlaceAction)
-            {
-                var passLocationToReportingPlaceAction = action as PassLocationToReportingPlaceAction;
-                if (passLocationToReportingPlaceAction.Latitude == null)
-                {
-                    previousState.Report.Place.Location = new Location
-                    {
-                        Longitude = previousState.Report.Location.Longitude,
-                        Latitude = previousState.Report.Location.Latitude
-                    };
-                }
-                else
-                {
-                    previousState.Report.Place.Location = new Location
-                    {
-                        Longitude = (double)passLocationToReportingPlaceAction.Longitude,
-                        Latitude = (double)passLocationToReportingPlaceAction.Latitude
-                    };
-                }
-
-                return previousState;
-            }
-
             if (action is UpdateLocationInReportAction)
             {
+                //TODO: Place HAVE TO be immutable.
                 var updateLocationInReportAction = action as UpdateLocationInReportAction;
-                var location = new Location
-                {
-                    Longitude = updateLocationInReportAction.Longitude,
-                    Latitude = updateLocationInReportAction.Latitude
-                };
 
-                if (previousState.Report != null)
-                {
-                    var newReportState = previousState.Report
-                        .Set(v => v.Location, location)
-                        .Build();
+                previousState.Report.Place.Location = updateLocationInReportAction.Location;
 
-                    return previousState.Set(v => v.Report, newReportState)
-                        .Build();
-                }
+                var newReportState = previousState.Report
+                    .Set(v => v.Place, previousState.Report.Place)
+                    .Set(v => v.Location, updateLocationInReportAction.Location)
+                    .Build();
 
-                return previousState;
+                return previousState.Set(v => v.Report, newReportState)
+                    .Build();
             }
 
             //Downloading single spot:

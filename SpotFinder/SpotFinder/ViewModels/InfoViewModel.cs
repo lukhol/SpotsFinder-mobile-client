@@ -40,7 +40,7 @@ namespace SpotFinder.ViewModels
             if (criteria == null)
                 return;
 
-            appStore.Dispatch(new SetCriteriaAction(criteria));
+            //TODO: Start downloading spots list.
         }
     }
 }

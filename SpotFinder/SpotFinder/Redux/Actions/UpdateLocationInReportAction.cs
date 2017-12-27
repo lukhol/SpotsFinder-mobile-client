@@ -1,16 +1,15 @@
 ﻿using Redux;
+using SpotFinder.Models.Core;
 
 namespace SpotFinder.Redux.Actions
 {
     public class UpdateLocationInReportAction : IAction
     {
-        public double Longitude { get; private set; }
-        public double Latitude { get; private set; }
+        public Location Location { get; private set; }
 
-        public UpdateLocationInReportAction(double longitude, double latitude)
+        public UpdateLocationInReportAction(Location location)
         {
-            Latitude = latitude;
-            Longitude = longitude;
+            Location = location;
         }
     }
 }
