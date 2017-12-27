@@ -10,26 +10,27 @@ using SpotFinder.Redux.StateModels;
 using System;
 using System.Collections.Generic;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace SpotFinder.Config
 {
     public class Bootstrapper : IBootstrapper
     {
-        //private IStore<ApplicationState> appStore;
+        private IStore<ApplicationState> appStore;
         private IPermissionActionCreator permissionActionCreator;
         private IDeviceLocationActionCreator deviceLocationActionCreator;
         private IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
         private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
 
         public Bootstrapper(
-            //IStore<ApplicationState> appStore,
+            IStore<ApplicationState> appStore,
             IPermissionActionCreator permissionActionCreator,
             IDeviceLocationActionCreator deviceLocationActionCreator,
             IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator,
             IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator
             )
         {
-            //this.appStore = appStore ?? throw new ArgumentNullException(nameof(appStore));
+            this.appStore = appStore ?? throw new ArgumentNullException(nameof(appStore));
             this.permissionActionCreator = permissionActionCreator ?? throw new ArgumentNullException(nameof(permissionActionCreator));
             this.deviceLocationActionCreator = deviceLocationActionCreator ?? throw new ArgumentNullException(nameof(deviceLocationActionCreator));
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
@@ -39,8 +40,8 @@ namespace SpotFinder.Config
         public void OnStart()
         {
             CheckPermission();
-            DeviceLocationSubscription();
-            DownloadInitialSpotsList();
+            Task.Run(() => { DeviceLocationSubscription(); });
+            Task.Run(() => { DownloadInitialSpotsList(); });
         }
 
         public void OnSleep()
@@ -55,7 +56,7 @@ namespace SpotFinder.Config
 
         private void CheckPermission()
         {
-            App.AppStore.DispatchAsync(permissionActionCreator.CheckPermissions(
+            appStore.DispatchAsync(permissionActionCreator.CheckPermissions(
                 PermissionName.Location,
                 PermissionName.Storage,
                 PermissionName.Camera)
@@ -64,7 +65,7 @@ namespace SpotFinder.Config
 
         private void DeviceLocationSubscription()
         {
-            App.AppStore
+            appStore
                 .DistinctUntilChanged(state => new { state.DeviceData.LocationState.Status })
                 .Subscribe(state =>
                 {
@@ -80,14 +81,14 @@ namespace SpotFinder.Config
                     var locationStatus = state.DeviceData.LocationState.Status;
                     if ((locationStatus == Status.NotStartedYet || locationStatus == Status.Unknown) && 
                         locationPermission.PermissionStatus == PermissionStatus.Granted)
-                        App.AppStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
+                        appStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
                 });
         }
 
         private void DownloadInitialSpotsList()
         {
-            var city = App.AppStore.GetState().Settings.MainCity;
-            var mainDistance = App.AppStore.GetState().Settings.MainDistance;
+            var city = appStore.GetState().Settings.MainCity;
+            var mainDistance = appStore.GetState().Settings.MainDistance;
 
             if (string.IsNullOrEmpty(city))
                 city = "Łódź";
@@ -104,7 +105,8 @@ namespace SpotFinder.Config
                 Distance = mainDistance,
                 Type = new List<PlaceType> { PlaceType.Skatepark, PlaceType.Skatespot, PlaceType.DIY }
             };
-            App.AppStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
+
+            appStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
         }
     }
 }

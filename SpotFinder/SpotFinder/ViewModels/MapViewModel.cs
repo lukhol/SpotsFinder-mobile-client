@@ -1,4 +1,5 @@
-﻿using SpotFinder.Models.Core;
+﻿using Redux;
+using SpotFinder.Models.Core;
 using SpotFinder.Redux;
 using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.CurrentPlace;
@@ -18,11 +19,11 @@ namespace SpotFinder.ViewModels
     {
         private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
 
-        public MapViewModel(IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator)
+        public MapViewModel(IStore<ApplicationState> appStore, IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator) : base(appStore)
         {
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
 
-            App.AppStore
+            appStore
                 .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Status })
                 .Subscribe(state =>
                 {
@@ -33,7 +34,7 @@ namespace SpotFinder.ViewModels
                         IsBusy = true;
                 });
 
-            var mapTypeFromSettings = App.AppStore.GetState().Settings.MapType;
+            var mapTypeFromSettings = appStore.GetState().Settings.MapType;
 
             switch (mapTypeFromSettings)
             {
@@ -83,7 +84,7 @@ namespace SpotFinder.ViewModels
 
                 pin.Clicked += async (s, e) =>
                 {
-                    App.AppStore.DispatchAsync(downloadPlaceByIdActionCreator.DownloadPlaceById(place.Id));
+                    appStore.DispatchAsync(downloadPlaceByIdActionCreator.DownloadPlaceById(place.Id));
 
                     await App.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
                 };
@@ -102,7 +103,7 @@ namespace SpotFinder.ViewModels
         {
             get
             {
-                var deviceData = App.AppStore.GetState().DeviceData;
+                var deviceData = appStore.GetState().DeviceData;
                 Position myPosition;
                 if (deviceData != null && deviceData.LocationState.Value != null)
                     myPosition = new Position(deviceData.LocationState.Value.Latitude, deviceData.LocationState.Value.Longitude);

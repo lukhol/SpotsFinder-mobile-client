@@ -5,6 +5,8 @@ using SpotFinder.Redux.Actions;
 using SpotFinder.Repositories;
 using SpotFinder.DataServices;
 using System;
+using SpotFinder.Redux;
+using Redux;
 
 namespace SpotFinder.ViewModels
 {
@@ -13,12 +15,13 @@ namespace SpotFinder.ViewModels
         private IPlaceService PlaceService { get; }
         private ILocalPlaceRepository LocalPlaceRepository { get; }
 
-        public LocateOnMapViewModel(IPlaceService placeService, ILocalPlaceRepository localPlaceRepository)
+        public LocateOnMapViewModel(IStore<ApplicationState> appStore, 
+            IPlaceService placeService, ILocalPlaceRepository localPlaceRepository) : base(appStore)
         {
             PlaceService = placeService ?? throw new ArgumentNullException("PlaceService is null in LocateOnMapViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("LocalPlaceRepository is null in LocateOnMapViewModel");
 
-            var report = App.AppStore.GetState().PlacesData.Report;
+            var report = appStore.GetState().PlacesData.Report;
 
             if(report != null && report.Location != null)
             {
@@ -33,7 +36,7 @@ namespace SpotFinder.ViewModels
                 });
             }
 
-            var mapTypeFromSettings = App.AppStore.GetState().Settings.MapType;
+            var mapTypeFromSettings = appStore.GetState().Settings.MapType;
 
             switch (mapTypeFromSettings)
             {
@@ -79,8 +82,8 @@ namespace SpotFinder.ViewModels
         {
             //Póki co nie wyrzkostuję lokalizacji z tej strony...
             IsBusy = true;
-            App.AppStore.Dispatch(new PassLocationToReportingPlaceAction());
-            var addingPlace = App.AppStore.GetState().PlacesData.Report.Place;
+            appStore.Dispatch(new PassLocationToReportingPlaceAction());
+            var addingPlace = appStore.GetState().PlacesData.Report.Place;
 
             int result = await PlaceService.SendAsync(addingPlace);
 

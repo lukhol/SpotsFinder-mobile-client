@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using SpotFinder.Redux.Actions.PlacesList;
 using System;
 using SpotFinder.Redux;
+using Redux;
 
 namespace SpotFinder.ViewModels
 {
@@ -17,7 +18,8 @@ namespace SpotFinder.ViewModels
     {
         private IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
 
-        public CriteriaViewModel(IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator)
+        public CriteriaViewModel(IStore<ApplicationState> appStore, 
+            IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator) : base(appStore)
         {
             this.downloadPlacesListByCriteriaActionCreator = downloadPlacesListByCriteriaActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListByCriteriaActionCreator));
 
@@ -289,7 +291,7 @@ namespace SpotFinder.ViewModels
 
         private void SearchRequest()
         {
-            var deviceLocation = App.AppStore.GetState().DeviceData.LocationState.Value;
+            var deviceLocation = appStore.GetState().DeviceData.LocationState.Value;
 
             if (deviceLocation == null)
                 return;
@@ -350,7 +352,7 @@ namespace SpotFinder.ViewModels
             }
 
             //Request pobiernaia
-            App.AppStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
+            appStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
 
             App.Current.MainPage.Navigation.PopAsync();
 

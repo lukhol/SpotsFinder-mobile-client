@@ -1,4 +1,5 @@
-﻿using SimpleInjector;
+﻿using Redux;
+using SimpleInjector;
 using SpotFinder.Config;
 using SpotFinder.Core.Enums;
 using SpotFinder.DataServices;
@@ -16,9 +17,6 @@ using SpotFinder.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Unity;
-using Unity.Lifetime;
-using Unity.Resolution;
 
 namespace SpotFinder.Config
 {
@@ -43,8 +41,16 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<PlacesData>, PlaceDataReducer>();
             simpleInjector.Register<IReducer<DeviceData>, DeviceDataReducer>();
 
+            simpleInjector.Register(typeof(IStore<ApplicationState>), () =>
+            {
+                return new Store<ApplicationState>(
+                    Resolve<IReducer<ApplicationState>>().Reduce,
+                    Resolve<ApplicationState>()
+                );
+            }, Lifestyle.Singleton);
+
             //State:
-            simpleInjector.Register<ApplicationState>();
+            simpleInjector.Register<ApplicationState>(Lifestyle.Singleton);
 
             //NavigationService
             simpleInjector.Register<INavigationService, NavigationService>(Lifestyle.Singleton);

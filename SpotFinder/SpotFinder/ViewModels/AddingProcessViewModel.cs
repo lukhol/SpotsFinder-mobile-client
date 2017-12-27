@@ -11,6 +11,8 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using SpotFinder.Views;
 using System.Collections.ObjectModel;
+using Redux;
+using SpotFinder.Redux;
 
 namespace SpotFinder.ViewModels
 {
@@ -18,7 +20,7 @@ namespace SpotFinder.ViewModels
     {
         private IPhotoProvider PhotoProvider;
 
-        public AddingProcessViewModel(IPhotoProvider photoProvider)
+        public AddingProcessViewModel(IStore<ApplicationState> appStore, IPhotoProvider photoProvider) : base(appStore)
         {
             PhotoProvider = photoProvider ?? throw new ArgumentNullException("PhotoProvider is null in AddingProcessViewModel.");
 
@@ -31,8 +33,8 @@ namespace SpotFinder.ViewModels
             };
 
             //Request loction for actual report.
-            App.AppStore.Dispatch(new CreateNewReportAction());
-            App.AppStore.Dispatch(new RequestDeviceLocationForNewReportAction());
+            appStore.Dispatch(new CreateNewReportAction());
+            appStore.Dispatch(new RequestDeviceLocationForNewReportAction());
         }
 
         private string description;
@@ -398,7 +400,7 @@ namespace SpotFinder.ViewModels
             place.PhotosBase64 = base64PhotosList;
             place.PhotosAsImage = myImagesPhotosList;
 
-            App.AppStore.Dispatch(new PassPlaceToReportAction(place));
+            appStore.Dispatch(new PassPlaceToReportAction(place));
             App.Current.MainPage.Navigation.PushAsync(new LocateOnMapPage());
         }
 

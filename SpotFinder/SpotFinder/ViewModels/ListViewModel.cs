@@ -1,4 +1,5 @@
-﻿using SpotFinder.Models.Core;
+﻿using Redux;
+using SpotFinder.Models.Core;
 using SpotFinder.Redux;
 using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Resx;
@@ -17,11 +18,11 @@ namespace SpotFinder.ViewModels
     {
         private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
 
-        public ListViewModel(IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator)
+        public ListViewModel(IStore<ApplicationState> appStore, IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator) : base(appStore)
         {
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
 
-            App.AppStore
+            appStore
                 .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Status })
                 .Subscribe(state =>
                 {
@@ -105,7 +106,7 @@ namespace SpotFinder.ViewModels
 
             if(App.Current.MainPage.Navigation.NavigationStack.Last().GetType() == typeof(ListPage))
             {
-                App.AppStore.DispatchAsync(downloadPlaceByIdActionCreator.DownloadPlaceById(selectedPlace.Id));
+                appStore.DispatchAsync(downloadPlaceByIdActionCreator.DownloadPlaceById(selectedPlace.Id));
                 App.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
             }
         });

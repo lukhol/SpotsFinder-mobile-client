@@ -1,5 +1,7 @@
-﻿using SpotFinder.Core.Enums;
+﻿using Redux;
+using SpotFinder.Core.Enums;
 using SpotFinder.Models.Core;
+using SpotFinder.Redux;
 using SpotFinder.Redux.Actions;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -11,9 +13,14 @@ namespace SpotFinder.ViewModels
     {
         public ICommand SearchSpotsNearCommand => new Command(SearchSpotsNear);
 
+        public InfoViewModel(IStore<ApplicationState> appStore) : base(appStore)
+        {
+
+        }
+
         private void SearchSpotsNear()
         {
-            var deviceLocation = App.AppStore.GetState().DeviceData?.LocationState.Value;
+            var deviceLocation = appStore.GetState().DeviceData?.LocationState.Value;
 
             if (deviceLocation == null)
                 return;
@@ -33,7 +40,7 @@ namespace SpotFinder.ViewModels
             if (criteria == null)
                 return;
 
-            App.AppStore.Dispatch(new SetCriteriaAction(criteria));
+            appStore.Dispatch(new SetCriteriaAction(criteria));
         }
     }
 }

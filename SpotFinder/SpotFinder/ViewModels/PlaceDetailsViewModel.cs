@@ -7,6 +7,8 @@ using System;
 using Xamarin.Forms.Maps;
 using System.Collections.ObjectModel;
 using SpotFinder.Core;
+using SpotFinder.Redux;
+using Redux;
 
 namespace SpotFinder.ViewModels
 {
@@ -15,11 +17,11 @@ namespace SpotFinder.ViewModels
         private Place place;
         private IDisposable placeSubscription;
 
-        public PlaceDetailsViewModel()
+        public PlaceDetailsViewModel(IStore<ApplicationState> appStore) : base(appStore)
         {
             IsBusy = true;
 
-            placeSubscription = App.AppStore
+            placeSubscription = appStore
                 .DistinctUntilChanged(state => new { state.PlacesData.CurrentPlaceState.Value })
                 .Subscribe(state =>
                 {
@@ -31,7 +33,7 @@ namespace SpotFinder.ViewModels
                     }
                 });
 
-            var mapTypeFromSettings = App.AppStore.GetState().Settings.MapType;
+            var mapTypeFromSettings = appStore.GetState().Settings.MapType;
 
             switch (mapTypeFromSettings)
             {

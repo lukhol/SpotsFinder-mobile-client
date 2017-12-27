@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using Redux;
+using SpotFinder.Redux;
+using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -7,7 +10,18 @@ namespace SpotFinder.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
+        protected readonly IStore<ApplicationState> appStore;
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public BaseViewModel()
+        {
+
+        }
+
+        public BaseViewModel(IStore<ApplicationState> appStore)
+        {
+            this.appStore = appStore ?? throw new ArgumentNullException(nameof(appStore));
+        }
 
         private bool isBusy;
         public bool IsBusy
@@ -24,10 +38,7 @@ namespace SpotFinder.ViewModels
         public bool IsMainContentVisible
         {
             get => !IsBusy;
-            set
-            {
-                OnPropertyChanged();
-            }
+            set => OnPropertyChanged();
         }
 
         public virtual ICommand GoBackCommand => new Command(() => 

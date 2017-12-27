@@ -19,29 +19,25 @@ namespace SpotFinder
 {
     public partial class App : Application
     {
-        public static IStore<ApplicationState> AppStore { get; private set; }
+        private IStore<ApplicationState> AppStore { get; }
 
         private IBootstrapper bootstrapper;
         private ISettingsHelper settingsHelper;
 
         public App()
         {
+            AppStore = DIContainer.Instance.Resolve<IStore<ApplicationState>>();
+
             bootstrapper = DIContainer.Instance.Resolve<IBootstrapper>();
             settingsHelper = DIContainer.Instance.Resolve<ISettingsHelper>();
 
             InitializeComponent();
-
-            AppStore = new Store<ApplicationState>(
-                DIContainer.Instance.Resolve<IReducer<ApplicationState>>().Reduce,
-                DIContainer.Instance.Resolve<ApplicationState>()
-            );
 
             AppStore.Dispatch(new ReadSettingsAction(settingsHelper.ReadSettings()));
    
             MainPage = new CustomNavigationPage(new RootMasterDetailPage());
 
             SaveSettingsSubscription();
-            //DownloadPlacesByCriteriaSubscription();
         }
 
         protected override void OnStart()

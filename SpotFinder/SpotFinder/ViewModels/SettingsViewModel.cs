@@ -6,14 +6,16 @@ using System.Reactive.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 using System.Collections.Generic;
+using SpotFinder.Redux;
+using Redux;
 
 namespace SpotFinder.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        public SettingsViewModel()
+        public SettingsViewModel(IStore<ApplicationState> appStore) : base(appStore)
         {
-            App.AppStore
+            appStore
                 .DistinctUntilChanged(state => new { state.Settings })
                 .Subscribe(state =>
                 {
@@ -97,7 +99,7 @@ namespace SpotFinder.ViewModels
                     break;
             }
 
-            App.AppStore.Dispatch(new SaveSettingsAction(city, (int)distance, mapType));
+            appStore.Dispatch(new SaveSettingsAction(city, (int)distance, mapType));
             App.Current.MainPage.Navigation.PopAsync();
         });
     }
