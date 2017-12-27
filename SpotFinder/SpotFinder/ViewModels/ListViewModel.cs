@@ -28,9 +28,18 @@ namespace SpotFinder.ViewModels
                 {
                     var placesList = state.PlacesData.PlacesListState.Value;
                     if (placesList != null && state.PlacesData.PlacesListState.Status == Core.Enums.Status.Success)
+                    {
                         UpdateList(placesList);
+                    }
+                    else if (state.PlacesData.PlacesListState.Status == Core.Enums.Status.Error)
+                    {
+                        IsBusy = false;
+                        IsPromptVisible = true;
+                    }
                     else
+                    {
                         IsBusy = true;
+                    }
                 });
         }
 
@@ -55,7 +64,6 @@ namespace SpotFinder.ViewModels
                 if (place.PhotosBase64.Count > 0)
                     observablePlaceList.Add(place);
             }
-
 
             IsBusy = false;
             IsPromptVisible = false;

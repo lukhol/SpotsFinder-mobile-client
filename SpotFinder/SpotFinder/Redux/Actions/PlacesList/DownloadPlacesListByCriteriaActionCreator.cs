@@ -19,10 +19,16 @@ namespace SpotFinder.Redux.Actions.PlacesList
             {
                 dispatch(new DownloadPlacesListByCriteriaStartAction(criteria));
 
-                var placesList = await PlaceService.GetPlacesByCriteriaAsync(criteria);
-
-                dispatch(new DownloadPlacesListByCriteriaCompleteAction(placesList));
-            };;
+                try
+                {
+                    var placesList = await PlaceService.GetPlacesByCriteriaAsync(criteria);
+                    dispatch(new DownloadPlacesListByCriteriaCompleteAction(placesList));
+                }
+                catch (Exception e)
+                {
+                    dispatch(new DownloadPlacesListByCriteriaErrorCompleteAction(e));
+                }
+            };
         }
     }
 }

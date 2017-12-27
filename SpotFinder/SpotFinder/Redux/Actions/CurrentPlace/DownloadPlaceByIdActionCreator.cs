@@ -18,9 +18,16 @@ namespace SpotFinder.Redux.Actions.CurrentPlace
             {
                 dispatch(new DownloadPlaceByIdStartAction(id));
 
-                var downloadedPace = await PlaceService.GetPlaceByIdAsync(id);
-
-                dispatch(new DownloadPlaceByIdCompleteAction(downloadedPace));
+                try
+                {
+                    var downloadedPace = await PlaceService.GetPlaceByIdAsync(id);
+                    dispatch(new DownloadPlaceByIdCompleteAction(downloadedPace));
+                }
+                catch (Exception ex)
+                {
+                    //TODO: Log...
+                    dispatch(new DownloadPlaceByIdErrorCompleteAction(ex));
+                }
             };
         }
     }

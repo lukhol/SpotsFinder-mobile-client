@@ -21,11 +21,11 @@ namespace SpotFinder.ViewModels
             PlaceService = placeService ?? throw new ArgumentNullException("PlaceService is null in LocateOnMapViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("LocalPlaceRepository is null in LocateOnMapViewModel");
 
-            var report = appStore.GetState().PlacesData.Report;
+            var location = appStore.GetState().DeviceData.LocationState.Value;
 
-            if(report != null && report.Location != null)
+            if(location != null)
             {
-                mapCenterLocation = new Position(report.Location.Latitude, report.Location.Longitude);
+                mapCenterLocation = new Position(location.Latitude, location.Longitude);
             }
             else
             {
@@ -80,7 +80,7 @@ namespace SpotFinder.ViewModels
 
         private async void Upload()
         {
-            //Póki co nie wyrzkostuję lokalizacji z tej strony...
+            //Póki co nie wykorzystuję lokalizacji z tej strony...
             IsBusy = true;
             appStore.Dispatch(new PassLocationToReportingPlaceAction());
             var addingPlace = appStore.GetState().PlacesData.Report.Place;

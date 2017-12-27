@@ -1,56 +1,58 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+using SpotFinder.Core;
+using SpotFinder.Models.Core;
+using SpotFinder.Models.DTO;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Net;
-using SpotFinder.Models.DTO;
-using SpotFinder.Models.Core;
-using SpotFinder.Core;
 
 namespace SpotFinder.DataServices
 {
     public class PlaceService : IPlaceService
     {
-        private List<Place> placeList = new List<Place>();
+        private readonly HttpClient httpClient;
 
-        public async Task<List<Place>> GetAllPlaceAsync()
+        public PlaceService(HttpClient httpClient)
         {
+            this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+        }
+
+        public async Task<List<Place>> GetAllPlacesAsync()
+        {
+            List<Place> placeList = new List<Place>();
             try
             {
-                using (var httpClient = new HttpClient())
+                httpClient.Timeout = TimeSpan.FromSeconds(30);
+                var uri = new Uri(GlobalSettings.GetAllUrl);
+                var response = await httpClient.GetAsync(uri);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    httpClient.Timeout = TimeSpan.FromSeconds(30);
-                    var uri = new Uri(GlobalSettings.GetAllUrl);
-                    var response = await httpClient.GetAsync(uri);
+                    var responseContent = await response.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode)
+                    placeList = new List<Place>();
+
+                    var jArray = JArray.Parse(responseContent);
+                    foreach (var item in jArray)
                     {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-
-                        placeList = new List<Place>();
-
-                        var jArray = JArray.Parse(responseContent);
-                        foreach (var item in jArray)
-                        {
-                            var placeWebLight = item.ToObject<PlaceWebLight>();
-                            placeList.Add(Utils.PlaceWebLightToPlace(placeWebLight));
-                        }
-                    }
-                    else
-                    {
-                        return null;
+                        var placeWebLight = item.ToObject<PlaceWebLight>();
+                        placeList.Add(Utils.PlaceWebLightToPlace(placeWebLight));
                     }
                 }
+                else
+                {
+                    throw new WebException(string.Format("{0}{1}", "Cannot download place from the server.", response.StatusCode));
+                }
+
             }
-            catch
+            catch (Exception ex)
             {
-                Debug.WriteLine("Error during geting all.");
-                return null;
+                //TODO: Log...
+                throw ex;
             }
 
             return placeList;
@@ -69,25 +71,23 @@ namespace SpotFinder.DataServices
 
                 var strinJObject = jObject.ToString();
 
-                using (var httpClient = new HttpClient())
-                {
-                    httpClient.Timeout = TimeSpan.FromSeconds(90);
-                    var uri = new Uri(GlobalSettings.PostSpotUrl);
-                    var response = await httpClient.PostAsync(uri, content);
+                httpClient.Timeout = TimeSpan.FromSeconds(90);
+                var uri = new Uri(GlobalSettings.PostSpotUrl);
+                var response = await httpClient.PostAsync(uri, content);
 
-                    if (response.StatusCode == HttpStatusCode.Created)
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        var jObjectResponse = JObject.Parse(responseContent);
-                        result = (int)jObjectResponse["id"];
-                    }
-                    else
-                    {
-                        result = 0;
-                    }
+                if (response.StatusCode == HttpStatusCode.Created)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var jObjectResponse = JObject.Parse(responseContent);
+                    result = (int)jObjectResponse["id"];
                 }
+                else
+                {
+                    result = 0;
+                }
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -99,42 +99,38 @@ namespace SpotFinder.DataServices
         {
             var criteriaJson = JObject.FromObject(criteria, GlobalSettings.GetCamelCaseSerializer());
             var content = new StringContent(criteriaJson.ToString(), Encoding.UTF8, "application/json");
+            var placesList = new List<Place>();
 
             try
             {
-                using (var httpClient = new HttpClient())
+                httpClient.Timeout = TimeSpan.FromSeconds(30);
+                var uri = new Uri(GlobalSettings.GetPlaceByCriteriaUrl);
+                var response = await httpClient.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    httpClient.Timeout = TimeSpan.FromSeconds(30);
-                    var uri = new Uri(GlobalSettings.GetPlaceByCriteriaUrl);
-                    var response =  await httpClient.PostAsync(uri, content);
+                    var stringResponse = await response.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode)
+                    var jArray = JArray.Parse(stringResponse);
+                    foreach (var item in jArray)
                     {
-                        placeList = new List<Place>();
-                        var stringResponse = await response.Content.ReadAsStringAsync();
-
-                        var jArray = JArray.Parse(stringResponse);
-                        foreach(var item in jArray)
-                        {
-                            var placeWebLight = item.ToObject<PlaceWebLight>();
-                            placeList.Add(Utils.PlaceWebLightToPlace(placeWebLight));
-                        }
-                    }
-                    else
-                    {
-                        return null;
+                        var placeWebLight = item.ToObject<PlaceWebLight>();
+                        placesList.Add(Utils.PlaceWebLightToPlace(placeWebLight));
                     }
                 }
+                else
+                {
+                    throw new WebException(string.Format("{0}{1}", "Serwer response with errors. ", response.StatusCode));
+                }
+
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
-                //Tu trafia jak serwer nie odpowiada oraz jak internet jest wyłączony
-                Debug.WriteLine("Error during getting places with categories.", e.Message);
-
-                throw new WebException("No internet or server error");
+                //TODO: Log...
+                throw ex;    
             }
 
-            return placeList;
+            return placesList;
         }
 
         public async Task<Place> GetPlaceByIdAsync(int id)
@@ -142,28 +138,26 @@ namespace SpotFinder.DataServices
             Place place;
             try
             {
-                using (var httpClient = new HttpClient())
-                {
-                    httpClient.Timeout = TimeSpan.FromSeconds(30);
-                    var uri = new Uri(GlobalSettings.GetByIdUrl + id.ToString());
-                    var response = await httpClient.GetAsync(uri);
+                httpClient.Timeout = TimeSpan.FromSeconds(30);
+                var uri = new Uri(GlobalSettings.GetByIdUrl + id.ToString());
+                var response = await httpClient.GetAsync(uri);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        var jObjectPlace = JObject.Parse(responseContent);
-                        place = Utils.PlaceWebToPlace(jObjectPlace.ToObject<PlaceWeb>());
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var jObjectPlace = JObject.Parse(responseContent);
+                    place = Utils.PlaceWebToPlace(jObjectPlace.ToObject<PlaceWeb>());
+                }
+                else
+                {
+                    //TODO: Log...
+                    throw new WebException(string.Format("{0}{1}", "Cannot download place from the server.", response.StatusCode));
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 Debug.WriteLine("Error during geting all.");
-                return null;
+                throw ex;
             }
 
             return place;

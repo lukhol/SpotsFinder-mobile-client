@@ -17,6 +17,7 @@ using SpotFinder.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Net.Http;
 
 namespace SpotFinder.Config
 {
@@ -77,6 +78,10 @@ namespace SpotFinder.Config
             //SQLite
             simpleInjector.Register<SQLiteConfig>(Lifestyle.Singleton);
 
+            //Other:
+            var httpClient = new HttpClient();
+            simpleInjector.Register(() => httpClient, Lifestyle.Singleton);
+            
             simpleInjector.Verify();
 
             simpleInjector.GetInstance(typeof(SQLiteConfig));

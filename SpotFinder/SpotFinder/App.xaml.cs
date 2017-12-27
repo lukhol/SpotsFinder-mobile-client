@@ -1,19 +1,12 @@
-﻿using SpotFinder.Helpers;
-using SpotFinder.Redux;
-using SpotFinder.Services;
-using SpotFinder.Views.Root;
-using System.Reactive.Linq;
-using System;
-using Xamarin.Forms;
-using SpotFinder.Redux.Actions;
-using SpotFinder.Models.Core;
-using SpotFinder.Core.Enums;
-using System.Collections.Generic;
-using Redux;
-using SpotFinder.Redux.Actions.Permissions;
-using SpotFinder.Redux.Actions.Locations;
-using SpotFinder.Redux.StateModels;
+﻿using Redux;
 using SpotFinder.Config;
+using SpotFinder.Helpers;
+using SpotFinder.Redux;
+using SpotFinder.Redux.Actions;
+using SpotFinder.Views.Root;
+using System;
+using System.Reactive.Linq;
+using Xamarin.Forms;
 
 namespace SpotFinder
 {
