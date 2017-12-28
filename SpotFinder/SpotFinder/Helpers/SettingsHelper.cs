@@ -17,7 +17,10 @@ namespace SpotFinder.Helpers
                 settings.MainDistance = (int)App.Current.Properties["MainDistance"];
 
             if (App.Current.Properties.ContainsKey("MapType"))
-                settings.MapType = StringToMapType(App.Current.Properties["MapType"] as string);
+            {
+                var mapType = App.Current.Properties["MapType"] as string;
+                settings.MapType = (MapType)Enum.Parse(typeof(MapType), mapType);
+            }           
 
             return settings;
         }
@@ -26,22 +29,9 @@ namespace SpotFinder.Helpers
         {
             App.Current.Properties["MainCity"] = settings.MainCity;
             App.Current.Properties["MainDistance"] = settings.MainDistance;
-            App.Current.Properties["MapType"] = MapTypeToString(settings.MapType);
+            App.Current.Properties["MapType"] = settings.MapType.ToString();
 
             await App.Current.SavePropertiesAsync();
-        }
-
-        private string MapTypeToString(MapType mapType)
-        {
-            switch (mapType)
-            {
-                case MapType.Normal:
-                    return "Normal";
-                case MapType.Satelite:
-                    return "Satelite";
-                default:
-                    return string.Empty;
-            }
         }
 
         private MapType StringToMapType(string stringMapType)
