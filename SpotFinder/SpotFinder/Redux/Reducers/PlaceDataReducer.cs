@@ -1,14 +1,11 @@
-﻿using SpotFinder.Redux.StateModels;
-using System;
+﻿using BuilderImmutableObject;
 using Redux;
-using SpotFinder.Redux.Actions;
-using System.Collections.Generic;
-using SpotFinder.Models.Core;
-using SpotFinder.Services;
-using BuilderImmutableObject;
-using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Core.Enums;
+using SpotFinder.Models.Core;
+using SpotFinder.Redux.Actions;
+using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Redux.Actions.PlacesList;
+using SpotFinder.Redux.StateModels;
 
 namespace SpotFinder.Redux.Reducers
 {
@@ -22,7 +19,7 @@ namespace SpotFinder.Redux.Reducers
                 var downloadPlacesListByCriteriaStartAction = action as DownloadPlacesListByCriteriaStartAction;
 
                 var newPlacesListState = previousState.PlacesListState
-                    .Set(v => v.Criteria, downloadPlacesListByCriteriaStartAction.Criteria)
+                    .Set(v => v.TriggerValue, downloadPlacesListByCriteriaStartAction.Criteria)
                     .Set(v => v.Status, Status.Getting)
                     .Build();
 

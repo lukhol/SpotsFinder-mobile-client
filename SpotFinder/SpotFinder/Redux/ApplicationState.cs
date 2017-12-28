@@ -31,8 +31,9 @@ namespace SpotFinder.Redux
             var currentPlaceState = new AsyncOperationState<Place, int>(
                 Status.Empty, string.Empty, null, 0
             );
-            var placesListState = new PlacesListState(null, Status.Unknown, null, new List<Place>());
-
+            var placesListState = new AsyncOperationState<IList<Place>, Criteria>(
+                Status.Empty, string.Empty, new List<Place>(), null
+            );
             PlacesData = new PlacesData(currentPlaceState, placesListState, new Report());
 
             var location = new Location(0, 0);
