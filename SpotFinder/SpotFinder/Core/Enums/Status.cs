@@ -5,7 +5,7 @@
         Success,
         Error,
         Getting,
-        NotStartedYet,
+        Empty,
         Unknown
     }
 }

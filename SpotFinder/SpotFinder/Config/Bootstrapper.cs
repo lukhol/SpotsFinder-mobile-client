@@ -79,7 +79,7 @@ namespace SpotFinder.Config
                     }
 
                     var locationStatus = state.DeviceData.LocationState.Status;
-                    if ((locationStatus == Status.NotStartedYet || locationStatus == Status.Unknown) && 
+                    if ((locationStatus == Status.Empty || locationStatus == Status.Unknown) && 
                         locationPermission.PermissionStatus == PermissionStatus.Granted)
                         appStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
                 });

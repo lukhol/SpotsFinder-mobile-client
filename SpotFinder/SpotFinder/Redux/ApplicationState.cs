@@ -33,7 +33,7 @@ namespace SpotFinder.Redux
             PlacesData = new PlacesData(null, currentPlaceState, placesListState, new Report());
 
             var location = new Location(0, 0);
-            var locationState = new LocationState(Status.NotStartedYet, null, location);
+            var locationState = new LocationState(Status.Empty, null, location);
 
             DeviceData = new DeviceData(locationState);
             var permissionDictionary = new Dictionary<PermissionName, Permission>();
