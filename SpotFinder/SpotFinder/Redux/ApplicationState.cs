@@ -1,57 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SpotFinder.Core.Enums;
 using SpotFinder.Redux.StateModels;
+using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
-using SpotFinder.Core.Enums;
-using SpotFinder.Models.Core;
 using System.Reactive;
 
 namespace SpotFinder.Redux
 {
     public class ApplicationState
     {
-        //Permissions:
-        public IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>> PermissionsDictionary { get; set; }
+        public IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>> PermissionsDictionary { get; private set; }
+        public Stack<PageName> NavigationStack { get; private set; }
+        public Settings Settings { get; private set; }
+        public PlacesData PlacesData { get; private set; }
+        public DeviceData DeviceData { get; private set; }
 
-        //Navigation section
-        public Stack<PageName> NavigationStack { get; set; }
+        [Obsolete]
+        public ApplicationState() { }
 
-        //Settings section
-        public Settings Settings { get; set; }
-
-        //Data section
-        public PlacesData PlacesData { get; set; }
-
-        //Device information section
-        public DeviceData DeviceData { get; set; }
-
-        public ApplicationState()
+        public ApplicationState(
+            IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>> permissionsDictionary, 
+            Stack<PageName> navigationStack, 
+            Settings settings, 
+            PlacesData placesData, 
+            DeviceData deviceData
+            )
         {
-            //TODO: All of this initialization should be inside bootstrapper or DIContainer!
-            var currentPlaceState = new AsyncOperationState<Place, int>(
-                Status.Empty, string.Empty, null, 0
-            );
-            var placesListState = new AsyncOperationState<IList<Place>, Criteria>(
-                Status.Empty, string.Empty, new List<Place>(), null
-            );
-            PlacesData = new PlacesData(currentPlaceState, placesListState, new Report());
-
-            var location = new Location(0, 0);
-            var locationState = new LocationState(Status.Empty, null, location);
-
-            DeviceData = new DeviceData(locationState);
-
-            var permissionDictionary = new Dictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>();
-            permissionDictionary.Add(PermissionName.Camera, 
-                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)
-            );
-            permissionDictionary.Add(PermissionName.Location,
-                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)    
-            );
-            permissionDictionary.Add(PermissionName.Storage, 
-                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)    
-            );
-            PermissionsDictionary = permissionDictionary.ToImmutableDictionary();
+            PermissionsDictionary = permissionsDictionary;
+            NavigationStack = navigationStack;
+            Settings = settings;
+            PlacesData = placesData;
+            DeviceData = deviceData;
         }
     }
 }

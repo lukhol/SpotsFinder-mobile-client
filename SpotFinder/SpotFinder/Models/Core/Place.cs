@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using SpotFinder.Core.Enums;
-using SpotFinder.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Xamarin.Forms;
-using SpotFinder.Redux.Actions;
 
 namespace SpotFinder.Models.Core
 {
@@ -65,8 +63,8 @@ namespace SpotFinder.Models.Core
             Curb = false;
             Bank = false;
             Bowl = false;
-            Description = "";
-            Name = "";
+            Description = string.Empty;
+            Name = string.Empty;
             Location = new Location();
             PhotosBase64 = new List<string>();
             PhotosAsImage = new List<Image>();

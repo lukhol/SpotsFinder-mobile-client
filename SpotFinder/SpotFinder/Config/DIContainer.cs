@@ -4,6 +4,7 @@ using SpotFinder.Config;
 using SpotFinder.Core.Enums;
 using SpotFinder.DataServices;
 using SpotFinder.Helpers;
+using SpotFinder.Models.Core;
 using SpotFinder.Redux;
 using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Redux.Actions.Locations;
@@ -43,6 +44,8 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<PlacesData>, PlaceDataReducer>();
             simpleInjector.Register<IReducer<DeviceData>, DeviceDataReducer>();
 
+            simpleInjector.Register(() => PrepareInitialApplicationState());
+        
             simpleInjector.Register(typeof(IStore<ApplicationState>), () =>
             {
                 return new Store<ApplicationState>(
@@ -50,9 +53,6 @@ namespace SpotFinder.Config
                     Resolve<ApplicationState>()
                 );
             }, Lifestyle.Singleton);
-
-            //State:
-            simpleInjector.Register<ApplicationState>(Lifestyle.Singleton);
 
             //NavigationService
             simpleInjector.Register<INavigationService, NavigationService>(Lifestyle.Singleton);
@@ -96,6 +96,40 @@ namespace SpotFinder.Config
         public object Resolve(Type type)
         {
             return simpleInjector.GetInstance(type);
+        }
+
+        private ApplicationState PrepareInitialApplicationState()
+        {
+            //TODO: All of this initialization should be inside bootstrapper or DIContainer!
+            var currentPlaceState = new AsyncOperationState<Place, int>(
+                Status.Empty, string.Empty, null, 0
+            );
+            var placesListState = new AsyncOperationState<IList<Place>, Criteria>(
+                Status.Empty, string.Empty, new List<Place>(), null
+            );
+            var reportState = new AsyncOperationState<Report, Unit>(
+                Status.Empty, string.Empty, null, Unit.Default
+            );
+            var placesData = new PlacesData(currentPlaceState, placesListState, reportState);
+
+            var location = new Location(0, 0);
+            var locationState = new LocationState(Status.Empty, null, location);
+
+            var deviceData = new DeviceData(locationState);
+
+            var permissionDictionary = new Dictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>();
+            permissionDictionary.Add(PermissionName.Camera,
+                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)
+            );
+            permissionDictionary.Add(PermissionName.Location,
+                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)
+            );
+            permissionDictionary.Add(PermissionName.Storage,
+                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)
+            );
+            var permissionsDictionary = permissionDictionary.ToImmutableDictionary();
+
+            return new ApplicationState(permissionsDictionary, new Stack<PageName>(), new Settings(), placesData, deviceData);
         }
     }
 }

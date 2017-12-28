@@ -83,7 +83,7 @@ namespace SpotFinder.ViewModels
             //Póki co nie wykorzystuję lokalizacji z tej strony...
             IsBusy = true;
             appStore.Dispatch(new UpdateLocationInReportAction(appStore.GetState().DeviceData.LocationState.Value));
-            var addingPlace = appStore.GetState().PlacesData.Report.Place;
+            var addingPlace = appStore.GetState().PlacesData.ReportState.Value.Place;
 
             int result = await PlaceService.SendAsync(addingPlace);
 

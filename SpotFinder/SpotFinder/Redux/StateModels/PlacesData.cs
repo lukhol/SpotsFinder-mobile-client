@@ -1,6 +1,7 @@
 ﻿using SpotFinder.Models.Core;
 using System;
 using System.Collections.Generic;
+using System.Reactive;
 
 namespace SpotFinder.Redux.StateModels
 {
@@ -8,7 +9,7 @@ namespace SpotFinder.Redux.StateModels
     {
         public AsyncOperationState<Place, int> CurrentPlaceState { get; private set; }
         public AsyncOperationState<IList<Place>, Criteria> PlacesListState { get; private set; }
-        public Report Report { get; private set; }
+        public AsyncOperationState<Report, Unit> ReportState { get; private set; }
 
         [Obsolete]
         public PlacesData()
@@ -18,13 +19,13 @@ namespace SpotFinder.Redux.StateModels
 
         public PlacesData(
             AsyncOperationState<Place, int> currentPlaceState,
-            AsyncOperationState<IList<Place>, Criteria> placesListState, 
-            Report report
+            AsyncOperationState<IList<Place>, Criteria> placesListState,
+            AsyncOperationState<Report, Unit> reportState
         )
         {
             CurrentPlaceState = currentPlaceState;
             PlacesListState = placesListState;
-            Report = report;
+            ReportState = reportState;
         }
     }
 }

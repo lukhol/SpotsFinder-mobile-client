@@ -32,14 +32,13 @@ namespace SpotFinder.Redux
 
         public ApplicationState Reduce(ApplicationState applicationState, IAction action)
         {
-            return new ApplicationState
-            {
-                NavigationStack = NavigationReducer.Reduce(applicationState.NavigationStack, action),
-                Settings = SettingsReducer.Reduce(applicationState.Settings, action),
-                PlacesData = PlaceDataReducer.Reduce(applicationState.PlacesData, action),
-                DeviceData = DeviceDataReducer.Reduce(applicationState.DeviceData, action),
-                PermissionsDictionary = PermissionsReducer.Reduce(applicationState.PermissionsDictionary, action)
-            };
+            return new ApplicationState(
+                PermissionsReducer.Reduce(applicationState.PermissionsDictionary, action),
+                NavigationReducer.Reduce(applicationState.NavigationStack, action),
+                SettingsReducer.Reduce(applicationState.Settings, action),
+                PlaceDataReducer.Reduce(applicationState.PlacesData, action),
+                DeviceDataReducer.Reduce(applicationState.DeviceData, action)
+            );
         }
     }
 }

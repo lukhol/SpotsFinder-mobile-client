@@ -6,7 +6,8 @@
         Error,
         Getting,
         Setting,
+        Processing,
         Empty,
-        Unknown
+        Unknown 
     }
 }

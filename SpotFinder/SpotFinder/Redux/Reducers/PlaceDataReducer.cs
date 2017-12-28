@@ -1,7 +1,6 @@
 ﻿using BuilderImmutableObject;
 using Redux;
 using SpotFinder.Core.Enums;
-using SpotFinder.Models.Core;
 using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Redux.Actions.PlacesList;
@@ -43,14 +42,11 @@ namespace SpotFinder.Redux.Reducers
             //Adding new place:
             if (action is CreateNewReportAction)
             {
-                var report = new Report(new Place(), new Location(0 , 0));
-                previousState.Set(v => v.Report, report)
+                var newReportState = previousState.ReportState
+                    .Set(v => v.Value, new Report(null, null))
                     .Build();
-            }
 
-            if (action is ClearReportAction)
-            {
-                return previousState.Set(v => v.Report, null)
+                previousState.Set(v => v.ReportState, newReportState)
                     .Build();
             }
 
@@ -58,11 +54,15 @@ namespace SpotFinder.Redux.Reducers
             {
                 var passPlaceToReportAction = action as PassPlaceToReportAction;
 
-                var newReportObject = previousState.Report
+                var newReportObject = previousState.ReportState.Value
                     .Set(v => v.Place, passPlaceToReportAction.Place)
                     .Build();
 
-                return previousState.Set(v => v.Report, newReportObject)
+                var newReportState = previousState.ReportState
+                    .Set(v => v.Value, newReportObject)
+                    .Build();
+
+                return previousState.Set(v => v.ReportState, newReportState)
                     .Build();
             }
 
@@ -71,14 +71,17 @@ namespace SpotFinder.Redux.Reducers
                 //TODO: Place HAVE TO be immutable.
                 var updateLocationInReportAction = action as UpdateLocationInReportAction;
 
-                previousState.Report.Place.Location = updateLocationInReportAction.Location;
+                previousState.ReportState.Value.Place.Location = updateLocationInReportAction.Location;
 
-                var newReportState = previousState.Report
-                    .Set(v => v.Place, previousState.Report.Place)
+                var newReportObject = previousState.ReportState.Value
                     .Set(v => v.Location, updateLocationInReportAction.Location)
                     .Build();
 
-                return previousState.Set(v => v.Report, newReportState)
+                var newReportState = previousState.ReportState
+                    .Set(v => v.Value, newReportObject)
+                    .Build();
+
+                return previousState.Set(v => v.ReportState, newReportState)
                     .Build();
             }
 
