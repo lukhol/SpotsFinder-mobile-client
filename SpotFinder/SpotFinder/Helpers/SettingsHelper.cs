@@ -33,20 +33,5 @@ namespace SpotFinder.Helpers
 
             await App.Current.SavePropertiesAsync();
         }
-
-        private MapType StringToMapType(string stringMapType)
-        {
-            switch (stringMapType)
-            {
-                case "Satelite":
-                    return MapType.Satelite;
-
-                case "Normal":
-                    return MapType.Normal;
-
-                default:
-                    return MapType.NoSpecified;
-            }
-        }
     }
 }

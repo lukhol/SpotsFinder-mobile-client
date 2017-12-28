@@ -44,6 +44,10 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<PlacesData>, PlaceDataReducer>();
             simpleInjector.Register<IReducer<DeviceData>, DeviceDataReducer>();
 
+            simpleInjector.Register<IReducer<AsyncOperationState<Place, int>>, CurrentPlaceReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<IList<Place>, Criteria>>, PlacesListReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<Report, Unit>>, ReportReducer>();
+
             simpleInjector.Register(() => PrepareInitialApplicationState());
         
             simpleInjector.Register(typeof(IStore<ApplicationState>), () =>
