@@ -5,6 +5,7 @@
         Success,
         Error,
         Getting,
+        Setting,
         Empty,
         Unknown
     }

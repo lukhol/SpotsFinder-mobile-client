@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Net.Http;
+using System.Reactive;
 
 namespace SpotFinder.Config
 {
@@ -36,7 +37,7 @@ namespace SpotFinder.Config
             //Reducers
             simpleInjector.Register<IReducer<ApplicationState>, ApplicationReducer>();
 
-            simpleInjector.Register<IReducer<IImmutableDictionary<PermissionName, Permission>>, PermissionsReducer>();
+            simpleInjector.Register<IReducer<IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>>, PermissionsReducer>();
             simpleInjector.Register<IReducer<Settings>, SettingsReducer>();
             simpleInjector.Register<IReducer<Stack<PageName>>, NavigationReducer>();
             simpleInjector.Register<IReducer<PlacesData>, PlaceDataReducer>();
