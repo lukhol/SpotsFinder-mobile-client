@@ -91,7 +91,7 @@ namespace SpotFinder.Redux.Reducers
                 var downloadPlaceByIdStartAction = action as DownloadPlaceByIdStartAction;
 
                 var newCurrentPlaceState = previousState.CurrentPlaceState
-                    .Set(v => v.Id, downloadPlaceByIdStartAction.Id)
+                    .Set(v => v.TriggerValue, downloadPlaceByIdStartAction.Id)
                     .Set(v => v.Status, Status.Getting)
                     .Build();
                 

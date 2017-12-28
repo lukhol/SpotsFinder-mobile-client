@@ -28,7 +28,9 @@ namespace SpotFinder.Redux
         public ApplicationState()
         {
             //TODO: All of this initialization should be inside bootstrapper or DIContainer!
-            var currentPlaceState = new CurrentPlaceState(0, Status.Unknown, null, null);
+            var currentPlaceState = new AsyncOperationState<Place, int>(
+                Status.Empty, string.Empty, null, 0
+            );
             var placesListState = new PlacesListState(null, Status.Unknown, null, new List<Place>());
 
             PlacesData = new PlacesData(currentPlaceState, placesListState, new Report());
