@@ -3,11 +3,11 @@ using SpotFinder.Core.Enums;
 
 namespace SpotFinder.Redux.Actions.Permissions
 {
-    public class CheckPermissionStartAction : IAction
+    public class GetPermissionStartAction : IAction
     {
         public PermissionName PermissionName { get; private set; }
 
-        public CheckPermissionStartAction(PermissionName permissionName)
+        public GetPermissionStartAction(PermissionName permissionName)
         {
             PermissionName = permissionName;
         }

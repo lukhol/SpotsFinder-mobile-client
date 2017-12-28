@@ -33,7 +33,7 @@ namespace SpotFinder.ViewModels
             };
 
             //Request loction for actual report.
-            appStore.Dispatch(new CreateNewReportAction());
+            appStore.Dispatch(new SetNewReportAction());
         }
 
         private string description;
@@ -399,7 +399,7 @@ namespace SpotFinder.ViewModels
             place.PhotosBase64 = base64PhotosList;
             place.PhotosAsImage = myImagesPhotosList;
 
-            appStore.Dispatch(new PassPlaceToReportAction(place));
+            appStore.Dispatch(new SetReportPlaceAction(place));
             App.Current.MainPage.Navigation.PushAsync(new LocateOnMapPage());
         }
 

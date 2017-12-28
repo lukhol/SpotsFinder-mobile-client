@@ -3,11 +3,11 @@ using SpotFinder.Models.Core;
 
 namespace SpotFinder.Redux.Actions
 {
-    public class UpdateLocationInReportAction : IAction
+    public class SetReportLocationAction : IAction
     {
         public Location Location { get; private set; }
 
-        public UpdateLocationInReportAction(Location location)
+        public SetReportLocationAction(Location location)
         {
             Location = location;
         }

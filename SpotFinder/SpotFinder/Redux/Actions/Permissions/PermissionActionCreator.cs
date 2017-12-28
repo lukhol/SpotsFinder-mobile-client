@@ -13,7 +13,7 @@ namespace SpotFinder.Redux.Actions.Permissions
             {
                 foreach(PermissionName permissionName in permissionsNames)
                 {
-                    dispatch(new CheckPermissionStartAction(permissionName));
+                    dispatch(new GetPermissionStartAction(permissionName));
 
                     var result = await CheckPermissionAsync(permissionName);
                     if (result != PermissionStatus.Granted)
@@ -22,7 +22,7 @@ namespace SpotFinder.Redux.Actions.Permissions
                         result = await CheckPermissionAsync(permissionName);
                     }
 
-                    dispatch(new CheckPermissionCompleteAction(permissionName, result));
+                    dispatch(new GetPermissionCompleteAction(permissionName, result));
                 }
             };
         }

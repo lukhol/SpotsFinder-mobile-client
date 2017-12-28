@@ -15,9 +15,9 @@ namespace SpotFinder.Redux.Reducers
         public IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>
             Reduce(IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>> previousState, IAction action)
         {
-            if(action is CheckPermissionStartAction)
+            if(action is GetPermissionStartAction)
             {
-                var checkPermissionStartAction = action as CheckPermissionStartAction;
+                var checkPermissionStartAction = action as GetPermissionStartAction;
                 var permissionName = checkPermissionStartAction.PermissionName;
 
                 return previousState
@@ -32,9 +32,9 @@ namespace SpotFinder.Redux.Reducers
                     .ToImmutableDictionary();
             }
 
-            if(action is CheckPermissionCompleteAction)
+            if(action is GetPermissionCompleteAction)
             {
-                var checkPermissionCompleteAction = action as CheckPermissionCompleteAction;
+                var checkPermissionCompleteAction = action as GetPermissionCompleteAction;
 
                 return previousState
                     .Select(x =>

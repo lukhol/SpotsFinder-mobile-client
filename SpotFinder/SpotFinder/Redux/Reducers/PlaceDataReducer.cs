@@ -40,7 +40,7 @@ namespace SpotFinder.Redux.Reducers
             }
 
             //Adding new place:
-            if (action is CreateNewReportAction)
+            if (action is SetNewReportAction)
             {
                 var newReportState = previousState.ReportState
                     .Set(v => v.Value, new Report(null, null))
@@ -50,9 +50,9 @@ namespace SpotFinder.Redux.Reducers
                     .Build();
             }
 
-            if (action is PassPlaceToReportAction)
+            if (action is SetReportPlaceAction)
             {
-                var passPlaceToReportAction = action as PassPlaceToReportAction;
+                var passPlaceToReportAction = action as SetReportPlaceAction;
 
                 var newReportObject = previousState.ReportState.Value
                     .Set(v => v.Place, passPlaceToReportAction.Place)
@@ -66,10 +66,10 @@ namespace SpotFinder.Redux.Reducers
                     .Build();
             }
 
-            if (action is UpdateLocationInReportAction)
+            if (action is SetReportLocationAction)
             {
                 //TODO: Place HAVE TO be immutable.
-                var updateLocationInReportAction = action as UpdateLocationInReportAction;
+                var updateLocationInReportAction = action as SetReportLocationAction;
 
                 previousState.ReportState.Value.Place.Location = updateLocationInReportAction.Location;
 
