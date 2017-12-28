@@ -1,6 +1,5 @@
 ﻿using Redux;
 using SimpleInjector;
-using SpotFinder.Config;
 using SpotFinder.Core.Enums;
 using SpotFinder.DataServices;
 using SpotFinder.Helpers;

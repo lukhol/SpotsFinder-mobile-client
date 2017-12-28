@@ -1,5 +1,4 @@
-﻿using SpotFinder.Core;
-using SpotFinder.Core.Enums;
+﻿using SpotFinder.Core.Enums;
 using SpotFinder.Models.Core;
 
 namespace SpotFinder.Models.DTO

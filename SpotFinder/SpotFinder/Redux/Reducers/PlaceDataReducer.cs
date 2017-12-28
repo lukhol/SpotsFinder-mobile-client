@@ -1,10 +1,5 @@
-﻿using BuilderImmutableObject;
-using Redux;
-using SpotFinder.Core.Enums;
+﻿using Redux;
 using SpotFinder.Models.Core;
-using SpotFinder.Redux.Actions;
-using SpotFinder.Redux.Actions.CurrentPlace;
-using SpotFinder.Redux.Actions.PlacesList;
 using SpotFinder.Redux.StateModels;
 using System;
 using System.Collections.Generic;
