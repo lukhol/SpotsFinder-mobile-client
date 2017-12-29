@@ -1,5 +1,6 @@
 ﻿using Redux;
 using SpotFinder.Core.Enums;
+using SpotFinder.Helpers;
 using SpotFinder.Models.Core;
 using SpotFinder.Redux;
 using SpotFinder.Redux.Actions.CurrentPlace;
@@ -22,13 +23,15 @@ namespace SpotFinder.Config
         private IDeviceLocationActionCreator deviceLocationActionCreator;
         private IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
         private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
+        private ISettingsHelper settingsHelper;
 
         public Bootstrapper(
             IStore<ApplicationState> appStore,
             IPermissionActionCreator permissionActionCreator,
             IDeviceLocationActionCreator deviceLocationActionCreator,
             IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator,
-            IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator
+            IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator,
+            ISettingsHelper settingsHelper
             )
         {
             this.appStore = appStore ?? throw new ArgumentNullException(nameof(appStore));
@@ -36,6 +39,7 @@ namespace SpotFinder.Config
             this.deviceLocationActionCreator = deviceLocationActionCreator ?? throw new ArgumentNullException(nameof(deviceLocationActionCreator));
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
             this.downloadPlacesListByCriteriaActionCreator = downloadPlacesListByCriteriaActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListByCriteriaActionCreator));
+            this.settingsHelper = settingsHelper ?? throw new ArgumentNullException(nameof(settingsHelper));
         }
 
         public void OnStart()
@@ -108,6 +112,13 @@ namespace SpotFinder.Config
             };
 
             appStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
+        }
+
+        private void SettingsSubscription()
+        {
+            appStore
+                .DistinctUntilChanged(state => new { state.Settings })
+                .Subscribe(state => settingsHelper.SaveSettings(state.Settings));
         }
     }
 }

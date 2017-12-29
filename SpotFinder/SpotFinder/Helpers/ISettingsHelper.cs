@@ -4,7 +4,7 @@ namespace SpotFinder.Helpers
 {
     public interface ISettingsHelper
     {
-        void SaveSettingsAsync(Settings settings);
+        void SaveSettings(Settings settings);
         Settings ReadSettings();
     }
 }

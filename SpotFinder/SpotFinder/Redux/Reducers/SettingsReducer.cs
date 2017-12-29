@@ -20,35 +20,22 @@ namespace SpotFinder.Redux.Reducers
             if(action is SaveSettingsAction)
             {
                 var saveSettingsAction = action as SaveSettingsAction;
-                var settings = new Settings
-                {
-                    MainCity = saveSettingsAction.MainCity,
-                    MainDistance = saveSettingsAction.MainDistance,
-                    MapType = saveSettingsAction.MapType
-                };
-
-                SettingsHelper.SaveSettingsAsync(settings);
-
-                //Nie mogę zwrócić nowego stanu ponieważ na zmianę Settings jest subskrybcja, która zmienia je w stanie.
-                //Dlatego zwracam stary stan, ale z nowymi danymi. Nie wiem czy to dobrze, ale dzięki temu mogę zapisać
-                //się również na subskrybcję dla poszczególnych części Settingsów np. MainCity lub MapType.
-                previousState.MainCity = settings.MainCity;
-                previousState.MainDistance = settings.MainDistance;
-                previousState.MapType = settings.MapType;
-
-                return previousState;
+                return new Settings(
+                    saveSettingsAction.MainCity,
+                    saveSettingsAction.MainDistance,
+                    saveSettingsAction.MapType
+                );
             }
 
             if(action is ReadSettingsAction)
             {
                 var readSettingsAction = action as ReadSettingsAction;
 
-                return new Settings
-                {
-                    MainCity = readSettingsAction.MainCity,
-                    MainDistance = readSettingsAction.MainDistance,
-                    MapType = readSettingsAction.MapType
-                };
+                return new Settings(
+                    readSettingsAction.MainCity,
+                    readSettingsAction.MainDistance,
+                    readSettingsAction.MapType
+                );
             }
 
             return previousState;

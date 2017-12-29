@@ -46,8 +46,6 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<AsyncOperationState<Place, int>>, CurrentPlaceReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<IList<Place>, Criteria>>, PlacesListReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<Report, Unit>>, ReportReducer>();
-
-            simpleInjector.Register(() => PrepareInitialApplicationState());
         
             simpleInjector.Register(typeof(IStore<ApplicationState>), () =>
             {
@@ -57,15 +55,19 @@ namespace SpotFinder.Config
                 );
             }, Lifestyle.Singleton);
 
+            //Helpers
+            var settingsHelper = new SettingsHelper();
+            simpleInjector.Register<ISettingsHelper>(() => settingsHelper);
+
+            //Initial ApplicationState
+            simpleInjector.Register(() => PrepareInitialApplicationState(settingsHelper));
+
             //NavigationService
             simpleInjector.Register<INavigationService, NavigationService>(Lifestyle.Singleton);
 
             //Data/Test services
             simpleInjector.Register<IPlaceService, PlaceService>();
             simpleInjector.Register<ILocalPlaceRepository, LocalPlaceRepository>();
-
-            //Helpers
-            simpleInjector.Register<ISettingsHelper, SettingsHelper>();
 
             //ActionsCreators:
             simpleInjector.Register<IPermissionActionCreator, PermissionActionCreator>();
@@ -85,6 +87,7 @@ namespace SpotFinder.Config
             //Other:
             var httpClient = new HttpClient();
             simpleInjector.Register(() => httpClient, Lifestyle.Singleton);
+            simpleInjector.Register(() => simpleInjector.GetInstance<SettingsHelper>().ReadSettings());
             
             simpleInjector.Verify();
 
@@ -101,9 +104,8 @@ namespace SpotFinder.Config
             return simpleInjector.GetInstance(type);
         }
 
-        private ApplicationState PrepareInitialApplicationState()
+        private ApplicationState PrepareInitialApplicationState(ISettingsHelper settingsHelper)
         {
-            //TODO: All of this initialization should be inside bootstrapper or DIContainer!
             var currentPlaceState = new AsyncOperationState<Place, int>(
                 Status.Empty, string.Empty, null, 0
             );
@@ -132,7 +134,13 @@ namespace SpotFinder.Config
             );
             var permissionsDictionary = permissionDictionary.ToImmutableDictionary();
 
-            return new ApplicationState(permissionsDictionary, new Stack<PageName>(), new Settings(), placesData, deviceData);
+            return new ApplicationState(
+                permissionsDictionary, 
+                new Stack<PageName>(), 
+                settingsHelper.ReadSettings(), 
+                placesData, 
+                deviceData
+            );
         }
     }
 }

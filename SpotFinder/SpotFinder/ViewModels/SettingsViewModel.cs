@@ -16,13 +16,16 @@ namespace SpotFinder.ViewModels
         public SettingsViewModel(IStore<ApplicationState> appStore) : base(appStore)
         {
             appStore
-                .DistinctUntilChanged(state => new { state.Settings })
-                .Subscribe(state =>
-                {
-                    Distance = state.Settings.MainDistance;
-                    City = state.Settings.MainCity;
-                    SelectedMapTypeString = state.Settings.MapType.ToString();
-                });
+                .DistinctUntilChanged(state => new { state.Settings.MainDistance })
+                .Subscribe(state => Distance = state.Settings.MainDistance );
+
+            appStore
+                .DistinctUntilChanged(state => new { state.Settings.MainCity })
+                .Subscribe(state => City = state.Settings.MainCity);
+
+            appStore
+                .DistinctUntilChanged(state => new { state.Settings.MapType })
+                .Subscribe(state => SelectedMapTypeString = state.Settings.MapType.ToString());
         }
 
         private List<string> mapTypeForPickerList = new List<string>

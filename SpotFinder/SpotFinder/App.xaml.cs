@@ -15,18 +15,18 @@ namespace SpotFinder
         private IStore<ApplicationState> AppStore { get; }
 
         private IBootstrapper bootstrapper;
-        private ISettingsHelper settingsHelper;
+        //private ISettingsHelper settingsHelper;
 
         public App()
         {
             AppStore = DIContainer.Instance.Resolve<IStore<ApplicationState>>();
 
             bootstrapper = DIContainer.Instance.Resolve<IBootstrapper>();
-            settingsHelper = DIContainer.Instance.Resolve<ISettingsHelper>();
+            //settingsHelper = DIContainer.Instance.Resolve<ISettingsHelper>();
 
             InitializeComponent();
 
-            AppStore.Dispatch(new ReadSettingsAction(settingsHelper.ReadSettings()));
+            //AppStore.Dispatch(new ReadSettingsAction(settingsHelper.ReadSettings()));
    
             MainPage = new CustomNavigationPage(new RootMasterDetailPage());
 
@@ -51,12 +51,12 @@ namespace SpotFinder
         private void SaveSettingsSubscription()
         {
             //Subsktrybcja zapisująca ustawienia:
-            AppStore
-                .DistinctUntilChanged(state => new { state.Settings })
-                .Subscribe(state =>
-                {
-                    AppStore.Dispatch(new SaveSettingsAction(state.Settings));
-                });
+            //AppStore
+            //    .DistinctUntilChanged(state => new { state.Settings })
+            //    .Subscribe(state =>
+            //    {
+            //        AppStore.Dispatch(new SaveSettingsAction(state.Settings));
+            //    });
         }
     }
 }
