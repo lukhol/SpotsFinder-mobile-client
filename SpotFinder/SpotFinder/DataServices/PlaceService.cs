@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,7 +28,9 @@ namespace SpotFinder.DataServices
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var uri = new Uri(GlobalSettings.GetAllUrl);
+                var uri = new Uri(GlobalSettings.GET_ALL);
+                var byteArray = Encoding.ASCII.GetBytes(GlobalSettings.API_KEY);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
                 var response = await httpClient.GetAsync(uri);
 
                 if (response.IsSuccessStatusCode)
@@ -72,7 +75,10 @@ namespace SpotFinder.DataServices
                 var strinJObject = jObject.ToString();
 
                 httpClient.Timeout = TimeSpan.FromSeconds(90);
-                var uri = new Uri(GlobalSettings.PostSpotUrl);
+                var byteArray = Encoding.ASCII.GetBytes(GlobalSettings.API_KEY);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                var uri = new Uri(GlobalSettings.POST_PLACE);
                 var response = await httpClient.PostAsync(uri, content);
 
                 if (response.StatusCode == HttpStatusCode.Created)
@@ -104,7 +110,10 @@ namespace SpotFinder.DataServices
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var uri = new Uri(GlobalSettings.GetPlaceByCriteriaUrl);
+                var byteArray = Encoding.ASCII.GetBytes(GlobalSettings.API_KEY);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                var uri = new Uri(GlobalSettings.GET_PLACES_BY_CRITERIA);
                 var response = await httpClient.PostAsync(uri, content);
 
                 if (response.IsSuccessStatusCode)
@@ -139,7 +148,10 @@ namespace SpotFinder.DataServices
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var uri = new Uri(GlobalSettings.GetByIdUrl + id.ToString());
+                var byteArray = Encoding.ASCII.GetBytes(GlobalSettings.API_KEY);
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+                var uri = new Uri(GlobalSettings.GET_BY_ID + id.ToString());
                 var response = await httpClient.GetAsync(uri);
 
                 if (response.IsSuccessStatusCode)

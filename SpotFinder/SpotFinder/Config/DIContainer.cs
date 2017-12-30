@@ -87,6 +87,11 @@ namespace SpotFinder.Config
             simpleInjector.Register<SQLiteConfig>(Lifestyle.Singleton);
             simpleInjector.Register<ISQLite>(() => DependencyService.Get<ISQLite>());
 
+            //Permissions:
+            simpleInjector.Register<IPermissions>(
+                () => new CrossPermissionWrapper(Plugin.Permissions.CrossPermissions.Current)
+            );
+
             //Other:
             var httpClient = new HttpClient();
             simpleInjector.Register(() => httpClient, Lifestyle.Singleton);

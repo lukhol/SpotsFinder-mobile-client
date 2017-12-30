@@ -1,4 +1,5 @@
 ﻿using SpotFinder.Core.Enums;
+using SpotFinder.Models.Core;
 using SpotFinder.Redux.StateModels;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace SpotFinder.Redux
         public Settings Settings { get; private set; }
         public PlacesData PlacesData { get; private set; }
         public DeviceData DeviceData { get; private set; }
+        //public Location CurrentLookingLocation { get; private set; }
 
         [Obsolete]
         public ApplicationState() { }
@@ -23,7 +25,8 @@ namespace SpotFinder.Redux
             Stack<PageName> navigationStack, 
             Settings settings, 
             PlacesData placesData, 
-            DeviceData deviceData
+            DeviceData deviceData//,
+            //Location CurrentLookingLocation
             )
         {
             PermissionsDictionary = permissionsDictionary;

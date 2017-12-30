@@ -88,6 +88,24 @@ namespace SpotFinder.Config
                         locationPermissionState.Value == PermissionStatus.Granted)
                         appStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
                 });
+
+            appStore
+                .DistinctUntilChanged(state => new { state.PermissionsDictionary[PermissionName.Location].Status })
+                .Subscribe(state =>
+                {
+                    AsyncOperationState<PermissionStatus, Unit> locationPermissionState = null;
+                    state.PermissionsDictionary.TryGetValue(PermissionName.Location, out locationPermissionState);
+
+                    if (locationPermissionState == null)
+                    {
+                        //TODO: Error message!!
+                        return;
+                    }
+
+                    var locationStatus = state.DeviceData.LocationState.Status;
+                    if (locationPermissionState.Value == PermissionStatus.Granted && (locationStatus == Status.Empty || locationStatus == Status.Error))
+                        appStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
+                });
         }
 
         private void DownloadInitialSpotsList()

@@ -21,9 +21,12 @@ namespace SpotFinder.Redux.Actions.Locations
                     locator.DesiredAccuracy = 50;
 
                     //Last casched location:
-                    //position = await locator.GetLastKnownLocationAsync();
+                    position = await locator.GetLastKnownLocationAsync();
+                    var lastKnownLocation = new Location(position.Latitude, position.Longitude);
 
-                    if(!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled)
+                    dispatch(new GetDeviceLocationSuccessCompleteAction(lastKnownLocation));
+
+                    if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled)
                     {
                         var error = new Exception("Geolocator is not available or not enabled!");
                         dispatch(new GetDeviceLocationErrorCompleteAction(error));

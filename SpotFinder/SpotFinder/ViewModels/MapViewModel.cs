@@ -1,7 +1,6 @@
 ﻿using Redux;
 using SpotFinder.Models.Core;
 using SpotFinder.Redux;
-using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Resx;
 using SpotFinder.Views;
@@ -23,17 +22,40 @@ namespace SpotFinder.ViewModels
         {
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
 
+            SetMapTypeFromAppSettings();
+
             appStore
                 .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Status })
                 .Subscribe(state =>
                 {
                     var placesList = state.PlacesData.PlacesListState.Value;
+                
                     if (placesList != null && state.PlacesData.PlacesListState.Status == Core.Enums.Status.Success)
                         UpdateMap(placesList);
                     else
                         IsBusy = true;
                 });
 
+            appStore
+                .DistinctUntilChanged(state => new { state.DeviceData.LocationState.Status })
+                .Subscribe(state =>
+                {
+                    if(state.DeviceData.LocationState.Status != Core.Enums.Status.Success)
+                    {
+                        IsBusy = true;
+                        //Acquiring location...
+                    }
+                    else
+                    {
+                        IsBusy = false;
+                        var stateLocation = state.DeviceData.LocationState.Value;
+                        MapCenterLocation = new Position(stateLocation.Latitude, stateLocation.Longitude);
+                    }
+                });
+        }
+
+        private void SetMapTypeFromAppSettings()
+        {
             var mapTypeFromSettings = appStore.GetState().Settings.MapType;
 
             switch (mapTypeFromSettings)
@@ -52,7 +74,7 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public void UpdateMap(IList<Place> places)
+        private void UpdateMap(IList<Place> places)
         {
             if (places == null || places.Count == 0)
             {
@@ -92,27 +114,18 @@ namespace SpotFinder.ViewModels
                 pins.Add(pin);
             }
 
-            MapCenterLocation = new Position(places.First().Location.Latitude, places.First().Location.Longitude);
-
+            //MapCenterLocation = new Position(places.First().Location.Latitude, places.First().Location.Longitude);
             PinsCollection = pins;
-
             IsBusy = false;
         }
 
+        private Position mapCenterLocation;
         public Position MapCenterLocation
         {
-            get
-            {
-                var deviceData = appStore.GetState().DeviceData;
-                Position myPosition;
-                if (deviceData != null && deviceData.LocationState.Value != null)
-                    myPosition = new Position(deviceData.LocationState.Value.Latitude, deviceData.LocationState.Value.Longitude);
-                else
-                    myPosition = new Position(0, 0);
-                return myPosition;
-            }
+            get => mapCenterLocation;
             set
             {
+                mapCenterLocation = value;
                 OnPropertyChanged();
             }
         }
