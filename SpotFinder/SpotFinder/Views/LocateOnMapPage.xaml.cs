@@ -2,6 +2,7 @@
 using SpotFinder.Services;
 using SpotFinder.ViewModels;
 using SpotFinder.Views.Base;
+using System;
 using Xamarin.Forms.Xaml;
 
 namespace SpotFinder.Views
@@ -13,6 +14,15 @@ namespace SpotFinder.Views
         {
             InitializeComponent();
             BindingContext = DIContainer.Instance.Resolve<LocateOnMapViewModel>();
+        }
+
+        public void UploadPlace(object sender, EventArgs e)
+        {
+            if (!(BindingContext is LocateOnMapViewModel))
+                return;
+
+            var locateOnMapViewModel = BindingContext as LocateOnMapViewModel;
+            locateOnMapViewModel.UploadPlaceCommand.Execute(MapXAML);
         }
 
         protected override bool OnBackButtonPressed()

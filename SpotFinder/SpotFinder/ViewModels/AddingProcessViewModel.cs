@@ -383,7 +383,6 @@ namespace SpotFinder.ViewModels
             place.Name = Utils.FirstLetterToUpperCase(name);
 
             var base64PhotosList = new List<string>();
-            var myImagesPhotosList = new List<Image>();
 
             foreach(var myImageAsView in ImagesList)
             {
@@ -393,7 +392,6 @@ namespace SpotFinder.ViewModels
                     continue;
 
                 base64PhotosList.Add(myImage.Base64Representation);
-                myImagesPhotosList.Add(myImage);
             }
 
             place.PhotosBase64List = base64PhotosList;

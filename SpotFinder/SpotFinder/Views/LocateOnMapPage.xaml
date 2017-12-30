@@ -41,7 +41,8 @@
                 <StackLayout x:Name="MapLayoutXaml"
                              Grid.Row="0"
                              Grid.Column="0">
-                    <ownControls:BindableMap VerticalOptions="FillAndExpand"
+                    <ownControls:BindableMap x:Name="MapXAML"
+                                             VerticalOptions="FillAndExpand"
                                              WidthRequest="500"
                                              IsShowingUser="True"
                                              MapPosition="{Binding MapCenterLocation}"
@@ -68,7 +69,7 @@
                     Grid.Column="0"
                     Style="{StaticResource GlobalButtonStyle}"
                     Text="{translate:Translate LocateCommandTitle}"
-                    Command="{Binding UploadSpotCommand}"
+                    Clicked="UploadPlace"
                     Margin="5,0,5,5"
                     VerticalOptions="End"/>
             </StackLayout>

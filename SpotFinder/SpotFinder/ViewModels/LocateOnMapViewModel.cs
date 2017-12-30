@@ -7,6 +7,8 @@ using SpotFinder.DataServices;
 using System;
 using SpotFinder.Redux;
 using Redux;
+using SpotFinder.OwnControls;
+using SpotFinder.Models.Core;
 
 namespace SpotFinder.ViewModels
 {
@@ -76,13 +78,20 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public ICommand UploadSpotCommand => new Command(Upload);
+        public ICommand UploadPlaceCommand => new Command(Upload);
 
-        private async void Upload()
+        private async void Upload(object param)
         {
-            //Póki co nie wykorzystuję lokalizacji z tej strony...
+            var map = param as BindableMap;
+
+            if (map == null)
+                return;
+
             IsBusy = true;
-            appStore.Dispatch(new SetReportLocationAction(appStore.GetState().DeviceData.LocationState.Value));
+
+            var mapLocation = new Location(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude);
+
+            appStore.Dispatch(new SetReportLocationAction(mapLocation));
             var addingPlace = appStore.GetState().PlacesData.ReportState.Value.Place;
 
             int result = await PlaceService.SendAsync(addingPlace);
@@ -99,10 +108,6 @@ namespace SpotFinder.ViewModels
                 {
                     IsBusy = false;
                     return;
-                }
-                else
-                {
-                    LocalPlaceRepository.InsertPlace(addingPlace);
                 }
             }
 
