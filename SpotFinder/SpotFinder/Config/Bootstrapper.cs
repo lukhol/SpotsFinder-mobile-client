@@ -102,14 +102,14 @@ namespace SpotFinder.Config
                 mainDistance = 1;
 
             var criteria = new Criteria
-            {
-                Location = new CityLocation
+            (
+                new List<PlaceType> { PlaceType.Skatepark, PlaceType.Skatespot, PlaceType.DIY },
+                new CityLocation
                 {
                     City = city
                 },
-                Distance = mainDistance,
-                Type = new List<PlaceType> { PlaceType.Skatepark, PlaceType.Skatespot, PlaceType.DIY }
-            };
+                mainDistance
+            );
 
             appStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
         }

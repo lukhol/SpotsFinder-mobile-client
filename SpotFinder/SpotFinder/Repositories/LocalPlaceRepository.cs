@@ -143,11 +143,7 @@ namespace SpotFinder.Repositories
                 Name = sqlitePlaceLocal.Name,
                 Type = placeType,
                 Description = sqlitePlaceLocal.Description,
-                Location = new Location
-                {
-                    Latitude = sqlitePlaceLocal.Latitude,
-                    Longitude = sqlitePlaceLocal.Longitude
-                },
+                Location = new Location(sqlitePlaceLocal.Latitude, sqlitePlaceLocal.Longitude),
                 PhotosBase64 = listOfImages,
 
                 Bank = sqlitePlaceLocal.Bank,
@@ -276,13 +272,8 @@ namespace SpotFinder.Repositories
                 Name = sqlitePlace.Name,
                 Type = placeType,
                 Description = sqlitePlace.Description,
-                Location = new Location
-                {
-                    Latitude = sqlitePlace.Latitude,
-                    Longitude = sqlitePlace.Longitude
-                },
+                Location = new Location(sqlitePlace.Latitude, sqlitePlace.Longitude),
                 PhotosBase64 = listOfImages,
-
                 Bank = sqlitePlace.Bank,
                 Bowl = sqlitePlace.Bowl,
                 Corners = sqlitePlace.Corners,

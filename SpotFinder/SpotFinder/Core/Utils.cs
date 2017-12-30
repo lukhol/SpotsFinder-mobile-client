@@ -43,11 +43,7 @@ namespace SpotFinder.Core
             {
                 Id = place.Id,
                 Description = place.Description,
-                Location = new Location
-                {
-                    Latitude = place.Location.Latitude,
-                    Longitude = place.Location.Longitude
-                },
+                Location = new Location(place.Location.Latitude, place.Location.Longitude),
                 Type = place.Type,
                 Name = place.Name,
                 Images = webImagesList,
@@ -79,14 +75,10 @@ namespace SpotFinder.Core
                 base64ImagesList.Add(tempImageWeb.Image);
             }
 
-            var place =  new Place
+            var place = new Place
             {
                 Description = placeWeb.Description,
-                Location = new Location
-                {
-                    Latitude = placeWeb.Location.Latitude,
-                    Longitude = placeWeb.Location.Longitude
-                },
+                Location = new Location(placeWeb.Location.Latitude, placeWeb.Location.Longitude),
                 Type = placeWeb.Type,
                 Name = placeWeb.Name,
                 PhotosBase64 = base64ImagesList,
@@ -123,8 +115,7 @@ namespace SpotFinder.Core
             place.Description = placeWebLight.Description;
             place.Name = placeWebLight.Name;
             place.Id = placeWebLight.Id;
-            place.Location.Latitude = placeWebLight.Location.Latitude;
-            place.Location.Longitude = placeWebLight.Location.Longitude;
+            place.Location = new Location(placeWebLight.Location.Latitude, placeWebLight.Location.Longitude);
             place.Type = placeWebLight.Type;
 
             place.PhotosBase64 = new List<string>();

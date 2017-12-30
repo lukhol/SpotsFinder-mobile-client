@@ -25,17 +25,18 @@ namespace SpotFinder.ViewModels
             if (deviceLocation == null)
                 return;
 
-            var criteria = new Criteria();
-            criteria.Distance = 25;
-            criteria.Type = new List<PlaceType>
+            var distance = 25;
+            var types = new List<PlaceType>
             {
                 PlaceType.DIY, PlaceType.Skatepark, PlaceType.Skatespot
             };
-            criteria.Location = new CityLocation
+            var location = new CityLocation
             {
                 Longitude = deviceLocation.Longitude,
                 Latitude = deviceLocation.Latitude
             };
+
+            var criteria = new Criteria(types, location, distance);
 
             if (criteria == null)
                 return;

@@ -20,6 +20,7 @@ namespace SpotFinder.Redux.Reducers
             if(action is SaveSettingsAction)
             {
                 var saveSettingsAction = action as SaveSettingsAction;
+
                 return new Settings(
                     saveSettingsAction.MainCity,
                     saveSettingsAction.MainDistance,

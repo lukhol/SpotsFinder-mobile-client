@@ -1,16 +1,15 @@
-﻿using SpotFinder.Core.Enums;
+﻿using Redux;
+using SpotFinder.Core.Enums;
 using SpotFinder.Models.Core;
-using SpotFinder.Redux.Actions;
+using SpotFinder.Redux;
+using SpotFinder.Redux.Actions.PlacesList;
 using SpotFinder.Resx;
-using System.Linq;
 using SpotFinder.Views.Root;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
-using SpotFinder.Redux.Actions.PlacesList;
-using System;
-using SpotFinder.Redux;
-using Redux;
 
 namespace SpotFinder.ViewModels
 {
@@ -296,26 +295,6 @@ namespace SpotFinder.ViewModels
             if (deviceLocation == null)
                 return;
 
-            var criteria = new Criteria
-            {
-                Pyramid = pyramid,
-                Hubba = hubba,
-                Wallride = wallride,
-                Gap = gap,
-                Bank = bank,
-                Bowl = bowl,
-                Corners = corners,
-                Curb = curb,
-                Downhill = downhill,
-                Handrail = handrail,
-                Ledge = ledge,
-                Manualpad = manualpad,
-                Stairs = stairs,
-                Rail = rail,
-                OpenYourMind = openYourMind,
-                Distance = (int)distance
-            };
-
             //Types:
             var listOfTypes = new List<PlaceType>();
 
@@ -328,11 +307,10 @@ namespace SpotFinder.ViewModels
             if (diy)
                 listOfTypes.Add(PlaceType.DIY);
 
-            criteria.Type = listOfTypes;
-
+            CityLocation cityLocation = null;
             if (usePhoneLocation)
             {
-                criteria.Location = new CityLocation
+                cityLocation = new CityLocation
                 {
                     Longitude = deviceLocation.Longitude,
                     Latitude = deviceLocation.Latitude
@@ -342,7 +320,7 @@ namespace SpotFinder.ViewModels
             {
                 if (!string.IsNullOrEmpty(city))
                 {
-                    criteria.Location = new CityLocation
+                    cityLocation = new CityLocation
                     {
                         City = city,
                         Latitude = null,
@@ -350,6 +328,9 @@ namespace SpotFinder.ViewModels
                     };
                 }
             }
+
+            var criteria = new Criteria(listOfTypes, cityLocation, (int)distance, gap, stairs, rail, ledge, handrail, corners,
+                manualpad, wallride, downhill, openYourMind, pyramid, curb, bank, bowl, hubba);
 
             //Request pobiernaia
             appStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
