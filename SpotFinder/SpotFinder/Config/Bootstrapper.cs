@@ -21,16 +21,16 @@ namespace SpotFinder.Config
         private IStore<ApplicationState> appStore;
         private IPermissionActionCreator permissionActionCreator;
         private IDeviceLocationActionCreator deviceLocationActionCreator;
-        private IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
-        private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
+        private IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
+        private IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator;
         private ISettingsHelper settingsHelper;
 
         public Bootstrapper(
             IStore<ApplicationState> appStore,
             IPermissionActionCreator permissionActionCreator,
             IDeviceLocationActionCreator deviceLocationActionCreator,
-            IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator,
-            IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator,
+            IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator,
+            IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator,
             ISettingsHelper settingsHelper
             )
         {

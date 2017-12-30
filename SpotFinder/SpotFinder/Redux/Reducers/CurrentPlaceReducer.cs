@@ -11,9 +11,9 @@ namespace SpotFinder.Redux.Reducers
     {
         public AsyncOperationState<Place, int> Reduce(AsyncOperationState<Place, int> previousState, IAction action)
         {
-            if (action is DownloadPlaceByIdStartAction)
+            if (action is GetPlaceByIdStartAction)
             {
-                var downloadPlaceByIdStartAction = action as DownloadPlaceByIdStartAction;
+                var downloadPlaceByIdStartAction = action as GetPlaceByIdStartAction;
 
                 return previousState
                     .Set(v => v.TriggerValue, downloadPlaceByIdStartAction.Id)
@@ -21,13 +21,14 @@ namespace SpotFinder.Redux.Reducers
                     .Build();
             }
 
-            if (action is DownloadPlaceByIdCompleteAction)
+            if (action is GetPlaceByIdCompleteAction)
             {
-                var downloadPlaceByIdCompleteAction = action as DownloadPlaceByIdCompleteAction;
+                var downloadPlaceByIdCompleteAction = action as GetPlaceByIdCompleteAction;
 
                 return previousState
                     .Set(v => v.Value, downloadPlaceByIdCompleteAction.Place)
-                    .Set(v => v.Status, Status.Success)
+                    .Set(v => v.Status, downloadPlaceByIdCompleteAction.Status)
+                    .Set(v => v.Error, downloadPlaceByIdCompleteAction.Error)
                     .Build();
             }
 

@@ -1,11 +1,9 @@
 ﻿using SpotFinder.Core.Enums;
 using SpotFinder.Models.Core;
 using SpotFinder.SQLite;
-using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xamarin.Forms;
 using XamarinForms.SQLite.SQLite;
 
 namespace SpotFinder.Repositories

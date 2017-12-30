@@ -5,22 +5,22 @@ using System;
 
 namespace SpotFinder.Redux.Actions.CurrentPlace
 {
-    public class DownloadPlaceByIdActionCreator : IDownloadPlaceByIdActionCreator
+    public class GetPlaceByIdActionCreator : IGetPlaceByIdActionCreator
     {
         private IPlaceService PlaceService { get; }
         private IPlaceRepository PlaceRepository { get; }
 
-        public DownloadPlaceByIdActionCreator(IPlaceService placeService, IPlaceRepository placeRepository)
+        public GetPlaceByIdActionCreator(IPlaceService placeService, IPlaceRepository placeRepository)
         {
             PlaceService = placeService ?? throw new ArgumentNullException(nameof(placeService));
             PlaceRepository = placeRepository ?? throw new ArgumentNullException(nameof(placeRepository));
         }
 
-        public StoreExtensions.AsyncActionCreator<ApplicationState> DownloadPlaceById(int id)
+        public StoreExtensions.AsyncActionCreator<ApplicationState> GetPlaceById(int id)
         {
             return async (dispatch, getState) =>
             {
-                dispatch(new DownloadPlaceByIdStartAction(id));
+                dispatch(new GetPlaceByIdStartAction(id));
 
                 try
                 {
@@ -37,12 +37,12 @@ namespace SpotFinder.Redux.Actions.CurrentPlace
                         PlaceRepository.InsertPlace(place);
                     }
                        
-                    dispatch(new DownloadPlaceByIdCompleteAction(place));
+                    dispatch(new GetPlaceByIdCompleteAction(place));
                 }
                 catch (Exception ex)
                 {
                     //TODO: Log...
-                    dispatch(new DownloadPlaceByIdErrorCompleteAction(ex));
+                    dispatch(new GetPlaceByIdCompleteAction(ex));
                 }
             };
         }

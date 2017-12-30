@@ -17,9 +17,9 @@ namespace SpotFinder.ViewModels
 {
     public class MapViewModel : BaseViewModel
     {
-        private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
+        private IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator;
 
-        public MapViewModel(IStore<ApplicationState> appStore, IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator) : base(appStore)
+        public MapViewModel(IStore<ApplicationState> appStore, IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator) : base(appStore)
         {
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
 
@@ -84,7 +84,7 @@ namespace SpotFinder.ViewModels
 
                 pin.Clicked += async (s, e) =>
                 {
-                    appStore.DispatchAsync(downloadPlaceByIdActionCreator.DownloadPlaceById(place.Id));
+                    appStore.DispatchAsync(downloadPlaceByIdActionCreator.GetPlaceById(place.Id));
 
                     await App.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
                 };

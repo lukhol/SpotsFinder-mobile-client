@@ -16,9 +16,9 @@ namespace SpotFinder.ViewModels
 {
     public class ListViewModel : BaseViewModel
     {
-        private IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator;
+        private IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator;
 
-        public ListViewModel(IStore<ApplicationState> appStore, IDownloadPlaceByIdActionCreator downloadPlaceByIdActionCreator) : base(appStore)
+        public ListViewModel(IStore<ApplicationState> appStore, IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator) : base(appStore)
         {
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
 
@@ -114,7 +114,7 @@ namespace SpotFinder.ViewModels
 
             if(App.Current.MainPage.Navigation.NavigationStack.Last().GetType() == typeof(ListPage))
             {
-                appStore.DispatchAsync(downloadPlaceByIdActionCreator.DownloadPlaceById(selectedPlace.Id));
+                appStore.DispatchAsync(downloadPlaceByIdActionCreator.GetPlaceById(selectedPlace.Id));
                 App.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
             }
         });

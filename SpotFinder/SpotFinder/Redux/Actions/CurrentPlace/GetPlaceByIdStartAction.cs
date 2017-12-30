@@ -2,11 +2,11 @@
 
 namespace SpotFinder.Redux.Actions.CurrentPlace
 {
-    public class DownloadPlaceByIdStartAction : IAction
+    public class GetPlaceByIdStartAction : IAction
     {
         public int Id { get; private set; }
 
-        public DownloadPlaceByIdStartAction(int id)
+        public GetPlaceByIdStartAction(int id)
         {
             Id = id;
         }

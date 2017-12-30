@@ -74,8 +74,8 @@ namespace SpotFinder.Config
             //ActionsCreators:
             simpleInjector.Register<IPermissionActionCreator, PermissionActionCreator>();
             simpleInjector.Register<IDeviceLocationActionCreator, DeviceLocationActionCreator>();
-            simpleInjector.Register<IDownloadPlacesListByCriteriaActionCreator, DownloadPlacesListByCriteriaActionCreator>();
-            simpleInjector.Register<IDownloadPlaceByIdActionCreator, DownloadPlaceByIdActionCreator>();
+            simpleInjector.Register<IGetPlacesListByCriteriaActionCreator, GetPlacesListByCriteriaActionCreator>();
+            simpleInjector.Register<IGetPlaceByIdActionCreator, GetPlaceByIdActionCreator>();
             
             //Providers:
             simpleInjector.Register<IPhotoProvider, PhotoProvider>();
@@ -110,13 +110,13 @@ namespace SpotFinder.Config
         private ApplicationState PrepareInitialApplicationState(ISettingsHelper settingsHelper)
         {
             var currentPlaceState = new AsyncOperationState<Place, int>(
-                Status.Empty, string.Empty, null, 0
+                Status.Empty, null, null, 0
             );
             var placesListState = new AsyncOperationState<IList<Place>, Criteria>(
-                Status.Empty, string.Empty, new List<Place>(), null
+                Status.Empty, null, new List<Place>(), null
             );
             var reportState = new AsyncOperationState<Report, Unit>(
-                Status.Empty, string.Empty, null, Unit.Default
+                Status.Empty, null, null, Unit.Default
             );
             var placesData = new PlacesData(currentPlaceState, placesListState, reportState);
 
@@ -127,13 +127,13 @@ namespace SpotFinder.Config
 
             var permissionDictionary = new Dictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>();
             permissionDictionary.Add(PermissionName.Camera,
-                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)
+                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, null, PermissionStatus.Unknown, Unit.Default)
             );
             permissionDictionary.Add(PermissionName.Location,
-                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)
+                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, null, PermissionStatus.Unknown, Unit.Default)
             );
             permissionDictionary.Add(PermissionName.Storage,
-                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, string.Empty, PermissionStatus.Unknown, Unit.Default)
+                new AsyncOperationState<PermissionStatus, Unit>(Status.Unknown, null, PermissionStatus.Unknown, Unit.Default)
             );
             var permissionsDictionary = permissionDictionary.ToImmutableDictionary();
 

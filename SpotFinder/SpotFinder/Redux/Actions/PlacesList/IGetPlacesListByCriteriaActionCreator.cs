@@ -2,7 +2,7 @@
 
 namespace SpotFinder.Redux.Actions.PlacesList
 {
-    public interface IDownloadPlacesListByCriteriaActionCreator
+    public interface IGetPlacesListByCriteriaActionCreator
     {
         StoreExtensions.AsyncActionCreator<ApplicationState> DownloadPlaceByCriteria(Criteria criteria);
     }

@@ -4,11 +4,11 @@ using System;
 
 namespace SpotFinder.Redux.Actions.PlacesList
 {
-    public class DownloadPlacesListByCriteriaActionCreator : IDownloadPlacesListByCriteriaActionCreator
+    public class GetPlacesListByCriteriaActionCreator : IGetPlacesListByCriteriaActionCreator
     {
         private IPlaceService PlaceService { get; }
 
-        public DownloadPlacesListByCriteriaActionCreator(IPlaceService placeService)
+        public GetPlacesListByCriteriaActionCreator(IPlaceService placeService)
         {
             PlaceService = placeService ?? throw new ArgumentNullException(nameof(placeService));
         }
@@ -17,16 +17,16 @@ namespace SpotFinder.Redux.Actions.PlacesList
         {
             return async (dispatch, getState) =>
             {
-                dispatch(new DownloadPlacesListByCriteriaStartAction(criteria));
+                dispatch(new GetPlacesListByCriteriaStartAction(criteria));
 
                 try
                 {
                     var placesList = await PlaceService.GetPlacesByCriteriaAsync(criteria);
-                    dispatch(new DownloadPlacesListByCriteriaCompleteAction(placesList));
+                    dispatch(new GetPlacesListByCriteriaCompleteAction(placesList));
                 }
                 catch (Exception e)
                 {
-                    dispatch(new DownloadPlacesListByCriteriaErrorCompleteAction(e));
+                    dispatch(new GetPlacesListByCriteriaCompleteAction(e));
                 }
             };
         }

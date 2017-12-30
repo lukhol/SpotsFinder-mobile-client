@@ -15,10 +15,10 @@ namespace SpotFinder.ViewModels
 {
     public class CriteriaViewModel : BaseViewModel
     {
-        private IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
+        private IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
 
         public CriteriaViewModel(IStore<ApplicationState> appStore, 
-            IDownloadPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator) : base(appStore)
+            IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator) : base(appStore)
         {
             this.downloadPlacesListByCriteriaActionCreator = downloadPlacesListByCriteriaActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListByCriteriaActionCreator));
 
