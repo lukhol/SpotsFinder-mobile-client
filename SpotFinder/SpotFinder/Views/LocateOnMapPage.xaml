@@ -78,7 +78,7 @@
                          BackgroundColor="#DD111111"
                          Grid.Row="0"
                          Grid.Column="0">
-                <Label Text="{translate:Translate UploadingPrompt}"
+                <Label Text="{Binding BusyMessage}"
                        TextColor="{StaticResource MainAccentColor}"
                        VerticalOptions="EndAndExpand"
                        HorizontalOptions="Center"/>

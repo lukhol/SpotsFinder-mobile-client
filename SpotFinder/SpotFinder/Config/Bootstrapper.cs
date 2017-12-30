@@ -1,8 +1,10 @@
 ﻿using Redux;
 using SpotFinder.Core.Enums;
+using SpotFinder.Exceptions;
 using SpotFinder.Helpers;
 using SpotFinder.Models.Core;
 using SpotFinder.Redux;
+using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Redux.Actions.Locations;
 using SpotFinder.Redux.Actions.Permissions;
@@ -13,6 +15,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace SpotFinder.Config
 {
@@ -47,6 +50,8 @@ namespace SpotFinder.Config
             CheckPermission();
             Task.Run(() => { DeviceLocationSubscription(); });
             Task.Run(() => { DownloadInitialSpotsList(); });
+            Task.Run(() => { SettingsSubscription(); });
+            Task.Run(() => { ErrorSubscription(); });
         }
 
         public void OnSleep()
@@ -79,7 +84,9 @@ namespace SpotFinder.Config
 
                     if (locationPermissionState == null)
                     {
-                        //TODO: Error message!!
+                        appStore.Dispatch(new SetErrorAction(
+                            new LocationException("Location permission state is null."), nameof(Bootstrapper))
+                        );
                         return;
                     }
 
@@ -98,7 +105,9 @@ namespace SpotFinder.Config
 
                     if (locationPermissionState == null)
                     {
-                        //TODO: Error message!!
+                        appStore.Dispatch(new SetErrorAction(
+                            new LocationException("Location permission state is null."), nameof(Bootstrapper))
+                        );
                         return;
                     }
 
@@ -137,6 +146,23 @@ namespace SpotFinder.Config
             appStore
                 .DistinctUntilChanged(state => new { state.Settings })
                 .Subscribe(state => settingsHelper.SaveSettings(state.Settings));
+        }
+
+        private void ErrorSubscription()
+        {
+            appStore
+                .DistinctUntilChanged(state => new { state.Error })
+                .Subscribe(state =>
+                {
+                    if(state.Error != null)
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            //TODO: send error to server with device information, date, etc.
+                            App.Current.MainPage.DisplayAlert("Ups...", "Unexpected error occured. Information about this error will be sent to our server. We will make as much as we can to repair it!", "Ok");
+                        });
+                    }
+                });
         }
     }
 }

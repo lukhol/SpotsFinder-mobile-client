@@ -9,6 +9,9 @@ using SpotFinder.Redux;
 using Redux;
 using SpotFinder.OwnControls;
 using SpotFinder.Models.Core;
+using SpotFinder.Resx;
+using System.Reactive.Linq;
+using SpotFinder.Exceptions;
 
 namespace SpotFinder.ViewModels
 {
@@ -23,21 +26,31 @@ namespace SpotFinder.ViewModels
             PlaceService = placeService ?? throw new ArgumentNullException("PlaceService is null in LocateOnMapViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("LocalPlaceRepository is null in LocateOnMapViewModel");
 
+            appStore
+                .DistinctUntilChanged(state => new { state.DeviceData.LocationState.Status })
+                .Subscribe(state =>
+                {
+                    var stateLocation = appStore.GetState().DeviceData.LocationState.Value;
+                    if(stateLocation != null)
+                    {
+                        mapCenterLocation = new Position(stateLocation.Latitude, stateLocation.Longitude);
+                    }
+                    else
+                    {
+                        appStore.Dispatch(new SetErrorAction(
+                            new LocationException("Location in state is null."), nameof(LocateOnMapViewModel)
+                        ));
+                    }
+                });
+
             var location = appStore.GetState().DeviceData.LocationState.Value;
 
-            if(location != null)
-            {
-                mapCenterLocation = new Position(location.Latitude, location.Longitude);
-            }
-            else
-            {
-                mapCenterLocation = new Position(19, 51);
-                Device.BeginInvokeOnMainThread(() => 
-                {
-                    App.Current.MainPage.DisplayAlert("Ehh", "Problem with device location", "Ok :(");
-                });
-            }
 
+            SetMapTypeFromSettings();
+        }
+
+        private void SetMapTypeFromSettings()
+        {
             var mapTypeFromSettings = appStore.GetState().Settings.MapType;
 
             switch (mapTypeFromSettings)
@@ -74,6 +87,17 @@ namespace SpotFinder.ViewModels
             set
             {
                 mapCenterLocation = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string busyMessage = AppResources.UploadingPrompt;
+        public string BusyMessage
+        {
+            get => busyMessage;
+            set
+            {
+                busyMessage = value;
                 OnPropertyChanged();
             }
         }

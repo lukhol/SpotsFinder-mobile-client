@@ -15,19 +15,23 @@ namespace SpotFinder.Redux
         private IReducer<Settings> SettingsReducer { get; }
         private IReducer<PlacesData> PlaceDataReducer { get; }
         private IReducer<DeviceData> DeviceDataReducer { get; }
+        private IReducer<ErrorState> ErrorReducer { get; }
 
         public ApplicationReducer(
+            IReducer<IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>> permissionsReducer,
             IReducer<Stack<PageName>> navigationReducer,
             IReducer<Settings> settingsReducer,
             IReducer<PlacesData>placeDataReducer, 
             IReducer<DeviceData> deviceDataReducer,
-            IReducer<IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>> permissionsReducer)
+            IReducer<ErrorState> errorReducer
+        )
         {
+            PermissionsReducer = permissionsReducer ?? throw new ArgumentNullException(nameof(PermissionsReducer));
             SettingsReducer = settingsReducer ?? throw new ArgumentNullException("SettingsReducer is null in ApplicationReducer");
             NavigationReducer = navigationReducer ?? throw new ArgumentNullException("NavigationReducer is null in ApplicationReducer");
             PlaceDataReducer = placeDataReducer ?? throw new ArgumentNullException("PlaceDataReducer is null in ApplicationReducer");
             DeviceDataReducer = deviceDataReducer ?? throw new ArgumentNullException("DeviceDataReducer is null in ApplicationReducer");
-            PermissionsReducer = permissionsReducer ?? throw new ArgumentNullException(nameof(PermissionsReducer));
+            ErrorReducer = errorReducer ?? throw new ArgumentNullException(nameof(errorReducer));
         }
 
         public ApplicationState Reduce(ApplicationState applicationState, IAction action)
@@ -37,7 +41,8 @@ namespace SpotFinder.Redux
                 NavigationReducer.Reduce(applicationState.NavigationStack, action),
                 SettingsReducer.Reduce(applicationState.Settings, action),
                 PlaceDataReducer.Reduce(applicationState.PlacesData, action),
-                DeviceDataReducer.Reduce(applicationState.DeviceData, action)
+                DeviceDataReducer.Reduce(applicationState.DeviceData, action),
+                ErrorReducer.Reduce(applicationState.Error, action)
             );
         }
     }
