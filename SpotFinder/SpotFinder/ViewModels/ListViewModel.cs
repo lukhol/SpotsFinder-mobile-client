@@ -61,7 +61,7 @@ namespace SpotFinder.ViewModels
             observablePlaceList.Clear();
             foreach(var place in places)
             {
-                if (place.PhotosBase64.Count > 0)
+                if (place.PhotosBase64List.Count > 0)
                     observablePlaceList.Add(place);
             }
 

@@ -235,7 +235,7 @@ namespace SpotFinder.ViewModels
 
             //Add photos:
             var newImagesList = new ObservableCollection<View>();
-            foreach (var placeImage in place.PhotosBase64)
+            foreach (var placeImage in place.PhotosBase64List)
             {
                 var image = new Image();
                 image.Aspect = Aspect.AspectFill;

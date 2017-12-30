@@ -29,14 +29,14 @@ namespace SpotFinder.Core
         {
             var webImagesList = new List<ImageWeb>();
             int imageId = 0;
-            foreach (var base64Image in place.PhotosBase64)
+            foreach (var base64Image in place.PhotosBase64List)
             {
-                var img = new ImageWeb
+                var imgDTO = new ImageWeb
                 {
                     Id = imageId++,
                     Image = base64Image
                 };
-                webImagesList.Add(img);
+                webImagesList.Add(imgDTO);
             }
 
             return new PlaceWeb
@@ -81,7 +81,7 @@ namespace SpotFinder.Core
                 Location = new Location(placeWeb.Location.Latitude, placeWeb.Location.Longitude),
                 Type = placeWeb.Type,
                 Name = placeWeb.Name,
-                PhotosBase64 = base64ImagesList,
+                PhotosBase64List = base64ImagesList,
 
                 Bank = placeWeb.Bank,
                 Bowl = placeWeb.Bowl,
@@ -118,8 +118,8 @@ namespace SpotFinder.Core
             place.Location = new Location(placeWebLight.Location.Latitude, placeWebLight.Location.Longitude);
             place.Type = placeWebLight.Type;
 
-            place.PhotosBase64 = new List<string>();
-            place.PhotosBase64.Add(placeWebLight.MainPhoto);
+            place.PhotosBase64List = new List<string>();
+            place.PhotosBase64List.Add(placeWebLight.MainPhoto);
 
             return place;
         }

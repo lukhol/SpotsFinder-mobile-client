@@ -304,8 +304,8 @@ namespace SpotFinder.ViewModels
 
         private void PrepareImageToDisplay(MyImage image)
         {
-            var removeImageFromLayoutGestReconigzer = new TapGestureRecognizer();
-            removeImageFromLayoutGestReconigzer.Tapped += (s, e) =>
+            var removeImageFromLayoutGestRecognizer = new TapGestureRecognizer();
+            removeImageFromLayoutGestRecognizer.Tapped += (s, e) =>
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
@@ -317,7 +317,7 @@ namespace SpotFinder.ViewModels
                     }
                 }); 
             };
-            image.GestureRecognizers.Add(removeImageFromLayoutGestReconigzer);
+            image.GestureRecognizers.Add(removeImageFromLayoutGestRecognizer);
         }
 
         private ObservableCollection<View> UpdateImagesList(MyImage image)
@@ -396,8 +396,7 @@ namespace SpotFinder.ViewModels
                 myImagesPhotosList.Add(myImage);
             }
 
-            place.PhotosBase64 = base64PhotosList;
-            place.PhotosAsImage = myImagesPhotosList;
+            place.PhotosBase64List = base64PhotosList;
 
             appStore.Dispatch(new SetReportPlaceAction(place));
             App.Current.MainPage.Navigation.PushAsync(new LocateOnMapPage());

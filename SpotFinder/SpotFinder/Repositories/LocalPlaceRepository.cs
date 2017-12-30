@@ -144,7 +144,7 @@ namespace SpotFinder.Repositories
                 Type = placeType,
                 Description = sqlitePlaceLocal.Description,
                 Location = new Location(sqlitePlaceLocal.Latitude, sqlitePlaceLocal.Longitude),
-                PhotosBase64 = listOfImages,
+                PhotosBase64List = listOfImages,
 
                 Bank = sqlitePlaceLocal.Bank,
                 Bowl = sqlitePlaceLocal.Bowl,
@@ -205,20 +205,20 @@ namespace SpotFinder.Repositories
                     break;
             }
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 0)
-                sqlitePlaceLocal.Image1 = place.PhotosBase64.ElementAt(0);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 0)
+                sqlitePlaceLocal.Image1 = place.PhotosBase64List.ElementAt(0);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 1)
-                sqlitePlaceLocal.Image2 = place.PhotosBase64.ElementAt(1);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 1)
+                sqlitePlaceLocal.Image2 = place.PhotosBase64List.ElementAt(1);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 2)
-                sqlitePlaceLocal.Image3 = place.PhotosBase64.ElementAt(2);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 2)
+                sqlitePlaceLocal.Image3 = place.PhotosBase64List.ElementAt(2);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 3)
-                sqlitePlaceLocal.Image4 = place.PhotosBase64.ElementAt(3);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 3)
+                sqlitePlaceLocal.Image4 = place.PhotosBase64List.ElementAt(3);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 4)
-                sqlitePlaceLocal.Image5 = place.PhotosBase64.ElementAt(4);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 4)
+                sqlitePlaceLocal.Image5 = place.PhotosBase64List.ElementAt(4);
 
             return sqlitePlaceLocal;
         }
@@ -273,7 +273,7 @@ namespace SpotFinder.Repositories
                 Type = placeType,
                 Description = sqlitePlace.Description,
                 Location = new Location(sqlitePlace.Latitude, sqlitePlace.Longitude),
-                PhotosBase64 = listOfImages,
+                PhotosBase64List = listOfImages,
                 Bank = sqlitePlace.Bank,
                 Bowl = sqlitePlace.Bowl,
                 Corners = sqlitePlace.Corners,
@@ -334,23 +334,23 @@ namespace SpotFinder.Repositories
                     break;
             }
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 0)
-                sqlitePlace.Image1 = place.PhotosBase64.ElementAt(0);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 0)
+                sqlitePlace.Image1 = place.PhotosBase64List.ElementAt(0);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 1)
-                sqlitePlace.Image2 = place.PhotosBase64.ElementAt(1);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 1)
+                sqlitePlace.Image2 = place.PhotosBase64List.ElementAt(1);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 2)
-                sqlitePlace.Image3 = place.PhotosBase64.ElementAt(2);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 2)
+                sqlitePlace.Image3 = place.PhotosBase64List.ElementAt(2);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 3)
-                sqlitePlace.Image4 = place.PhotosBase64.ElementAt(3);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 3)
+                sqlitePlace.Image4 = place.PhotosBase64List.ElementAt(3);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 4)
-                sqlitePlace.Image5 = place.PhotosBase64.ElementAt(4);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 4)
+                sqlitePlace.Image5 = place.PhotosBase64List.ElementAt(4);
 
-            if (place.PhotosBase64 != null && place.PhotosBase64.Count > 5)
-                sqlitePlace.Image5 = place.PhotosBase64.ElementAt(5);
+            if (place.PhotosBase64List != null && place.PhotosBase64List.Count > 5)
+                sqlitePlace.Image5 = place.PhotosBase64List.ElementAt(5);
 
             return sqlitePlace;
         }

@@ -5,9 +5,15 @@
                       xmlns:map="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
                       xmlns:ownControls="clr-namespace:SpotFinder.OwnControls;assembly=SpotFinder"
                       xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+                      xmlns:converters="clr-namespace:SpotFinder.OwnControls.ValueConverters"
                       x:Class="SpotFinder.Views.ListPage"
                       BackgroundColor="{StaticResource PageBackgroundColor}"
                       Title="{translate:Translate ListPageTitle}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:Base64ToImageSourceConverter x:Key="Base64ToImageSourceConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid VerticalOptions="FillAndExpand"
               HorizontalOptions="FillAndExpand">
@@ -39,7 +45,7 @@
                                         <Frame Padding="0"
                                                BackgroundColor="Transparent"
                                                CornerRadius="5">
-                                            <Image Source="{Binding MainPhoto}"
+                                            <Image Source="{Binding PhotosBase64List[0], Converter={StaticResource Base64ToImageSourceConverter}}"
                                                    WidthRequest="150"
                                                    HeightRequest="150"
                                                    HorizontalOptions="Start"
