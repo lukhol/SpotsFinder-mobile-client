@@ -1,5 +1,4 @@
-﻿using SpotFinder.Models.SQLite;
-using SQLite;
+﻿using SQLite;
 using Xamarin.Forms;
 using XamarinForms.SQLite.SQLite;
 

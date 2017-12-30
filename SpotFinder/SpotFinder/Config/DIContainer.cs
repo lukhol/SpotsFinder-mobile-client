@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Net.Http;
 using System.Reactive;
+using Xamarin.Forms;
+using XamarinForms.SQLite.SQLite;
 
 namespace SpotFinder.Config
 {
@@ -67,7 +69,7 @@ namespace SpotFinder.Config
 
             //Data/Test services
             simpleInjector.Register<IPlaceService, PlaceService>();
-            simpleInjector.Register<ILocalPlaceRepository, LocalPlaceRepository>();
+            simpleInjector.Register<IPlaceRepository, PlaceRepository>();
 
             //ActionsCreators:
             simpleInjector.Register<IPermissionActionCreator, PermissionActionCreator>();
@@ -83,6 +85,7 @@ namespace SpotFinder.Config
 
             //SQLite
             simpleInjector.Register<SQLiteConfig>(Lifestyle.Singleton);
+            simpleInjector.Register<ISQLite>(() => DependencyService.Get<ISQLite>());
 
             //Other:
             var httpClient = new HttpClient();

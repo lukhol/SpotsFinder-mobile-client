@@ -13,10 +13,10 @@ namespace SpotFinder.ViewModels
     public class LocateOnMapViewModel : BaseViewModel
     {
         private IPlaceService PlaceService { get; }
-        private ILocalPlaceRepository LocalPlaceRepository { get; }
+        private IPlaceRepository LocalPlaceRepository { get; }
 
         public LocateOnMapViewModel(IStore<ApplicationState> appStore, 
-            IPlaceService placeService, ILocalPlaceRepository localPlaceRepository) : base(appStore)
+            IPlaceService placeService, IPlaceRepository localPlaceRepository) : base(appStore)
         {
             PlaceService = placeService ?? throw new ArgumentNullException("PlaceService is null in LocateOnMapViewModel");
             LocalPlaceRepository = localPlaceRepository ?? throw new ArgumentNullException("LocalPlaceRepository is null in LocateOnMapViewModel");

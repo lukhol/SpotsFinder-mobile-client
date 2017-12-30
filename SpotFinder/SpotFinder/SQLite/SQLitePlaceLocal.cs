@@ -1,11 +1,10 @@
-﻿
-using SQLite;
+﻿using SQLite;
 
-namespace SpotFinder.Models.SQLite
+namespace SpotFinder.SQLite
 {
-    public class SQLitePlace
+    public class SQLitePlaceLocal
     {
-        [PrimaryKey]
+        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
@@ -18,7 +17,6 @@ namespace SpotFinder.Models.SQLite
         public string Image3 { get; set; }
         public string Image4 { get; set; }
         public string Image5 { get; set; }
-        public string Image6 { get; set; }
 
         public bool Gap { get; set; }
         public bool Stairs { get; set; }
