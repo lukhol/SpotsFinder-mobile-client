@@ -41,6 +41,8 @@ namespace SpotFinder.ViewModels
                         IsBusy = true;
                     }
                 });
+
+            InformationText = "TODO: Add error text to resources.";
         }
 
         private void UpdateList(IList<Place> places)

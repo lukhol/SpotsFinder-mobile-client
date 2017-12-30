@@ -35,23 +35,6 @@ namespace SpotFinder.ViewModels
                     else
                         IsBusy = true;
                 });
-
-            appStore
-                .DistinctUntilChanged(state => new { state.DeviceData.LocationState.Status })
-                .Subscribe(state =>
-                {
-                    if(state.DeviceData.LocationState.Status != Core.Enums.Status.Success)
-                    {
-                        IsBusy = true;
-                        //Acquiring location...
-                    }
-                    else
-                    {
-                        IsBusy = false;
-                        var stateLocation = state.DeviceData.LocationState.Value;
-                        MapCenterLocation = new Position(stateLocation.Latitude, stateLocation.Longitude);
-                    }
-                });
         }
 
         private void SetMapTypeFromAppSettings()
@@ -71,6 +54,37 @@ namespace SpotFinder.ViewModels
                 default:
                     mapTypeProperty = MapType.Street;
                     break;
+            }
+        }
+
+        private void SetMapPosition()
+        {
+            var placesList = appStore.GetState().PlacesData.PlacesListState.Value;
+            if(placesList != null && placesList.Count > 0)
+            {
+                var lastSearchingCriteria = appStore.GetState().PlacesData.PlacesListState.TriggerValue;
+                if(lastSearchingCriteria != null)
+                {
+                    if (lastSearchingCriteria.Location.City != null)
+                        MapCenterLocation = ComputeCenterPosition();
+                    else
+                        MapCenterLocation = new Position(
+                            (double)lastSearchingCriteria.Location.Latitude, 
+                            (double)lastSearchingCriteria.Location.Longitude
+                        );
+
+                    return;
+                }
+
+                MapCenterLocation = ComputeCenterPosition();
+                return;
+            }
+
+            var locationStateValue = appStore.GetState().DeviceData.LocationState.Value;
+            if (locationStateValue != null)
+            {
+                MapCenterLocation = new Position(locationStateValue.Latitude, locationStateValue.Longitude);
+                return;
             }
         }
 
@@ -114,9 +128,28 @@ namespace SpotFinder.ViewModels
                 pins.Add(pin);
             }
 
-            //MapCenterLocation = new Position(places.First().Location.Latitude, places.First().Location.Longitude);
+            SetMapPosition();
             PinsCollection = pins;
             IsBusy = false;
+        }
+
+        private Position ComputeCenterPosition()
+        {
+            var spotsList = appStore.GetState().PlacesData.PlacesListState.Value;
+
+            if (spotsList == null)
+                return new Position(0, 0);
+
+            var maxLatitude = spotsList.Max(x => x.Location.Latitude);
+            var minLatitude = spotsList.Min(x => x.Location.Latitude);
+
+            var maxLongitude = spotsList.Max(x => x.Location.Longitude);
+            var minLongitude = spotsList.Min(x => x.Location.Longitude);
+
+            var averageLatitude = (maxLatitude + minLatitude) / 2;
+            var averageLongitude = (maxLongitude + minLongitude) / 2;
+
+            return new Position(averageLatitude, averageLongitude);
         }
 
         private Position mapCenterLocation;

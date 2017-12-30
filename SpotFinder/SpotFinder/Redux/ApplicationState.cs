@@ -26,7 +26,7 @@ namespace SpotFinder.Redux
             Settings settings, 
             PlacesData placesData, 
             DeviceData deviceData//,
-            //Location CurrentLookingLocation
+            //Location currentLookingLocation
             )
         {
             PermissionsDictionary = permissionsDictionary;
@@ -34,6 +34,7 @@ namespace SpotFinder.Redux
             Settings = settings;
             PlacesData = placesData;
             DeviceData = deviceData;
+            //CurrentLookingLocation = currentLookingLocation;
         }
     }
 }
