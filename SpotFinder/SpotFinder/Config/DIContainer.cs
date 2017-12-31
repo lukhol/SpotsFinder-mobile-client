@@ -1,4 +1,7 @@
-﻿using Redux;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Plugin.DeviceInfo.Abstractions;
+using Redux;
 using SimpleInjector;
 using SpotFinder.Core.Enums;
 using SpotFinder.DataServices;
@@ -68,9 +71,13 @@ namespace SpotFinder.Config
             //NavigationService
             simpleInjector.Register<INavigationService, NavigationService>(Lifestyle.Singleton);
 
-            //Data/Test services
+            //Data services
             simpleInjector.Register<IPlaceService, PlaceService>();
+            simpleInjector.Register<IErrorService, ErrorService>();
+
+            //Repositories:
             simpleInjector.Register<IPlaceRepository, PlaceRepository>();
+            simpleInjector.Register<IURLRepository, URLRepository>();
 
             //ActionsCreators:
             simpleInjector.Register<IPermissionActionCreator, PermissionActionCreator>();
@@ -93,12 +100,24 @@ namespace SpotFinder.Config
                 () => new CrossPermissionWrapper(Plugin.Permissions.CrossPermissions.Current)
             );
 
+            //DeviceInfo:
+            simpleInjector.Register<IDeviceInfo>(() => Plugin.DeviceInfo.CrossDeviceInfo.Current);
+
             //Other:
             var httpClient = new HttpClient();
             simpleInjector.Register(() => httpClient, Lifestyle.Singleton);
+            simpleInjector.Register(() => CreateCameCaseJsonSerializer());
             simpleInjector.Register(() => simpleInjector.GetInstance<SettingsHelper>().ReadSettings());
-            
-            simpleInjector.Verify();
+
+            try
+            {
+                simpleInjector.Verify();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
 
             simpleInjector.GetInstance(typeof(SQLiteConfig));
         }
@@ -151,6 +170,13 @@ namespace SpotFinder.Config
                 deviceData,
                 null
             );
+        }
+
+        private JsonSerializer CreateCameCaseJsonSerializer()
+        {
+            var jsonSerializer = new JsonSerializer();
+            jsonSerializer.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            return jsonSerializer;
         }
     }
 }

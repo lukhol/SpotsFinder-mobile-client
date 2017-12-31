@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SpotFinder.Core;
 using SpotFinder.Models.Core;
 using SpotFinder.Models.DTO;
+using SpotFinder.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,10 +18,14 @@ namespace SpotFinder.DataServices
     public class PlaceService : IPlaceService
     {
         private readonly HttpClient httpClient;
+        private readonly IURLRepository urlRepository;
+        private readonly JsonSerializer camelCaseJsonSerializer;
 
-        public PlaceService(HttpClient httpClient)
+        public PlaceService(HttpClient httpClient, IURLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
         {
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
+            this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 
         public async Task<List<Place>> GetAllPlacesAsync()
@@ -28,9 +34,11 @@ namespace SpotFinder.DataServices
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var uri = new Uri(GlobalSettings.GET_ALL);
-                var byteArray = Encoding.ASCII.GetBytes(GlobalSettings.API_KEY);
+                var uri = new Uri(urlRepository.GetPlacesUri);
+
+                var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
                 var response = await httpClient.GetAsync(uri);
 
                 if (response.IsSuccessStatusCode)
@@ -69,16 +77,14 @@ namespace SpotFinder.DataServices
                 var placeDTO = Utils.PlaceToPlaceWeb(place);
                 PrepareDTOToAdd(placeDTO);
 
-                var jObject = JObject.FromObject(placeDTO, GlobalSettings.GetCamelCaseSerializer());
+                var jObject = JObject.FromObject(placeDTO, camelCaseJsonSerializer);
                 var content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
 
-                var strinJObject = jObject.ToString();
-
                 httpClient.Timeout = TimeSpan.FromSeconds(90);
-                var byteArray = Encoding.ASCII.GetBytes(GlobalSettings.API_KEY);
+                var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-                var uri = new Uri(GlobalSettings.POST_PLACE);
+                var uri = new Uri(urlRepository.PostPlaceUri);
                 var response = await httpClient.PostAsync(uri, content);
 
                 if (response.StatusCode == HttpStatusCode.Created)
@@ -103,17 +109,17 @@ namespace SpotFinder.DataServices
 
         public async Task<List<Place>> GetPlacesByCriteriaAsync(Criteria criteria)
         {
-            var criteriaJson = JObject.FromObject(criteria, GlobalSettings.GetCamelCaseSerializer());
+            var criteriaJson = JObject.FromObject(criteria, camelCaseJsonSerializer);
             var content = new StringContent(criteriaJson.ToString(), Encoding.UTF8, "application/json");
             var placesList = new List<Place>();
 
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var byteArray = Encoding.ASCII.GetBytes(GlobalSettings.API_KEY);
+                var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-                var uri = new Uri(GlobalSettings.GET_PLACES_BY_CRITERIA);
+                var uri = new Uri(urlRepository.GetPlaceByCriteriaUri);
                 var response = await httpClient.PostAsync(uri, content);
 
                 if (response.IsSuccessStatusCode)
@@ -148,10 +154,10 @@ namespace SpotFinder.DataServices
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var byteArray = Encoding.ASCII.GetBytes(GlobalSettings.API_KEY);
+                var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
-                var uri = new Uri(GlobalSettings.GET_BY_ID + id.ToString());
+                var uri = new Uri(urlRepository.GetPlaceByIdUri(id));
                 var response = await httpClient.GetAsync(uri);
 
                 if (response.IsSuccessStatusCode)
