@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Plugin.DeviceInfo.Abstractions;
-using SpotFinder.Core;
 using SpotFinder.Models.DTO;
 using SpotFinder.Repositories;
 using System;
@@ -14,14 +13,12 @@ namespace SpotFinder.DataServices
     {
         private readonly HttpClient httpClient;
         private readonly IURLRepository urlRepository;
-        private readonly IDeviceInfo deviceInfo;
         private readonly JsonSerializer camelCaseJsonSerializer;
 
-        public ErrorService(HttpClient httpClient, IURLRepository urlRepository, IDeviceInfo deviceInfo, JsonSerializer camelCaseJsonSerializer)
+        public ErrorService(HttpClient httpClient, IURLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
         {
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
-            this.deviceInfo = deviceInfo ?? throw new ArgumentNullException(nameof(deviceInfo));
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 

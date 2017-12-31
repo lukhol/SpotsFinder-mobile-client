@@ -10,6 +10,7 @@ using SpotFinder.Redux.Actions.Locations;
 using SpotFinder.Redux.Actions.Permissions;
 using SpotFinder.Redux.Actions.PlacesList;
 using SpotFinder.Redux.StateModels;
+using SpotFinder.Services;
 using System;
 using System.Collections.Generic;
 using System.Reactive;
@@ -27,6 +28,7 @@ namespace SpotFinder.Config
         private IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
         private IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator;
         private ISettingsHelper settingsHelper;
+        private IErrorLogger errorLogger;
 
         public Bootstrapper(
             IStore<ApplicationState> appStore,
@@ -34,7 +36,8 @@ namespace SpotFinder.Config
             IDeviceLocationActionCreator deviceLocationActionCreator,
             IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator,
             IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator,
-            ISettingsHelper settingsHelper
+            ISettingsHelper settingsHelper,
+            IErrorLogger errorLogger
             )
         {
             this.appStore = appStore ?? throw new ArgumentNullException(nameof(appStore));
@@ -43,6 +46,7 @@ namespace SpotFinder.Config
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
             this.downloadPlacesListByCriteriaActionCreator = downloadPlacesListByCriteriaActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListByCriteriaActionCreator));
             this.settingsHelper = settingsHelper ?? throw new ArgumentNullException(nameof(settingsHelper));
+            this.errorLogger = errorLogger ?? throw new ArgumentNullException(nameof(errorLogger));
         }
 
         public void OnStart()
@@ -158,7 +162,7 @@ namespace SpotFinder.Config
                     {
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            //TODO: send error to server with device information, date, etc.
+                            errorLogger.LogError(state.Error);
                             App.Current.MainPage.DisplayAlert("Ups...", "Unexpected error occured. Information about this error will be sent to our server. We will make as much as we can to repair it!", "Ok");
                         });
                     }

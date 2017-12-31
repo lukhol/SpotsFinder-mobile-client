@@ -9,11 +9,8 @@ namespace SpotFinder.Models.DTO
 
         public string Idiom { get; set; }
         public string Model { get; set; }
-        public string Manufacturer { get; set; }
-        public string DeviceName { get; set; }
         public string Version { get; set; }
-        public string OperationSystemVersion { get; set; }
+        public string VersionNumber { get; set; }
         public string Platform { get; set; }
-        public bool IsDevice { get; set; }
     }
 }

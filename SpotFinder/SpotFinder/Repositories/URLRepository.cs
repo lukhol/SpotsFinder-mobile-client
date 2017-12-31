@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SpotFinder.Repositories
+﻿namespace SpotFinder.Repositories
 {
     public class URLRepository : IURLRepository
     {

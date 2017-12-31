@@ -108,6 +108,7 @@ namespace SpotFinder.Config
             simpleInjector.Register(() => httpClient, Lifestyle.Singleton);
             simpleInjector.Register(() => CreateCameCaseJsonSerializer());
             simpleInjector.Register(() => simpleInjector.GetInstance<SettingsHelper>().ReadSettings());
+            simpleInjector.Register<IErrorLogger, ErrorLogger>();
 
             try
             {
