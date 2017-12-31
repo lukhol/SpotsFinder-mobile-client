@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
+using NUnit.Framework;
 using Plugin.DeviceInfo.Abstractions;
 using SpotFinder.DataServices;
 using SpotFinder.Models.DTO;
@@ -7,15 +7,15 @@ using SpotFinder.Redux.StateModels;
 using SpotFinder.Services;
 using System;
 
-namespace SpotFinder.Test
+namespace SpotFinder.TestTwo
 {
-    [TestClass]
+    [TestFixture]
     public class ErrorLoggerTests
     {
         private Mock<IDeviceInfo> mockDeviceInfo = new Mock<IDeviceInfo>();
         private Mock<IErrorService> mockErrorService = new Mock<IErrorService>();
 
-        [TestMethod]
+        [Test]
         public void CanLogError()
         {
             var errorLogger = new ErrorLogger(mockDeviceInfo.Object, mockErrorService.Object);
