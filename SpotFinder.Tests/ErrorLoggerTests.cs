@@ -48,7 +48,7 @@ namespace SpotFinder.TestTwo
 
             errorLogger.LogError(mockErrorState);
 
-            mockErrorService.Verify(errorService => errorService.SendErrorInformation(
+            mockErrorService.Verify(errorService => errorService.SendErrorInformationAsync(
                 It.Is<ErrorInfo>(x =>
                     x.ClassName == errorInfo.ClassName &&
                     x.Message == errorInfo.Message &&

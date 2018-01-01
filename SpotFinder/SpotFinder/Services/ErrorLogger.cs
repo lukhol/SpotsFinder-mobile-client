@@ -3,6 +3,7 @@ using SpotFinder.DataServices;
 using SpotFinder.Models.DTO;
 using SpotFinder.Redux.StateModels;
 using System;
+using System.Threading.Tasks;
 
 namespace SpotFinder.Services
 {
@@ -17,7 +18,7 @@ namespace SpotFinder.Services
             this.errorService = errorService ?? throw new ArgumentNullException(nameof(errorService));
         }
 
-        public void LogError(ErrorState errorState)
+        public async Task LogErrorAsync(ErrorState errorState)
         {
             var deviceInfo = new DeviceInfo
             {
@@ -39,7 +40,7 @@ namespace SpotFinder.Services
 
             try
             {
-                errorService.SendErrorInformation(errorInfo);
+                await errorService.SendErrorInformationAsync(errorInfo);
             }
             catch(Exception e)
             {

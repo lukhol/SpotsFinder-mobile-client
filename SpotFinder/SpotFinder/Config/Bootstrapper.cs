@@ -162,7 +162,7 @@ namespace SpotFinder.Config
                     {
                         Device.BeginInvokeOnMainThread(() =>
                         {
-                            errorLogger.LogError(state.Error);
+                            errorLogger.LogErrorAsync(state.Error);
                             App.Current.MainPage.DisplayAlert("Ups...", "Unexpected error occured. Information about this error will be sent to our server. We will make as much as we can to repair it!", "Ok");
                         });
                     }

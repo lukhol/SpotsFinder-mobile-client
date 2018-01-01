@@ -7,6 +7,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SpotFinder.DataServices
 {
@@ -23,7 +24,7 @@ namespace SpotFinder.DataServices
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 
-        public void SendErrorInformation(ErrorInfo errorInfo)
+        public async Task SendErrorInformationAsync(ErrorInfo errorInfo)
         {
             try
             {
@@ -33,7 +34,7 @@ namespace SpotFinder.DataServices
                 var errorUri = new Uri(urlRepository.PostErrorUri);
                 var json = JObject.FromObject(errorInfo, camelCaseJsonSerializer).ToString();
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                httpClient.PostAsync(errorUri, content);
+                var response = await httpClient.PostAsync(errorUri, content);
             }
             catch(Exception e)
             {

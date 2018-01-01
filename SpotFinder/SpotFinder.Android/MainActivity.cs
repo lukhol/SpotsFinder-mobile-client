@@ -1,7 +1,14 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Runtime;
 using Plugin.Permissions;
+using Redux;
+using SpotFinder.Redux;
+using SpotFinder.Redux.StateModels;
+using SpotFinder.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace SpotFinder.Droid
 {
@@ -11,73 +18,42 @@ namespace SpotFinder.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
-            //ToolbarResource = Resource.Layout.Toolbar;
-            //TabLayoutResource = Resource.Layout.Tabbar;
-
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.FormsMaps.Init(this, bundle);
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+            AndroidEnvironment.UnhandledExceptionRaiser += AndroidEnvironment_UnhandledExceptionRaiser;
+
             LoadApplication(new App());
-
-            //Android.Support.V7.Widget.Toolbar toolbar = this.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
-            //SetSupportActionBar(toolbar);
         }
 
-        /*
-        //Not working with MasterDetailPage as MainPage in NavigationPage
-        public override bool OnOptionsItemSelected(IMenuItem item)
+        private async void AndroidEnvironment_UnhandledExceptionRaiser(object sender, RaiseThrowableEventArgs e)
         {
-            // check if the current item id 
-            // is equals to the back button id
-            if (item.ItemId == 16908332) // xam forms nav bar back button id
-            {
-                // retrieve the current xamarin 
-                // forms page instance
-                var currentpage = (NavContentPage)Xamarin.Forms.Application.Current.
-                     MainPage.Navigation.NavigationStack.LastOrDefault();
-
-                // check if the page has subscribed to the custom back button event
-                if (currentpage?.CustomBackButtonAction != null)
-                {
-                    // invoke the Custom back button action
-                    currentpage?.CustomBackButtonAction.Invoke();
-                    // and disable the default back button action
-                    return false;
-                }
-
-                // if its not subscribed then go ahead 
-                // with the default back button action
-                return base.OnOptionsItemSelected(item);
-            }
-            else
-            {
-                // since its not the back button 
-                //click, pass the event to the base
-                return base.OnOptionsItemSelected(item);
-            }
+            await SendExceptionInformationToTheServer(e.Exception, "AndroidCurrentDomain");
         }
 
-        public override void OnBackPressed()
+        private async void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
-            var currentPage =
-                Xamarin.Forms.Application.
-                Current.MainPage.Navigation.
-                NavigationStack.LastOrDefault() as NavContentPage;
-
-            if (currentPage?.CustomBackButtonAction != null)
-            {
-                currentPage?.CustomBackButtonAction.Invoke();
-            }
-            else
-            {
-                base.OnBackPressed();
-            }
+            await SendExceptionInformationToTheServer(e.Exception, "UnobservedTaskException");
         }
-        */
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        private async void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            await SendExceptionInformationToTheServer((Exception)e.ExceptionObject, "UnhandledExceptionRaiser");
+        }
+
+        private async Task SendExceptionInformationToTheServer(Exception exception, string exceptionType)
+        {
+            var store = Config.DIContainer.Instance.Resolve<IStore<ApplicationState>>();
+            var errorLogger = Config.DIContainer.Instance.Resolve<IErrorLogger>();
+            var newError = new ErrorState(exception, exceptionType);
+            await errorLogger.LogErrorAsync(newError);
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);

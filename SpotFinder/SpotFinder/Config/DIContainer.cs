@@ -110,15 +110,7 @@ namespace SpotFinder.Config
             simpleInjector.Register(() => simpleInjector.GetInstance<SettingsHelper>().ReadSettings());
             simpleInjector.Register<IErrorLogger, ErrorLogger>();
 
-            try
-            {
-                simpleInjector.Verify();
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            simpleInjector.Verify();
 
             simpleInjector.GetInstance(typeof(SQLiteConfig));
         }

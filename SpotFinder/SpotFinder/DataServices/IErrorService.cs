@@ -1,9 +1,10 @@
 ﻿using SpotFinder.Models.DTO;
+using System.Threading.Tasks;
 
 namespace SpotFinder.DataServices
 {
     public interface IErrorService
     {
-        void SendErrorInformation(ErrorInfo errorInfo);
+        Task SendErrorInformationAsync(ErrorInfo errorInfo);
     }
 }
