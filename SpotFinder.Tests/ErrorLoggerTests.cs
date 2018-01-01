@@ -46,7 +46,7 @@ namespace SpotFinder.TestTwo
                 StackTraceString = mockErrorState.Error.StackTrace
             };
 
-            errorLogger.LogError(mockErrorState);
+            errorLogger.LogErrorAsync(mockErrorState);
 
             mockErrorService.Verify(errorService => errorService.SendErrorInformationAsync(
                 It.Is<ErrorInfo>(x =>

@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SpotFinder.Redux;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -59,6 +61,7 @@ namespace SpotFinder.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
+                UnhandledException += App_UnhandledException;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -78,6 +81,19 @@ namespace SpotFinder.UWP
             }
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        private async void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            await SendExceptionInformationToTheServer((Exception)e.ExceptionObject, "App_UnhandledException");
+        }
+
+        private async Task SendExceptionInformationToTheServer(Exception exception, string exceptionType)
+        {
+            var store = Config.DIContainer.Instance.Resolve<IStore<ApplicationState>>();
+            var errorLogger = Config.DIContainer.Instance.Resolve<IErrorLogger>();
+            var newError = new ErrorState(exception, exceptionType);
+            await errorLogger.LogErrorAsync(newError);
         }
 
         /// <summary>

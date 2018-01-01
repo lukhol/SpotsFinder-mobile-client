@@ -2746,6 +2746,10 @@
           "build/win81/Xamarin.Forms.Maps.props": {},
           "build/win81/Xamarin.Forms.Maps.targets": {}
         }
+      },
+      "SpotFinder/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0"
       }
     },
     "UAP,Version=v10.0.10586/win10-arm": {
@@ -5512,6 +5516,10 @@
           "build/win81/Xamarin.Forms.Maps.props": {},
           "build/win81/Xamarin.Forms.Maps.targets": {}
         }
+      },
+      "SpotFinder/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0"
       }
     },
     "UAP,Version=v10.0.10586/win10-arm-aot": {
@@ -8314,6 +8322,10 @@
           "build/win81/Xamarin.Forms.Maps.props": {},
           "build/win81/Xamarin.Forms.Maps.targets": {}
         }
+      },
+      "SpotFinder/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0"
       }
     },
     "UAP,Version=v10.0.10586/win10-x64": {
@@ -11089,6 +11101,10 @@
           "build/win81/Xamarin.Forms.Maps.props": {},
           "build/win81/Xamarin.Forms.Maps.targets": {}
         }
+      },
+      "SpotFinder/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0"
       }
     },
     "UAP,Version=v10.0.10586/win10-x64-aot": {
@@ -13900,6 +13916,10 @@
           "build/win81/Xamarin.Forms.Maps.props": {},
           "build/win81/Xamarin.Forms.Maps.targets": {}
         }
+      },
+      "SpotFinder/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0"
       }
     },
     "UAP,Version=v10.0.10586/win10-x86": {
@@ -16675,6 +16695,10 @@
           "build/win81/Xamarin.Forms.Maps.props": {},
           "build/win81/Xamarin.Forms.Maps.targets": {}
         }
+      },
+      "SpotFinder/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0"
       }
     },
     "UAP,Version=v10.0.10586/win10-x86-aot": {
@@ -19486,6 +19510,10 @@
           "build/win81/Xamarin.Forms.Maps.props": {},
           "build/win81/Xamarin.Forms.Maps.targets": {}
         }
+      },
+      "SpotFinder/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0"
       }
     }
   },
@@ -29007,6 +29035,11 @@
         "xamarin.forms.maps.2.5.0.91635.nupkg.sha512",
         "xamarin.forms.maps.nuspec"
       ]
+    },
+    "SpotFinder/1.0.0": {
+      "type": "project",
+      "path": "../SpotFinder/SpotFinder.csproj",
+      "msbuildProject": "../SpotFinder/SpotFinder.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -29054,6 +29087,15 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "uap10.0.10586": {
+          "projectReferences": {
+            "C:\\Projects\\PBL\\app-xamarin\\SpotFinder\\SpotFinder\\SpotFinder.csproj": {
+              "projectPath": "C:\\Projects\\PBL\\app-xamarin\\SpotFinder\\SpotFinder\\SpotFinder.csproj"
+            }
+          }
+        }
       }
     },
     "dependencies": {
@@ -29097,5 +29139,70 @@
         "#import": []
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project SpotFinder is not compatible with uap10.0.10586 (UAP,Version=v10.0.10586). Project SpotFinder supports: netstandard2.0 (.NETStandard,Version=v2.0)",
+      "libraryId": "SpotFinder",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10586"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project SpotFinder is not compatible with uap10.0.10586 (UAP,Version=v10.0.10586) / win10-arm. Project SpotFinder supports: netstandard2.0 (.NETStandard,Version=v2.0)",
+      "libraryId": "SpotFinder",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10586/win10-arm"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project SpotFinder is not compatible with uap10.0.10586 (UAP,Version=v10.0.10586) / win10-arm-aot. Project SpotFinder supports: netstandard2.0 (.NETStandard,Version=v2.0)",
+      "libraryId": "SpotFinder",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10586/win10-arm-aot"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project SpotFinder is not compatible with uap10.0.10586 (UAP,Version=v10.0.10586) / win10-x64. Project SpotFinder supports: netstandard2.0 (.NETStandard,Version=v2.0)",
+      "libraryId": "SpotFinder",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10586/win10-x64"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project SpotFinder is not compatible with uap10.0.10586 (UAP,Version=v10.0.10586) / win10-x64-aot. Project SpotFinder supports: netstandard2.0 (.NETStandard,Version=v2.0)",
+      "libraryId": "SpotFinder",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10586/win10-x64-aot"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project SpotFinder is not compatible with uap10.0.10586 (UAP,Version=v10.0.10586) / win10-x86. Project SpotFinder supports: netstandard2.0 (.NETStandard,Version=v2.0)",
+      "libraryId": "SpotFinder",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10586/win10-x86"
+      ]
+    },
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project SpotFinder is not compatible with uap10.0.10586 (UAP,Version=v10.0.10586) / win10-x86-aot. Project SpotFinder supports: netstandard2.0 (.NETStandard,Version=v2.0)",
+      "libraryId": "SpotFinder",
+      "targetGraphs": [
+        "UAP,Version=v10.0.10586/win10-x86-aot"
+      ]
+    }
+  ]
 }

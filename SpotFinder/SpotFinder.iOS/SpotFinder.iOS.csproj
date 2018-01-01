@@ -229,6 +229,12 @@
   <ItemGroup>
     <BundleResource Include="Resources\iosbackarrow%402x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SpotFinder\SpotFinder.csproj">
+      <Project>{9584CCC9-5679-4D01-90F7-B4B4479AB439}</Project>
+      <Name>SpotFinder</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

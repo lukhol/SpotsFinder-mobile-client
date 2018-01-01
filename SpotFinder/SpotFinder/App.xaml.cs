@@ -13,9 +13,6 @@ namespace SpotFinder
             bootstrapper = DIContainer.Instance.Resolve<IBootstrapper>();
             InitializeComponent();
             MainPage = new CustomNavigationPage(new RootMasterDetailPage());
-
-            string str = null;
-            var x = str.ToLower();
         }
 
         protected override void OnStart()
