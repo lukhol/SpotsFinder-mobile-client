@@ -1,6 +1,7 @@
 ﻿using Redux;
 using SpotFinder.Models.Core;
 using SpotFinder.Redux;
+using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Resx;
 using SpotFinder.Views;
@@ -66,9 +67,9 @@ namespace SpotFinder.ViewModels
                 if(lastSearchingCriteria != null)
                 {
                     if (lastSearchingCriteria.Location.City != null)
-                        MapCenterLocation = ComputeCenterPosition();
+                        MapCenterPosition = ComputeCenterPosition();
                     else
-                        MapCenterLocation = new Position(
+                        MapCenterPosition = new Position(
                             (double)lastSearchingCriteria.Location.Latitude, 
                             (double)lastSearchingCriteria.Location.Longitude
                         );
@@ -76,14 +77,14 @@ namespace SpotFinder.ViewModels
                     return;
                 }
 
-                MapCenterLocation = ComputeCenterPosition();
+                MapCenterPosition = ComputeCenterPosition();
                 return;
             }
 
             var locationStateValue = appStore.GetState().DeviceData.LocationState.Value;
             if (locationStateValue != null)
             {
-                MapCenterLocation = new Position(locationStateValue.Latitude, locationStateValue.Longitude);
+                MapCenterPosition = new Position(locationStateValue.Latitude, locationStateValue.Longitude);
                 return;
             }
         }
@@ -140,25 +141,41 @@ namespace SpotFinder.ViewModels
             if (spotsList == null)
                 return new Position(0, 0);
 
-            var maxLatitude = spotsList.Max(x => x.Location.Latitude);
-            var minLatitude = spotsList.Min(x => x.Location.Latitude);
+            var latitudeAverage = spotsList.Average(x => x.Location.Latitude);
+            var longitudeAverage = spotsList.Average(x => x.Location.Longitude);
 
-            var maxLongitude = spotsList.Max(x => x.Location.Longitude);
-            var minLongitude = spotsList.Min(x => x.Location.Longitude);
+            var centerLocation = new Location(latitudeAverage, longitudeAverage);
 
-            var averageLatitude = (maxLatitude + minLatitude) / 2;
-            var averageLongitude = (maxLongitude + minLongitude) / 2;
+            var nearestSpot = spotsList
+                .OrderBy(x => ComputeDistance(centerLocation, x.Location))
+                .FirstOrDefault();
 
-            return new Position(averageLatitude, averageLongitude);
+            if (nearestSpot == null)
+                appStore.Dispatch(new SetErrorAction(new Exception("Computed nearestLocation is null."), nameof(MapViewModel)));
+
+            return new Position(nearestSpot.Location.Latitude, nearestSpot.Location.Longitude);
         }
 
-        private Position mapCenterLocation;
-        public Position MapCenterLocation
+        private double ComputeDistance(Location centerLocation, Location locationToCompare)
         {
-            get => mapCenterLocation;
+            //Latitude - x, Longitude - y
+            var x1 = centerLocation.Latitude;
+            var x2 = locationToCompare.Latitude;
+
+            var y1 = centerLocation.Longitude;
+            var y2 = locationToCompare.Longitude;
+
+            var distanceSquare = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+            return Math.Sqrt(distanceSquare);
+        }
+
+        private Position mapCenterPosition;
+        public Position MapCenterPosition
+        {
+            get => mapCenterPosition;
             set
             {
-                mapCenterLocation = value;
+                mapCenterPosition = value;
                 OnPropertyChanged();
             }
         }
