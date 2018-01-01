@@ -26,7 +26,7 @@
                 <ownControls:BindableMap VerticalOptions="FillAndExpand"
                                          WidthRequest="500"
                                          IsShowingUser="True"
-                                         MapPosition="{Binding MapCenterLocation}"
+                                         MapPosition="{Binding MapCenterPosition}"
                                          MapPins="{Binding PinsCollection}"
                                          MapType="{Binding MapTypeProperty}"/>
             </StackLayout>
