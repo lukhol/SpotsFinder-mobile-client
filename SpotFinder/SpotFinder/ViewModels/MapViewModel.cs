@@ -99,7 +99,7 @@ namespace SpotFinder.ViewModels
             }
 
             SetMapPosition();
-            //SetMapSpanFromPositionAndDistance()
+            SetMapSpanFromPositionAndDistance()
 
             PinsCollection = pins;
             IsBusy = false;
