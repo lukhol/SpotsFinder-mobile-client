@@ -254,4 +254,19 @@
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Ustawienia</value>
   </data>
+  <data name="NotSkateboardPlaceLabel" xml:space="preserve">
+    <value>To miejsce nie jest związane z deskorolką.</value>
+  </data>
+  <data name="ReportInformationLabel" xml:space="preserve">
+    <value>Proszę podać powód zgłoszenia:</value>
+  </data>
+  <data name="ReportPageTitle" xml:space="preserve">
+    <value>Zgłość niepoprawne miejsce</value>
+  </data>
+  <data name="ReportPlaceButtonTitle" xml:space="preserve">
+    <value>Zgłoś</value>
+  </data>
+  <data name="SendReportLabel" xml:space="preserve">
+    <value>Wyślij zgłoszenie</value>
+  </data>
 </root>

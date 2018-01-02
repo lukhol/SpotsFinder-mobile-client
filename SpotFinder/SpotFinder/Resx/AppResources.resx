@@ -254,4 +254,19 @@
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="NotSkateboardPlaceLabel" xml:space="preserve">
+    <value>It is not a skateboard place.</value>
+  </data>
+  <data name="ReportInformationLabel" xml:space="preserve">
+    <value>Please provide reason why you are reporting this place:</value>
+  </data>
+  <data name="ReportPageTitle" xml:space="preserve">
+    <value>Report invalid place</value>
+  </data>
+  <data name="ReportPlaceButtonTitle" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="SendReportLabel" xml:space="preserve">
+    <value>Send report</value>
+  </data>
 </root>

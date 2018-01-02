@@ -97,5 +97,11 @@
     <Folder Include="Redux\Actions\Settings\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Update="Views\ReportPlacePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 
 </Project>

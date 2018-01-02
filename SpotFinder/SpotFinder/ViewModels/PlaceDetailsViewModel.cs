@@ -10,6 +10,7 @@ using SpotFinder.Core;
 using SpotFinder.Redux;
 using Redux;
 using SpotFinder.Redux.Actions;
+using SpotFinder.Views;
 
 namespace SpotFinder.ViewModels
 {
@@ -162,6 +163,8 @@ namespace SpotFinder.ViewModels
             App.Current.MainPage.Navigation.PopAsync();
         });
 
+        public ICommand ReportPlaceCommand => new Command(ReportPlace);
+
         private List<string> PrepareObstacleList()
         {
             var list = new List<string>();
@@ -249,6 +252,11 @@ namespace SpotFinder.ViewModels
             Place = this.place;
             placeSubscription.Dispose();
             IsBusy = false;
+        }
+
+        private void ReportPlace()
+        {
+            App.Current.MainPage.Navigation.PushAsync(new ReportPlacePage());
         }
     }
 }

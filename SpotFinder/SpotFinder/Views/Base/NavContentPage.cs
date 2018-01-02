@@ -12,6 +12,8 @@ namespace SpotFinder.Views.Base
 
         public NavContentPage()
         {
+            BackgroundColor = (Color)App.Current.Resources["PageBackgroundColor"];
+
             BindingContextChanged += (s, e) =>
             {
                 baseViewModel = (BaseViewModel)BindingContext;

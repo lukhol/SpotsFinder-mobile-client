@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:NavContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                      xmlns:pages="clr-namespace:SpotFinder.Views.Base;assembly=SpotFinder"
+                      xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+                      xmlns:ownControls="clr-namespace:SpotFinder.OwnControls;assembly=SpotFinder"
+                      x:Class="SpotFinder.Views.ReportPlacePage"
+                      Title="{translate:Translate ReportPageTitle}">
+    <ContentPage.Content>
+        <StackLayout x:Name="MainStackLayoutXAML">
+            <Label Text="{translate:Translate ReportInformationLabel}"
+                   TextColor="{StaticResource MainAccentColor}"
+                   VerticalOptions="Start"
+                   HorizontalOptions="Center"
+                   Margin="8"/>
+            <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
+                <ownControls:Checkbox Checked="{Binding IsNotSkateboardPlace}"
+                                                  HeightRequest="25"
+                                                  Margin="8, 0, 0, 0"
+                                                  HorizontalOptions="Start"/>
+                <Label Text="{translate:Translate NotSkateboardPlaceLabel}"
+                       TextColor="{StaticResource MainAccentColor}"
+                       VerticalOptions="Center"/>
+            </StackLayout>
+            <Editor Text="{Binding ReasonComment}"
+                    x:Name="EditorXAML"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Focused="EditorFocused"
+                    Unfocused="EditorUnfocused"
+                    BackgroundColor="{StaticResource MainAccentColor}"
+                    Margin="8,0,8,0"/>
+            <Button Style="{StaticResource GlobalButtonStyle}"
+                        Text="{translate:Translate SendReportLabel}"
+                        Command="{Binding SendReportCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</pages:NavContentPage>

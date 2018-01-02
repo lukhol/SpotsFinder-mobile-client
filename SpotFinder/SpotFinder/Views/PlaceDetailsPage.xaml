@@ -100,7 +100,13 @@
                         </StackLayout>
                     </Frame>
 
-                    <!-- Button -->
+                    <!-- Report Button -->
+                    <Button Style="{StaticResource GlobalButtonStyle}"
+                            Text="{translate:Translate ReportPlaceButtonTitle}"
+                            Command="{Binding ReportPlaceCommand}"
+                            Margin="8,0,8,3"/>
+                    
+                    <!-- Back Button: -->
                     <Button Style="{StaticResource GlobalButtonStyle}"
                             Text="{translate:Translate GoBackCommandTitle}"
                             Command="{Binding GoBackCommand}"/>
