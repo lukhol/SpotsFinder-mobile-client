@@ -31,17 +31,8 @@ namespace SpotFinder.ViewModels
                 .Subscribe(state =>
                 {
                     var stateLocation = appStore.GetState().DeviceData.LocationState.Value;
-                    if(stateLocation != null)
-                    {
-                        mapCenterLocation = new Position(stateLocation.Latitude, stateLocation.Longitude);
-                    }
-                    else
-                    {
-                        appStore.Dispatch(new SetErrorAction(
-                            new LocationException("Location in state is null."), nameof(LocateOnMapViewModel)
-                        ));
-                    }
-                });
+                    mapCenterLocation = new Position(stateLocation.Latitude, stateLocation.Longitude);
+                }, error => { appStore.Dispatch(new SetErrorAction(error, "LocateOnMapViewModel - subscription.")); });
 
             var location = appStore.GetState().DeviceData.LocationState.Value;
 

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using SpotFinder.Core;
 using SpotFinder.Redux;
 using Redux;
+using SpotFinder.Redux.Actions;
 
 namespace SpotFinder.ViewModels
 {
@@ -31,7 +32,7 @@ namespace SpotFinder.ViewModels
                         this.place = place;
                         Update();
                     }
-                });
+                }, error => { appStore.Dispatch(new SetErrorAction(error, "PlaceDetailsViewModel - subscription.")); });
 
             var mapTypeFromSettings = appStore.GetState().Settings.MapType;
 

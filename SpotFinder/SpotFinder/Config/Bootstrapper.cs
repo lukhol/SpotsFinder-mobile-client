@@ -86,19 +86,11 @@ namespace SpotFinder.Config
                     AsyncOperationState<PermissionStatus, Unit> locationPermissionState = null;
                     state.PermissionsDictionary.TryGetValue(PermissionName.Location, out locationPermissionState);
 
-                    if (locationPermissionState == null)
-                    {
-                        appStore.Dispatch(new SetErrorAction(
-                            new LocationException("Location permission state is null."), nameof(Bootstrapper))
-                        );
-                        return;
-                    }
-
                     var locationStatus = state.DeviceData.LocationState.Status;
                     if ((locationStatus == Status.Empty || locationStatus == Status.Unknown) && 
                         locationPermissionState.Value == PermissionStatus.Granted)
                         appStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
-                });
+                }, error => { appStore.Dispatch(new SetErrorAction(error, "Bootstrapper - DeviceLocationSubscription.")); });
 
             appStore
                 .DistinctUntilChanged(state => new { state.PermissionsDictionary[PermissionName.Location].Status })
@@ -107,18 +99,10 @@ namespace SpotFinder.Config
                     AsyncOperationState<PermissionStatus, Unit> locationPermissionState = null;
                     state.PermissionsDictionary.TryGetValue(PermissionName.Location, out locationPermissionState);
 
-                    if (locationPermissionState == null)
-                    {
-                        appStore.Dispatch(new SetErrorAction(
-                            new LocationException("Location permission state is null."), nameof(Bootstrapper))
-                        );
-                        return;
-                    }
-
                     var locationStatus = state.DeviceData.LocationState.Status;
                     if (locationPermissionState.Value == PermissionStatus.Granted && (locationStatus == Status.Empty || locationStatus == Status.Error))
                         appStore.DispatchAsync(deviceLocationActionCreator.RequestDeviceLocation(TimeSpan.FromSeconds(8)));
-                });
+                }, error => { appStore.Dispatch(new SetErrorAction(error, "Bootstrapper - DeviceLocationSubscription.")); });
         }
 
         private void DownloadInitialSpotsList()

@@ -1,6 +1,7 @@
 ﻿using Redux;
 using SpotFinder.Models.Core;
 using SpotFinder.Redux;
+using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Resx;
 using SpotFinder.Views;
@@ -40,7 +41,7 @@ namespace SpotFinder.ViewModels
                     {
                         IsBusy = true;
                     }
-                });
+                }, error => { appStore.Dispatch(new SetErrorAction(error, "ListViewModel in subscription.")); });
 
             InformationText = "TODO: Add error text to resources.";
         }
