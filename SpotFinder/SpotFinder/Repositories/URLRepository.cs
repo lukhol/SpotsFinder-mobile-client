@@ -15,5 +15,7 @@
         {
             return string.Format("{0}{1}/{2}", BASE_URL, "places", id);
         }
+
+        public string PostWrongPlaceReportUri => string.Format("{0}{1}", BASE_URL, "places/wrong");
     }
 }

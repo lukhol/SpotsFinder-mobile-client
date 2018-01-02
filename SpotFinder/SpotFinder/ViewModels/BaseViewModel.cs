@@ -1,6 +1,7 @@
 ﻿using Redux;
 using SpotFinder.Redux;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -10,6 +11,7 @@ namespace SpotFinder.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
+        protected IList<IDisposable> subscriptions  = new List<IDisposable>();
         protected readonly IStore<ApplicationState> appStore;
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -50,6 +52,14 @@ namespace SpotFinder.ViewModels
         {
             App.Current.MainPage.Navigation.PopToRootAsync();
         });
+
+        public void CancelSubscriptions()
+        {
+            foreach (var sub in subscriptions)
+                sub.Dispose();
+
+            subscriptions.Clear();
+        }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

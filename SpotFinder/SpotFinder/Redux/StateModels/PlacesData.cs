@@ -10,6 +10,7 @@ namespace SpotFinder.Redux.StateModels
         public AsyncOperationState<Place, int> CurrentPlaceState { get; private set; }
         public AsyncOperationState<IList<Place>, Criteria> PlacesListState { get; private set; }
         public AsyncOperationState<Report, Unit> ReportState { get; private set; }
+        public AsyncOperationState<WrongPlaceReport, Unit> WrongPlaceReport { get; private set; }
 
         [Obsolete]
         public PlacesData()
@@ -20,12 +21,14 @@ namespace SpotFinder.Redux.StateModels
         public PlacesData(
             AsyncOperationState<Place, int> currentPlaceState,
             AsyncOperationState<IList<Place>, Criteria> placesListState,
-            AsyncOperationState<Report, Unit> reportState
+            AsyncOperationState<Report, Unit> reportState,
+            AsyncOperationState<WrongPlaceReport, Unit> wrongPlaceReport
         )
         {
             CurrentPlaceState = currentPlaceState;
             PlacesListState = placesListState;
             ReportState = reportState;
+            WrongPlaceReport = wrongPlaceReport;
         }
     }
 }

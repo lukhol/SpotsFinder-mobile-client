@@ -28,16 +28,13 @@ namespace SpotFinder.DataServices
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 
-        public async Task<List<Place>> GetAllPlacesAsync()
+        public async Task<List<Place>> GetAllAsync()
         {
             List<Place> placeList = new List<Place>();
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
                 var uri = new Uri(urlRepository.GetPlacesUri);
-
-                var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var response = await httpClient.GetAsync(uri);
 
@@ -81,8 +78,6 @@ namespace SpotFinder.DataServices
                 var content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
 
                 httpClient.Timeout = TimeSpan.FromSeconds(90);
-                var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var uri = new Uri(urlRepository.PostPlaceUri);
                 var response = await httpClient.PostAsync(uri, content);
@@ -107,7 +102,7 @@ namespace SpotFinder.DataServices
             return result;
         }
 
-        public async Task<List<Place>> GetPlacesByCriteriaAsync(Criteria criteria)
+        public async Task<List<Place>> GetByCriteriaAsync(Criteria criteria)
         {
             var criteriaJson = JObject.FromObject(criteria, camelCaseJsonSerializer);
             var content = new StringContent(criteriaJson.ToString(), Encoding.UTF8, "application/json");
@@ -116,9 +111,6 @@ namespace SpotFinder.DataServices
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
-
                 var uri = new Uri(urlRepository.GetPlaceByCriteriaUri);
                 var response = await httpClient.PostAsync(uri, content);
 
@@ -148,14 +140,12 @@ namespace SpotFinder.DataServices
             return placesList;
         }
 
-        public async Task<Place> GetPlaceByIdAsync(int id)
+        public async Task<Place> GetByIdAsync(int id)
         {
             Place place;
             try
             {
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
 
                 var uri = new Uri(urlRepository.GetPlaceByIdUri(id));
                 var response = await httpClient.GetAsync(uri);

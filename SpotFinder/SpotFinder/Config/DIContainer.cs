@@ -12,6 +12,7 @@ using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Redux.Actions.Locations;
 using SpotFinder.Redux.Actions.Permissions;
 using SpotFinder.Redux.Actions.PlacesList;
+using SpotFinder.Redux.Actions.WrongPlaceReports;
 using SpotFinder.Redux.Reducers;
 using SpotFinder.Redux.StateModels;
 using SpotFinder.Repositories;
@@ -21,7 +22,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reactive;
+using System.Text;
 using Xamarin.Forms;
 using XamarinForms.SQLite.SQLite;
 
@@ -43,6 +46,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<ApplicationState>, ApplicationReducer>();
 
             simpleInjector.Register<IReducer<IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>>, PermissionsReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<WrongPlaceReport, Unit>>, WrongPlaceReportReducer>();
             simpleInjector.Register<IReducer<Settings>, SettingsReducer>();
             simpleInjector.Register<IReducer<Stack<PageName>>, NavigationReducer>();
             simpleInjector.Register<IReducer<PlacesData>, PlaceDataReducer>();
@@ -74,16 +78,19 @@ namespace SpotFinder.Config
             //Data services
             simpleInjector.Register<IPlaceService, PlaceService>();
             simpleInjector.Register<IErrorService, ErrorService>();
+            simpleInjector.Register<IWrongPlaceReportService, WrongPlaceReportService>();
 
             //Repositories:
             simpleInjector.Register<IPlaceRepository, PlaceRepository>();
-            simpleInjector.Register<IURLRepository, URLRepository>();
+            var urlRepository = new URLRepository();
+            simpleInjector.Register<IURLRepository>(() => urlRepository);
 
             //ActionsCreators:
             simpleInjector.Register<IPermissionActionCreator, PermissionActionCreator>();
             simpleInjector.Register<IDeviceLocationActionCreator, DeviceLocationActionCreator>();
             simpleInjector.Register<IGetPlacesListByCriteriaActionCreator, GetPlacesListByCriteriaActionCreator>();
             simpleInjector.Register<IGetPlaceByIdActionCreator, GetPlaceByIdActionCreator>();
+            simpleInjector.Register<ISetWrongPlaceReportActionCreator, SetWrongPlaceReportActionCreator>();
             
             //Providers:
             simpleInjector.Register<IPhotoProvider, PhotoProvider>();
@@ -105,6 +112,11 @@ namespace SpotFinder.Config
 
             //Other:
             var httpClient = new HttpClient();
+
+            var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
             simpleInjector.Register(() => httpClient, Lifestyle.Singleton);
             simpleInjector.Register(() => CreateCameCaseJsonSerializer());
             simpleInjector.Register(() => simpleInjector.GetInstance<SettingsHelper>().ReadSettings());
@@ -136,7 +148,11 @@ namespace SpotFinder.Config
             var reportState = new AsyncOperationState<Report, Unit>(
                 Status.Empty, null, null, Unit.Default
             );
-            var placesData = new PlacesData(currentPlaceState, placesListState, reportState);
+            var wrongPlaceReport = new AsyncOperationState<WrongPlaceReport, Unit>(
+                Status.Empty, null, null, Unit.Default
+            );
+
+            var placesData = new PlacesData(currentPlaceState, placesListState, reportState, wrongPlaceReport);
 
             var location = new Location(0, 0);
             var locationState = new LocationState(Status.Empty, null, location);

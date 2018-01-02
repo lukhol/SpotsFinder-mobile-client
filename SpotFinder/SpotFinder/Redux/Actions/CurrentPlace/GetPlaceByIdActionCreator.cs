@@ -32,13 +32,13 @@ namespace SpotFinder.Redux.Actions.CurrentPlace
                         place = PlaceRepository.GetPlace(id);
                         if (version > place.Version)
                         {
-                            place = await PlaceService.GetPlaceByIdAsync(id);
+                            place = await PlaceService.GetByIdAsync(id);
                             PlaceRepository.InsertPlace(place);
                         }
                     }
                     else
                     {
-                        place = await PlaceService.GetPlaceByIdAsync(id);
+                        place = await PlaceService.GetByIdAsync(id);
                         PlaceRepository.InsertPlace(place);
                     }
                        

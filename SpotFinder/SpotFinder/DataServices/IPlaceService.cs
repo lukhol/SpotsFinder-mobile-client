@@ -6,9 +6,9 @@ namespace SpotFinder.DataServices
 {
     public interface IPlaceService
     {
-        Task<List<Place>> GetAllPlacesAsync();
-        Task<List<Place>> GetPlacesByCriteriaAsync(Criteria criteria);
+        Task<List<Place>> GetAllAsync();
+        Task<List<Place>> GetByCriteriaAsync(Criteria criteria);
+        Task<Place> GetByIdAsync(int id);
         Task<int> SendAsync(Place place);
-        Task<Place> GetPlaceByIdAsync(int id);
     }
 }

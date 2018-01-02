@@ -25,11 +25,13 @@ namespace SpotFinder.Xam.Behaviors
         protected override void OnAttachedTo(Entry bindable)
         {
             bindable.TextChanged += TextChangedAcitivty;
+            base.OnAttachedTo(bindable);
         }
 
         protected override void OnDetachingFrom(Entry bindable)
         {
             bindable.TextChanged -= TextChangedAcitivty;
+            base.OnDetachingFrom(bindable);
         }
 
         private void TextChangedAcitivty(object sender, TextChangedEventArgs ea)

@@ -21,7 +21,7 @@ namespace SpotFinder.Redux.Actions.PlacesList
 
                 try
                 {
-                    var placesList = await PlaceService.GetPlacesByCriteriaAsync(criteria);
+                    var placesList = await PlaceService.GetByCriteriaAsync(criteria);
                     dispatch(new GetPlacesListByCriteriaCompleteAction(placesList));
                 }
                 catch (Exception e)
