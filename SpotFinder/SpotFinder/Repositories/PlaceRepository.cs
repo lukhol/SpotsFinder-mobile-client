@@ -39,10 +39,14 @@ namespace SpotFinder.Repositories
             {
                 using (var connection = SQLite.GetConnection())
                 {
+                    SQLitePlace sqlitePlace = FromPlaceToSQLitePlace(place);
                     if (!ExistPlace(place.Id))
                     {
-                        var sqlitePlace = FromPlaceToSQLitePlace(place);
                         connection.Insert(sqlitePlace);
+                    }
+                    else
+                    {
+                        connection.Update(sqlitePlace);
                     }
                 }
             }
@@ -113,6 +117,7 @@ namespace SpotFinder.Repositories
             {
                 Id = sqlitePlace.Id,
                 Name = sqlitePlace.Name,
+                Version = sqlitePlace.Version,
                 Type = placeType,
                 Description = sqlitePlace.Description,
                 Location = new Location(sqlitePlace.Latitude, sqlitePlace.Longitude),
@@ -142,6 +147,7 @@ namespace SpotFinder.Repositories
                 Id = place.Id,
                 Description = place.Description,
                 Name = place.Name,
+                Version = place.Version,
                 Latitude = place.Location.Latitude,
                 Longitude = place.Location.Longitude,
 

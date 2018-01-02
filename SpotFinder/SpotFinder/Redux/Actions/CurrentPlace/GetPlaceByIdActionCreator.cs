@@ -16,7 +16,7 @@ namespace SpotFinder.Redux.Actions.CurrentPlace
             PlaceRepository = placeRepository ?? throw new ArgumentNullException(nameof(placeRepository));
         }
 
-        public StoreExtensions.AsyncActionCreator<ApplicationState> GetPlaceById(int id)
+        public StoreExtensions.AsyncActionCreator<ApplicationState> GetPlaceById(int id, long version)
         {
             return async (dispatch, getState) =>
             {
@@ -26,10 +26,15 @@ namespace SpotFinder.Redux.Actions.CurrentPlace
                 {
                     Place place;
                     var isPlaceInLocalDatabase = PlaceRepository.ExistPlace(id);
-
+                    //TODO: Refactor!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     if (isPlaceInLocalDatabase)
                     {
                         place = PlaceRepository.GetPlace(id);
+                        if (version > place.Version)
+                        {
+                            place = await PlaceService.GetPlaceByIdAsync(id);
+                            PlaceRepository.InsertPlace(place);
+                        }
                     }
                     else
                     {

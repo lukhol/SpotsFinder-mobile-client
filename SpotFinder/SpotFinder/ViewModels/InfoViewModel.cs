@@ -2,7 +2,6 @@
 using SpotFinder.Core.Enums;
 using SpotFinder.Models.Core;
 using SpotFinder.Redux;
-using SpotFinder.Redux.Actions;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Xamarin.Forms;

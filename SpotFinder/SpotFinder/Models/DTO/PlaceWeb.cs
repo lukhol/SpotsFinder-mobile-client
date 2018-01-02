@@ -7,9 +7,10 @@ namespace SpotFinder.Models.DTO
     public class PlaceWeb
     {
         public int? Id { get; set; }
-        public Location Location { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public long Version { get; set; }
+        public Location Location { get; set; }
         public PlaceType Type { get; set; }
         public IList<ImageWeb> Images { get; set; }
 

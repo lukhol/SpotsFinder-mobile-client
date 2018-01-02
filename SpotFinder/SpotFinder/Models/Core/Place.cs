@@ -8,6 +8,7 @@ namespace SpotFinder.Models.Core
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public long Version { get; set; }
         public Location Location { get; set; }
         public PlaceType Type { get; set; }
         public IList<string> PhotosBase64List { get; set; }

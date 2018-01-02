@@ -12,6 +12,7 @@ namespace SpotFinder.SQLite
         public string Name { get; set; }
         public string Description { get; set; }
         public int Type { get; set; }
+        public long Version { get; set; }
 
         public string Image1 { get; set; }
         public string Image2 { get; set; }

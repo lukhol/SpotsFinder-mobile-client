@@ -47,6 +47,7 @@ namespace SpotFinder.Core
                 Type = place.Type,
                 Name = place.Name,
                 Images = webImagesList,
+                Version = place.Version,
                 
                 Bank = place.Bank,
                 Bowl = place.Bowl,
@@ -82,6 +83,7 @@ namespace SpotFinder.Core
                 Type = placeWeb.Type,
                 Name = placeWeb.Name,
                 PhotosBase64List = base64ImagesList,
+                Version = placeWeb.Version,
 
                 Bank = placeWeb.Bank,
                 Bowl = placeWeb.Bowl,
@@ -120,6 +122,7 @@ namespace SpotFinder.Core
 
             place.PhotosBase64List = new List<string>();
             place.PhotosBase64List.Add(placeWebLight.MainPhoto);
+            place.Version = placeWebLight.Version;
 
             return place;
         }

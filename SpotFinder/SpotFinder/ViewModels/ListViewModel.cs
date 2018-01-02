@@ -116,7 +116,7 @@ namespace SpotFinder.ViewModels
 
             if(App.Current.MainPage.Navigation.NavigationStack.Last().GetType() == typeof(ListPage))
             {
-                appStore.DispatchAsync(downloadPlaceByIdActionCreator.GetPlaceById(selectedPlace.Id));
+                appStore.DispatchAsync(downloadPlaceByIdActionCreator.GetPlaceById(selectedPlace.Id, selectedPlace.Version));
                 App.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
             }
         });

@@ -13,5 +13,14 @@ namespace SpotFinder.Views
             InitializeComponent();
             BindingContext = DIContainer.Instance.Resolve<SettingsViewModel>();
         }
+
+        protected override void OnDisappearing()
+        {
+            if(BindingContext is SettingsViewModel)
+            {
+                var settingsViewModel = BindingContext as SettingsViewModel;
+                settingsViewModel.SaveCommad.Execute(null);
+            }
+        }
     }
 }

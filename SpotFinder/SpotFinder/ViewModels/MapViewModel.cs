@@ -27,15 +27,15 @@ namespace SpotFinder.ViewModels
 
             appStore
                 .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Status })
-                .Subscribe(state =>
+                .SubscribeWithError(state =>
                 {
                     var placesList = state.PlacesData.PlacesListState.Value;
-                
+
                     if (placesList != null && state.PlacesData.PlacesListState.Status == Core.Enums.Status.Success)
                         UpdateMap(placesList);
                     else
                         IsBusy = true;
-                });
+                }, error => { appStore.Dispatch(new SetErrorAction(error, "MapViewModel in subscription.")); });
         }
 
         private void SetMapTypeFromAppSettings()
@@ -55,37 +55,6 @@ namespace SpotFinder.ViewModels
                 default:
                     mapTypeProperty = MapType.Street;
                     break;
-            }
-        }
-
-        private void SetMapPosition()
-        {
-            var placesList = appStore.GetState().PlacesData.PlacesListState.Value;
-            if(placesList != null && placesList.Count > 0)
-            {
-                var lastSearchingCriteria = appStore.GetState().PlacesData.PlacesListState.TriggerValue;
-                if(lastSearchingCriteria != null)
-                {
-                    if (lastSearchingCriteria.Location.City != null)
-                        MapCenterPosition = ComputeCenterPosition();
-                    else
-                        MapCenterPosition = new Position(
-                            (double)lastSearchingCriteria.Location.Latitude, 
-                            (double)lastSearchingCriteria.Location.Longitude
-                        );
-
-                    return;
-                }
-
-                MapCenterPosition = ComputeCenterPosition();
-                return;
-            }
-
-            var locationStateValue = appStore.GetState().DeviceData.LocationState.Value;
-            if (locationStateValue != null)
-            {
-                MapCenterPosition = new Position(locationStateValue.Latitude, locationStateValue.Longitude);
-                return;
             }
         }
 
@@ -121,7 +90,7 @@ namespace SpotFinder.ViewModels
 
                 pin.Clicked += async (s, e) =>
                 {
-                    appStore.DispatchAsync(downloadPlaceByIdActionCreator.GetPlaceById(place.Id));
+                    appStore.DispatchAsync(downloadPlaceByIdActionCreator.GetPlaceById(place.Id, place.Version));
 
                     await App.Current.MainPage.Navigation.PushAsync(new PlaceDetailsPage());
                 };
@@ -132,6 +101,37 @@ namespace SpotFinder.ViewModels
             SetMapPosition();
             PinsCollection = pins;
             IsBusy = false;
+        }
+
+        private void SetMapPosition()
+        {
+            var placesList = appStore.GetState().PlacesData.PlacesListState.Value;
+            if (placesList != null && placesList.Count > 0)
+            {
+                var lastSearchingCriteria = appStore.GetState().PlacesData.PlacesListState.TriggerValue;
+                if (lastSearchingCriteria != null)
+                {
+                    if (lastSearchingCriteria.Location.City != null)
+                        MapCenterPosition = ComputeCenterPosition();
+                    else
+                        MapCenterPosition = new Position(
+                            (double)lastSearchingCriteria.Location.Latitude,
+                            (double)lastSearchingCriteria.Location.Longitude
+                        );
+
+                    return;
+                }
+
+                MapCenterPosition = ComputeCenterPosition();
+                return;
+            }
+
+            var locationStateValue = appStore.GetState().DeviceData.LocationState.Value;
+            if (locationStateValue != null)
+            {
+                MapCenterPosition = new Position(locationStateValue.Latitude, locationStateValue.Longitude);
+                return;
+            }
         }
 
         private Position ComputeCenterPosition()

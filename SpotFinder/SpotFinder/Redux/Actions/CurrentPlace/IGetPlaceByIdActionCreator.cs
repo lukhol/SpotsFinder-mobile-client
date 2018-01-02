@@ -2,6 +2,6 @@
 {
     public interface IGetPlaceByIdActionCreator
     {
-        StoreExtensions.AsyncActionCreator<ApplicationState> GetPlaceById(int id);
+        StoreExtensions.AsyncActionCreator<ApplicationState> GetPlaceById(int id, long version);
     }
 }
