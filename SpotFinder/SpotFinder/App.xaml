@@ -39,7 +39,7 @@
             <Style x:Key="GlobalButtonStyle"
                    TargetType="Button">
                 <Setter Property="Margin" Value="8,0,8,8" />
-                <Setter Property="BorderRadius" Value="7" />
+                <Setter Property="BorderRadius" Value="1" />
                 <Setter Property="BorderWidth" Value="0" />
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
                 <Setter Property="TextColor" Value="{StaticResource MainAccentColor}" />

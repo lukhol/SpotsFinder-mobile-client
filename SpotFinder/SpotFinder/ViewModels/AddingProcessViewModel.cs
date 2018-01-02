@@ -20,6 +20,12 @@ namespace SpotFinder.ViewModels
     {
         private IPhotoProvider PhotoProvider;
 
+        public const int MAX_DESCRIPTION_LENGTH = 255;
+        public const int MIN_DESCRIPTION_LENGTH = 5;
+
+        public const int MAX_TITLE_LENGTH = 30;
+        public const int MIN_TITLE_LENGTH = 3;
+
         public AddingProcessViewModel(IStore<ApplicationState> appStore, IPhotoProvider photoProvider) : base(appStore)
         {
             PhotoProvider = photoProvider ?? throw new ArgumentNullException("PhotoProvider is null in AddingProcessViewModel.");
@@ -405,10 +411,10 @@ namespace SpotFinder.ViewModels
             if (name == null || description == null || imagesList == null || imagesList.Count == 0)
                 return false;
 
-            if (name.Length < 3)
+            if (name.Length < MIN_TITLE_LENGTH || name.Length > MAX_TITLE_LENGTH)
                 return false;
 
-            if (description.Length < 5)
+            if (description.Length < MIN_DESCRIPTION_LENGTH || description.Length > MAX_DESCRIPTION_LENGTH)
                 return false;
 
             if (imagesList.Count <= 0 || imagesList.Count > 5)

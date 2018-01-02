@@ -13,6 +13,9 @@ namespace SpotFinder.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
+        private const int MAX_CITY_LENGTH = 85;
+        private const int MIN_CITY_LENGTH = 1;
+
         public SettingsViewModel(IStore<ApplicationState> appStore) : base(appStore)
         {
             appStore
