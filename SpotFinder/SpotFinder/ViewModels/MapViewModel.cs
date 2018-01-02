@@ -25,7 +25,7 @@ namespace SpotFinder.ViewModels
 
             SetMapTypeFromAppSettings();
 
-            appStore
+            var placesListSub = appStore
                 .DistinctUntilChanged(state => new { state.PlacesData.PlacesListState.Status })
                 .SubscribeWithError(state =>
                 {
@@ -36,6 +36,8 @@ namespace SpotFinder.ViewModels
                     else
                         IsBusy = true;
                 }, error => { appStore.Dispatch(new SetErrorAction(error, "MapViewModel in subscription.")); });
+
+            subscriptions.Add(placesListSub);
         }
 
         private void SetMapTypeFromAppSettings()

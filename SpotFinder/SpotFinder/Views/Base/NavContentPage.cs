@@ -63,5 +63,10 @@ namespace SpotFinder.Views.Base
             return true;
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            baseViewModel.CancelSubscriptions();
+        }
     }
 }
