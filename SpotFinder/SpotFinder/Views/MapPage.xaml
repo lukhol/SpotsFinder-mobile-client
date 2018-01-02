@@ -28,7 +28,8 @@
                                          IsShowingUser="True"
                                          MapPosition="{Binding MapCenterPosition}"
                                          MapPins="{Binding PinsCollection}"
-                                         MapType="{Binding MapTypeProperty}"/>
+                                         MapType="{Binding MapTypeProperty}"
+                                         MapSpan="{Binding MapSpan}"/>
             </StackLayout>
             
             <!-- Loading layout -->

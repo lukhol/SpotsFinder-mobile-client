@@ -99,6 +99,8 @@ namespace SpotFinder.ViewModels
             }
 
             SetMapPosition();
+            //SetMapSpanFromPositionAndDistance()
+
             PinsCollection = pins;
             IsBusy = false;
         }
@@ -134,6 +136,12 @@ namespace SpotFinder.ViewModels
             }
         }
 
+        private void SetMapSpanFromPositionAndDistance()
+        {
+            var distance = appStore.GetState().PlacesData.PlacesListState.TriggerValue.Distance;
+            MapSpan = MapSpan.FromCenterAndRadius(mapCenterPosition, Distance.FromMeters((distance * 1000) * 0.8));
+        }
+
         private Position ComputeCenterPosition()
         {
             var spotsList = appStore.GetState().PlacesData.PlacesListState.Value;
@@ -167,6 +175,17 @@ namespace SpotFinder.ViewModels
 
             var distanceSquare = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
             return Math.Sqrt(distanceSquare);
+        }
+
+        private MapSpan mapSpan;
+        public MapSpan MapSpan
+        {
+            get => mapSpan;
+            set
+            {
+                mapSpan = value;
+                OnPropertyChanged();
+            }
         }
 
         private Position mapCenterPosition;

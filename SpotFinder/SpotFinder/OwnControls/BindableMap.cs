@@ -7,6 +7,21 @@ namespace SpotFinder.OwnControls
 {
     public class BindableMap : Map
     {
+        public static readonly BindableProperty MapSpanProperty
+            = BindableProperty.Create(nameof(MapSpan),
+                                      typeof(MapSpan),
+                                      typeof(BindableMap),
+                                      null,
+                                      propertyChanged: (bindable, old, newValue) =>
+                                      {
+                                          var bindableMap = bindable as BindableMap;
+                                          var newMapSpan = newValue as MapSpan;
+
+                                          bindableMap.MoveToRegion(newMapSpan);
+                                      });
+
+        public MapSpan MapSpan;
+
         public static readonly BindableProperty MapPositionProperty
             = BindableProperty.Create(nameof(MapPosition),
                                       typeof(Position),
@@ -14,7 +29,9 @@ namespace SpotFinder.OwnControls
                                       new Position(0,0),
                                       propertyChanged: (b, o, n) => 
                                       {
-                                          ((BindableMap)b).MoveToRegion(MapSpan.FromCenterAndRadius((Position)n, Distance.FromMeters(50)));
+                                          var bindableMap = b as BindableMap;
+                                          if(bindableMap != null)
+                                            bindableMap.MoveToRegion(MapSpan.FromCenterAndRadius((Position)n, Distance.FromMeters(50)));
                                       });
 
         public Position MapPosition { get; set; }
