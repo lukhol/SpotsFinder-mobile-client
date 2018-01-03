@@ -278,4 +278,10 @@
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
+  <data name="RefreshingSpotsOnMapLoaderText" xml:space="preserve">
+    <value>Refreshing spots on map...</value>
+  </data>
+  <data name="ReportLoaderText" xml:space="preserve">
+    <value>Reporting...</value>
+  </data>
 </root>

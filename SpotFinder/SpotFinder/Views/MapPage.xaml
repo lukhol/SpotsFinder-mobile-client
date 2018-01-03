@@ -35,7 +35,7 @@
             <!-- Loading layout -->
             <StackLayout IsVisible="{Binding IsBusy}"
                          BackgroundColor="#DD111111">
-                <Label Text="Refreshing spots on map..."
+                <Label Text="{translate:Translate RefreshingSpotsOnMapLoaderText}"
                        TextColor="{StaticResource MainAccentColor}"
                        VerticalOptions="EndAndExpand"
                        HorizontalOptions="Center"/>
