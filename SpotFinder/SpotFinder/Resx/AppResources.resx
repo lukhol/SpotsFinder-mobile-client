@@ -269,4 +269,13 @@
   <data name="SendReportLabel" xml:space="preserve">
     <value>Send report</value>
   </data>
+  <data name="SomethingWentWrongTitle" xml:space="preserve">
+    <value>Something went wrong</value>
+  </data>
+  <data name="WrongPlaceUploadWrongText" xml:space="preserve">
+    <value>Cannot report place. Please try again later.</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
 </root>

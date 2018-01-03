@@ -35,12 +35,8 @@ namespace SpotFinder.Redux.Actions.WrongPlaceReports
 
                 try
                 {
-                    var result = await WrongPlaceReportService.SendAsync(wrongPlaceReport);
-
-                    if (result)
-                        dispatch(new SetWrongPlaceReportCompleteAction(wrongPlaceReport));
-                    else
-                        throw new Exception("Could not sent report.");
+                    await WrongPlaceReportService.SendAsync(wrongPlaceReport);
+                    dispatch(new SetWrongPlaceReportCompleteAction(wrongPlaceReport));
                 }
                 catch (Exception e)
                 {

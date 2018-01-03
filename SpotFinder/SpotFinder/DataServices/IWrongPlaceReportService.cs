@@ -5,6 +5,6 @@ namespace SpotFinder.DataServices
 {
     public interface IWrongPlaceReportService
     {
-        Task<bool> SendAsync(WrongPlaceReport wrongPlaceReport);
+        Task SendAsync(WrongPlaceReport wrongPlaceReport);
     }
 }

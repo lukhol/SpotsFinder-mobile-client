@@ -26,5 +26,12 @@ namespace SpotFinder.Views
             MainStackLayoutXAML.HeightRequest = MainStackLayoutXAML.Height * 2;
             MainStackLayoutXAML.Layout(new Rectangle(0, 0, MainStackLayoutXAML.Width, MainStackLayoutXAML.HeightRequest));
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            var baseViewModel = BindingContext as BaseViewModel;
+            baseViewModel?.CancelSubscriptions();
+        }
     }
 }

@@ -464,5 +464,23 @@ namespace SpotFinder.Resx {
                 return ResourceManager.GetString("WhereSearchLabel", resourceCulture);
             }
         }
+
+        internal static string SomethingWentWrongTitle {
+            get {
+                return ResourceManager.GetString("SomethingWentWrongTitle", resourceCulture);
+            }
+        }
+
+        internal static string WrongPlaceUploadWrongText {
+            get {
+                return ResourceManager.GetString("WrongPlaceUploadWrongText", resourceCulture);
+            }
+        }
+
+        internal static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
     }
 }

@@ -5,7 +5,6 @@ using SpotFinder.Repositories;
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,20 +23,25 @@ namespace SpotFinder.DataServices
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 
-        public async Task<bool> SendAsync(WrongPlaceReport wrongPlaceReport)
+        public async Task SendAsync(WrongPlaceReport wrongPlaceReport)
         {
             try
             {
                 var uri = new Uri(urlRepository.PostWrongPlaceReportUri);
-                var wrongPlaceReportJson = JObject.FromObject(wrongPlaceReport).ToString();
+                var wrongPlaceReportJson = JObject.FromObject(wrongPlaceReport, camelCaseJsonSerializer).ToString();
                 var stringContent = new StringContent(wrongPlaceReportJson, Encoding.UTF8, "application/json");
 
                 var response = await httpClient.PostAsync(uri, stringContent);
 
-                if (response.StatusCode != HttpStatusCode.OK)
-                    return false;
+                if (response.StatusCode == HttpStatusCode.OK)
+                    return;
 
-                return true;
+                if(response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var responseJson = await response.Content.ReadAsStringAsync();
+                    var message = JObject.Parse(responseJson)["message"].ToString();
+                    throw new Exception(message);
+                }
             }
             catch (Exception e)
             {

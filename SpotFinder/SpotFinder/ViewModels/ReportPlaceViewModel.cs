@@ -3,9 +3,8 @@ using SpotFinder.Core.Enums;
 using SpotFinder.Redux;
 using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.WrongPlaceReports;
-using SpotFinder.Views;
+using SpotFinder.Resx;
 using System;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -29,14 +28,17 @@ namespace SpotFinder.ViewModels
                     if(wrongPlaceReportStatus == Status.Success)
                     {
                         IsBusy = false;
-                        App.Current.MainPage.DisplayAlert("Success!", "Thank you for your report.", "Ok");
-                        if(App.Current.MainPage.Navigation.NavigationStack.Last().GetType() == typeof(ReportPlacePage))
-                            App.Current.MainPage.Navigation.PopAsync();
+                        App.Current.MainPage.Navigation.PopAsync();
                     }
                     else if(wrongPlaceReportStatus == Status.Error)
                     {
                         IsBusy = false;
-                        App.Current.MainPage.DisplayAlert("Something went wrong.", "Report does not sent. Please try again.", "Ok");
+                        var error = state.PlacesData.WrongPlaceReport.Error;
+                        App.Current.MainPage.DisplayAlert(
+                            AppResources.SomethingWentWrongTitle, 
+                            error.Message,
+                            AppResources.Ok
+                        );
                     }
 
                     appStore.Dispatch(new SetEmptyWrongPlaceReportAction());
