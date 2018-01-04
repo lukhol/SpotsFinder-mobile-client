@@ -21,6 +21,7 @@ using SpotFinder.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reactive;
@@ -116,6 +117,10 @@ namespace SpotFinder.Config
             var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+
+            httpClient.DefaultRequestHeaders.AcceptLanguage.Add(
+                new StringWithQualityHeaderValue(CultureInfo.CurrentCulture.ToString())
+            );
 
             simpleInjector.Register(() => httpClient, Lifestyle.Singleton);
             simpleInjector.Register(() => CreateCameCaseJsonSerializer());
