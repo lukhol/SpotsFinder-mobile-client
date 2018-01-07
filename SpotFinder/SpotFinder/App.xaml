@@ -41,6 +41,7 @@
                 <Setter Property="Margin" Value="8,0,8,8" />
                 <Setter Property="BorderRadius" Value="1" />
                 <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
                 <Setter Property="TextColor" Value="{StaticResource MainAccentColor}" />
                 <Setter Property="BorderColor" Value="{StaticResource MainAccentColor}" />
@@ -51,7 +52,7 @@
                 <Setter Property="Orientation" Value="Horizontal"/>
             </Style>
             
-            <!-- PlaceDetailsPage and CriteriaPage are using this style: -->
+            <!-- PlaceDetailsPage, LoginPage and CriteriaPage are using this style: -->
             <Style x:Key="NormalTextLabel"
                    TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource MainAccentColor}"/>

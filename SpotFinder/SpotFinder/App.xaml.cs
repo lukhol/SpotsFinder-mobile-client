@@ -1,4 +1,5 @@
 ﻿using SpotFinder.Config;
+using SpotFinder.Views;
 using SpotFinder.Views.Root;
 using Xamarin.Forms;
 
@@ -13,6 +14,7 @@ namespace SpotFinder
             bootstrapper = DIContainer.Instance.Resolve<IBootstrapper>();
             InitializeComponent();
             MainPage = new CustomNavigationPage(new RootMasterDetailPage());
+            App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
         }
 
         protected override void OnStart()
