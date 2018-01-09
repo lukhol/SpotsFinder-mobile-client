@@ -9,12 +9,14 @@ namespace SpotFinder.Redux.Actions
         public string MainCity { get; private set; }
         public int MainDistance { get; private set; }
         public MapType MapType { get; private set; }
+        public bool FirstUse { get; private set; }
 
-        public SaveSettingsAction(string city, int distance, MapType mapType)
+        public SaveSettingsAction(string city, int distance, MapType mapType, bool firstUse)
         {
             MainCity = city;
             MainDistance = distance;
             MapType = mapType;
+            FirstUse = firstUse;
         }
 
         public SaveSettingsAction(Settings settings)

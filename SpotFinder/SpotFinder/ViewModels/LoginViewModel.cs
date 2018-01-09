@@ -2,6 +2,7 @@
 using SpotFinder.Redux;
 using SpotFinder.Views.Root;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -47,14 +48,31 @@ namespace SpotFinder.ViewModels
             }
         }
 
+        private bool isWebViewVisible;
+        public bool IsWebViewVisible
+        {
+            get => isWebViewVisible;
+            set
+            {
+                isWebViewVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand LoginCommand => new Command(Login);
+        public ICommand LoginWithFacebookCommand => new Command(LoginWithFacebook);
         public ICommand SkipLoginCommand => new Command(SkipLogin);
         public ICommand RegisterCommand => new Command(Register);
 
         private async void Login()
         {
             if (username.Equals("admin") && username.Equals("admin"))
+            {
+                IsBusy = true;
+                await Task.Delay(5000);
+                IsBusy = false;
                 await App.Current.MainPage.Navigation.PopModalAsync();
+            }
             else
                 IsVisibleWrongCredentialLabel = true;
         }
@@ -67,6 +85,13 @@ namespace SpotFinder.ViewModels
         private async void Register()
         {
             //await App.Current.MainPage.Navigation.PushModalAsync(new RegisterUserPage());
+        }
+
+        private async void LoginWithFacebook()
+        {
+            IsWebViewVisible = true;
+            await Task.Delay(3000);
+            IsWebViewVisible = false;
         }
     }
 }

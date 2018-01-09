@@ -16,6 +16,7 @@ namespace SpotFinder.Redux
         private IReducer<PlacesData> PlaceDataReducer { get; }
         private IReducer<DeviceData> DeviceDataReducer { get; }
         private IReducer<ErrorState> ErrorReducer { get; }
+        private IReducer<UserState> UserStateReducer { get; }
 
         public ApplicationReducer(
             IReducer<IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>> permissionsReducer,
@@ -23,7 +24,8 @@ namespace SpotFinder.Redux
             IReducer<Settings> settingsReducer,
             IReducer<PlacesData>placeDataReducer, 
             IReducer<DeviceData> deviceDataReducer,
-            IReducer<ErrorState> errorReducer
+            IReducer<ErrorState> errorReducer,
+            IReducer<UserState> userStateReducer
         )
         {
             PermissionsReducer = permissionsReducer ?? throw new ArgumentNullException(nameof(PermissionsReducer));
@@ -32,6 +34,7 @@ namespace SpotFinder.Redux
             PlaceDataReducer = placeDataReducer ?? throw new ArgumentNullException("PlaceDataReducer is null in ApplicationReducer");
             DeviceDataReducer = deviceDataReducer ?? throw new ArgumentNullException("DeviceDataReducer is null in ApplicationReducer");
             ErrorReducer = errorReducer ?? throw new ArgumentNullException(nameof(errorReducer));
+            UserStateReducer = userStateReducer ?? throw new ArgumentNullException(nameof(userStateReducer));
         }
 
         public ApplicationState Reduce(ApplicationState applicationState, IAction action)
@@ -42,7 +45,8 @@ namespace SpotFinder.Redux
                 SettingsReducer.Reduce(applicationState.Settings, action),
                 PlaceDataReducer.Reduce(applicationState.PlacesData, action),
                 DeviceDataReducer.Reduce(applicationState.DeviceData, action),
-                ErrorReducer.Reduce(applicationState.Error, action)
+                ErrorReducer.Reduce(applicationState.Error, action),
+                UserStateReducer.Reduce(applicationState.UserState, action)
             );
         }
     }

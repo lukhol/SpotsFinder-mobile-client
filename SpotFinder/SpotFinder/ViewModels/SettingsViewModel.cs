@@ -105,7 +105,8 @@ namespace SpotFinder.ViewModels
                     break;
             }
 
-            appStore.Dispatch(new SaveSettingsAction(city, (int)distance, mapType));
+            var settings = appStore.GetState().Settings;
+            appStore.Dispatch(new SaveSettingsAction(city, (int)distance, mapType, settings.FirstUse));
             App.Current.MainPage.Navigation.PopAsync();
         });
     }

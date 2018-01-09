@@ -53,6 +53,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<PlacesData>, PlaceDataReducer>();
             simpleInjector.Register<IReducer<DeviceData>, DeviceDataReducer>();
             simpleInjector.Register<IReducer<ErrorState>, ErrorReducer>();
+            simpleInjector.Register<IReducer<UserState>, UserStateReducer>();
 
             simpleInjector.Register<IReducer<AsyncOperationState<Place, int>>, CurrentPlaceReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<IList<Place>, Criteria>>, PlacesListReducer>();
@@ -182,7 +183,8 @@ namespace SpotFinder.Config
                 settingsHelper.ReadSettings(), 
                 placesData, 
                 deviceData,
-                null
+                null,
+                null //TODO: NOT COMPLETED
             );
         }
 

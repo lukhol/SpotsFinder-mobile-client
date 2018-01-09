@@ -15,6 +15,7 @@ namespace SpotFinder.Redux
         public PlacesData PlacesData { get; private set; }
         public DeviceData DeviceData { get; private set; }
         public ErrorState Error { get; private set; }
+        public UserState UserState { get; private set; }
 
         [Obsolete]
         public ApplicationState() { }
@@ -25,7 +26,8 @@ namespace SpotFinder.Redux
             Settings settings, 
             PlacesData placesData, 
             DeviceData deviceData,
-            ErrorState error
+            ErrorState error,
+            UserState userState
         )
         {
             PermissionsDictionary = permissionsDictionary;
@@ -34,6 +36,7 @@ namespace SpotFinder.Redux
             PlacesData = placesData;
             DeviceData = deviceData;
             Error = error;
+            UserState = userState;
         }
     }
 }

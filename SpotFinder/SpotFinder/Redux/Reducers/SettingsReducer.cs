@@ -24,7 +24,8 @@ namespace SpotFinder.Redux.Reducers
                 return new Settings(
                     saveSettingsAction.MainCity,
                     saveSettingsAction.MainDistance,
-                    saveSettingsAction.MapType
+                    saveSettingsAction.MapType,
+                    saveSettingsAction.FirstUse
                 );
             }
 
@@ -35,7 +36,8 @@ namespace SpotFinder.Redux.Reducers
                 return new Settings(
                     readSettingsAction.MainCity,
                     readSettingsAction.MainDistance,
-                    readSettingsAction.MapType
+                    readSettingsAction.MapType,
+                    readSettingsAction.FirstUse
                 );
             }
 
