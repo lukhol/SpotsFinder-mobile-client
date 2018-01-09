@@ -72,8 +72,7 @@
             <StackLayout IsVisible="{Binding IsWebViewVisible}">
                 <WebView x:Name="WebViewXaml"
                          VerticalOptions="FillAndExpand"
-                         HorizontalOptions="FillAndExpand"
-                         Source="http://google.pl"/>
+                         HorizontalOptions="FillAndExpand"/>
             </StackLayout>
             
             <StackLayout IsVisible="{Binding IsBusy}"
