@@ -52,6 +52,7 @@ namespace SpotFinder.Config
         public void OnStart()
         {
             CheckPermission();
+            Task.Run(() => { UserSettingsSubstription(); });
             Task.Run(() => { DeviceLocationSubscription(); });
             Task.Run(() => { DownloadInitialSpotsList(); });
             Task.Run(() => { SettingsSubscription(); });
@@ -134,6 +135,13 @@ namespace SpotFinder.Config
             appStore
                 .DistinctUntilChanged(state => new { state.Settings })
                 .Subscribe(state => settingsHelper.SaveSettings(state.Settings));
+        }
+
+        private void UserSettingsSubstription()
+        {
+            appStore
+                .DistinctUntilChanged(state => new { state.UserState.User })
+                .Subscribe(state => settingsHelper.SaveUser(state.UserState.User));
         }
 
         private void ErrorSubscription()

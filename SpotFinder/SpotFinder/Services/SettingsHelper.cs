@@ -3,6 +3,7 @@ using SpotFinder.Redux.StateModels;
 using SpotFinder.Core.Enums;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
+using Newtonsoft.Json;
 
 namespace SpotFinder.Helpers
 {
@@ -31,6 +32,26 @@ namespace SpotFinder.Helpers
             currentSettings.AddOrUpdateValue("MainDistance", settings.MainDistance);
             currentSettings.AddOrUpdateValue("MapType", settings.MapType.ToString());
             currentSettings.AddOrUpdateValue("FirstUse", settings.FirstUse);
+        }
+
+        public User ReadUser()
+        {
+            var jsonUser = currentSettings.GetValueOrDefault("User", string.Empty);
+
+            if (string.IsNullOrEmpty(jsonUser))
+                return null;
+
+            var user = JsonConvert.DeserializeObject<User>(jsonUser);
+            return user;
+        }
+
+        public void SaveUser(User user)
+        {
+            if (user == null)
+                currentSettings.AddOrUpdateValue("User", string.Empty);
+
+            var userJson = JsonConvert.SerializeObject(user);
+            currentSettings.AddOrUpdateValue("User", userJson);
         }
     }
 }

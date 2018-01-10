@@ -6,5 +6,7 @@ namespace SpotFinder.Helpers
     {
         void SaveSettings(Settings settings);
         Settings ReadSettings();
+        void SaveUser(User user);
+        User ReadUser();
     }
 }

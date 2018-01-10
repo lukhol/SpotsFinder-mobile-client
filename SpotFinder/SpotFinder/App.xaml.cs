@@ -1,4 +1,6 @@
-﻿using SpotFinder.Config;
+﻿using Redux;
+using SpotFinder.Config;
+using SpotFinder.Redux;
 using SpotFinder.Views;
 using SpotFinder.Views.Root;
 using Xamarin.Forms;
@@ -8,18 +10,23 @@ namespace SpotFinder
     public partial class App : Application
     {
         private IBootstrapper bootstrapper;
+        private IStore<ApplicationState> appStore;
 
         public App()
         {
             bootstrapper = DIContainer.Instance.Resolve<IBootstrapper>();
+            appStore = DIContainer.Instance.Resolve<IStore<ApplicationState>>();
+
             InitializeComponent();
+
             MainPage = new CustomNavigationPage(new RootMasterDetailPage());
-            App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
         }
 
         protected override void OnStart()
         {
             bootstrapper.OnStart();
+            if(appStore.GetState().UserState.User == null)
+                App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
         }
 
         protected override void OnSleep()

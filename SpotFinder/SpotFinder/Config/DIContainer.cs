@@ -211,7 +211,8 @@ namespace SpotFinder.Config
 
             var registration = new AsyncOperationState<User, AccessProvider>(Status.Empty, null, null, AccessProvider.Unknown);
             var login = new AsyncOperationState<User, Unit>(Status.Empty, null, null, Unit.Default);
-            var userState = new UserState(registration, login, null);
+            var user = settingsHelper.ReadUser();
+            var userState = new UserState(registration, login, user);
 
             return new ApplicationState(
                 permissionsDictionary, 
