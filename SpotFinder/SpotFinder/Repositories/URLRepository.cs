@@ -23,6 +23,11 @@ namespace SpotFinder.Repositories
             return string.Format("{0}/{1}?email={2}&password={3}", BASE_URL,"user/login", email, password);
         }
 
+        public string TokensUri()
+        {
+            return string.Format("{0}/{1}", BASE_URL, "oauth/token");
+        }
+
         public string PostWrongPlaceReportUri => string.Format("{0}/{1}", BASE_URL, "places/report");
     }
 }

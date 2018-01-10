@@ -1,13 +1,23 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace SpotFinder.Redux.StateModels
 {
     public class User
     {
+        [JsonProperty("id")]
         public long Id { get; private set; }
+
+        [JsonProperty("firstname")]
         public string Firstname { get; private set; }
+
+        [JsonProperty("lastname")]
         public string Lastname { get; private set; }
+
+        [JsonProperty("email")]
         public string Email { get; private set; }
+
+        [JsonProperty("facebookId")]
         public string FacebookId { get; private set; }
 
         public string AccessToken { get; private set; }

@@ -1,5 +1,4 @@
-﻿using BuilderImmutableObject;
-using Redux;
+﻿using Redux;
 using SpotFinder.Redux.Actions.Users;
 using SpotFinder.Redux.StateModels;
 

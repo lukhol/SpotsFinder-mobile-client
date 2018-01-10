@@ -25,6 +25,7 @@ namespace SpotFinder
         protected override void OnStart()
         {
             bootstrapper.OnStart();
+
             if(appStore.GetState().UserState.User == null)
                 App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
         }
