@@ -6,7 +6,7 @@ namespace SpotFinder.DataServices
 {
     public interface IUserService
     {
-        Task<User> RegisterUsingFacebookAsyc(User userToRegister, string accessToken);
+        Task<User> LoginFacebookAsync(User userToRegister, string accessToken);
         Task<User> RegisterAsync(User userToRegister);
         Task<User> LoginAsync(string email, string password);
         Task<Tuple<string, string>> GetTokensAsync(string username, string password);

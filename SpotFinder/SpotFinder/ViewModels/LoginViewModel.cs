@@ -13,14 +13,23 @@ namespace SpotFinder.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        private readonly string FacebookLoginUrl;
         private readonly string FacebookAppId;
         private readonly ILoginUserActionCreator loginUserActionCreator;
+        private readonly IExternalServiceLoginUserActionCreator facebookLoginUserActionCreator;
 
-        public LoginViewModel(IStore<ApplicationState> appStore, string facebookAppId, 
-            ILoginUserActionCreator loginUserActionCreator) : base(appStore)
+        public LoginViewModel(
+            IStore<ApplicationState> appStore, 
+            string facebookAppId, 
+            string facebookLoginUrl,
+            IExternalServiceLoginUserActionCreator facebookLoginUserActionCreator,
+            ILoginUserActionCreator loginUserActionCreator
+            ) : base(appStore)
         {
             FacebookAppId = facebookAppId;
+            FacebookLoginUrl = facebookLoginUrl;
             this.loginUserActionCreator = loginUserActionCreator ?? throw new ArgumentNullException(nameof(loginUserActionCreator));
+            this.facebookLoginUserActionCreator = facebookLoginUserActionCreator ?? throw new ArgumentNullException(nameof(facebookLoginUserActionCreator));
 
             var loginSubscription = appStore
                 .DistinctUntilChanged(state => state.UserState.Login.Status)
@@ -119,7 +128,7 @@ namespace SpotFinder.ViewModels
             if(WebView != null)
             {
                 IsWebViewVisible = true;
-                WebView.Source = "https://www.facebook.com/dialog/oauth?client_id=204040756811030&response_type=token&redirect_uri=https://www.facebook.com/connect/login_success.html";
+                WebView.Source = FacebookLoginUrl;
                 WebView.Navigated += WebView_Navigated;
             }
         }
@@ -131,8 +140,8 @@ namespace SpotFinder.ViewModels
                 return;
 
             IsWebViewVisible = false;
-
-            IsBusy = true;
+            IsBusy = false;
+            appStore.DispatchAsync(facebookLoginUserActionCreator.Login(url));
         }
     }
 }

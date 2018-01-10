@@ -18,7 +18,6 @@ namespace SpotFinder.Redux.Actions.Users
         {
             return async (dispatch, getState) =>
             {
-                ///Ustaw na stanie Usera, którym chcemy się zalogować:
                 dispatch(new SetLoginStartAction(email, password));
 
                 User loggedInUser;
@@ -40,7 +39,6 @@ namespace SpotFinder.Redux.Actions.Users
                 {
                     dispatch(new SetLoginCompleteAction(e));
                 }
-
             };
         }
     }

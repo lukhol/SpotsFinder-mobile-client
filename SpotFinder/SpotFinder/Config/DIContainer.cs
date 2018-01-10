@@ -36,6 +36,7 @@ namespace SpotFinder.Config
 {
     public class DIContainer
     {
+        private const string FacebookLoginUrl = "https://www.facebook.com/dialog/oauth?client_id=204040756811030&response_type=token&redirect_uri=https://www.facebook.com/connect/login_success.html";
         private const string FacebookAppId = "204040756811030";
         private readonly Container simpleInjector = new Container();
 
@@ -95,6 +96,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IErrorService, ErrorService>();
             simpleInjector.Register<IWrongPlaceReportService, WrongPlaceReportService>();
             simpleInjector.Register<IUserService, UserService>();
+            simpleInjector.Register<IFacebookService, FacebookService>();
 
             //Repositories:
             simpleInjector.Register<IPlaceRepository, PlaceRepository>();
@@ -108,6 +110,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IGetPlaceByIdActionCreator, GetPlaceByIdActionCreator>();
             simpleInjector.Register<ISetWrongPlaceReportActionCreator, SetWrongPlaceReportActionCreator>();
             simpleInjector.Register<ILoginUserActionCreator, LoginUserActionCreator>();
+            simpleInjector.Register<IExternalServiceLoginUserActionCreator, FacebookLoginUserActionCreator>();
             
             //Providers:
             simpleInjector.Register<IPhotoProvider, PhotoProvider>();
@@ -149,6 +152,8 @@ namespace SpotFinder.Config
                 return new LoginViewModel(
                     Resolve<IStore<ApplicationState>>(),
                     FacebookAppId,
+                    FacebookLoginUrl,
+                    Resolve<IExternalServiceLoginUserActionCreator>(),
                     Resolve<ILoginUserActionCreator>()
                 );
             });

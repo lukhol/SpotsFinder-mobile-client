@@ -28,6 +28,16 @@ namespace SpotFinder.Repositories
             return string.Format("{0}/{1}", BASE_URL, "oauth/token");
         }
 
+        public string GetFacebookInfoUri(string accessToken)
+        {
+            return string.Format("https://graph.facebook.com/v2.7/me/?fields=id,email,first_name,last_name&access_token={0}", accessToken);
+        }
+
+        public string PostFacebookUserUri(string accessToken)
+        {
+            return string.Format("{0}/{1}?facebookAccessToken={2}", BASE_URL, "user/login/facebook", accessToken);
+        }
+
         public string PostWrongPlaceReportUri => string.Format("{0}/{1}", BASE_URL, "places/report");
     }
 }

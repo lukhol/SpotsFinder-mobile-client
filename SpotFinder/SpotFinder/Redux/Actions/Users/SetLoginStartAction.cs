@@ -12,11 +12,22 @@ namespace SpotFinder.Redux.Actions.Users
         public Status Status { get; private set; }
         public Exception Error { get; private set; }
         public User User { get; private set; }
+        public string AccessToken { get; private set; }
 
         public SetLoginStartAction(string email, string password)
         {
             Email = email;
             Password = password;
+            Status = Status.Setting;
+            User = null;
+            Error = null;
+        }
+
+        public SetLoginStartAction(string accessToken)
+        {
+            AccessToken = accessToken;
+            Password = null;
+            Email = null;
             Status = Status.Setting;
             User = null;
             Error = null;

@@ -6,6 +6,7 @@ using SpotFinder.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SpotFinder.DataServices
@@ -45,9 +46,10 @@ namespace SpotFinder.DataServices
                     throw new Exception("Not authorized.");
                 }
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-                throw e;
+                //TO DO: log...
+                throw exception;
             }
         }
 
@@ -76,10 +78,10 @@ namespace SpotFinder.DataServices
 
                 return new Tuple<string, string>(accessToken, refresToken);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
-
-                throw e;
+                //TO DO: log...
+                throw exception;
             }
         }
 
@@ -88,9 +90,30 @@ namespace SpotFinder.DataServices
             throw new NotImplementedException();
         }
 
-        public async Task<User> RegisterUsingFacebookAsyc(User userToRegister, string accessToken)
+        public async Task<User> LoginFacebookAsync(User userToRegister, string accessToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var uri = new Uri(urlRepository.PostFacebookUserUri(accessToken));
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                var jObject = JObject.FromObject(userToRegister, camelCaseJsonSerializer);
+                var stringContent = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+                var response = await httpClient.PostAsync(uri, stringContent);
+
+                response.EnsureSuccessStatusCode();
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var jsonSerializerSettings = new JsonSerializerSettings();
+                jsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                var user = JsonConvert.DeserializeObject<User>(responseContent, jsonSerializerSettings);
+
+                return user;
+            }
+            catch (Exception exception)
+            {
+                //TODO: Log...
+                throw exception;
+            }
         }
     }
 }
