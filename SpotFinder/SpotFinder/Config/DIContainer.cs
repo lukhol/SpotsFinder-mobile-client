@@ -12,12 +12,15 @@ using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Redux.Actions.Locations;
 using SpotFinder.Redux.Actions.Permissions;
 using SpotFinder.Redux.Actions.PlacesList;
+using SpotFinder.Redux.Actions.Users;
 using SpotFinder.Redux.Actions.WrongPlaceReports;
 using SpotFinder.Redux.Reducers;
+using SpotFinder.Redux.Reducers.Users;
 using SpotFinder.Redux.StateModels;
 using SpotFinder.Repositories;
 using SpotFinder.Services;
 using SpotFinder.SQLite;
+using SpotFinder.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -33,6 +36,7 @@ namespace SpotFinder.Config
 {
     public class DIContainer
     {
+        private const string FacebookAppId = "204040756811030";
         private readonly Container simpleInjector = new Container();
 
         private static readonly DIContainer instance = new DIContainer();
@@ -47,17 +51,26 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<ApplicationState>, ApplicationReducer>();
 
             simpleInjector.Register<IReducer<IImmutableDictionary<PermissionName, AsyncOperationState<PermissionStatus, Unit>>>, PermissionsReducer>();
-            simpleInjector.Register<IReducer<AsyncOperationState<WrongPlaceReport, Unit>>, WrongPlaceReportReducer>();
-            simpleInjector.Register<IReducer<Settings>, SettingsReducer>();
             simpleInjector.Register<IReducer<Stack<PageName>>, NavigationReducer>();
-            simpleInjector.Register<IReducer<PlacesData>, PlaceDataReducer>();
-            simpleInjector.Register<IReducer<DeviceData>, DeviceDataReducer>();
-            simpleInjector.Register<IReducer<ErrorState>, ErrorReducer>();
-            simpleInjector.Register<IReducer<UserState>, UserStateReducer>();
 
+            //Place data - reporting places, displaying single place, displaying list of places:
+            simpleInjector.Register<IReducer<PlacesData>, PlaceDataReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<WrongPlaceReport, Unit>>, WrongPlaceReportReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<Place, int>>, CurrentPlaceReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<IList<Place>, Criteria>>, PlacesListReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<Report, Unit>>, ReportReducer>();
+
+            //
+            simpleInjector.Register<IReducer<Settings>, SettingsReducer>();
+            simpleInjector.Register<IReducer<DeviceData>, DeviceDataReducer>();
+            simpleInjector.Register<IReducer<ErrorState>, ErrorReducer>();
+
+            //User - register, login, user
+            simpleInjector.Register<IReducer<UserState>, UserStateReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<User, AccessProvider>>, RegisterReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<User, Unit>>, LoginReducer>();
+            simpleInjector.Register<IReducer<User>, UserReducer>();
+
         
             simpleInjector.Register(typeof(IStore<ApplicationState>), () =>
             {
@@ -81,6 +94,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IPlaceService, PlaceService>();
             simpleInjector.Register<IErrorService, ErrorService>();
             simpleInjector.Register<IWrongPlaceReportService, WrongPlaceReportService>();
+            simpleInjector.Register<IUserService, UserService>();
 
             //Repositories:
             simpleInjector.Register<IPlaceRepository, PlaceRepository>();
@@ -93,6 +107,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IGetPlacesListByCriteriaActionCreator, GetPlacesListByCriteriaActionCreator>();
             simpleInjector.Register<IGetPlaceByIdActionCreator, GetPlaceByIdActionCreator>();
             simpleInjector.Register<ISetWrongPlaceReportActionCreator, SetWrongPlaceReportActionCreator>();
+            simpleInjector.Register<ILoginUserActionCreator, LoginUserActionCreator>();
             
             //Providers:
             simpleInjector.Register<IPhotoProvider, PhotoProvider>();
@@ -128,7 +143,24 @@ namespace SpotFinder.Config
             simpleInjector.Register(() => simpleInjector.GetInstance<SettingsHelper>().ReadSettings());
             simpleInjector.Register<IErrorLogger, ErrorLogger>();
 
-            simpleInjector.Verify();
+            //ViewModels
+            simpleInjector.Register<LoginViewModel>(() =>
+            {
+                return new LoginViewModel(
+                    Resolve<IStore<ApplicationState>>(),
+                    FacebookAppId,
+                    Resolve<ILoginUserActionCreator>()
+                );
+            });
+
+            try
+            {
+                simpleInjector.Verify();
+            }
+            catch(Exception e)
+            {
+                var x = 1;
+            }
 
             simpleInjector.GetInstance(typeof(SQLiteConfig));
         }
@@ -177,6 +209,10 @@ namespace SpotFinder.Config
             );
             var permissionsDictionary = permissionDictionary.ToImmutableDictionary();
 
+            var registration = new AsyncOperationState<User, AccessProvider>(Status.Empty, null, null, AccessProvider.Unknown);
+            var login = new AsyncOperationState<User, Unit>(Status.Empty, null, null, Unit.Default);
+            var userState = new UserState(registration, login, null);
+
             return new ApplicationState(
                 permissionsDictionary, 
                 new Stack<PageName>(), 
@@ -184,7 +220,7 @@ namespace SpotFinder.Config
                 placesData, 
                 deviceData,
                 null,
-                null //TODO: NOT COMPLETED
+                userState
             );
         }
 

@@ -1,8 +1,11 @@
 ﻿using Redux;
+using SpotFinder.Core.Enums;
 using SpotFinder.Redux;
-using SpotFinder.Views.Root;
-using System.Linq;
-using System.Threading.Tasks;
+using SpotFinder.Redux.Actions;
+using SpotFinder.Redux.Actions.Users;
+using SpotFinder.Views;
+using System;
+using System.Reactive.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -10,12 +13,39 @@ namespace SpotFinder.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        //TO DO: PUT IT NOT THERE
-        private static string FacebookAppId = "204040756811030";
+        private readonly string FacebookAppId;
+        private readonly ILoginUserActionCreator loginUserActionCreator;
 
-        public LoginViewModel(IStore<ApplicationState> appStore) : base(appStore)
+        public LoginViewModel(IStore<ApplicationState> appStore, string facebookAppId, 
+            ILoginUserActionCreator loginUserActionCreator) : base(appStore)
         {
+            FacebookAppId = facebookAppId;
+            this.loginUserActionCreator = loginUserActionCreator ?? throw new ArgumentNullException(nameof(loginUserActionCreator));
 
+            var loginSubscription = appStore
+                .DistinctUntilChanged(state => state.UserState.Login.Status)
+                .SubscribeWithError(state =>
+                {
+                    var loginStatus = state.UserState.Login.Status;
+
+                    if (loginStatus == Status.Setting)
+                    {
+                        IsBusy = true;
+                        IsVisibleWrongCredentialLabel = false;
+                    }
+                    else if (loginStatus == Status.Error)
+                    {
+                        IsBusy = false;
+                        IsVisibleWrongCredentialLabel = true;
+                    }
+                    else if(loginStatus == Status.Success)
+                    {
+                        IsBusy = false;
+                        App.Current.MainPage.Navigation.PopModalAsync();
+                    }
+
+                }, error => { appStore.Dispatch(new SetErrorAction(error, "LoginViewModel - subscription.")); });
+            subscriptions.Add(loginSubscription);
         }
 
         private string username = string.Empty;
@@ -69,18 +99,9 @@ namespace SpotFinder.ViewModels
         public ICommand SkipLoginCommand => new Command(SkipLogin);
         public ICommand RegisterCommand => new Command(Register);
 
-
-        private async void Login()
+        private void Login()
         {
-            if (username.Equals("admin") && username.Equals("admin"))
-            {
-                IsBusy = true;
-                await Task.Delay(5000);
-                IsBusy = false;
-                await App.Current.MainPage.Navigation.PopModalAsync();
-            }
-            else
-                IsVisibleWrongCredentialLabel = true;
+            appStore.DispatchAsync(loginUserActionCreator.Login(username, password));   
         }
 
         private async void SkipLogin()
@@ -90,7 +111,7 @@ namespace SpotFinder.ViewModels
 
         private async void Register()
         {
-            //await App.Current.MainPage.Navigation.PushModalAsync(new RegisterUserPage());
+            await App.Current.MainPage.Navigation.PushModalAsync(new RegisterUserPage());
         }
 
         private void LoginWithFacebook()
@@ -109,9 +130,9 @@ namespace SpotFinder.ViewModels
             if (url.Contains(FacebookAppId))
                 return;
 
-            //Logic here:
-
             IsWebViewVisible = false;
+
+            IsBusy = true;
         }
     }
 }
