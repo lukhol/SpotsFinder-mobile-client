@@ -1,4 +1,5 @@
 ﻿using SpotFinder.DataServices;
+using SpotFinder.Models.DTO;
 using SpotFinder.Redux.StateModels;
 using System;
 using System.Threading.Tasks;
@@ -7,9 +8,9 @@ namespace SpotFinder.Services
 {
     public class FacebookUserProvider
     {
-        private readonly IFacebookService facebookService;
+        private readonly IExternalUserService<SimpleFacebookUserDTO> facebookService;
 
-        public FacebookUserProvider(IFacebookService facebookService)
+        public FacebookUserProvider(IExternalUserService<SimpleFacebookUserDTO> facebookService)
         {
             this.facebookService = facebookService ?? throw new ArgumentNullException(nameof(facebookService));
         }
@@ -17,7 +18,7 @@ namespace SpotFinder.Services
         public async Task<Tuple<User, string>> GetUserAndAccessToken(string uri)
         {
             var accessToken = ExtractAccessTokenFromUrl(uri);
-            var simpleFacebookDTO = await facebookService.GetSimpleFacebookInfoAsync(accessToken);
+            var simpleFacebookDTO = await facebookService.GetExternalUserInfoAsync(accessToken);
 
             var userWithFacebookInfo = new User(
                 id: 0,
@@ -29,8 +30,8 @@ namespace SpotFinder.Services
                 accessToken: null,
                 refreshToken: null
             );
-            var tupleToReturn = new Tuple<User, string>(userWithFacebookInfo, accessToken);
 
+            var tupleToReturn = new Tuple<User, string>(userWithFacebookInfo, accessToken);
             return tupleToReturn;
         }
 

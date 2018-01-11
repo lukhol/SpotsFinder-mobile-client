@@ -230,6 +230,7 @@
     <Compile Include="Renderers\GenericButtonRenderer.cs" />
     <Compile Include="Renderers\GenericEntryRenderer.cs" />
     <Compile Include="Renderers\GenericPickerRenderer.cs" />
+    <Compile Include="Renderers\MyWebViewRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite\SQLite_Android.cs" />

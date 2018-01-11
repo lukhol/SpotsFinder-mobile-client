@@ -51,9 +51,13 @@
                 <Button Text="Login"
                         Style="{StaticResource EntryPageButtonStyle}"
                         Command="{Binding LoginCommand}"/>
-                <Button Text="Log in using Facebook"
+                <Button Text="Log in with Facebook"
                         Style="{StaticResource EntryPageButtonStyle}"
                         Command="{Binding LoginWithFacebookCommand}"/>
+                <Button Text="Log in with Google"
+                        BackgroundColor="Red"
+                        Style="{StaticResource EntryPageButtonStyle}"
+                        Command="{Binding LoginWithGoogleCommand}"/>
                 <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
                     <Button Text="Register"
                         Style="{StaticResource EntryPageButtonStyle}"

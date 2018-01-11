@@ -7,6 +7,7 @@ using SpotFinder.Core.Enums;
 using SpotFinder.DataServices;
 using SpotFinder.Helpers;
 using SpotFinder.Models.Core;
+using SpotFinder.Models.DTO;
 using SpotFinder.Redux;
 using SpotFinder.Redux.Actions.CurrentPlace;
 using SpotFinder.Redux.Actions.Locations;
@@ -99,7 +100,8 @@ namespace SpotFinder.Config
             simpleInjector.Register<IErrorService, ErrorService>();
             simpleInjector.Register<IWrongPlaceReportService, WrongPlaceReportService>();
             simpleInjector.Register<IUserService, UserService>();
-            simpleInjector.Register<IFacebookService, FacebookService>();
+            simpleInjector.Register<IExternalUserService<SimpleFacebookUserDTO>, FacebookService>();
+            simpleInjector.Register<IExternalUserService<SimpleGoogleUserDTO>, GoogleService>();
 
             //Repositories:
             simpleInjector.Register<IPlaceRepository, PlaceRepository>();

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SpotFinder.Models.DTO;
@@ -9,7 +7,7 @@ using SpotFinder.Repositories;
 
 namespace SpotFinder.DataServices
 {
-    public class FacebookService : IFacebookService
+    public class FacebookService : IExternalUserService<SimpleFacebookUserDTO>
     {
         private readonly IURLRepository urlRepository;
         private readonly JsonSerializer camelCaseJsonSerializer;
@@ -20,11 +18,17 @@ namespace SpotFinder.DataServices
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 
-        public async Task<SimpleFacebookUserDTO> GetSimpleFacebookInfoAsync(string accessToken)
+        [Obsolete("Facebook does not require to get access_token using code value!")]
+        public Task<string> GetAccessTokenAsync(string code)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<SimpleFacebookUserDTO> GetExternalUserInfoAsync(string accessToken)
         {
             try
             {
-                Uri uri = new Uri(urlRepository.GetFacebookInfoUri(accessToken));
+                Uri uri = new Uri(urlRepository.GetGoogleUserInfoUri(accessToken));
 
                 using (var httpClient = new HttpClient())
                 {
@@ -36,7 +40,7 @@ namespace SpotFinder.DataServices
             catch(Exception exception)
             {
                 //TODO: Log...
-                throw exception;
+                throw new Exception("Exception in FacebookService.GetExternalUserInfoAsync(accessToken).", exception);
             }
         }
     }

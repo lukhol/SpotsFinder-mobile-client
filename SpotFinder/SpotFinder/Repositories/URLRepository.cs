@@ -28,7 +28,7 @@ namespace SpotFinder.Repositories
             return string.Format("{0}/{1}", BASE_URL, "oauth/token");
         }
 
-        public string GetFacebookInfoUri(string accessToken)
+        public string GetFacebookUserInfoUri(string accessToken)
         {
             return string.Format("https://graph.facebook.com/v2.7/me/?fields=id,email,first_name,last_name&access_token={0}", accessToken);
         }
@@ -36,6 +36,11 @@ namespace SpotFinder.Repositories
         public string PostExternalUserUri(string accessToken)
         {
             return string.Format("{0}/{1}?externalAccessToken={2}", BASE_URL, "user/login/external", accessToken);
+        }
+
+        public string GetGoogleUserInfoUri(string accessToken)
+        {
+            return string.Format("https://www.googleapis.com/plus/v1/people/me?access_token={0}", accessToken);
         }
 
         public string PostWrongPlaceReportUri => string.Format("{0}/{1}", BASE_URL, "places/report");

@@ -109,6 +109,7 @@ namespace SpotFinder.ViewModels
 
         public ICommand LoginCommand => new Command(Login);
         public ICommand LoginWithFacebookCommand => new Command(LoginWithFacebook);
+        public ICommand LoginWithGoogleCommand => new Command(LoginWithGoogle);
         public ICommand SkipLoginCommand => new Command(SkipLogin);
         public ICommand RegisterCommand => new Command(Register);
 

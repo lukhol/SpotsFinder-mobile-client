@@ -85,6 +85,7 @@ namespace SpotFinder.DataServices
             }
         }
 
+        [Obsolete("Not implemented yet!")]
         public async Task<User> RegisterAsync(User userToRegister)
         {
             throw new NotImplementedException();
