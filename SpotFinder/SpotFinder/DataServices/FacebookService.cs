@@ -20,7 +20,7 @@ namespace SpotFinder.DataServices
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 
-        public async Task<SimpleFacebookDTO> GetSimpleFacebookInfoAsync(string accessToken)
+        public async Task<SimpleFacebookUserDTO> GetSimpleFacebookInfoAsync(string accessToken)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace SpotFinder.DataServices
                 using (var httpClient = new HttpClient())
                 {
                     var userJson = await httpClient.GetStringAsync(uri);
-                    var simpleFacebookDTO = JsonConvert.DeserializeObject<SimpleFacebookDTO>(userJson);
+                    var simpleFacebookDTO = JsonConvert.DeserializeObject<SimpleFacebookUserDTO>(userJson);
                     return simpleFacebookDTO;
                 }
             }

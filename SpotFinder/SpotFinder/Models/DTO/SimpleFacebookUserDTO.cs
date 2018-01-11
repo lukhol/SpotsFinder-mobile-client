@@ -2,7 +2,7 @@
 
 namespace SpotFinder.Models.DTO
 {
-    public class SimpleFacebookDTO
+    public class SimpleFacebookUserDTO
     {
         public string Id { get; set; }
 

@@ -11,7 +11,7 @@
         string LoginUri(string email, string password);
         string TokensUri();
         string GetFacebookInfoUri(string accessToken);
-        string PostFacebookUserUri(string accessToken);
+        string PostExternalUserUri(string accessToken);
 
         string API_KEY { get; }
     }

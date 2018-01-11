@@ -7,27 +7,14 @@ namespace SpotFinder.Redux.Actions.Users
 {
     public class SetLoginStartAction : IAction
     {
-        public string Email { get; private set; }
-        public string Password { get; private set; }
         public Status Status { get; private set; }
         public Exception Error { get; private set; }
         public User User { get; private set; }
-        public string AccessToken { get; private set; }
+        public AccessProvider AccessProvider { get; private set; }
 
-        public SetLoginStartAction(string email, string password)
+        public SetLoginStartAction(AccessProvider accessProvider)
         {
-            Email = email;
-            Password = password;
-            Status = Status.Setting;
-            User = null;
-            Error = null;
-        }
-
-        public SetLoginStartAction(string accessToken)
-        {
-            AccessToken = accessToken;
-            Password = null;
-            Email = null;
+            AccessProvider = accessProvider;
             Status = Status.Setting;
             User = null;
             Error = null;

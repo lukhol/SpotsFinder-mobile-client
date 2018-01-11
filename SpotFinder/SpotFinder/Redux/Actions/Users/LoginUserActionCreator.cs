@@ -2,6 +2,7 @@
 using SpotFinder.Redux.StateModels;
 using System;
 using BuilderImmutableObject;
+using SpotFinder.Core.Enums;
 
 namespace SpotFinder.Redux.Actions.Users
 {
@@ -18,14 +19,14 @@ namespace SpotFinder.Redux.Actions.Users
         {
             return async (dispatch, getState) =>
             {
-                dispatch(new SetLoginStartAction(email, password));
+                dispatch(new SetLoginStartAction(AccessProvider.SpotsFinderService));
 
                 User loggedInUser;
 
                 try
                 {
                     loggedInUser = await userService.LoginAsync(email, password);
-                    var tokens = await userService.GetTokensAsync(email, password);
+                    var tokens = await userService.GetTokensAsync(loggedInUser.Id.ToString(), password);
 
                     var userWithTokens = loggedInUser
                         .Set(v => v.AccessToken, tokens.Item1)

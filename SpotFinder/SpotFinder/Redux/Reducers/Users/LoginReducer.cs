@@ -1,14 +1,15 @@
 ﻿using BuilderImmutableObject;
 using Redux;
+using SpotFinder.Core.Enums;
 using SpotFinder.Redux.Actions.Users;
 using SpotFinder.Redux.StateModels;
 using System.Reactive;
 
 namespace SpotFinder.Redux.Reducers.Users
 {
-    public class LoginReducer : IReducer<AsyncOperationState<User, Unit>>
+    public class LoginReducer : IReducer<AsyncOperationState<User, AccessProvider>>
     {
-        public AsyncOperationState<User, Unit> Reduce(AsyncOperationState<User, Unit> previousState, IAction action)
+        public AsyncOperationState<User, AccessProvider> Reduce(AsyncOperationState<User, AccessProvider> previousState, IAction action)
         {
             if(action is SetLoginStartAction)
             {

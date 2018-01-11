@@ -14,25 +14,29 @@ namespace SpotFinder.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         private readonly string FacebookLoginUrl;
-        private readonly string FacebookAppId;
+        private readonly string GoogleLoginUrl;
+
         private readonly ILoginUserActionCreator loginUserActionCreator;
-        private readonly IExternalServiceLoginUserActionCreator facebookLoginUserActionCreator;
+        private readonly IExternalServiceLoginUserActionCreator externalServiceLoginUserActionCreator;
+
+        private AccessProvider LoginWith;
 
         public LoginViewModel(
             IStore<ApplicationState> appStore, 
-            string facebookAppId, 
+            string googleLoginUrl, 
             string facebookLoginUrl,
             IExternalServiceLoginUserActionCreator facebookLoginUserActionCreator,
             ILoginUserActionCreator loginUserActionCreator
             ) : base(appStore)
         {
-            FacebookAppId = facebookAppId;
+            GoogleLoginUrl = googleLoginUrl;
             FacebookLoginUrl = facebookLoginUrl;
+
             this.loginUserActionCreator = loginUserActionCreator ?? throw new ArgumentNullException(nameof(loginUserActionCreator));
-            this.facebookLoginUserActionCreator = facebookLoginUserActionCreator ?? throw new ArgumentNullException(nameof(facebookLoginUserActionCreator));
+            this.externalServiceLoginUserActionCreator = facebookLoginUserActionCreator ?? throw new ArgumentNullException(nameof(facebookLoginUserActionCreator));
 
             var loginSubscription = appStore
-                .DistinctUntilChanged(state => state.UserState.Login.Status)
+                .DistinctUntilChanged(state => new { state.UserState.Login.Status })
                 .SubscribeWithError(state =>
                 {
                     var loginStatus = state.UserState.Login.Status;
@@ -110,6 +114,7 @@ namespace SpotFinder.ViewModels
 
         private void Login()
         {
+            LoginWith = AccessProvider.SpotsFinderService;
             appStore.DispatchAsync(loginUserActionCreator.Login(username, password));   
         }
 
@@ -127,23 +132,36 @@ namespace SpotFinder.ViewModels
         {
             if(WebView != null)
             {
+                LoginWith = AccessProvider.Facebook;
                 IsWebViewVisible = true;
                 WebView.Source = FacebookLoginUrl;
                 WebView.Navigated += WebView_Navigated;
             }
         }
 
+        private void LoginWithGoogle()
+        {
+            if (WebView != null)
+            {
+                LoginWith = AccessProvider.Google;
+                IsWebViewVisible = true;
+                WebView.Source = GoogleLoginUrl;
+                WebView.Navigated += WebView_Navigated;
+            }
+        }
+
         private void WebView_Navigated(object sender, WebNavigatedEventArgs e)
         {
-            var url = e.Url;
-            if (!url.Contains("access_token="))
+            var redirectUrl = e.Url;
+            if (!redirectUrl.Contains("access_token=") && !redirectUrl.Contains("?code="))
                 return;
 
             WebView.Navigated -= WebView_Navigated;
 
             IsWebViewVisible = false;
             IsBusy = false;
-            appStore.DispatchAsync(facebookLoginUserActionCreator.Login(url));
+
+            appStore.DispatchAsync(externalServiceLoginUserActionCreator.Login(redirectUrl, LoginWith));
         }
     }
 }

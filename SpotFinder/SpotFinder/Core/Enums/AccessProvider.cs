@@ -2,8 +2,9 @@
 {
     public enum AccessProvider
     {
-        Unknown,
+        Unknown = 0,
         Facebook,
+        Google,
         SpotsFinderService
     }
 }

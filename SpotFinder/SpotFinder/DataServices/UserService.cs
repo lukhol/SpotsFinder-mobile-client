@@ -90,11 +90,11 @@ namespace SpotFinder.DataServices
             throw new NotImplementedException();
         }
 
-        public async Task<User> LoginFacebookAsync(User userToRegister, string accessToken)
+        public async Task<User> LoginOrRegisterAndLoginExternalUserAsync(User userToRegister, string accessToken)
         {
             try
             {
-                var uri = new Uri(urlRepository.PostFacebookUserUri(accessToken));
+                var uri = new Uri(urlRepository.PostExternalUserUri(accessToken));
                 httpClient.Timeout = TimeSpan.FromSeconds(10);
                 var jObject = JObject.FromObject(userToRegister, camelCaseJsonSerializer);
                 var stringContent = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
@@ -103,6 +103,7 @@ namespace SpotFinder.DataServices
                 response.EnsureSuccessStatusCode();
 
                 var responseContent = await response.Content.ReadAsStringAsync();
+                //This settings probably can be removed because i have in User class JsonProperty attribute.
                 var jsonSerializerSettings = new JsonSerializerSettings();
                 jsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 var user = JsonConvert.DeserializeObject<User>(responseContent, jsonSerializerSettings);

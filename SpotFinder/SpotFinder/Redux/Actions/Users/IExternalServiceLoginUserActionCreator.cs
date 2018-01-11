@@ -1,7 +1,9 @@
-﻿namespace SpotFinder.Redux.Actions.Users
+﻿using SpotFinder.Core.Enums;
+
+namespace SpotFinder.Redux.Actions.Users
 {
     public interface IExternalServiceLoginUserActionCreator
     {
-        StoreExtensions.AsyncActionCreator<ApplicationState> Login(string uri);
+        StoreExtensions.AsyncActionCreator<ApplicationState> Login(string uri, AccessProvider accessProvider);
     }
 }

@@ -5,6 +5,6 @@ namespace SpotFinder.DataServices
 {
     public interface IFacebookService
     {
-        Task<SimpleFacebookDTO> GetSimpleFacebookInfoAsync(string accessToken);
+        Task<SimpleFacebookUserDTO> GetSimpleFacebookInfoAsync(string accessToken);
     }
 }

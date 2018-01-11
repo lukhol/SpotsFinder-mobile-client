@@ -21,8 +21,6 @@ using SpotFinder.Repositories;
 using SpotFinder.Services;
 using SpotFinder.SQLite;
 using SpotFinder.ViewModels;
-using SpotFinder.ViewModels.Root;
-using SpotFinder.Views.Root;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -40,6 +38,9 @@ namespace SpotFinder.Config
     {
         private const string FacebookLoginUrl = "https://www.facebook.com/dialog/oauth?client_id=204040756811030&response_type=token&redirect_uri=https://www.facebook.com/connect/login_success.html";
         private const string FacebookAppId = "204040756811030";
+        private const string GoogleLoginUrl = "https://accounts.google.com/o/oauth2/v2/auth?response_type=code&scope=openid&redirect_uri=http://www.google.pl&client_id=293230980926-0k7h1g248tto4a5t98p13a5gkbvt3436.apps.googleusercontent.com";
+        private const string GoogleAppId = "293230980926-0k7h1g248tto4a5t98p13a5gkbvt3436.apps.googleusercontent.com";
+
         private readonly Container simpleInjector = new Container();
 
         private static readonly DIContainer instance = new DIContainer();
@@ -70,8 +71,8 @@ namespace SpotFinder.Config
 
             //User - register, login, user
             simpleInjector.Register<IReducer<UserState>, UserStateReducer>();
-            simpleInjector.Register<IReducer<AsyncOperationState<User, AccessProvider>>, RegisterReducer>();
-            simpleInjector.Register<IReducer<AsyncOperationState<User, Unit>>, LoginReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<User, Unit>>, RegisterReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<User, AccessProvider>>, LoginReducer>();
             simpleInjector.Register<IReducer<User>, UserReducer>();
 
         
@@ -112,10 +113,11 @@ namespace SpotFinder.Config
             simpleInjector.Register<IGetPlaceByIdActionCreator, GetPlaceByIdActionCreator>();
             simpleInjector.Register<ISetWrongPlaceReportActionCreator, SetWrongPlaceReportActionCreator>();
             simpleInjector.Register<ILoginUserActionCreator, LoginUserActionCreator>();
-            simpleInjector.Register<IExternalServiceLoginUserActionCreator, FacebookLoginUserActionCreator>();
+            simpleInjector.Register<IExternalServiceLoginUserActionCreator, ExternalServiceLoginUserActionCreator>();
             
             //Providers:
             simpleInjector.Register<IPhotoProvider, PhotoProvider>();
+            simpleInjector.Register<IExternalServiceUserProvider, ExternalServiceUserProvider>();
 
             //Bootstrapper:
             simpleInjector.Register<IBootstrapper, Bootstrapper>();
@@ -153,12 +155,12 @@ namespace SpotFinder.Config
             {
                 return new LoginViewModel(
                     Resolve<IStore<ApplicationState>>(),
-                    FacebookAppId,
+                    GoogleLoginUrl,
                     FacebookLoginUrl,
                     Resolve<IExternalServiceLoginUserActionCreator>(),
                     Resolve<ILoginUserActionCreator>()
                 );
-            });
+            }, Lifestyle.Singleton);
 
             try
             {
@@ -216,8 +218,8 @@ namespace SpotFinder.Config
             );
             var permissionsDictionary = permissionDictionary.ToImmutableDictionary();
 
-            var registration = new AsyncOperationState<User, AccessProvider>(Status.Empty, null, null, AccessProvider.Unknown);
-            var login = new AsyncOperationState<User, Unit>(Status.Empty, null, null, Unit.Default);
+            var registration = new AsyncOperationState<User, Unit>(Status.Empty, null, null, Unit.Default);
+            var login = new AsyncOperationState<User, AccessProvider>(Status.Empty, null, null, AccessProvider.Unknown);
             var user = settingsHelper.ReadUser();
             var userState = new UserState(registration, login, user);
 

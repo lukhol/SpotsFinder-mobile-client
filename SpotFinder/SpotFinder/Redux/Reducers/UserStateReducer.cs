@@ -8,13 +8,13 @@ namespace SpotFinder.Redux.Reducers
 {
     public class UserStateReducer : IReducer<UserState>
     {
-        private readonly IReducer<AsyncOperationState<User, AccessProvider>> RegisterReducer;
-        private readonly IReducer<AsyncOperationState<User, Unit>> LoginReducer;
+        private readonly IReducer<AsyncOperationState<User, Unit>> RegisterReducer;
+        private readonly IReducer<AsyncOperationState<User, AccessProvider>> LoginReducer;
         private readonly IReducer<User> UserReducer;
 
         public UserStateReducer(
-            IReducer<AsyncOperationState<User, AccessProvider>> registerReducer, 
-            IReducer<AsyncOperationState<User, Unit>> loginReducer, 
+            IReducer<AsyncOperationState<User, Unit>> registerReducer, 
+            IReducer<AsyncOperationState<User, AccessProvider>> loginReducer, 
             IReducer<User> userReducer)
         {
             RegisterReducer = registerReducer ?? throw new ArgumentNullException(nameof(RegisterReducer));
