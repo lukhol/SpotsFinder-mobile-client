@@ -21,6 +21,8 @@ using SpotFinder.Repositories;
 using SpotFinder.Services;
 using SpotFinder.SQLite;
 using SpotFinder.ViewModels;
+using SpotFinder.ViewModels.Root;
+using SpotFinder.Views.Root;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;

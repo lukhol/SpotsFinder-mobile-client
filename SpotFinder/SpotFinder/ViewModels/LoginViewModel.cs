@@ -136,8 +136,10 @@ namespace SpotFinder.ViewModels
         private void WebView_Navigated(object sender, WebNavigatedEventArgs e)
         {
             var url = e.Url;
-            if (url.Contains(FacebookAppId))
+            if (url.Contains(FacebookAppId) || string.IsNullOrEmpty(url) || url.Contains("about:blank"))
                 return;
+
+            WebView.Navigated -= WebView_Navigated;
 
             IsWebViewVisible = false;
             IsBusy = false;

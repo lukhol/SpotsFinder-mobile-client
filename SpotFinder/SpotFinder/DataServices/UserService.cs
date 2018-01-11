@@ -81,7 +81,7 @@ namespace SpotFinder.DataServices
             catch (Exception exception)
             {
                 //TO DO: log...
-                throw exception;
+                throw new Exception("Exception in UserService.GetTokensAsync(...)", exception);
             }
         }
 

@@ -59,7 +59,7 @@ namespace SpotFinder.Redux.Actions.Users
         {
             if (url.Contains("access_token") && url.Contains("&expires_in="))
             {
-                var at = url.Replace("https://web.facebook.com/connect/login_success.html?_rdc=1&_rdr#access_token=", "");
+                var at = url.Remove(0, url.IndexOf("access_token=") + "access_token=".Length);
                 var accessToken = at.Remove(at.IndexOf("&expires_in="));
                 return accessToken;
             }
