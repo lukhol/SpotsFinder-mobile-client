@@ -1,14 +1,22 @@
-﻿using SpotFinder.Resx;
+﻿using Redux;
+using SpotFinder.Redux;
+using SpotFinder.Redux.Actions.Users;
+using SpotFinder.Resx;
 using SpotFinder.Views;
 using SpotFinder.Views.Root;
-using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace SpotFinder.ViewModels.Root
 {
     public class MenuMasterDetailPageViewModel : BaseViewModel
     {
+        public ICommand LogoutCommand => new Command(() =>
+        {
+            appStore.Dispatch(new SetLoggedInUserAction(null));
+        });
+
         private List<MasterPageItem> masterPageItems;
 
         public List<MasterPageItem> MasterPageItems
@@ -21,7 +29,7 @@ namespace SpotFinder.ViewModels.Root
             }
         }
 
-        public MenuMasterDetailPageViewModel()
+        public MenuMasterDetailPageViewModel(IStore<ApplicationState> appStore) : base(appStore)
         {
             masterPageItems = new List<MasterPageItem>
             {

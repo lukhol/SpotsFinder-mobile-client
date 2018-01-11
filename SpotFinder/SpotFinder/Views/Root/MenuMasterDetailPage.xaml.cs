@@ -1,4 +1,5 @@
-﻿using SpotFinder.ViewModels.Root;
+﻿using SpotFinder.Config;
+using SpotFinder.ViewModels.Root;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,7 +13,7 @@ namespace SpotFinder.Views.Root
         public MenuMasterDetailPage()
         {
             InitializeComponent();
-            BindingContext = new MenuMasterDetailPageViewModel();
+            BindingContext = DIContainer.Instance.Resolve<MenuMasterDetailPageViewModel>();
             ListView = ListViewXaml;
         }
     }
