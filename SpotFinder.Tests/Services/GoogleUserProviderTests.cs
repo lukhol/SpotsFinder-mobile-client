@@ -21,7 +21,7 @@ namespace SpotFinder.Tests.Services
         [SetUp]
         public void SetUp()
         {
-            googleUserProvider = new GoogleUserProvider();
+            //googleUserProvider = new GoogleUserProvider();
         }
 
         [Test]

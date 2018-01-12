@@ -22,12 +22,12 @@ namespace SpotFinder
             MainPage = new CustomNavigationPage(new RootMasterDetailPage());
         }
 
-        protected async override void OnStart()
+        protected override void OnStart()
         {
             bootstrapper.OnStart();
 
             if(appStore.GetState().UserState.User == null)
-                await App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
+                App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
         }
 
         protected override void OnSleep()
