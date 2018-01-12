@@ -2,11 +2,69 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SpotFinder.Views.RegisterUserPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="RegisterEntryStyle"
+                   TargetType="Entry">
+                <Setter Property="Margin" Value="25, 0, 25, 0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+            <Style x:Key="EntryPageButtonStyle"
+                   TargetType="Button">
+                <Setter Property="Margin" Value="25, 0, 25, 0" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="BorderRadius" Value="1" />
+                <Setter Property="BorderWidth" Value="0" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColor}" />
+                <Setter Property="TextColor" Value="{StaticResource MainAccentColor}" />
+                <Setter Property="BorderColor" Value="{StaticResource MainAccentColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackLayout VerticalOptions="CenterAndExpand"
+                         HorizontalOptions="FillAndExpand"
+                         Grid.Row="0"
+                         Grid.Column="0">
+                <Entry Style="{StaticResource RegisterEntryStyle}"
+                       Text="{Binding Email}"
+                       Placeholder="email"/>
+                <Entry Style="{StaticResource RegisterEntryStyle}"
+                       Text="{Binding Password}"
+                       Placeholder="password"
+                       IsPassword="True"/>
+                <Entry Style="{StaticResource RegisterEntryStyle}"
+                       Text="{Binding Firstname}"
+                       Placeholder="firstname"/>
+                <Entry Style="{StaticResource RegisterEntryStyle}"
+                       Text="{Binding Lastname}"
+                       Placeholder="lastname"/>
+                <Button Text="Register"
+                        Style="{StaticResource EntryPageButtonStyle}"
+                        Command="{Binding LoginWithGoogleCommand}"/>
+            </StackLayout>
+
+            <!-- Loader: -->
+            <StackLayout IsVisible="{Binding IsBusy}"
+                         BackgroundColor="#DD111111">
+                <Label Text="Loggin in..."
+                       TextColor="{StaticResource MainAccentColor}"
+                       VerticalOptions="EndAndExpand"
+                       HorizontalOptions="Center"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   VerticalOptions="StartAndExpand"
+                                   HorizontalOptions="Center"
+                                   Color="{StaticResource MainAccentColor}"/>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

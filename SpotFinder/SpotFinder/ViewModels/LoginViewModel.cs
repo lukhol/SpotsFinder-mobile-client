@@ -61,13 +61,13 @@ namespace SpotFinder.ViewModels
             subscriptions.Add(loginSubscription);
         }
 
-        private string username = string.Empty;
-        public string Username
+        private string email = string.Empty;
+        public string Email
         {
-            get => username;
+            get => email;
             set
             {
-                username = value;
+                email = value;
                 OnPropertyChanged();
             }
         }
@@ -116,7 +116,7 @@ namespace SpotFinder.ViewModels
         private void Login()
         {
             LoginWith = AccessProvider.SpotsFinderService;
-            appStore.DispatchAsync(loginUserActionCreator.Login(username, password));   
+            appStore.DispatchAsync(loginUserActionCreator.Login(email, password));   
         }
 
         private async void SkipLogin()

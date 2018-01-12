@@ -35,7 +35,7 @@
                          Grid.Column="0">
                 <Entry HorizontalOptions="FillAndExpand"
                        Margin="25,0,25,0"
-                       Text="{Binding Username}"
+                       Text="{Binding Email}"
                        Placeholder="email"/>
                 <Entry HorizontalOptions="FillAndExpand"
                        Margin="25,0,25,0"
