@@ -36,7 +36,7 @@
                 <Entry HorizontalOptions="FillAndExpand"
                        Margin="25,0,25,0"
                        Text="{Binding Username}"
-                       Placeholder="username"/>
+                       Placeholder="email"/>
                 <Entry HorizontalOptions="FillAndExpand"
                        Margin="25,0,25,0"
                        IsPassword="True"
@@ -52,10 +52,13 @@
                         Style="{StaticResource EntryPageButtonStyle}"
                         Command="{Binding LoginCommand}"/>
                 <Button Text="Log in with Facebook"
+                        ContentLayout="Left, 25"
+                        Image="icon_facebook"
                         Style="{StaticResource EntryPageButtonStyle}"
                         Command="{Binding LoginWithFacebookCommand}"/>
                 <Button Text="Log in with Google"
                         BackgroundColor="Red"
+                        Image="icon_google"
                         Style="{StaticResource EntryPageButtonStyle}"
                         Command="{Binding LoginWithGoogleCommand}"/>
                 <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
@@ -73,12 +76,14 @@
                        Margin="35, 3, 0, 3"/>
             </StackLayout>
 
+            <!-- WebView -->
             <StackLayout IsVisible="{Binding IsWebViewVisible}">
                 <WebView x:Name="WebViewXaml"
                          VerticalOptions="FillAndExpand"
                          HorizontalOptions="FillAndExpand"/>
             </StackLayout>
             
+            <!-- Loader: -->
             <StackLayout IsVisible="{Binding IsBusy}"
                          BackgroundColor="#DD111111">
                 <Label Text="Loggin in..."
