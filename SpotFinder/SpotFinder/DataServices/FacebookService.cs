@@ -28,7 +28,7 @@ namespace SpotFinder.DataServices
         {
             try
             {
-                Uri uri = new Uri(urlRepository.GetGoogleUserInfoUri(accessToken));
+                Uri uri = new Uri(urlRepository.GetFacebookUserInfoUri(accessToken));
 
                 using (var httpClient = new HttpClient())
                 {
