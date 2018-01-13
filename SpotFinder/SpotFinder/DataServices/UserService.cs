@@ -90,17 +90,21 @@ namespace SpotFinder.DataServices
         }
 
         [Obsolete("Not implemented yet!")]
-        public async Task<User> RegisterAsync(User userToRegister)
+        public async Task<User> RegisterAsync(User userToRegister, string password)
         {
             try
             {
-                var uri = new Uri(urlRepository.RegisterUserUri());
+                var uri = new Uri(urlRepository.RegisterUserUri(password));
                 httpClient.Timeout = TimeSpan.FromSeconds(10);
                 var response = await httpClient.PostAsync(uri, CreateStringContent(userToRegister));
-
-                response.EnsureSuccessStatusCode();
-
                 var responseContent = await response.Content.ReadAsStringAsync();
+
+                if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
+                    ThrowExceptionWithErrorMessage(responseContent);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.BadGateway)
+                    throw new Exception("Server not responding.");
+
                 var user = JsonConvert.DeserializeObject<User>(responseContent, jsonSerializerSettings);
 
                 return user;
@@ -108,7 +112,7 @@ namespace SpotFinder.DataServices
             catch(Exception ex)
             {
                 //TODO: Log...
-                throw new Exception("Could not register user :(", ex);
+                throw ex;
             }
         }
 
@@ -141,6 +145,12 @@ namespace SpotFinder.DataServices
             var jObject = JObject.FromObject(objectValue, camelCaseJsonSerializer);
             var stringContent = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
             return stringContent;
+        }
+
+        private void ThrowExceptionWithErrorMessage(string responseJson)
+        {
+            var message = JObject.Parse(responseJson)["message"].ToString();
+            throw new Exception(message);
         }
     }
 }

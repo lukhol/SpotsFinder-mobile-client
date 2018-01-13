@@ -89,7 +89,7 @@
                     <Button Text="Register"
                             Style="{StaticResource EntryPageButtonStyle}"
                             Command="{Binding RegisterUserCommand}"/>
-                    <Label Text="Something went wrong, try again later."
+                    <Label Text="{Binding ErrorMessage}"
                            TextColor="Red"
                            FontAttributes="Bold"
                            IsVisible="{Binding IsErrorMessageVisible}"

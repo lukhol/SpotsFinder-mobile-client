@@ -16,7 +16,7 @@ namespace SpotFinder.Redux.Actions.Users
             this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
-        public StoreExtensions.AsyncActionCreator<ApplicationState> Register(User user, Stream avatarStream)
+        public StoreExtensions.AsyncActionCreator<ApplicationState> Register(User user, string password, Stream avatarStream)
         {
             return async (dispatch, getState) =>
             {
@@ -32,7 +32,7 @@ namespace SpotFinder.Redux.Actions.Users
 
                 try
                 {
-                    var registeredUser = await userService.RegisterAsync(userToRegister);
+                    var registeredUser = await userService.RegisterAsync(userToRegister, password);
                     dispatch(new SetRegisterUserCompleteAction(registeredUser));
                 }
                 catch (Exception ex)
@@ -44,6 +44,9 @@ namespace SpotFinder.Redux.Actions.Users
 
         public string StreamToBase64Image(Stream stream)
         {
+            if (stream.Position != 0)
+                stream.Position = 0;
+
             byte[] imageAsByteArray = new byte[(int)stream.Length];
             stream.Read(imageAsByteArray, 0, (int)stream.Length);
             var base64Image = Convert.ToBase64String(imageAsByteArray);

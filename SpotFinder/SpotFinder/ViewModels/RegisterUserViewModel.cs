@@ -50,6 +50,7 @@ namespace SpotFinder.ViewModels
                     else if(registrationState.Status == Status.Error)
                     {
                         IsBusy = false;
+                        ErrorMessage = registrationState.Error.Message;
                         IsErrorMessageVisible = true;
                     }
 
@@ -147,6 +148,17 @@ namespace SpotFinder.ViewModels
             }
         }
 
+        private string errorMessage;
+        public string ErrorMessage
+        {
+            get => errorMessage;
+            set
+            {
+                errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
         private bool isErrorMessageVisible = false;
         public bool IsErrorMessageVisible
         {
@@ -199,7 +211,7 @@ namespace SpotFinder.ViewModels
                 refreshToken: null
             );
 
-            appStore.DispatchAsync(registerUserActionCreator.Register(user, avatarStream));
+            appStore.DispatchAsync(registerUserActionCreator.Register(user, password, avatarStream));
         }
     }
 }
