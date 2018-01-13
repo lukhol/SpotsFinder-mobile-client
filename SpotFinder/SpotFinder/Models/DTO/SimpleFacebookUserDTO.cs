@@ -14,5 +14,7 @@ namespace SpotFinder.Models.DTO
 
         [JsonProperty("email")]
         public string Email { get; set; }
+
+        public string AvatarUrl { get; set; }
     }
 }

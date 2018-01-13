@@ -13,6 +13,7 @@
         string GetFacebookUserInfoUri(string accessToken);
         string PostExternalUserUri(string accessToken);
         string GetGoogleUserInfoUri(string accessToken);
+        string RegisterUserUri();
 
         string API_KEY { get; }
     }

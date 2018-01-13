@@ -33,8 +33,16 @@ namespace SpotFinder.DataServices
                 using (var httpClient = new HttpClient())
                 {
                     var userJson = await httpClient.GetStringAsync(uri);
-                    var simpleFacebookDTO = JsonConvert.DeserializeObject<SimpleFacebookUserDTO>(userJson);
-                    return simpleFacebookDTO;
+                    dynamic dynamicFacebookUser = JsonConvert.DeserializeObject(userJson, typeof(object));
+
+                    return new SimpleFacebookUserDTO
+                    {
+                        Id = dynamicFacebookUser.@id,
+                        Email = dynamicFacebookUser.@email,
+                        Firstname = dynamicFacebookUser.@first_name,
+                        Lastname = dynamicFacebookUser.@last_name,
+                        AvatarUrl = dynamicFacebookUser.@picture.@data.@url
+                    };
                 }
             }
             catch(Exception exception)

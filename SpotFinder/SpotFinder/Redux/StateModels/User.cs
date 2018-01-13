@@ -23,6 +23,9 @@ namespace SpotFinder.Redux.StateModels
         [JsonProperty("googleId")]
         public string GoogleId { get; private set; }
 
+        [JsonProperty("avatarUrl")]
+        public string AvatarUrl { get; private set; }
+
         public string AccessToken { get; private set; }
         public string RefreshToken { get; private set; }
 
@@ -36,6 +39,7 @@ namespace SpotFinder.Redux.StateModels
             string email, 
             string facebookId, 
             string googleId,
+            string avatarUrl,
             string accessToken, 
             string refreshToken
             )
@@ -46,6 +50,7 @@ namespace SpotFinder.Redux.StateModels
             Email = email;
             FacebookId = facebookId;
             GoogleId = googleId;
+            AvatarUrl = avatarUrl;
             AccessToken = accessToken;
             RefreshToken = refreshToken;
         }

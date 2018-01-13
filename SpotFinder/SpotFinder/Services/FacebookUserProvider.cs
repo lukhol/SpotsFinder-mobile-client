@@ -28,7 +28,8 @@ namespace SpotFinder.Services
                 facebookId: simpleFacebookDTO.Id,
                 googleId: null,
                 accessToken: null,
-                refreshToken: null
+                refreshToken: null,
+                avatarUrl: simpleFacebookDTO.AvatarUrl
             );
 
             var tupleToReturn = new Tuple<User, string>(userWithFacebookInfo, accessToken);

@@ -74,12 +74,15 @@ namespace SpotFinder.DataServices
                     var userJson = await httpClient.GetStringAsync(uri);
                     dynamic data = JsonConvert.DeserializeObject(userJson, typeof(object));
 
+                    string smallAvatarUrl = data.@image.@url;
+
                     return new SimpleGoogleUserDTO
                     {
                         Id = data.@id,
                         Email = null,
                         Firstname = data.@name.@givenName,
-                        Lastname = data.@name.@familyName
+                        Lastname = data.@name.@familyName,
+                        AvatarUrl = ConvertSmallToLargeAvatarUrl(smallAvatarUrl)
                     };
                 }
             }
@@ -88,6 +91,15 @@ namespace SpotFinder.DataServices
                 //TODO: Log...
                 throw new Exception("Exception in GoogleService.GetExternalUserInfoAsync(accessToken).", exception);
             }
+        }
+
+        private string ConvertSmallToLargeAvatarUrl(string smallAvatarUrl)
+        {
+            if (!smallAvatarUrl.Contains("?sz="))
+                return smallAvatarUrl;
+
+            var largeAvatarUrl = smallAvatarUrl.Replace("?sz=50", "?sz=200");
+            return largeAvatarUrl;
         }
     }
 }

@@ -16,12 +16,16 @@ namespace SpotFinder.DataServices
         private readonly HttpClient httpClient;
         private readonly IURLRepository urlRepository;
         private readonly JsonSerializer camelCaseJsonSerializer;
+        private readonly JsonSerializerSettings jsonSerializerSettings;
 
         public UserService(HttpClient httpClient, IURLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
         {
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
+
+            this.jsonSerializerSettings = new JsonSerializerSettings();
+            jsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
 
         public async Task<User> LoginAsync(string email, string password)
@@ -88,7 +92,24 @@ namespace SpotFinder.DataServices
         [Obsolete("Not implemented yet!")]
         public async Task<User> RegisterAsync(User userToRegister)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var uri = new Uri(urlRepository.RegisterUserUri());
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                var response = await httpClient.PostAsync(uri, CreateStringContent(userToRegister));
+
+                response.EnsureSuccessStatusCode();
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var user = JsonConvert.DeserializeObject<User>(responseContent, jsonSerializerSettings);
+
+                return user;
+            }
+            catch(Exception ex)
+            {
+                //TODO: Log...
+                throw new Exception("Could not register user :(", ex);
+            }
         }
 
         public async Task<User> LoginOrRegisterAndLoginExternalUserAsync(User userToRegister, string accessToken)
@@ -97,16 +118,13 @@ namespace SpotFinder.DataServices
             {
                 var uri = new Uri(urlRepository.PostExternalUserUri(accessToken));
                 httpClient.Timeout = TimeSpan.FromSeconds(10);
-                var jObject = JObject.FromObject(userToRegister, camelCaseJsonSerializer);
-                var stringContent = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+                var jObjectUser = JObject.FromObject(userToRegister, camelCaseJsonSerializer);
+                var stringContent = new StringContent(jObjectUser.ToString(), Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync(uri, stringContent);
 
                 response.EnsureSuccessStatusCode();
 
                 var responseContent = await response.Content.ReadAsStringAsync();
-                //This settings probably can be removed because i have in User class JsonProperty attribute.
-                var jsonSerializerSettings = new JsonSerializerSettings();
-                jsonSerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 var user = JsonConvert.DeserializeObject<User>(responseContent, jsonSerializerSettings);
 
                 return user;
@@ -116,6 +134,13 @@ namespace SpotFinder.DataServices
                 //TODO: Log...
                 throw exception;
             }
+        }
+
+        private StringContent CreateStringContent<T>(T objectValue)
+        {
+            var jObject = JObject.FromObject(objectValue, camelCaseJsonSerializer);
+            var stringContent = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+            return stringContent;
         }
     }
 }

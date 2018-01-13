@@ -8,5 +8,6 @@ namespace SpotFinder.Models.DTO
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string Email { get; set; }
+        public string AvatarUrl { get; set; }
     }
 }

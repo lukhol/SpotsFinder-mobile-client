@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SpotFinder.Views.RegisterUserPage">
+             x:Class="SpotFinder.Views.RegisterUserPage"
+             xmlns:behaviors="clr-namespace:SpotFinder.Xam.Behaviors"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             x:Name="Root">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style x:Key="RegisterEntryStyle"
@@ -23,8 +27,10 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid VerticalOptions="FillAndExpand"
-              HorizontalOptions="FillAndExpand">
+        <ScrollView VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand">
+            <Grid VerticalOptions="FillAndExpand"
+                  HorizontalOptions="FillAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -33,30 +39,68 @@
             </Grid.ColumnDefinitions>
             <StackLayout VerticalOptions="CenterAndExpand"
                          HorizontalOptions="FillAndExpand"
+                         Margin="20"
                          Grid.Row="0"
                          Grid.Column="0">
-                <Entry Style="{StaticResource RegisterEntryStyle}"
-                       Text="{Binding Email}"
-                       Placeholder="email"/>
-                <Entry Style="{StaticResource RegisterEntryStyle}"
-                       Text="{Binding Password}"
-                       Placeholder="password"
-                       IsPassword="True"/>
-                <Entry Style="{StaticResource RegisterEntryStyle}"
-                       Text="{Binding Firstname}"
-                       Placeholder="firstname"/>
-                <Entry Style="{StaticResource RegisterEntryStyle}"
-                       Text="{Binding Lastname}"
-                       Placeholder="lastname"/>
-                <Button Text="Register"
-                        Style="{StaticResource EntryPageButtonStyle}"
-                        Command="{Binding LoginWithGoogleCommand}"/>
-            </StackLayout>
+                <Grid VerticalOptions="Center"
+                      HorizontalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+                    <ff:CachedImage Source="{Binding AvatarSource}"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="CenterAndExpand">
+                        <ff:CachedImage.Transformations>
+                            <ffTransformations:RoundedTransformation Radius="270" />
+                        </ff:CachedImage.Transformations>
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChangeAvatarCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+                    <!-- Image loader: -->
+                    <ActivityIndicator IsRunning="{Binding IsImageBusy}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       Color="Red"/>
+                </Grid>
+                    <Entry Style="{StaticResource RegisterEntryStyle}"
+                           Text="{Binding Email}"
+                           Placeholder="email">
+                        <Entry.Behaviors>
+                            <behaviors:EmailValidatorEntryBehavior BindingContext="{Binding}"
+                                                                   IsValid="{Binding Source={x:Reference Root}, 
+                                                                                     Path=BindingContext.IsEmailValid,
+                                                                                     Mode=OneWayToSource}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Entry Style="{StaticResource RegisterEntryStyle}"
+                           Text="{Binding Password}"
+                           Placeholder="password"
+                           IsPassword="True"/>
+                    <Entry Style="{StaticResource RegisterEntryStyle}"
+                           Text="{Binding Firstname}"
+                           Placeholder="firstname"/>
+                    <Entry Style="{StaticResource RegisterEntryStyle}"
+                           Text="{Binding Lastname}"
+                           Placeholder="lastname"/>
+                    <Button Text="Register"
+                            Style="{StaticResource EntryPageButtonStyle}"
+                            Command="{Binding RegisterUserCommand}"/>
+                    <Label Text="Something went wrong, try again later."
+                           TextColor="Red"
+                           FontAttributes="Bold"
+                           IsVisible="{Binding IsErrorMessageVisible}"
+                           Style="{StaticResource NormalTextLabel}"
+                           Margin="35, 3, 0, 3"/>
+                </StackLayout>
 
             <!-- Loader: -->
             <StackLayout IsVisible="{Binding IsBusy}"
                          BackgroundColor="#DD111111">
-                <Label Text="Loggin in..."
+                <Label Text="Registering..."
                        TextColor="{StaticResource MainAccentColor}"
                        VerticalOptions="EndAndExpand"
                        HorizontalOptions="Center"/>
@@ -66,5 +110,6 @@
                                    Color="{StaticResource MainAccentColor}"/>
             </StackLayout>
         </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

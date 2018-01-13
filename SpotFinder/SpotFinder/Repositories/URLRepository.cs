@@ -30,7 +30,7 @@ namespace SpotFinder.Repositories
 
         public string GetFacebookUserInfoUri(string accessToken)
         {
-            return string.Format("https://graph.facebook.com/v2.7/me/?fields=id,email,first_name,last_name&access_token={0}", accessToken);
+            return string.Format("https://graph.facebook.com/v2.7/me/?fields=id,email,first_name,last_name,picture.type(large)&access_token={0}", accessToken);
         }
 
         public string PostExternalUserUri(string accessToken)
@@ -41,6 +41,11 @@ namespace SpotFinder.Repositories
         public string GetGoogleUserInfoUri(string accessToken)
         {
             return string.Format("https://www.googleapis.com/plus/v1/people/me?access_token={0}", accessToken);
+        }
+
+        public string RegisterUserUri()
+        {
+            return string.Format("{0}/{1}", BASE_URL, "user/register");
         }
 
         public string PostWrongPlaceReportUri => string.Format("{0}/{1}", BASE_URL, "places/report");

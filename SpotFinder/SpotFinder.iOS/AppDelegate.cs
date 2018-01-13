@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FFImageLoading.Forms.Touch;
 using Foundation;
 using Redux;
 using SpotFinder.Redux;
@@ -34,6 +35,7 @@ namespace SpotFinder.iOS
 
             global::Xamarin.Forms.Forms.Init();
             Xamarin.FormsMaps.Init();
+            CachedImageRenderer.Init();
             LoadApplication(new App());
 
             AppDomain.CurrentDomain.UnhandledException += async (sender, e) =>

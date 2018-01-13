@@ -29,7 +29,8 @@ namespace SpotFinder.Services
                 facebookId: null,
                 googleId: googleUser.Id,
                 accessToken: null,
-                refreshToken: null
+                refreshToken: null,
+                avatarUrl: googleUser.AvatarUrl
             );
 
             var userTupleAndAccessCodeTuple = new Tuple<User, string>(userWithGoogleInfo, accessToken);

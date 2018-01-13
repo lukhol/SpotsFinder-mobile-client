@@ -116,6 +116,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<ISetWrongPlaceReportActionCreator, SetWrongPlaceReportActionCreator>();
             simpleInjector.Register<ILoginUserActionCreator, LoginUserActionCreator>();
             simpleInjector.Register<IExternalServiceLoginUserActionCreator, ExternalServiceLoginUserActionCreator>();
+            simpleInjector.Register<IRegisterUserActionCreator, RegisterUserActionCreator>();
             
             //Providers:
             simpleInjector.Register<IPhotoProvider, PhotoProvider>();
@@ -161,6 +162,14 @@ namespace SpotFinder.Config
                     FacebookLoginUrl,
                     Resolve<IExternalServiceLoginUserActionCreator>(),
                     Resolve<ILoginUserActionCreator>()
+                );
+            }, Lifestyle.Singleton);
+            simpleInjector.Register<RegisterUserViewModel>(() =>
+            {
+                return new RegisterUserViewModel(
+                    Resolve<IStore<ApplicationState>>(),
+                    Resolve<IRegisterUserActionCreator>(),
+                    Resolve<IPhotoProvider>()
                 );
             }, Lifestyle.Singleton);
 

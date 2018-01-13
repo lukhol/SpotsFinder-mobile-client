@@ -13,5 +13,14 @@ namespace SpotFinder.Views
             BindingContext = DIContainer.Instance.Resolve<RegisterUserViewModel>();
 			InitializeComponent ();
 		}
-	}
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            var registerUserViewModel = BindingContext as RegisterUserViewModel;
+
+            if (registerUserViewModel != null)
+                registerUserViewModel.OnParentPageAppearing();
+        }
+    }
 }
