@@ -7,7 +7,7 @@
         <ResourceDictionary>
             <Color x:Key="PageBackgroundColor">#282828</Color>
             <Color x:Key="MainAccentColor">#FFFFFF</Color>
-            <Color x:Key="ButtonColor">#0962C1</Color>
+            <Color x:Key="ButtonColor">#049641</Color>
             <Color x:Key="NavigationBarColor">#000000</Color>
             <Color x:Key="ListItemBackgroundColor">#3c3c3c</Color>
 

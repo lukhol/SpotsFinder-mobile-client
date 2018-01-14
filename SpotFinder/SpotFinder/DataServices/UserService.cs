@@ -140,7 +140,7 @@ namespace SpotFinder.DataServices
             }
         }
 
-        public async Task SetAvatarAsync(long userId, Stream avatarStream)
+        public async Task<string> SetAvatarAsync(long userId, Stream avatarStream)
         {
             if (avatarStream.Position != 0)
                 avatarStream.Position = 0;
@@ -153,12 +153,17 @@ namespace SpotFinder.DataServices
                 multipartForm.Add(new StreamContent(avatarStream), "avatar", "avatar");
 
                 var response = await httpClient.PostAsync(uri, multipartForm);
+                
                 response.EnsureSuccessStatusCode();
+
+                var responseJson = await response.Content.ReadAsStringAsync();
+                return responseJson;
             }
             catch(Exception ex)
             {
                 //TODO: Log...
                 //throw ex;
+                return string.Empty;
             }
         }
 

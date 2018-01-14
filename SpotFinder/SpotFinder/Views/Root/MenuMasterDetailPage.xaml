@@ -6,17 +6,6 @@
              Title="Menu">
     <ContentPage.Content>
         <StackLayout Margin="10">
-            <StackLayout VerticalOptions="Fill"
-                         HorizontalOptions="FillAndExpand"
-                         BackgroundColor="#a5a5a5AA">
-                <Label Text="Logout"
-                       TextColor="{StaticResource MainAccentColor}"
-                       FontSize="Medium">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding LogoutCommand}"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </StackLayout>
             <ListView x:Name="ListViewXaml"
                       HasUnevenRows="True"
                       VerticalOptions="FillAndExpand"

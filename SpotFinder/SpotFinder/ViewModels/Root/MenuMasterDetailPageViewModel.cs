@@ -12,11 +12,6 @@ namespace SpotFinder.ViewModels.Root
 {
     public class MenuMasterDetailPageViewModel : BaseViewModel
     {
-        public ICommand LogoutCommand => new Command(() =>
-        {
-            appStore.Dispatch(new SetLoggedInUserAction(null));
-        });
-
         private List<MasterPageItem> masterPageItems;
 
         public List<MasterPageItem> MasterPageItems

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SpotFinder.Views.UserDetailsPage"
+             xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
+             Title="{Binding PageTitle}">
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand"
+              HorizontalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout>
+                <Grid VerticalOptions="Start"
+                      HorizontalOptions="Center"
+                      Margin="25,25,25,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="150"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <ff:CachedImage x:Name="AvatarXaml"
+                                    Source="{Binding AvatarUrl}"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="CenterAndExpand">
+                        <ff:CachedImage.Transformations>
+                            <ffTransformations:RoundedTransformation Radius="270" />
+                        </ff:CachedImage.Transformations>
+                        <ff:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChangeAvatarCommand}" />
+                        </ff:CachedImage.GestureRecognizers>
+                    </ff:CachedImage>
+                    <!-- Image loader: -->
+                    <ActivityIndicator IsRunning="{Binding IsImageBusy}"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"
+                                       Color="Red"/>
+                </Grid>
+                <Label VerticalOptions="Start"
+                       HorizontalOptions="CenterAndExpand"
+                       Style="{StaticResource NormalTextLabel}"
+                       FontAttributes="Bold"
+                       FontSize="Large"
+                       Text="Logout">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LogoutUserCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label VerticalOptions="Start"
+                       HorizontalOptions="CenterAndExpand"
+                       Text="{Binding Email}"
+                       TextColor="White"/>
+            </StackLayout>
+            
+            <!-- Loading layout -->
+            <StackLayout IsVisible="{Binding IsBusy}"
+                         BackgroundColor="#DD111111"
+                         Grid.Row="0"
+                         Grid.Column="0">
+                <Label Text="You are not logged in! Click icon below to login."
+                       Margin="50, 0, 50, 0"
+                       TextColor="{StaticResource MainAccentColor}"
+                       VerticalOptions="EndAndExpand"
+                       HorizontalOptions="Center"/>
+                <Image Source="userIcon"
+                       VerticalOptions="StartAndExpand"
+                       HorizontalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding LoginUserCommand}"/>
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

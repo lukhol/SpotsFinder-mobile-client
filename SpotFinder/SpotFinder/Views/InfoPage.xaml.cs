@@ -19,6 +19,17 @@ namespace SpotFinder.Views
                 LogoImage.HeightRequest = 150;
                 LogoImage.Aspect = Aspect.AspectFill;
             }
+
+            CreateToolbarItems();
+        }
+
+        private void CreateToolbarItems()
+        {
+            ToolbarItems.Add(new ToolbarItem
+            {
+                Icon = "userIcon",
+                Command = new Command(async () => { await Navigation.PushAsync(new UserDetailsPage()); })
+            });
         }
     }
 }
