@@ -45,10 +45,10 @@
                 <Grid VerticalOptions="Center"
                       HorizontalOptions="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="150"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="150"/>
                     </Grid.ColumnDefinitions>
                     <ff:CachedImage Source="{Binding AvatarSource}"
                                     VerticalOptions="CenterAndExpand"

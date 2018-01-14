@@ -48,7 +48,7 @@ namespace SpotFinder.Core
                 Name = place.Name,
                 Images = webImagesList,
                 Version = place.Version,
-                
+
                 Bank = place.Bank,
                 Bowl = place.Bowl,
                 Corners = place.Corners,
@@ -61,9 +61,10 @@ namespace SpotFinder.Core
                 Manualpad = place.Manualpad,
                 Pyramid = place.Pyramid,
                 Rail = place.Rail,
-                Wallride = place.Wallride, 
+                Wallride = place.Wallride,
                 OpenYourMind = place.OpenYourMind,
-                Stairs = place.Stairs
+                Stairs = place.Stairs,
+                UserId = place.UserId
             };
         }
 

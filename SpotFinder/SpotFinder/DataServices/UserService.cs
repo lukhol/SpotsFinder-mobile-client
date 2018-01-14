@@ -121,7 +121,7 @@ namespace SpotFinder.DataServices
             try
             {
                 var uri = new Uri(urlRepository.PostExternalUserUri(accessToken));
-                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                httpClient.Timeout = TimeSpan.FromSeconds(30);
                 var jObjectUser = JObject.FromObject(userToRegister, camelCaseJsonSerializer);
                 var stringContent = new StringContent(jObjectUser.ToString(), Encoding.UTF8, "application/json");
                 var response = await httpClient.PostAsync(uri, stringContent);

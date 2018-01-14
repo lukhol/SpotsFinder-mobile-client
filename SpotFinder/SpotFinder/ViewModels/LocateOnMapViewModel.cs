@@ -12,6 +12,7 @@ using SpotFinder.Models.Core;
 using SpotFinder.Resx;
 using System.Reactive.Linq;
 using SpotFinder.Exceptions;
+using SpotFinder.Redux.StateModels;
 
 namespace SpotFinder.ViewModels
 {
@@ -28,14 +29,13 @@ namespace SpotFinder.ViewModels
 
             appStore
                 .DistinctUntilChanged(state => new { state.DeviceData.LocationState.Status })
-                .Subscribe(state =>
+                .SubscribeWithError(state =>
                 {
                     var stateLocation = appStore.GetState().DeviceData.LocationState.Value;
                     mapCenterLocation = new Position(stateLocation.Latitude, stateLocation.Longitude);
                 }, error => { appStore.Dispatch(new SetErrorAction(error, "LocateOnMapViewModel - subscription.")); });
 
             var location = appStore.GetState().DeviceData.LocationState.Value;
-
 
             SetMapTypeFromSettings();
         }
@@ -107,6 +107,11 @@ namespace SpotFinder.ViewModels
             var mapLocation = new Location(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude);
 
             appStore.Dispatch(new SetReportLocationAction(mapLocation));
+
+            var user = appStore.GetState().UserState.User;
+            if (user != null)
+                appStore.Dispatch(new SetReportUserAction(user));
+
             var addingPlace = appStore.GetState().PlacesData.ReportState.Value.Place;
 
             int result = await PlaceService.SendAsync(addingPlace);

@@ -22,10 +22,12 @@ namespace SpotFinder.Redux.Actions.WrongPlaceReports
             return async (dispatch, getState) =>
             {
                 var state = getState();
+                long userId = GetUserId(state.UserState.User);
+
                 var wrongPlaceReport = new WrongPlaceReport(
                     placeId: state.PlacesData.CurrentPlaceState.Value.Id,
                     placeVersion: state.PlacesData.CurrentPlaceState.Value.Version,
-                    userId: 0,
+                    userId: userId,
                     deviceId: DeviceInfo.Id,
                     reasonComment: reasonComment,
                     isNotSkateboardPlace: isNotSkateboardPlace
@@ -43,6 +45,14 @@ namespace SpotFinder.Redux.Actions.WrongPlaceReports
                     dispatch(new SetWrongPlaceReportCompleteAction(e));
                 }
             };
+        }
+
+        private long GetUserId(User user)
+        {
+            if (user != null)
+                return user.Id;
+            else
+                return 0;
         }
     }
 }

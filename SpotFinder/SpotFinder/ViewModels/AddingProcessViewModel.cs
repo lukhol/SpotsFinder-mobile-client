@@ -13,6 +13,8 @@ using SpotFinder.Views;
 using System.Collections.ObjectModel;
 using Redux;
 using SpotFinder.Redux;
+using System.Reactive.Linq;
+using SpotFinder.Redux.StateModels;
 
 namespace SpotFinder.ViewModels
 {
@@ -38,8 +40,21 @@ namespace SpotFinder.ViewModels
                 "Skatepark", "Skatespot", "DIY"
             };
 
+            var userSubscription = appStore
+                .DistinctUntilChanged(state => new { state.UserState.User })
+                .SubscribeWithError(state =>
+                {
+                    var user = state.UserState.User;
+                    CheckIfUserIsLoggedIn(user);
+                }, error => { });
+
             //Request loction for actual report.
             appStore.Dispatch(new SetNewReportAction());
+        }
+
+        private void CheckIfUserIsLoggedIn(User user)
+        {
+            IsBusy = (user == null) ? true : false;
         }
 
         private string description;
@@ -287,10 +302,15 @@ namespace SpotFinder.ViewModels
             }
         }
 
+        public ICommand LoginUserCommand => new Command(LoginUser);
         public ICommand ReportCommand => new Command(ReportFun);
-
         public ICommand AddPhotoCommand => new Command(AddPhotoAsync);
         
+        private void LoginUser()
+        {
+            App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
+        }
+
         private async void AddPhotoAsync()
         {
             var pickTypeResult = await App.Current.MainPage.DisplayAlert("Where?", "Chose from where you want pick photo:", "Camera", "Gallery");

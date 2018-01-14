@@ -28,6 +28,8 @@ namespace SpotFinder.Models.Core
         public bool Bank { get; set; }
         public bool Bowl { get; set; }
         public bool Hubba { get; set; }
+        
+        public long UserId { get; set; }
 
         public Place()
         {
@@ -49,6 +51,7 @@ namespace SpotFinder.Models.Core
             Name = string.Empty;
             Location = new Location();
             PhotosBase64List = new List<string>();
+            UserId = 0;
         }
     }
 }

@@ -30,6 +30,22 @@ namespace SpotFinder.Redux.Reducers
                     .Build();
             }
 
+            if(action is SetReportUserAction)
+            {
+                var setReportUserAction = action as SetReportUserAction;
+
+                var updatedPlace = previousState.Value.Place;
+                updatedPlace.UserId = setReportUserAction.User.Id;
+
+                var newReportObject = previousState.Value
+                    .Set(v => v.Place, updatedPlace)
+                    .Build();
+
+                return previousState
+                    .Set(v => v.Value, newReportObject)
+                    .Build();
+            }
+
             if (action is SetReportLocationAction)
             {
                 //TODO: Place HAVE TO be immutable.
