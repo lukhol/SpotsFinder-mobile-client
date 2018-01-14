@@ -15,6 +15,7 @@
         string GetGoogleUserInfoUri(string accessToken);
         string RegisterUserUri(string password);
         string GetUserAvatarUri(string userId);
+        string SetUserAvatarUri(string userId);
 
         string API_KEY { get; }
     }

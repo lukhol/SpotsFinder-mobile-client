@@ -53,6 +53,11 @@ namespace SpotFinder.Repositories
             return string.Format("{0}/{1}/{2}", BASE_URL, "user/avatar", userId);
         }
 
+        public string SetUserAvatarUri(string userId)
+        {
+            return string.Format("{0}/{1}/{2}", BASE_URL, "user/avatar", userId);
+        }
+
         public string PostWrongPlaceReportUri => string.Format("{0}/{1}", BASE_URL, "places/report");
     }
 }

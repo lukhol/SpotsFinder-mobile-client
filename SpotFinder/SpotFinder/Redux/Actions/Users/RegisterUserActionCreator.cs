@@ -22,17 +22,13 @@ namespace SpotFinder.Redux.Actions.Users
             {
                 dispatch(new SetRegisterUserStartAction(user));
 
-                User userToRegister = user;
-
-                if(avatarStream != null && avatarStream.Length > 0)
-                {
-                    var base64Avatar = StreamToBase64Image(avatarStream);
-                    userToRegister = user.Set(v => v.AvatarUrl, base64Avatar).Build();
-                }
-
                 try
                 {
-                    var registeredUser = await userService.RegisterAsync(userToRegister, password);
+                    var registeredUser = await userService.RegisterAsync(user, password);
+
+                    if (avatarStream != null && avatarStream.Length > 0)
+                        await userService.SetAvatarAsync(registeredUser.Id, avatarStream);
+
                     dispatch(new SetRegisterUserCompleteAction(registeredUser));
                 }
                 catch (Exception ex)

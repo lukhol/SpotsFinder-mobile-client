@@ -5,6 +5,7 @@ using SpotFinder.Redux.StateModels;
 using SpotFinder.Repositories;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,7 +90,6 @@ namespace SpotFinder.DataServices
             }
         }
 
-        [Obsolete("Not implemented yet!")]
         public async Task<User> RegisterAsync(User userToRegister, string password)
         {
             try
@@ -140,6 +140,28 @@ namespace SpotFinder.DataServices
             }
         }
 
+        public async Task SetAvatarAsync(long userId, Stream avatarStream)
+        {
+            if (avatarStream.Position != 0)
+                avatarStream.Position = 0;
+
+            try
+            {
+                Uri uri = new Uri(urlRepository.SetUserAvatarUri(userId.ToString()));
+                MultipartFormDataContent multipartForm = new MultipartFormDataContent();
+
+                multipartForm.Add(new StreamContent(avatarStream), "avatar", "avatar");
+
+                var response = await httpClient.PostAsync(uri, multipartForm);
+                response.EnsureSuccessStatusCode();
+            }
+            catch(Exception ex)
+            {
+                //TODO: Log...
+                //throw ex;
+            }
+        }
+
         private StringContent CreateStringContent<T>(T objectValue)
         {
             var jObject = JObject.FromObject(objectValue, camelCaseJsonSerializer);
@@ -152,5 +174,6 @@ namespace SpotFinder.DataServices
             var message = JObject.Parse(responseJson)["message"].ToString();
             throw new Exception(message);
         }
+
     }
 }
