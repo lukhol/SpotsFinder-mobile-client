@@ -22,5 +22,26 @@ namespace SpotFinder.Views
 
             base.OnAppearing();
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            var loginViewModel = BindingContext as LoginViewModel;
+            if (loginViewModel != null)
+            {
+                if (loginViewModel.IsWebViewVisible)
+                {
+                    loginViewModel.IsWebViewVisible = false;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return base.OnBackButtonPressed();
+            }
+        }
     }
 }

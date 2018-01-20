@@ -161,7 +161,8 @@ namespace SpotFinder.Config
                     GoogleLoginUrl,
                     FacebookLoginUrl,
                     Resolve<IExternalServiceLoginUserActionCreator>(),
-                    Resolve<ILoginUserActionCreator>()
+                    Resolve<ILoginUserActionCreator>(),
+                    Resolve<IURLRepository>()
                 );
             }, Lifestyle.Singleton);
             simpleInjector.Register<RegisterUserViewModel>(() =>

@@ -78,7 +78,11 @@
                 </StackLayout>
                 <Label Text="Forget password?"
                        Style="{StaticResource NormalTextLabel}"
-                       Margin="35, 3, 0, 3"/>
+                       Margin="35, 3, 0, 3">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgetPasswordCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
             </StackLayout>
 
             <!-- WebView -->

@@ -3,6 +3,7 @@ using SpotFinder.Core.Enums;
 using SpotFinder.Redux;
 using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.Users;
+using SpotFinder.Repositories;
 using SpotFinder.Views;
 using System;
 using System.Reactive.Linq;
@@ -18,6 +19,7 @@ namespace SpotFinder.ViewModels
 
         private readonly ILoginUserActionCreator loginUserActionCreator;
         private readonly IExternalServiceLoginUserActionCreator externalServiceLoginUserActionCreator;
+        private readonly IURLRepository urlRepository;
 
         private AccessProvider LoginWith;
 
@@ -26,7 +28,8 @@ namespace SpotFinder.ViewModels
             string googleLoginUrl, 
             string facebookLoginUrl,
             IExternalServiceLoginUserActionCreator facebookLoginUserActionCreator,
-            ILoginUserActionCreator loginUserActionCreator
+            ILoginUserActionCreator loginUserActionCreator,
+            IURLRepository urlRepository
             ) : base(appStore)
         {
             GoogleLoginUrl = googleLoginUrl;
@@ -34,6 +37,7 @@ namespace SpotFinder.ViewModels
 
             this.loginUserActionCreator = loginUserActionCreator ?? throw new ArgumentNullException(nameof(loginUserActionCreator));
             this.externalServiceLoginUserActionCreator = facebookLoginUserActionCreator ?? throw new ArgumentNullException(nameof(facebookLoginUserActionCreator));
+            this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
 
             var loginSubscription = appStore
                 .DistinctUntilChanged(state => new { state.UserState.Login.Status })
@@ -112,6 +116,7 @@ namespace SpotFinder.ViewModels
         public ICommand LoginWithGoogleCommand => new Command(LoginWithGoogle);
         public ICommand SkipLoginCommand => new Command(SkipLogin);
         public ICommand RegisterCommand => new Command(Register);
+        public ICommand ForgetPasswordCommand => new Command(ForgetPassword);
 
         private void Login()
         {
@@ -163,6 +168,12 @@ namespace SpotFinder.ViewModels
             IsBusy = false;
 
             appStore.DispatchAsync(externalServiceLoginUserActionCreator.Login(redirectUrl, LoginWith));
+        }
+
+        private void ForgetPassword()
+        {
+            WebView.Source = urlRepository.ForgetPasswordUrl();
+            IsWebViewVisible = true;
         }
     }
 }
