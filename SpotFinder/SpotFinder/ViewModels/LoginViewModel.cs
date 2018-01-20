@@ -140,6 +140,7 @@ namespace SpotFinder.ViewModels
             {
                 LoginWith = AccessProvider.Facebook;
                 IsWebViewVisible = true;
+                WebView.Source = "";
                 WebView.Source = FacebookLoginUrl;
                 WebView.Navigated += WebView_Navigated;
             }
@@ -151,6 +152,7 @@ namespace SpotFinder.ViewModels
             {
                 LoginWith = AccessProvider.Google;
                 IsWebViewVisible = true;
+                WebView.Source = "";
                 WebView.Source = GoogleLoginUrl;
                 WebView.Navigated += WebView_Navigated;
             }
@@ -172,6 +174,7 @@ namespace SpotFinder.ViewModels
 
         private void ForgetPassword()
         {
+            WebView.Source = "";
             WebView.Source = urlRepository.ForgetPasswordUrl();
             IsWebViewVisible = true;
         }
