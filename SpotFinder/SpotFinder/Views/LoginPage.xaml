@@ -33,7 +33,8 @@
                          HorizontalOptions="FillAndExpand"
                          Grid.Row="0"
                          Grid.Column="0">
-                <Entry HorizontalOptions="FillAndExpand"
+                <Entry x:Name="EmailEntryXaml"
+                       HorizontalOptions="FillAndExpand"
                        Margin="25,0,25,0"
                        Text="{Binding Email}"
                        Placeholder="email">
@@ -41,7 +42,8 @@
                         <behaviors:EmailValidatorEntryBehavior BindingContext="{Binding}"/>
                     </Entry.Behaviors>
                 </Entry>
-                <Entry HorizontalOptions="FillAndExpand"
+                <Entry x:Name="PasswordEntryXaml"
+                       HorizontalOptions="FillAndExpand"
                        Margin="25,0,25,0"
                        IsPassword="True"
                        Text="{Binding Password}"

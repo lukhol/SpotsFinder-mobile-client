@@ -12,6 +12,21 @@ namespace SpotFinder.Views
         {
             InitializeComponent();
             BindingContext = DIContainer.Instance.Resolve<AddingProcessViewModel>();
+            FocusSetup();
+        }
+
+        private void FocusSetup()
+        {
+            NameEntryXaml.Completed += (s, e) =>
+            {
+                DescriptionEntryXaml.Focus();
+            };
+
+            DescriptionEntryXaml.Completed += (s, e) =>
+            {
+                TypePickerXaml.Focus();
+            };
+
         }
     }
 }

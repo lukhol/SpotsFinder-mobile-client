@@ -12,6 +12,7 @@ namespace SpotFinder.Views
 		{
             BindingContext = DIContainer.Instance.Resolve<RegisterUserViewModel>();
 			InitializeComponent ();
+            FocusSetup();
 		}
 
         protected override void OnAppearing()
@@ -21,6 +22,29 @@ namespace SpotFinder.Views
 
             if (registerUserViewModel != null)
                 registerUserViewModel.OnParentPageAppearing();
+        }
+
+        private void FocusSetup()
+        {
+            EmailEntryXaml.Completed += (s, e) =>
+            {
+                PasswordEntryXaml.Focus();
+            };
+
+            PasswordEntryXaml.Completed += (s, e) =>
+            {
+                FirstnameEntryXaml.Focus();
+            };
+
+            FirstnameEntryXaml.Completed += (s, e) =>
+            {
+                LastnameEntryXaml.Focus();
+            };
+
+            LastnameEntryXaml.Completed += (s, e) =>
+            {
+                RegisterButtonXaml.Focus();
+            };
         }
     }
 }

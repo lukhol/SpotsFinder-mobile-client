@@ -29,38 +29,41 @@
                 <StackLayout>
                     <!-- Adding information: -->
                     <Label Text="{translate:Translate AddingInformation}"
-                   TextColor="{StaticResource MainAccentColor}"
-                   Margin="12"/>
+                           TextColor="{StaticResource MainAccentColor}"
+                           Margin="12"/>
                     <Grid Style="{StaticResource GridSeparator}"/>
                     <StackLayout Margin="12">
                         <Label Style="{StaticResource SubtitleLabel}"
-                           Text="Nazwa:"/>
-                        <Entry Margin="5,0,5,0"
-                           Text="{Binding Name}">
+                               Text="Nazwa:"/>
+                        <Entry x:Name="NameEntryXaml"
+                               Margin="5,0,5,0"
+                               Text="{Binding Name}">
                             <Entry.Behaviors>
                                 <behaviors:LengthValidatorEntryBehavior MinLength="3"
                                                                     MaxLength="30"/>
                             </Entry.Behaviors>
                         </Entry>
                         <Label Style="{StaticResource SubtitleLabel}"
-                           Text="Opis:"/>
-                        <Entry Margin="5,0,5,0"
-                           Text="{Binding Description}">
+                               Text="Opis:"/>
+                        <Entry x:Name="DescriptionEntryXaml"
+                               Margin="5,0,5,0"
+                               Text="{Binding Description}">
                             <Entry.Behaviors>
                                 <behaviors:LengthValidatorEntryBehavior MinLength="5"
-                                                                    MaxLength="255"/>
+                                                                        MaxLength="255"/>
                             </Entry.Behaviors>
                         </Entry>
                         <Label Style="{StaticResource SubtitleLabel}"
-                       Text="Typ:"/>
-                        <Picker Margin="5,0,5,0"
-                            ItemsSource="{Binding PlaceTypePickerItemList}"
-                            SelectedItem="{Binding SelectedTypeString}"/>
+                               Text="Typ:"/>
+                        <Picker x:Name="TypePickerXaml"
+                                Margin="5,0,5,0"
+                                ItemsSource="{Binding PlaceTypePickerItemList}"
+                                SelectedItem="{Binding SelectedTypeString}"/>
                     </StackLayout>
                     <Grid Style="{StaticResource GridSeparator}"/>
                     <!-- Obstacles: ================================================================================-->
                     <Label Text="{translate:Translate ObstaclesLabel}"
-                       Style="{StaticResource SubtitleLabel}"/>
+                           Style="{StaticResource SubtitleLabel}"/>
                     <!-- Obstacle Layout: -->
                     <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
                         <!-- First part of obstacles: -->
@@ -68,62 +71,62 @@
                             <!-- Gap: -->
                             <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
                                 <ownControls:Checkbox Checked="{Binding Gap}"
-                                          HeightRequest="25"
-                                          Margin="15, 0, 0, 0"
-                                          HorizontalOptions="Start"/>
+                                                      HeightRequest="25"
+                                                      Margin="15, 0, 0, 0"
+                                                      HorizontalOptions="Start"/>
                                 <Label Text="Gap"
-                                   Style="{StaticResource NormalTextLabelCriteria}"
-                                   VerticalOptions="Center"/>
+                                       Style="{StaticResource NormalTextLabelCriteria}"
+                                       VerticalOptions="Center"/>   
                             </StackLayout>
                             <!-- Rail: -->
                             <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
                                 <ownControls:Checkbox Checked="{Binding Rail}"
-                                          HeightRequest="25"
-                                          Margin="15, 0, 0, 0"
-                                          HorizontalOptions="Start"/>
+                                                      HeightRequest="25"
+                                                      Margin="15, 0, 0, 0"
+                                                      HorizontalOptions="Start"/>
                                 <Label Text="Rail"
-                                   Style="{StaticResource NormalTextLabelCriteria}"
-                                   VerticalOptions="Center"/>
+                                       Style="{StaticResource NormalTextLabelCriteria}"
+                                       VerticalOptions="Center"/>
                             </StackLayout>
                             <!-- Handrail: -->
                             <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
                                 <ownControls:Checkbox Checked="{Binding Handrail}"
-                                          HeightRequest="25"
-                                          Margin="15, 0, 0, 0"
-                                          HorizontalOptions="Start"/>
+                                                      HeightRequest="25"
+                                                      Margin="15, 0, 0, 0"
+                                                      HorizontalOptions="Start"/>
                                 <Label Text="Handrail"
-                                   Style="{StaticResource NormalTextLabelCriteria}"
-                                   VerticalOptions="Center"/>
+                                       Style="{StaticResource NormalTextLabelCriteria}"
+                                       VerticalOptions="Center"/>
                             </StackLayout>
                             <!-- Corners: -->
                             <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
                                 <ownControls:Checkbox Checked="{Binding Corners}"
-                                          HeightRequest="25"
-                                          Margin="15, 0, 0, 0"
-                                          HorizontalOptions="Start"/>
+                                                      HeightRequest="25"
+                                                      Margin="15, 0, 0, 0"
+                                                      HorizontalOptions="Start"/>
                                 <Label Text="Corners"
-                                   Style="{StaticResource NormalTextLabelCriteria}"
-                                   VerticalOptions="Center"/>
+                                       Style="{StaticResource NormalTextLabelCriteria}"
+                                       VerticalOptions="Center"/>
                             </StackLayout>
                             <!-- Wallride: -->
                             <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
                                 <ownControls:Checkbox Checked="{Binding Wallride}"
-                                          HeightRequest="25"
-                                          Margin="15, 0, 0, 0"
-                                          HorizontalOptions="Start"/>
+                                                      HeightRequest="25"
+                                                      Margin="15, 0, 0, 0"
+                                                      HorizontalOptions="Start"/>
                                 <Label Text="Wallride"
-                                   Style="{StaticResource NormalTextLabelCriteria}"
-                                   VerticalOptions="Center"/>
+                                       Style="{StaticResource NormalTextLabelCriteria}"
+                                       VerticalOptions="Center"/>
                             </StackLayout>
                             <!-- OpenYourMind: -->
                             <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">
                                 <ownControls:Checkbox Checked="{Binding OpenYourMind}"
-                                          HeightRequest="25"
-                                          Margin="15, 0, 0, 0"
-                                          HorizontalOptions="Start"/>
+                                                      HeightRequest="25"
+                                                      Margin="15, 0, 0, 0"
+                                                      HorizontalOptions="Start"/>
                                 <Label Text="OpenYourMind"
-                                   Style="{StaticResource NormalTextLabelCriteria}"
-                                   VerticalOptions="Center"/>
+                                       Style="{StaticResource NormalTextLabelCriteria}"
+                                       VerticalOptions="Center"/>
                             </StackLayout>
                             <!-- Curb: -->
                             <StackLayout Style="{StaticResource HorizontalStackLayoutStyle}">

@@ -66,7 +66,8 @@
                                        HorizontalOptions="Center"
                                        Color="Red"/>
                 </Grid>
-                    <Entry Style="{StaticResource RegisterEntryStyle}"
+                    <Entry x:Name="EmailEntryXaml"
+                           Style="{StaticResource RegisterEntryStyle}"
                            Text="{Binding Email}"
                            Placeholder="email">
                         <Entry.Behaviors>
@@ -76,17 +77,21 @@
                                                                                      Mode=OneWayToSource}"/>
                         </Entry.Behaviors>
                     </Entry>
-                    <Entry Style="{StaticResource RegisterEntryStyle}"
+                    <Entry x:Name="PasswordEntryXaml"
+                           Style="{StaticResource RegisterEntryStyle}"
                            Text="{Binding Password}"
                            Placeholder="password"
                            IsPassword="True"/>
-                    <Entry Style="{StaticResource RegisterEntryStyle}"
+                    <Entry x:Name="FirstnameEntryXaml"
+                           Style="{StaticResource RegisterEntryStyle}"
                            Text="{Binding Firstname}"
                            Placeholder="firstname"/>
-                    <Entry Style="{StaticResource RegisterEntryStyle}"
+                    <Entry x:Name="LastnameEntryXaml"
+                           Style="{StaticResource RegisterEntryStyle}"
                            Text="{Binding Lastname}"
                            Placeholder="lastname"/>
-                    <Button Text="Register"
+                    <Button x:Name="RegisterButtonXaml"
+                            Text="Register"
                             Style="{StaticResource EntryPageButtonStyle}"
                             Command="{Binding RegisterUserCommand}"/>
                     <Label Text="{Binding ErrorMessage}"

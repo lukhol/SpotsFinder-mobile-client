@@ -12,6 +12,7 @@ namespace SpotFinder.Views
 		{
             BindingContext = DIContainer.Instance.Resolve<LoginViewModel>();
 			InitializeComponent ();
+            FocusSetup();
         }
 
         protected override void OnAppearing()
@@ -42,6 +43,11 @@ namespace SpotFinder.Views
             {
                 return base.OnBackButtonPressed();
             }
+        }
+
+        private void FocusSetup()
+        {
+            EmailEntryXaml.Completed += (s, e) => PasswordEntryXaml.Focus();
         }
     }
 }
