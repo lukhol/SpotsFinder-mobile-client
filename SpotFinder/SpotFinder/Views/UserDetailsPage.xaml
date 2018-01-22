@@ -4,8 +4,23 @@
              x:Class="SpotFinder.Views.UserDetailsPage"
              xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:ffTransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:behaviors="clr-namespace:SpotFinder.Xam.Behaviors"
+             xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
+             xmlns:converters="clr-namespace:SpotFinder.Xam.Converters"
              BackgroundColor="{StaticResource PageBackgroundColor}"
-             Title="{Binding PageTitle}">
+             Title="{Binding PageTitle}"
+             x:Name="UserDetailsPageXaml">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle"
+                   TargetType="Entry">
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="Margin" Value="10,2,10,2" />
+            </Style>
+            <converters:InverseBooleanConverter x:Key="inverseBooleanConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid VerticalOptions="FillAndExpand"
               HorizontalOptions="FillAndExpand">
@@ -16,51 +31,74 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackLayout>
-                <Grid VerticalOptions="Start"
-                      HorizontalOptions="Center"
-                      Margin="25,25,25,10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="150"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                    </Grid.ColumnDefinitions>
-                    <ff:CachedImage x:Name="AvatarXaml"
-                                    Source="{Binding AvatarUrl}"
-                                    VerticalOptions="CenterAndExpand"
-                                    HorizontalOptions="CenterAndExpand">
-                        <ff:CachedImage.Transformations>
-                            <ffTransformations:RoundedTransformation Radius="270" />
-                        </ff:CachedImage.Transformations>
-                        <ff:CachedImage.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ChangeAvatarCommand}" />
-                        </ff:CachedImage.GestureRecognizers>
-                    </ff:CachedImage>
-                    <!-- Image loader: -->
-                    <ActivityIndicator IsRunning="{Binding IsImageBusy}"
-                                       VerticalOptions="Center"
-                                       HorizontalOptions="Center"
-                                       Color="Red"/>
-                </Grid>
-                <Label VerticalOptions="Start"
-                       HorizontalOptions="CenterAndExpand"
-                       Style="{StaticResource NormalTextLabel}"
-                       FontAttributes="Bold"
-                       FontSize="Large"
-                       Text="Logout">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding LogoutUserCommand}"/>
-                    </Label.GestureRecognizers>
-                </Label>
-                <Label VerticalOptions="Start"
-                       HorizontalOptions="CenterAndExpand"
-                       Text="{Binding Email}"
-                       TextColor="White"/>
-            </StackLayout>
+            <ScrollView>
+                <StackLayout>
+                    <Grid VerticalOptions="Start"
+                          HorizontalOptions="Center"
+                          Margin="25,25,25,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <ff:CachedImage x:Name="AvatarXaml"
+                                        Source="{Binding AvatarUrl}"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand">
+                            <ff:CachedImage.Transformations>
+                                <ffTransformations:RoundedTransformation Radius="270" />
+                            </ff:CachedImage.Transformations>
+                            <ff:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ChangeAvatarCommand}" />
+                            </ff:CachedImage.GestureRecognizers>
+                        </ff:CachedImage>
+                        <!-- Image loader: -->
+                        <ActivityIndicator IsRunning="{Binding IsImageBusy}"
+                                           VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           Color="Red"/>
+                    </Grid>
+                    <Label VerticalOptions="Start"
+                           HorizontalOptions="CenterAndExpand"
+                           Style="{StaticResource NormalTextLabel}"
+                           FontAttributes="Bold"
+                           FontSize="Large"
+                           Text="Logout">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding LogoutUserCommand}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Entry Style="{StaticResource EntryStyle}"
+                           Text="{Binding Email}"
+                           Placeholder="email">
+                        <Entry.Behaviors>
+                            <behaviors:EmailValidatorEntryBehavior BindingContext="{Binding}"
+                                                                   IsValid="{Binding Source={x:Reference UserDetailsPageXaml}, 
+                                                                                     Path=BindingContext.IsEmailValid,
+                                                                                     Mode=OneWayToSource}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Style="{StaticResource NormalTextLabel}"
+                           Text="{Binding EmailMessage}"
+                           TextColor="Red"
+                           FontAttributes="Bold"
+                           IsVisible="{Binding IsEmailValid, Converter={StaticResource inverseBooleanConverter}}"/>
+                    <Entry Style="{StaticResource EntryStyle}"
+                           Text="{Binding Firstname}"
+                           Placeholder="firstname"/>
+                    <Entry Style="{StaticResource EntryStyle}"
+                           Text="{Binding Lastname}"
+                           Placeholder="lastname"/>
+                    <Button Style="{StaticResource GlobalButtonStyle}"
+                            Command="{Binding SaveChangesCommand}"
+                            Text="Save"
+                            VerticalOptions="EndAndExpand"/>
+                </StackLayout>
+            </ScrollView>
             
-            <!-- Loading layout -->
-            <StackLayout IsVisible="{Binding IsBusy}"
+            <!-- Not logged in layout -->
+            <StackLayout IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource inverseBooleanConverter}}"
                          BackgroundColor="#DD111111"
                          Grid.Row="0"
                          Grid.Column="0">
@@ -77,6 +115,20 @@
                     </Image.GestureRecognizers>
                 </Image>
             </StackLayout>
+
+            <!-- Loading layout: -->
+            <StackLayout IsVisible="{Binding IsBusy}"
+                         BackgroundColor="#DD111111">
+                <Label Text="Updating user information..."
+                       TextColor="{StaticResource MainAccentColor}"
+                       VerticalOptions="EndAndExpand"
+                       HorizontalOptions="Center"/>
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   VerticalOptions="StartAndExpand"
+                                   HorizontalOptions="Center"
+                                   Color="{StaticResource MainAccentColor}"/>
+            </StackLayout>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

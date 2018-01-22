@@ -17,6 +17,7 @@
         string GetUserAvatarUri(string userId);
         string SetUserAvatarUri(string userId);
         string ForgetPasswordUrl();
+        string GetIsEmailFree(string email);
 
         string API_KEY { get; }
     }

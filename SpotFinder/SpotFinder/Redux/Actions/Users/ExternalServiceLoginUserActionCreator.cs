@@ -45,7 +45,7 @@ namespace SpotFinder.Redux.Actions.Users
                 }
                 catch (Exception e)
                 {
-                    dispatch(new SetLoginCompleteAction(new Exception("Sorry, something went wrong :(. Try again later.")));
+                    dispatch(new SetLoginCompleteAction(new Exception("Sorry, something went wrong :(. Try again later." + e.Message)));
                 }
             };
         }

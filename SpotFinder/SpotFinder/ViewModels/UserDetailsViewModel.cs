@@ -1,7 +1,9 @@
-﻿using FFImageLoading.Cache;
+﻿using BuilderImmutableObject;
+using FFImageLoading.Cache;
 using FFImageLoading.Forms;
 using Redux;
 using SpotFinder.DataServices;
+using SpotFinder.Exceptions;
 using SpotFinder.Redux;
 using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.Users;
@@ -9,6 +11,7 @@ using SpotFinder.Redux.StateModels;
 using SpotFinder.Services;
 using SpotFinder.Views;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
@@ -21,12 +24,14 @@ namespace SpotFinder.ViewModels
     {
         private readonly IPhotoProvider photoProvider;
         private readonly IUserService userService;
+        private readonly IUpdateUserActionCreator updateUserActionCreator;
 
         public UserDetailsViewModel(IStore<ApplicationState> appStore, IPhotoProvider photoProvider,
-            IUserService userService) : base(appStore)
+            IUserService userService, IUpdateUserActionCreator updateUserActionCreator) : base(appStore)
         {
             this.userService = userService ?? throw new ArgumentNullException(nameof(photoProvider));
             this.photoProvider = photoProvider ?? throw new ArgumentNullException(nameof(photoProvider));
+            this.updateUserActionCreator = updateUserActionCreator ?? throw new ArgumentNullException(nameof(updateUserActionCreator));
 
             var userDetailsSubscription = appStore
                 .DistinctUntilChanged(state => new { state.UserState.User })
@@ -35,15 +40,56 @@ namespace SpotFinder.ViewModels
                     var user = state.UserState.User;
                     if (user == null)
                     {
-                        IsBusy = true;
+                        IsUserLoggedIn = false;
                         return;
                     }
 
-                    IsBusy = false;
+                    IsUserLoggedIn = true;
                     SetViewFields(user);
                 },
                 error => { appStore.Dispatch(new SetErrorAction(error, "UserDetailsSubscription in UserDetailsViewModel.")); });
             subscriptions.Add(userDetailsSubscription);
+
+            var updateUserSubscription = appStore
+                .DistinctUntilChanged(state => new { state.UserState.Edit })
+                .Subscribe(state =>
+                {
+                    var edit = state.UserState.Edit;
+                    if(edit.Status == Core.Enums.Status.Setting)
+                    {
+                        IsBusy = true;
+                    }
+                    if(edit.Status == Core.Enums.Status.Error)
+                    {
+                        IsBusy = false;
+                        var error = edit.Error as EditUserException;
+                        if (error != null)
+                        {
+                            IsEmailValid = false;
+                            if (error.ServerErrorMessage != null)
+                                EmailMessage = error.ServerErrorMessage;
+
+                            if (error.EmailOccupidMessage != null)
+                                EmailMessage = error.EmailOccupidMessage;
+                        }
+                    }
+                    if(edit.Status == Core.Enums.Status.Success)
+                    {
+                        App.Current.MainPage.Navigation.PopAsync();
+                    }
+                });
+            subscriptions.Add(updateUserSubscription);
+        }
+
+        private bool isUserLoggedIn;
+        public bool IsUserLoggedIn
+        {
+            get => isUserLoggedIn;
+            set
+            {
+                isUserLoggedIn = value;
+                OnPropertyChanged();
+            }
         }
 
         private string firstname;
@@ -112,11 +158,34 @@ namespace SpotFinder.ViewModels
             }
         }
 
+        private bool isEmailValid;
+        public bool IsEmailValid
+        {
+            get => isEmailValid;
+            set
+            {
+                isEmailValid = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string emailMessage = "Email is invalid.";
+        public string EmailMessage
+        {
+            get => emailMessage;
+            set
+            {
+                emailMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
         public CachedImage AvatarFFCachedImage { get; set; }
 
         public ICommand LoginUserCommand => new Command(LoginUser);
         public ICommand LogoutUserCommand => new Command(LogoutUser);
         public ICommand ChangeAvatarCommand => new Command(ChangeAvatar);
+        public ICommand SaveChangesCommand => new Command(SaveChanges);
 
         private void SetViewFields(User user)
         {
@@ -165,6 +234,21 @@ namespace SpotFinder.ViewModels
             await CachedImage.InvalidateCache(newAvatarUrl, CacheType.All, true);
             AvatarUrl = newAvatarUrl;
             AvatarFFCachedImage.Success += (s, e) => IsImageBusy = false;
+        }
+
+        private void SaveChanges()
+        {
+            if (!isEmailValid || email.Equals(appStore.GetState().UserState.User.Email))
+            {
+                return;
+            }
+
+            IDictionary<string, string> fields = new Dictionary<string, string>();
+            fields.Add("firstname", firstname);
+            fields.Add("lastname", lastname);
+            fields.Add("email", email);
+
+            appStore.DispatchAsync(updateUserActionCreator.UpdateUser(fields));
         }
     }
 }

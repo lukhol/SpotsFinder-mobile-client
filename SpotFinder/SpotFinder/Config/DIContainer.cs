@@ -74,6 +74,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<UserState>, UserStateReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<User, Unit>>, RegisterReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<User, AccessProvider>>, LoginReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<User, object>>, EditReducer>();
             simpleInjector.Register<IReducer<User>, UserReducer>();
 
         
@@ -117,6 +118,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<ILoginUserActionCreator, LoginUserActionCreator>();
             simpleInjector.Register<IExternalServiceLoginUserActionCreator, ExternalServiceLoginUserActionCreator>();
             simpleInjector.Register<IRegisterUserActionCreator, RegisterUserActionCreator>();
+            simpleInjector.Register<IUpdateUserActionCreator, UpdateUserActionCreator>();
             
             //Providers:
             simpleInjector.Register<IPhotoProvider, PhotoProvider>();
@@ -180,7 +182,7 @@ namespace SpotFinder.Config
             }
             catch(Exception e)
             {
-                var x = 1;
+                var x = e.Message;
             }
 
             simpleInjector.GetInstance(typeof(SQLiteConfig));
@@ -232,8 +234,9 @@ namespace SpotFinder.Config
 
             var registration = new AsyncOperationState<User, Unit>(Status.Empty, null, null, Unit.Default);
             var login = new AsyncOperationState<User, AccessProvider>(Status.Empty, null, null, AccessProvider.Unknown);
+            var edit = new AsyncOperationState<User, object>(Status.Empty, null, null, null);
             var user = settingsHelper.ReadUser();
-            var userState = new UserState(registration, login, user);
+            var userState = new UserState(registration, login, edit, user);
 
             return new ApplicationState(
                 permissionsDictionary, 

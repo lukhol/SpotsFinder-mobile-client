@@ -12,5 +12,7 @@ namespace SpotFinder.DataServices
         Task<User> LoginAsync(string email, string password);
         Task<Tuple<string, string>> GetTokensAsync(string username, string password);
         Task<string> SetAvatarAsync(long userId, Stream avatarStream);
+        Task<bool> IsEmailFreeAsync(string email);
+        Task<User> UpdateUserAsync(User userToUpdate);
     }
 }

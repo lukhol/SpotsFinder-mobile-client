@@ -167,6 +167,34 @@ namespace SpotFinder.DataServices
             }
         }
 
+        public async Task<bool> IsEmailFreeAsync(string email)
+        {
+            string responseContent = string.Empty;
+            Uri uri = new Uri(urlRepository.GetIsEmailFree(email));
+            responseContent= await httpClient.GetStringAsync(uri);
+            return responseContent.Equals("true") ? true : false;
+        }
+
+        public async Task<User> UpdateUserAsync(User userToUpdate)
+        {
+            try
+            {
+                var uri = new Uri("");
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                var response = await httpClient.PostAsync(uri, CreateStringContent(userToUpdate));
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                var user = JsonConvert.DeserializeObject<User>(responseContent, jsonSerializerSettings);
+                return user;
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log....
+                throw ex;
+            }
+            
+        }
+
         private StringContent CreateStringContent<T>(T objectValue)
         {
             var jObject = JObject.FromObject(objectValue, camelCaseJsonSerializer);
@@ -179,6 +207,5 @@ namespace SpotFinder.DataServices
             var message = JObject.Parse(responseJson)["message"].ToString();
             throw new Exception(message);
         }
-
     }
 }
