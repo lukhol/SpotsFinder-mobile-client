@@ -179,10 +179,12 @@ namespace SpotFinder.DataServices
         {
             try
             {
-                var uri = new Uri("");
+                var uri = new Uri(urlRepository.PostUpdateUser());
                 httpClient.Timeout = TimeSpan.FromSeconds(10);
                 var response = await httpClient.PostAsync(uri, CreateStringContent(userToUpdate));
                 var responseContent = await response.Content.ReadAsStringAsync();
+
+                response.EnsureSuccessStatusCode();
 
                 var user = JsonConvert.DeserializeObject<User>(responseContent, jsonSerializerSettings);
                 return user;

@@ -68,6 +68,11 @@ namespace SpotFinder.Repositories
             return string.Format("{0}/{1}?emailAddress={2}", BASE_URL, "user/checkfree", email);
         }
 
+        public string PostUpdateUser()
+        {
+            return string.Format("{0}/{1}", BASE_URL, "user/update");
+        }
+
         public string PostWrongPlaceReportUri => string.Format("{0}/{1}", BASE_URL, "places/report");
     }
 }
