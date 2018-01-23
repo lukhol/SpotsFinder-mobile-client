@@ -2,6 +2,7 @@
 {
     public interface IURLRepository
     {
+        string BaseUrl { get; }
         string PostErrorUri { get; }
         string GetPlacesUri { get; }
         string PostPlaceUri { get; }

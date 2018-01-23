@@ -1,18 +1,16 @@
-﻿using System.Windows.Input;
-using Xamarin.Forms;
-using Xamarin.Forms.Maps;
+﻿using Redux;
+using SpotFinder.DataServices;
+using SpotFinder.Models.Core;
+using SpotFinder.OwnControls;
+using SpotFinder.Redux;
 using SpotFinder.Redux.Actions;
 using SpotFinder.Repositories;
-using SpotFinder.DataServices;
-using System;
-using SpotFinder.Redux;
-using Redux;
-using SpotFinder.OwnControls;
-using SpotFinder.Models.Core;
 using SpotFinder.Resx;
+using System;
 using System.Reactive.Linq;
-using SpotFinder.Exceptions;
-using SpotFinder.Redux.StateModels;
+using System.Windows.Input;
+using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace SpotFinder.ViewModels
 {

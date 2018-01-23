@@ -8,6 +8,7 @@ using SpotFinder.Redux;
 using SpotFinder.Redux.Actions;
 using SpotFinder.Redux.Actions.Users;
 using SpotFinder.Redux.StateModels;
+using SpotFinder.Repositories;
 using SpotFinder.Services;
 using SpotFinder.Views;
 using System;
@@ -25,13 +26,15 @@ namespace SpotFinder.ViewModels
         private readonly IPhotoProvider photoProvider;
         private readonly IUserService userService;
         private readonly IUpdateUserActionCreator updateUserActionCreator;
+        private readonly IURLRepository urlRepository;
 
         public UserDetailsViewModel(IStore<ApplicationState> appStore, IPhotoProvider photoProvider,
-            IUserService userService, IUpdateUserActionCreator updateUserActionCreator) : base(appStore)
+            IUserService userService, IUpdateUserActionCreator updateUserActionCreator, IURLRepository urlRepository) : base(appStore)
         {
             this.userService = userService ?? throw new ArgumentNullException(nameof(photoProvider));
             this.photoProvider = photoProvider ?? throw new ArgumentNullException(nameof(photoProvider));
             this.updateUserActionCreator = updateUserActionCreator ?? throw new ArgumentNullException(nameof(updateUserActionCreator));
+            this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
 
             var userDetailsSubscription = appStore
                 .DistinctUntilChanged(state => new { state.UserState.User })
@@ -180,7 +183,18 @@ namespace SpotFinder.ViewModels
             }
         }
 
-        public CachedImage AvatarFFCachedImage { get; set; }
+        private CachedImage avatarFFCachedImage;
+        public CachedImage AvatarFFCachedImage
+        {
+            get => avatarFFCachedImage;
+            set
+            {
+                avatarFFCachedImage = value;
+                OnCachedImageAvatarChaged?.Invoke();
+            }
+        }
+
+        event Action OnCachedImageAvatarChaged;
 
         public ICommand LoginUserCommand => new Command(LoginUser);
         public ICommand LogoutUserCommand => new Command(LogoutUser);
@@ -192,8 +206,25 @@ namespace SpotFinder.ViewModels
             Firstname = user.Firstname;
             Lastname = user.Lastname;
             Email = user.Email;
-            AvatarUrl = user.AvatarUrl;
             PageTitle = string.Format("{0} {1}", firstname, lastname);
+
+            if (user.AvatarUrl.Contains("http"))
+                AvatarUrl = user.AvatarUrl;
+            else
+                AvatarUrl = urlRepository.BaseUrl + user.AvatarUrl;
+
+            OnCachedImageAvatarChaged += () => 
+            {
+                avatarFFCachedImage.DownloadStarted += (s, e) =>
+                {
+                    IsImageBusy = true;
+                };
+
+                avatarFFCachedImage.Success += (s, e) =>
+                {
+                    IsImageBusy = false;
+                };
+            };
         }
 
         private void LoginUser()
@@ -232,13 +263,17 @@ namespace SpotFinder.ViewModels
         private async void UpdateAvatarView(string newAvatarUrl)
         {
             await CachedImage.InvalidateCache(newAvatarUrl, CacheType.All, true);
-            AvatarUrl = newAvatarUrl;
-            AvatarFFCachedImage.Success += (s, e) => IsImageBusy = false;
+            await CachedImage.InvalidateCache(urlRepository.BaseUrl + newAvatarUrl, CacheType.All, true);
+            await CachedImage.InvalidateCache(AvatarFFCachedImage.Source, CacheType.All, true);
+            AvatarFFCachedImage.CacheDuration = TimeSpan.FromMilliseconds(500);
+
+            AvatarUrl = string.Empty;
+            AvatarUrl = urlRepository.BaseUrl + newAvatarUrl;
         }
 
         private void SaveChanges()
         {
-            if (!isEmailValid || email.Equals(appStore.GetState().UserState.User.Email))
+            if (!isEmailValid)
             {
                 return;
             }
