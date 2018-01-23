@@ -1,5 +1,4 @@
-﻿using BuilderImmutableObject;
-using FFImageLoading.Cache;
+﻿using FFImageLoading.Cache;
 using FFImageLoading.Forms;
 using Redux;
 using SpotFinder.DataServices;
@@ -200,6 +199,7 @@ namespace SpotFinder.ViewModels
         public ICommand LogoutUserCommand => new Command(LogoutUser);
         public ICommand ChangeAvatarCommand => new Command(ChangeAvatar);
         public ICommand SaveChangesCommand => new Command(SaveChanges);
+        public ICommand UserPlacesCommand => new Command(UserPlaces);
 
         private void SetViewFields(User user)
         {
@@ -265,7 +265,6 @@ namespace SpotFinder.ViewModels
             await CachedImage.InvalidateCache(newAvatarUrl, CacheType.All, true);
             await CachedImage.InvalidateCache(urlRepository.BaseUrl + newAvatarUrl, CacheType.All, true);
             await CachedImage.InvalidateCache(AvatarFFCachedImage.Source, CacheType.All, true);
-            AvatarFFCachedImage.CacheDuration = TimeSpan.FromMilliseconds(500);
 
             AvatarUrl = string.Empty;
             AvatarUrl = urlRepository.BaseUrl + newAvatarUrl;
@@ -284,6 +283,11 @@ namespace SpotFinder.ViewModels
             fields.Add("email", email);
 
             appStore.DispatchAsync(updateUserActionCreator.UpdateUser(fields));
+        }
+
+        private void UserPlaces()
+        {
+
         }
     }
 }

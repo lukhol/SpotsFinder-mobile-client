@@ -64,6 +64,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IReducer<AsyncOperationState<Place, int>>, CurrentPlaceReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<IList<Place>, Criteria>>, PlacesListReducer>();
             simpleInjector.Register<IReducer<AsyncOperationState<Report, Unit>>, ReportReducer>();
+            simpleInjector.Register<IReducer<AsyncOperationState<IList<Place>, long>>, UsersPlacesListReducer>();
 
             //
             simpleInjector.Register<IReducer<Settings>, SettingsReducer>();
@@ -213,7 +214,11 @@ namespace SpotFinder.Config
                 Status.Empty, null, null, Unit.Default
             );
 
-            var placesData = new PlacesData(currentPlaceState, placesListState, reportState, wrongPlaceReport);
+            var userPlacesListState = new AsyncOperationState<IList<Place>, long>(
+                Status.Empty, null, null, 0
+            );
+
+            var placesData = new PlacesData(currentPlaceState, placesListState, reportState, wrongPlaceReport, userPlacesListState);
 
             var location = new Location(0, 0);
             var locationState = new LocationState(Status.Empty, null, location);

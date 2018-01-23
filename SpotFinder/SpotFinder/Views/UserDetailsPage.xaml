@@ -16,7 +16,7 @@
                    TargetType="Entry">
                 <Setter Property="VerticalOptions" Value="Start" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="Margin" Value="10,2,10,2" />
+                <Setter Property="Margin" Value="8,2,8,2" />
             </Style>
             <converters:InverseBooleanConverter x:Key="inverseBooleanConverter" />
         </ResourceDictionary>
@@ -92,8 +92,14 @@
                            Placeholder="lastname"/>
                     <Button Style="{StaticResource GlobalButtonStyle}"
                             Command="{Binding SaveChangesCommand}"
+                            Margin="8,2,8,2"
                             Text="Save"
-                            VerticalOptions="EndAndExpand"/>
+                            VerticalOptions="Start"/>
+                    <Button Style="{StaticResource GlobalButtonStyle}"
+                            Command="{Binding UserPlacesCommand}"
+                            Margin="8,2,8,2"
+                            Text="Your places"
+                            VerticalOptions="Start"/>
                 </StackLayout>
             </ScrollView>
             
