@@ -12,8 +12,16 @@ namespace SpotFinder.Views
         public ListPage()
         {
             InitializeComponent();
-            BindingContext = DIContainer.Instance.Resolve<ListViewModel>();
             CreateToolbarItems();
+            var listViewModel = DIContainer.Instance.Resolve<ListViewModel>();
+            BindingContext = listViewModel;
+        }
+
+        public void ListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var listViewModel = BindingContext as ListViewModel;
+            listViewModel.OnListViewItemSelectedCommand.Execute(ListViewXaml.SelectedItem);
+            ListViewXaml.SelectedItem = null;
         }
 
         private void CreateToolbarItems()
@@ -29,13 +37,6 @@ namespace SpotFinder.Views
                 Icon = "plusIcon.png",
                 Command = new Command(async () => { await App.Current.MainPage.Navigation.PushAsync(new AddingProcessPage()); }),
             });
-        }
-
-        public void ListViewItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            var listViewModel = BindingContext as ListViewModel;
-            listViewModel.OnListViewItemSelectedCommand.Execute(ListViewXaml.SelectedItem);
-            ListViewXaml.SelectedItem = null;
         }
     }
 }

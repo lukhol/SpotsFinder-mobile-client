@@ -21,6 +21,7 @@
         string ForgetPasswordUrl();
         string GetIsEmailFree(string email);
         string PostUpdateUser();
+        string PutPlaceUrl(long placeId);
 
         string API_KEY { get; }
     }

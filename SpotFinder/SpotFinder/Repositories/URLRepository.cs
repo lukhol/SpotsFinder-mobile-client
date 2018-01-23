@@ -79,6 +79,11 @@ namespace SpotFinder.Repositories
             return string.Format("{0}/{1}/{2}", BASE_URL, "places/searches", userId);
         }
 
+        public string PutPlaceUrl(long placeId)
+        {
+            return string.Format("{0}/{1}/{2}", BASE_URL, "places", placeId);
+        }
+
         public string PostWrongPlaceReportUri => string.Format("{0}/{1}", BASE_URL, "places/report");
     }
 }

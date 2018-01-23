@@ -27,7 +27,7 @@ namespace SpotFinder.DataServices
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 
-        public async Task<List<Place>> GetAllAsync()
+        public async Task<IList<Place>> GetAllAsync()
         {
             List<Place> placeList = new List<Place>();
             try
@@ -101,7 +101,36 @@ namespace SpotFinder.DataServices
             return result;
         }
 
-        public async Task<List<Place>> GetByCriteriaAsync(Criteria criteria)
+        public async Task<Place> UpdateAsync(Place place, long placeId)
+        {
+            try
+            {
+                var uri = new Uri(urlRepository.PutPlaceUrl(placeId));
+
+                var placeDTO = Utils.PlaceToPlaceWeb(place);
+                var jObject = JObject.FromObject(placeDTO, camelCaseJsonSerializer);
+                var content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+
+                httpClient.Timeout = TimeSpan.FromSeconds(30);
+
+                var response = await httpClient.PutAsync(uri, content);
+
+                response.EnsureSuccessStatusCode();
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var jObjectPlace = JObject.Parse(responseContent);
+                place = Utils.PlaceWebToPlace(jObjectPlace.ToObject<PlaceWeb>());
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log...
+                throw ex;
+            }
+
+            return place;
+        }
+
+        public async Task<IList<Place>> GetByCriteriaAsync(Criteria criteria)
         {
             var criteriaJson = JObject.FromObject(criteria, camelCaseJsonSerializer);
             var content = new StringContent(criteriaJson.ToString(), Encoding.UTF8, "application/json");
