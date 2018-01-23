@@ -12,12 +12,12 @@ namespace SpotFinder.Redux.Reducers
     {
         public AsyncOperationState<IList<Place>, Criteria> Reduce(AsyncOperationState<IList<Place>, Criteria> previousState, IAction action)
         {
-            if (action is GetPlacesListByCriteriaStartAction)
+            if (action is GetPlacesStartAction<Criteria>)
             {
-                var downloadPlacesListByCriteriaStartAction = action as GetPlacesListByCriteriaStartAction;
+                var downloadPlacesListByCriteriaStartAction = action as GetPlacesStartAction<Criteria>;
 
                 return previousState
-                    .Set(v => v.TriggerValue, downloadPlacesListByCriteriaStartAction.Criteria)
+                    .Set(v => v.TriggerValue, downloadPlacesListByCriteriaStartAction.Value)
                     .Set(v => v.Status, downloadPlacesListByCriteriaStartAction.Status)
                     .Build();
             }

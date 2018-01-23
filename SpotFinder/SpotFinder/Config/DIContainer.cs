@@ -113,7 +113,7 @@ namespace SpotFinder.Config
             //ActionsCreators:
             simpleInjector.Register<IPermissionActionCreator, PermissionActionCreator>();
             simpleInjector.Register<IDeviceLocationActionCreator, DeviceLocationActionCreator>();
-            simpleInjector.Register<IGetPlacesListByCriteriaActionCreator, GetPlacesListByCriteriaActionCreator>();
+            simpleInjector.Register<IGetPlacesListActionCreator, GetPlacesListActionCreator>();
             simpleInjector.Register<IGetPlaceByIdActionCreator, GetPlaceByIdActionCreator>();
             simpleInjector.Register<ISetWrongPlaceReportActionCreator, SetWrongPlaceReportActionCreator>();
             simpleInjector.Register<ILoginUserActionCreator, LoginUserActionCreator>();

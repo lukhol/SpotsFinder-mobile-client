@@ -170,6 +170,37 @@ namespace SpotFinder.DataServices
             return place;
         }
 
+        public async Task<IList<Place>> GetByUserIdAsync(long userId)
+        {
+            var uri = new Uri(urlRepository.GetPlacesListByUserIdUrl(userId));
+            var placesList = new List<Place>();
+
+            try
+            {
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                var response = await httpClient.GetAsync(uri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var stringResponse = await response.Content.ReadAsStringAsync();
+
+                    var jArray = JArray.Parse(stringResponse);
+                    foreach (var item in jArray)
+                    {
+                        var placeWebLight = item.ToObject<PlaceWebLight>();
+                        placesList.Add(Utils.PlaceWebLightToPlace(placeWebLight));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                //TODO: Log...
+                throw e;
+            }
+
+            return placesList;
+        }
+
         private void PrepareDTOToAdd(PlaceWeb placeDTO)
         {
             placeDTO.Id = null;

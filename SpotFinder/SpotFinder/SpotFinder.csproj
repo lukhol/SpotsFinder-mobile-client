@@ -96,6 +96,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Redux\Actions\UserPlacesList\" />
     <Folder Include="Redux\Actions\Settings\" />
   </ItemGroup>
 

@@ -15,12 +15,12 @@ namespace SpotFinder.ViewModels
 {
     public class CriteriaViewModel : BaseViewModel
     {
-        private IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
+        private IGetPlacesListActionCreator downloadPlacesListActionCreator;
 
         public CriteriaViewModel(IStore<ApplicationState> appStore, 
-            IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator) : base(appStore)
+            IGetPlacesListActionCreator downloadPlacesListActionCreator) : base(appStore)
         {
-            this.downloadPlacesListByCriteriaActionCreator = downloadPlacesListByCriteriaActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListByCriteriaActionCreator));
+            this.downloadPlacesListActionCreator = downloadPlacesListActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListActionCreator));
 
             distance = 10;
             usePhoneLocation = true;
@@ -333,7 +333,7 @@ namespace SpotFinder.ViewModels
                 manualpad, wallride, downhill, openYourMind, pyramid, curb, bank, bowl, hubba);
 
             //Request pobiernaia
-            appStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
+            appStore.DispatchAsync(downloadPlacesListActionCreator.DownloadPlacesByCriteria(criteria));
 
             App.Current.MainPage.Navigation.PopAsync();
 

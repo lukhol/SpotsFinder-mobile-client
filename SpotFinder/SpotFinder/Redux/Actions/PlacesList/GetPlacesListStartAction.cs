@@ -4,14 +4,14 @@ using SpotFinder.Models.Core;
 
 namespace SpotFinder.Redux.Actions.PlacesList
 {
-    public class GetPlacesListByCriteriaStartAction : IAction
+    public class GetPlacesStartAction<T> : IAction
     {
-        public Criteria Criteria { get; private set; }
+        public T Value { get; private set; }
         public Status Status { get; private set; }
 
-        public GetPlacesListByCriteriaStartAction(Criteria criteria)
+        public GetPlacesStartAction(T value)
         {
-            Criteria = criteria;
+            Value = value;
             Status = Status.Getting;
         }
     }

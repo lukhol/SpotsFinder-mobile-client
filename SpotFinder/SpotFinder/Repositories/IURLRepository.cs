@@ -8,6 +8,7 @@
         string PostPlaceUri { get; }
         string GetPlaceByCriteriaUri { get; }
         string GetPlaceByIdUri(int id);
+        string GetPlacesListByUserIdUrl(long userId);
         string PostWrongPlaceReportUri { get; }
         string LoginUri(string email, string password);
         string TokensUri();

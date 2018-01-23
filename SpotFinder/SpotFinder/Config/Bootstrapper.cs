@@ -25,7 +25,7 @@ namespace SpotFinder.Config
         private IStore<ApplicationState> appStore;
         private IPermissionActionCreator permissionActionCreator;
         private IDeviceLocationActionCreator deviceLocationActionCreator;
-        private IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator;
+        private IGetPlacesListActionCreator downloadPlacesListActionCreator;
         private IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator;
         private ISettingsHelper settingsHelper;
         private IErrorLogger errorLogger;
@@ -35,7 +35,7 @@ namespace SpotFinder.Config
             IPermissionActionCreator permissionActionCreator,
             IDeviceLocationActionCreator deviceLocationActionCreator,
             IGetPlaceByIdActionCreator downloadPlaceByIdActionCreator,
-            IGetPlacesListByCriteriaActionCreator downloadPlacesListByCriteriaActionCreator,
+            IGetPlacesListActionCreator downloadPlacesListActionCreator,
             ISettingsHelper settingsHelper,
             IErrorLogger errorLogger
             )
@@ -44,7 +44,7 @@ namespace SpotFinder.Config
             this.permissionActionCreator = permissionActionCreator ?? throw new ArgumentNullException(nameof(permissionActionCreator));
             this.deviceLocationActionCreator = deviceLocationActionCreator ?? throw new ArgumentNullException(nameof(deviceLocationActionCreator));
             this.downloadPlaceByIdActionCreator = downloadPlaceByIdActionCreator ?? throw new ArgumentNullException(nameof(downloadPlaceByIdActionCreator));
-            this.downloadPlacesListByCriteriaActionCreator = downloadPlacesListByCriteriaActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListByCriteriaActionCreator));
+            this.downloadPlacesListActionCreator = downloadPlacesListActionCreator ?? throw new ArgumentNullException(nameof(downloadPlacesListActionCreator));
             this.settingsHelper = settingsHelper ?? throw new ArgumentNullException(nameof(settingsHelper));
             this.errorLogger = errorLogger ?? throw new ArgumentNullException(nameof(errorLogger));
         }
@@ -127,7 +127,7 @@ namespace SpotFinder.Config
                 mainDistance
             );
 
-            appStore.DispatchAsync(downloadPlacesListByCriteriaActionCreator.DownloadPlaceByCriteria(criteria));
+            appStore.DispatchAsync(downloadPlacesListActionCreator.DownloadPlacesByCriteria(criteria));
         }
 
         private void SettingsSubscription()

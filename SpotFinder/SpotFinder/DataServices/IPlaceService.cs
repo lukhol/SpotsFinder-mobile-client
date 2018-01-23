@@ -10,5 +10,6 @@ namespace SpotFinder.DataServices
         Task<List<Place>> GetByCriteriaAsync(Criteria criteria);
         Task<Place> GetByIdAsync(int id);
         Task<int> SendAsync(Place place);
+        Task<IList<Place>> GetByUserIdAsync(long userId);
     }
 }
