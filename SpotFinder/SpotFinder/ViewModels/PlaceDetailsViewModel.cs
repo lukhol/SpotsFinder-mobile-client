@@ -11,6 +11,7 @@ using SpotFinder.Redux;
 using Redux;
 using SpotFinder.Redux.Actions;
 using SpotFinder.Views;
+using SpotFinder.Redux.StateModels;
 
 namespace SpotFinder.ViewModels
 {
@@ -50,6 +51,17 @@ namespace SpotFinder.ViewModels
                 default:
                     mapTypeProperty = MapType.Street;
                     break;
+            }
+        }
+
+        private bool isEditPlaceButtonVisible;
+        public bool IsEditPlaceButtonVisible
+        {
+            get => isEditPlaceButtonVisible;
+            set
+            {
+                isEditPlaceButtonVisible = value;
+                OnPropertyChanged();
             }
         }
 
@@ -164,6 +176,7 @@ namespace SpotFinder.ViewModels
         });
 
         public ICommand ReportPlaceCommand => new Command(ReportPlace);
+        public ICommand EditPlaceCommand => new Command(EditPlace);
 
         private List<string> PrepareObstacleList()
         {
@@ -250,13 +263,40 @@ namespace SpotFinder.ViewModels
             ImagesList = newImagesList;
 
             Place = this.place;
-            placeSubscription.Dispose();
+
+            IsEditPlaceButtonVisible = CheckIfPlaceBelongsToLoggedInUser(appStore.GetState().UserState.User);
             IsBusy = false;
+
+            placeSubscription.Dispose();
+        }
+
+        private bool CheckIfPlaceBelongsToLoggedInUser(User user)
+        {
+            if (user != null)
+            {
+                if (place != null)
+                {
+                    if (place.UserId == user.Id)
+                        return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+
+            return false;
         }
 
         private void ReportPlace()
         {
             App.Current.MainPage.Navigation.PushAsync(new ReportPlacePage());
+        }
+
+        private void EditPlace()
+        {
+            appStore.Dispatch(new SetUpdateReportPlaceAction(place));
+            App.Current.MainPage.Navigation.PushAsync(new AddingProcessPage());
         }
     }
 }

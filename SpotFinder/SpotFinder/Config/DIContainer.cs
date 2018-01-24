@@ -208,7 +208,7 @@ namespace SpotFinder.Config
                 Status.Empty, null, new List<Place>(), null
             );
             var reportState = new AsyncOperationState<Report, Unit>(
-                Status.Empty, null, null, Unit.Default
+                Status.Empty, null, new Report(null, null, ReportType.Create), Unit.Default
             );
             var wrongPlaceReport = new AsyncOperationState<WrongPlaceReport, Unit>(
                 Status.Empty, null, null, Unit.Default

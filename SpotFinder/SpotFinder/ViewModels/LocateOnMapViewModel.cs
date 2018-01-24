@@ -29,11 +29,17 @@ namespace SpotFinder.ViewModels
                 .DistinctUntilChanged(state => new { state.DeviceData.LocationState.Status })
                 .SubscribeWithError(state =>
                 {
-                    var stateLocation = appStore.GetState().DeviceData.LocationState.Value;
-                    mapCenterLocation = new Position(stateLocation.Latitude, stateLocation.Longitude);
+                    if (state.PlacesData.ReportState.Value.ReportType == Core.Enums.ReportType.Create)
+                    {
+                        var stateLocation = state.DeviceData.LocationState.Value;
+                        mapCenterLocation = new Position(stateLocation.Latitude, stateLocation.Longitude);
+                    }
+                    else
+                    {
+                        var updatingPlaceLocation = state.PlacesData.ReportState.Value.Location;
+                        mapCenterLocation = new Position(updatingPlaceLocation.Latitude, updatingPlaceLocation.Longitude);
+                    }
                 }, error => { appStore.Dispatch(new SetErrorAction(error, "LocateOnMapViewModel - subscription.")); });
-
-            var location = appStore.GetState().DeviceData.LocationState.Value;
 
             SetMapTypeFromSettings();
         }
@@ -112,7 +118,23 @@ namespace SpotFinder.ViewModels
 
             var addingPlace = appStore.GetState().PlacesData.ReportState.Value.Place;
 
-            int result = await PlaceService.SendAsync(addingPlace);
+            long result = 0;
+
+            if(addingPlace.Id == 0)
+            {
+                result = await PlaceService.SendAsync(addingPlace);
+            }
+            else
+            {
+                try
+                {
+                    result = await PlaceService.UpdateAsync(addingPlace, addingPlace.Id);
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
 
             if (result == 0)
             {

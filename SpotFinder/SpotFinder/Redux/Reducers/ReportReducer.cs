@@ -13,7 +13,16 @@ namespace SpotFinder.Redux.Reducers
             if (action is SetNewReportAction)
             {
                 return previousState
-                    .Set(v => v.Value, new Report(null, null))
+                    .Set(v => v.Value, new Report(null, null, Core.Enums.ReportType.Create))
+                    .Build();
+            }
+
+            if(action is SetUpdateReportPlaceAction)
+            {
+                var setUpdateReportPlaceAction = action as SetUpdateReportPlaceAction;
+
+                return previousState
+                    .Set(v => v.Value, new Report(setUpdateReportPlaceAction.Place, setUpdateReportPlaceAction.Place.Location, Core.Enums.ReportType.Update))
                     .Build();
             }
 

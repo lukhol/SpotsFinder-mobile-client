@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Redux;
+using SpotFinder.Config;
+using SpotFinder.Redux;
+using SpotFinder.Redux.Actions;
+using System;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,6 +27,9 @@ namespace SpotFinder.Views.Root
                 MenuMasterDetailPageXaml.ListView.SelectedItem = null;
                 if (App.Current.MainPage.Navigation.NavigationStack.Last().GetType() == typeof(RootMasterDetailPage))
                 {
+                    if (item.TargetType == typeof(AddingProcessPage))
+                        DIContainer.Instance.Resolve<IStore<ApplicationState>>().Dispatch(new SetNewReportAction());
+
                     await Navigation.PushAsync((Page)Activator.CreateInstance(item.TargetType));
                 }
 

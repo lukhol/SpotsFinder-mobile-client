@@ -1,4 +1,5 @@
 ﻿using SpotFinder.Config;
+using SpotFinder.Redux.Actions;
 using SpotFinder.ViewModels;
 using SpotFinder.Views.Base;
 using Xamarin.Forms;
@@ -9,11 +10,14 @@ namespace SpotFinder.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : NavContentPage
     {
+        private MapViewModel mapViewModel;
+
         public MapPage()
         {
+            mapViewModel = DIContainer.Instance.Resolve<MapViewModel>();
+            BindingContext = mapViewModel;
             InitializeComponent();
-            BindingContext = DIContainer.Instance.Resolve<MapViewModel>();
-            CreateToolbarItems(); 
+            CreateToolbarItems();
         }
 
         private void CreateToolbarItems()
@@ -21,13 +25,20 @@ namespace SpotFinder.Views
             ToolbarItems.Add(new ToolbarItem
             {
                 Icon = "criteriaIcon.png",
-                Command = new Command(async () => { await Navigation.PushAsync(new CriteriaPage()); })
+                Command = new Command(async () => 
+                {
+                    await Navigation.PushAsync(new CriteriaPage());
+                })
             });
 
             ToolbarItems.Add(new ToolbarItem
             {
                 Icon = "plusIcon.png",
-                Command = new Command(async () => { await Navigation.PushAsync(new AddingProcessPage()); }),
+                Command = new Command(async () => 
+                {
+                    mapViewModel.AppStore.Dispatch(new SetNewReportAction());
+                    await Navigation.PushAsync(new AddingProcessPage());
+                }),
             });
         }
     }

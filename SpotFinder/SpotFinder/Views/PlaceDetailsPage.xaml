@@ -106,6 +106,13 @@
                             Command="{Binding ReportPlaceCommand}"
                             Margin="8,0,8,3"/>
                     
+                    <!-- Edit Button: -->
+                    <Button Style="{StaticResource GlobalButtonStyle}"
+                            Text="Edit"
+                            IsVisible="{Binding IsEditPlaceButtonVisible}"
+                            Command="{Binding EditPlaceCommand}"
+                            Margin="8,0,8,3"/>
+                    
                     <!-- Back Button: -->
                     <Button Style="{StaticResource GlobalButtonStyle}"
                             Text="{translate:Translate GoBackCommandTitle}"

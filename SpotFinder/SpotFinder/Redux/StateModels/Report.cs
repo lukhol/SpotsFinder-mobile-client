@@ -1,4 +1,5 @@
-﻿using SpotFinder.Models.Core;
+﻿using SpotFinder.Core.Enums;
+using SpotFinder.Models.Core;
 using System;
 
 namespace SpotFinder.Redux.StateModels
@@ -7,6 +8,7 @@ namespace SpotFinder.Redux.StateModels
     {
         public Place Place { get; private set; }
         public Location Location { get; private set; }
+        public ReportType ReportType { get; private set; }
 
         [Obsolete]
         public Report()
@@ -14,10 +16,11 @@ namespace SpotFinder.Redux.StateModels
 
         }
 
-        public Report(Place place, Location location)
+        public Report(Place place, Location location, ReportType reportType)
         {
             Place = place;
             Location = location;
+            ReportType = reportType;
         }
     }
 }

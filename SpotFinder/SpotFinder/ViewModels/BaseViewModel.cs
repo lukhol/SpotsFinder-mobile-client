@@ -12,7 +12,10 @@ namespace SpotFinder.ViewModels
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         protected IList<IDisposable> subscriptions  = new List<IDisposable>();
+        
         protected readonly IStore<ApplicationState> appStore;
+        public IStore<ApplicationState> AppStore { get => appStore; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public BaseViewModel()

@@ -15,6 +15,7 @@ using Redux;
 using SpotFinder.Redux;
 using System.Reactive.Linq;
 using SpotFinder.Redux.StateModels;
+using System.IO;
 
 namespace SpotFinder.ViewModels
 {
@@ -48,13 +49,55 @@ namespace SpotFinder.ViewModels
                     CheckIfUserIsLoggedIn(user);
                 }, error => { });
 
-            //Request loction for actual report.
-            appStore.Dispatch(new SetNewReportAction());
+            if (appStore.GetState().PlacesData.ReportState.Value?.ReportType == ReportType.Update)
+                BindUpdatingPlaceToView();
         }
 
         private void CheckIfUserIsLoggedIn(User user)
         {
             IsBusy = (user == null) ? true : false;
+        }
+
+        private void BindUpdatingPlaceToView()
+        {
+            var place = appStore.GetState().PlacesData.ReportState.Value?.Place;
+            if (place == null)
+                return;
+
+            Description = place.Description;
+            Name = place.Name;
+            SelectedTypeString = place.Type.ToString();
+
+            Gap = place.Gap;
+            Stairs = place.Stairs;
+            Rail = place.Rail;
+            Ledge = place.Ledge;
+            Handrail = place.Handrail;
+            Hubba = place.Hubba;
+            Corners = place.Corners;
+            Manualpad = place.Manualpad;
+            Wallride = place.Wallride;
+            Downhill = place.Downhill;
+            OpenYourMind = place.OpenYourMind;
+            Pyramid = place.Pyramid;
+            Curb = place.Curb;
+            Bank = place.Bank;
+            Bowl = place.Bowl;
+
+            foreach(var base64Image in place.PhotosBase64List)
+            {
+                MyImage myImage = new MyImage();
+
+                myImage.Source = ImageSource.FromStream(() =>
+                {
+                    byte[] imageAsByte = Convert.FromBase64String(base64Image);
+                    var memoryStream = new MemoryStream(imageAsByte, 0, imageAsByte.Length);
+                    return memoryStream;
+                });
+
+                PrepareImageToDisplay(myImage);
+                ImagesList = UpdateImagesList(myImage);
+            }
         }
 
         private string description;
@@ -421,6 +464,15 @@ namespace SpotFinder.ViewModels
             }
 
             place.PhotosBase64List = base64PhotosList;
+
+            if(appStore.GetState().PlacesData.ReportState.Value.Place != null)
+            {
+                var placeFromState = appStore.GetState().PlacesData.ReportState.Value.Place;
+                place.Id = placeFromState.Id;
+                place.Version = placeFromState.Version;
+                place.UserId = placeFromState.UserId;
+                place.Location = placeFromState.Location;
+            }
 
             appStore.Dispatch(new SetReportPlaceAction(place));
             App.Current.MainPage.Navigation.PushAsync(new LocateOnMapPage());
