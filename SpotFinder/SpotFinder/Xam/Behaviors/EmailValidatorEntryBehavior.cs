@@ -34,6 +34,13 @@ namespace SpotFinder.Xam.Behaviors
                 return;
             }
 
+            if(string.IsNullOrEmpty(e.NewTextValue))
+            {
+                IsValid = false;
+                emailEntry.TextColor = Color.Red;
+                return;
+            }
+
             IsValid = (Regex.IsMatch(e.NewTextValue, emailRegex, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)));
             emailEntry.TextColor = IsValid ? Color.Default : Color.Red;
         }

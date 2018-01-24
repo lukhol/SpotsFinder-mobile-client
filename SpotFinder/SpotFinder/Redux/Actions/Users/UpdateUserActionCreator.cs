@@ -31,7 +31,7 @@ namespace SpotFinder.Redux.Actions.Users
 
                 try
                 {
-                    if (!actualUser.Email.Equals(email))
+                    if (actualUser.Email != null && !actualUser.Email.Equals(email))
                         isEmailFree = await userService.IsEmailFreeAsync(email);
                     else
                         isEmailFree = true;

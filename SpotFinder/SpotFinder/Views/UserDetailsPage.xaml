@@ -105,7 +105,7 @@
             
             <!-- Not logged in layout -->
             <StackLayout IsVisible="{Binding IsUserLoggedIn, Converter={StaticResource inverseBooleanConverter}}"
-                         BackgroundColor="#DD111111"
+                         BackgroundColor="#FA111111"
                          Grid.Row="0"
                          Grid.Column="0">
                 <Label Text="You are not logged in! Click icon below to login."
