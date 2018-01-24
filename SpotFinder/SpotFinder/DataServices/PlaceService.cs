@@ -101,7 +101,7 @@ namespace SpotFinder.DataServices
             return result;
         }
 
-        public async Task<Place> UpdateAsync(Place place, long placeId)
+        public async Task<long> UpdateAsync(Place place, long placeId)
         {
             try
             {
@@ -118,16 +118,13 @@ namespace SpotFinder.DataServices
                 response.EnsureSuccessStatusCode();
 
                 var responseContent = await response.Content.ReadAsStringAsync();
-                var jObjectPlace = JObject.Parse(responseContent);
-                place = Utils.PlaceWebToPlace(jObjectPlace.ToObject<PlaceWeb>());
+                return long.Parse(responseContent);
             }
             catch (Exception ex)
             {
                 //TODO: Log...
                 throw ex;
             }
-
-            return place;
         }
 
         public async Task<IList<Place>> GetByCriteriaAsync(Criteria criteria)
