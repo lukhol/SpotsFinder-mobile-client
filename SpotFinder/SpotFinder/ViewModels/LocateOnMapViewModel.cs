@@ -108,9 +108,11 @@ namespace SpotFinder.ViewModels
 
             IsBusy = true;
 
-            var mapLocation = new Location(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude);
-
-            appStore.Dispatch(new SetReportLocationAction(mapLocation));
+            if(map.VisibleRegion != null)
+                appStore.Dispatch(new SetReportLocationAction(
+                    new Location(map.VisibleRegion.Center.Latitude, map.VisibleRegion.Center.Longitude)
+                    )
+                );
 
             var user = appStore.GetState().UserState.User;
             if (user != null)

@@ -87,6 +87,7 @@ namespace SpotFinder.ViewModels
             foreach(var base64Image in place.PhotosBase64List)
             {
                 MyImage myImage = new MyImage();
+                myImage.Base64Representation = base64Image;
 
                 myImage.Source = ImageSource.FromStream(() =>
                 {
