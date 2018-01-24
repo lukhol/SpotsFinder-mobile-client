@@ -17,10 +17,10 @@ namespace SpotFinder.DataServices
     public class PlaceService : IPlaceService
     {
         private readonly HttpClient httpClient;
-        private readonly IURLRepository urlRepository;
+        private readonly URLRepository urlRepository;
         private readonly JsonSerializer camelCaseJsonSerializer;
 
-        public PlaceService(HttpClient httpClient, IURLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
+        public PlaceService(HttpClient httpClient, URLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
         {
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
             this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));

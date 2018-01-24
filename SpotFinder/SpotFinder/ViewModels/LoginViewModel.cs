@@ -19,7 +19,7 @@ namespace SpotFinder.ViewModels
 
         private readonly ILoginUserActionCreator loginUserActionCreator;
         private readonly IExternalServiceLoginUserActionCreator externalServiceLoginUserActionCreator;
-        private readonly IURLRepository urlRepository;
+        private readonly URLRepository urlRepository;
 
         private AccessProvider LoginWith;
 
@@ -29,7 +29,7 @@ namespace SpotFinder.ViewModels
             string facebookLoginUrl,
             IExternalServiceLoginUserActionCreator facebookLoginUserActionCreator,
             ILoginUserActionCreator loginUserActionCreator,
-            IURLRepository urlRepository
+            URLRepository urlRepository
             ) : base(appStore)
         {
             GoogleLoginUrl = googleLoginUrl;

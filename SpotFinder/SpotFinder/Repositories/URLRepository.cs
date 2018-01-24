@@ -2,7 +2,7 @@
 
 namespace SpotFinder.Repositories
 {
-    public class URLRepository : IURLRepository
+    public class URLRepository
     {
         //private const string BASE_URL = "http://81.2.255.46:8080";
         private const string BASE_URL = "http://b52677b6.ngrok.io";

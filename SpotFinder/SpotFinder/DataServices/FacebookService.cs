@@ -9,10 +9,10 @@ namespace SpotFinder.DataServices
 {
     public class FacebookService : IExternalUserService<SimpleFacebookUserDTO>
     {
-        private readonly IURLRepository urlRepository;
+        private readonly URLRepository urlRepository;
         private readonly JsonSerializer camelCaseJsonSerializer;
 
-        public FacebookService(IURLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
+        public FacebookService(URLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
         {
             this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));

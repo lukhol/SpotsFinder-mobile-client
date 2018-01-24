@@ -18,10 +18,10 @@ namespace SpotFinder.DataServices
         private const string GOOGLE_QUERY_STRING = "https://www.googleapis.com/oauth2/v4/token";
 
         private readonly string googleQueryString;
-        private readonly IURLRepository urlRepository;
+        private readonly URLRepository urlRepository;
         private readonly JsonSerializer camelCaseJsonSerializer;
 
-        public GoogleService(IURLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
+        public GoogleService(URLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
         {
             this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));

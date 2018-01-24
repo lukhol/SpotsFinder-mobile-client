@@ -108,7 +108,7 @@ namespace SpotFinder.Config
             //Repositories:
             simpleInjector.Register<IPlaceRepository, PlaceRepository>();
             var urlRepository = new URLRepository();
-            simpleInjector.Register<IURLRepository>(() => urlRepository);
+            simpleInjector.Register<URLRepository>(() => urlRepository);
 
             //ActionsCreators:
             simpleInjector.Register<IPermissionActionCreator, PermissionActionCreator>();
@@ -165,7 +165,7 @@ namespace SpotFinder.Config
                     FacebookLoginUrl,
                     Resolve<IExternalServiceLoginUserActionCreator>(),
                     Resolve<ILoginUserActionCreator>(),
-                    Resolve<IURLRepository>()
+                    Resolve<URLRepository>()
                 );
             }, Lifestyle.Singleton);
             simpleInjector.Register<RegisterUserViewModel>(() =>

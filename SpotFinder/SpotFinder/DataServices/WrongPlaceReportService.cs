@@ -13,10 +13,10 @@ namespace SpotFinder.DataServices
     public class WrongPlaceReportService : IWrongPlaceReportService
     {
         private readonly HttpClient httpClient;
-        private readonly IURLRepository urlRepository;
+        private readonly URLRepository urlRepository;
         private readonly JsonSerializer camelCaseJsonSerializer;
 
-        public WrongPlaceReportService(HttpClient httpClient, IURLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
+        public WrongPlaceReportService(HttpClient httpClient, URLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
         {
             this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(HttpClient));
             this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));

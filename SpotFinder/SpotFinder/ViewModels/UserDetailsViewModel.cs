@@ -25,10 +25,10 @@ namespace SpotFinder.ViewModels
         private readonly IPhotoProvider photoProvider;
         private readonly IUserService userService;
         private readonly IUpdateUserActionCreator updateUserActionCreator;
-        private readonly IURLRepository urlRepository;
+        private readonly URLRepository urlRepository;
 
         public UserDetailsViewModel(IStore<ApplicationState> appStore, IPhotoProvider photoProvider,
-            IUserService userService, IUpdateUserActionCreator updateUserActionCreator, IURLRepository urlRepository) : base(appStore)
+            IUserService userService, IUpdateUserActionCreator updateUserActionCreator, URLRepository urlRepository) : base(appStore)
         {
             this.userService = userService ?? throw new ArgumentNullException(nameof(photoProvider));
             this.photoProvider = photoProvider ?? throw new ArgumentNullException(nameof(photoProvider));
