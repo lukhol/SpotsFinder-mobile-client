@@ -136,7 +136,8 @@ namespace SpotFinder.Repositories
                 Pyramid = sqlitePlace.Pyramid,
                 Rail = sqlitePlace.Rail,
                 Stairs = sqlitePlace.Stairs,
-                Wallride = sqlitePlace.Wallride
+                Wallride = sqlitePlace.Wallride,
+                UserId = sqlitePlace.UserId
             };
         }
 
@@ -165,7 +166,8 @@ namespace SpotFinder.Repositories
                 Pyramid = place.Pyramid,
                 Rail = place.Rail,
                 Stairs = place.Stairs,
-                Wallride = place.Wallride
+                Wallride = place.Wallride,
+                UserId = place.UserId
             };
 
             switch (place.Type)

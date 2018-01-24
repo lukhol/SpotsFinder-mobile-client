@@ -108,6 +108,8 @@ namespace SpotFinder.Core
             else
                 place.Id = (int)placeWeb.Id;
 
+            place.UserId = placeWeb.UserId;
+
             return place;
         }
 

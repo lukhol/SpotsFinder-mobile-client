@@ -36,5 +36,7 @@ namespace SpotFinder.SQLite
         public bool Bank { get; set; }
         public bool Bowl { get; set; }
         public bool Hubba { get; set; }
+
+        public long UserId { get; set; }
     }
 }
