@@ -5,6 +5,7 @@
                       xmlns:pages="clr-namespace:SpotFinder.Views.Base;assembly=SpotFinder"
                       xmlns:translate="clr-namespace:SpotFinder.Resx;assembly=SpotFinder"
                       xmlns:ownControls="clr-namespace:SpotFinder.OwnControls;assembly=SpotFinder"
+                      xmlns:converters="clr-namespace:SpotFinder.Xam.Converters"
                       Title="{translate:Translate PlaceDetailsTitle}"
                       BackgroundColor="{StaticResource PageBackgroundColor}">
     <ContentPage.Resources>
@@ -15,6 +16,7 @@
                 <Setter Property="Margin" Value="8,1.5,8,1.5" />
                 <Setter Property="BackgroundColor" Value="{StaticResource ListItemBackgroundColor}" />
             </Style>
+            <converters:InverseBooleanConverter x:Key="inverseBooleanConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -104,6 +106,7 @@
                     <Button Style="{StaticResource GlobalButtonStyle}"
                             Text="{translate:Translate ReportPlaceButtonTitle}"
                             Command="{Binding ReportPlaceCommand}"
+                            IsVisible="{Binding IsEditPlaceButtonVisible, Converter={StaticResource inverseBooleanConverter}}"
                             Margin="8,0,8,3"/>
                     
                     <!-- Edit Button: -->
