@@ -28,10 +28,7 @@ namespace SpotFinder.DataServices
             try
             {
                 var uri = new Uri(urlRepository.PostWrongPlaceReportUri);
-                var wrongPlaceReportJson = JObject.FromObject(wrongPlaceReport, camelCaseJsonSerializer).ToString();
-                var stringContent = new StringContent(wrongPlaceReportJson, Encoding.UTF8, "application/json");
-
-                var response = await httpClient.PostAsync(uri, stringContent);
+                var response = await httpClient.PostAsync(uri, CreateStringContent(wrongPlaceReport));
 
                 if (response.StatusCode == HttpStatusCode.OK)
                     return;
@@ -48,6 +45,13 @@ namespace SpotFinder.DataServices
                 //TODO: Log...
                 throw new Exception(e.Message);
             }
+        }
+
+        private StringContent CreateStringContent<T>(T objectValue)
+        {
+            var jObject = JObject.FromObject(objectValue, camelCaseJsonSerializer);
+            var stringContent = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
+            return stringContent;
         }
     }
 }

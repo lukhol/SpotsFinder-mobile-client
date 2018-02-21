@@ -14,5 +14,7 @@ namespace SpotFinder.DataServices
         Task<string> SetAvatarAsync(long userId, Stream avatarStream);
         Task<bool> IsEmailFreeAsync(string email);
         Task<User> UpdateUserAsync(User userToUpdate);
+        Task<Tuple<string, string>> RefreshAccessToken(User user);
+        Task<bool> IsAccessTokenStillValid(String accessToken);
     }
 }

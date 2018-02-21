@@ -4,8 +4,8 @@ namespace SpotFinder.Repositories
 {
     public class URLRepository
     {
-        //private const string BASE_URL = "http://81.2.255.46:8080";
-        private const string BASE_URL = "http://b52677b6.ngrok.io";
+        private const string BASE_URL = "http://80.211.223.50:8080";
+        //private const string BASE_URL = "http://16e8cf19.ngrok.io";
         public string BaseUrl => BASE_URL;
         public string PostErrorUri => string.Format("{0}/{1}", BASE_URL, "errors");
         public string GetPlacesUri => string.Format("{0}/{1}", BASE_URL, "places");
@@ -27,6 +27,16 @@ namespace SpotFinder.Repositories
         public string TokensUri()
         {
             return string.Format("{0}/{1}", BASE_URL, "oauth/token");
+        }
+
+        public string RefreshTokenUri
+        {
+            get => string.Format("{0}/{1}", BASE_URL, "oauth/token");
+        }
+
+        public string CheckAccessTokenUri
+        {
+            get => string.Format("{0}/{1}", BASE_URL, "oauth/check_token");
         }
 
         public string GetFacebookUserInfoUri(string accessToken)

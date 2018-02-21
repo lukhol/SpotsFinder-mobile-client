@@ -77,11 +77,7 @@ namespace SpotFinder.DataServices
                 response.EnsureSuccessStatusCode();
 
                 string responseJson = await response.Content.ReadAsStringAsync();
-                JObject jObjectResponse = JObject.Parse(responseJson);
-                string accessToken = (string)jObjectResponse["access_token"];
-                string refresToken = (string)jObjectResponse["refresh_token"];
-
-                return new Tuple<string, string>(accessToken, refresToken);
+                return ExtractTokensFromResponse(responseJson);
             }
             catch (Exception exception)
             {
@@ -122,9 +118,7 @@ namespace SpotFinder.DataServices
             {
                 var uri = new Uri(urlRepository.PostExternalUserUri(accessToken));
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
-                var jObjectUser = JObject.FromObject(userToRegister, camelCaseJsonSerializer);
-                var stringContent = new StringContent(jObjectUser.ToString(), Encoding.UTF8, "application/json");
-                var response = await httpClient.PostAsync(uri, stringContent);
+                var response = await httpClient.PostAsync(uri, CreateStringContent(userToRegister));
 
                 response.EnsureSuccessStatusCode();
 
@@ -195,6 +189,68 @@ namespace SpotFinder.DataServices
                 throw ex;
             }
             
+        }
+
+        public async Task<Tuple<string, string>> RefreshAccessToken(User user)
+        {
+            var keyValues = new KeyValuePair<string, string>[]
+            {
+                new KeyValuePair<string, string>("grant_type", "refresh_token"),
+                new KeyValuePair<string, string>("refresh_token", user.RefreshToken)
+            };
+
+            try
+            {
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                Uri uri = new Uri(urlRepository.RefreshTokenUri);
+                FormUrlEncodedContent httpContent = new FormUrlEncodedContent(keyValues);
+                HttpResponseMessage response = await httpClient.PostAsync(uri, httpContent);
+
+                response.EnsureSuccessStatusCode();
+
+                string responseJson = await response.Content.ReadAsStringAsync();
+                return ExtractTokensFromResponse(responseJson);
+            }
+            catch (Exception exception)
+            {
+                //TO DO: log...
+                throw new Exception("Exception in UserService.RefreshAccessToken(...)", exception);
+            }
+        }
+
+        public async Task<bool> IsAccessTokenStillValid(String accessToken)
+        {
+            var keyValues = new KeyValuePair<string, string>[]
+            {
+                new KeyValuePair<string, string>("token", accessToken)
+            };
+
+            try
+            {
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
+                Uri uri = new Uri(urlRepository.CheckAccessTokenUri);
+                FormUrlEncodedContent httpContent = new FormUrlEncodedContent(keyValues);
+                HttpResponseMessage response = await httpClient.PostAsync(uri, httpContent);
+
+                response.EnsureSuccessStatusCode();
+                //Server will return StatusCode: 200 if accessToken is valid.
+
+                return true;
+            } 
+            catch(Exception e)
+            {
+                //TODO: Log...
+                //Server will return StatusCode: 404 if accessToken expired.
+                return false;
+            }
+        }
+
+        private Tuple<String, String> ExtractTokensFromResponse(String responseJson)
+        {
+            JObject jObjectResponse = JObject.Parse(responseJson);
+            string accessToken = (string)jObjectResponse["access_token"];
+            string refresToken = (string)jObjectResponse["refresh_token"];
+            return new Tuple<string, string>(accessToken, refresToken);
         }
 
         private StringContent CreateStringContent<T>(T objectValue)

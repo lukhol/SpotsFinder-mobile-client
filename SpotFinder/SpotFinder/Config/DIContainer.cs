@@ -120,6 +120,7 @@ namespace SpotFinder.Config
             simpleInjector.Register<IExternalServiceLoginUserActionCreator, ExternalServiceLoginUserActionCreator>();
             simpleInjector.Register<IRegisterUserActionCreator, RegisterUserActionCreator>();
             simpleInjector.Register<IUpdateUserActionCreator, UpdateUserActionCreator>();
+            simpleInjector.Register<IUserAccessActionCreator, UserAccessActionCreator>();
             
             //Providers:
             simpleInjector.Register<IPhotoProvider, PhotoProvider>();

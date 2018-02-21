@@ -20,7 +20,7 @@ namespace SpotFinder.Redux.Actions.Users
 
         public StoreExtensions.AsyncActionCreator<ApplicationState> Login(string uri, AccessProvider accessProvider)
         {
-            return async (dispatch, getStat) =>
+            return async (dispatch, getState) =>
             {
                 try
                 {

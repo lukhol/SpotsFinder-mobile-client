@@ -26,7 +26,10 @@ namespace SpotFinder.Redux.StateModels
         [JsonProperty("avatarUrl")]
         public string AvatarUrl { get; private set; }
 
+        [JsonProperty("accessToken")]
         public string AccessToken { get; private set; }
+
+        [JsonProperty("refreshToken")]
         public string RefreshToken { get; private set; }
 
         [Obsolete]
