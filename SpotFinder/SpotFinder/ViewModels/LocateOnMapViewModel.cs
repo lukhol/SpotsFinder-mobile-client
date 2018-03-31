@@ -140,17 +140,14 @@ namespace SpotFinder.ViewModels
 
             if (result == 0)
             {
-                var alertResult = await App.Current.MainPage.DisplayAlert(
+                await App.Current.MainPage.DisplayAlert(
                     "Error.", 
                     "Problem with publishing spot. Try again or add to offline list", 
-                    "Try again", "Add local"
+                    "Ok"
                 );
 
-                if (alertResult == true)
-                {
-                    IsBusy = false;
-                    return;
-                }
+                IsBusy = false;
+                return;
             }
 
             IsBusy = false;

@@ -146,7 +146,8 @@ namespace SpotFinder.Config
 
             var byteArray = Encoding.ASCII.GetBytes(urlRepository.API_KEY);
             httpClient.DefaultRequestHeaders.Authorization =
-                new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray));
+                new AuthenticationHeaderValue("Basic", Convert.ToBase64String(byteArray)
+            );
 
             httpClient.DefaultRequestHeaders.AcceptLanguage.Add(
                 new StringWithQualityHeaderValue(CultureInfo.CurrentCulture.ToString())

@@ -1,34 +1,36 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Redux;
 using SpotFinder.Core;
 using SpotFinder.Models.Core;
 using SpotFinder.Models.DTO;
+using SpotFinder.Redux;
 using SpotFinder.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SpotFinder.DataServices
 {
-    public class PlaceService : IPlaceService
+    public class PlaceService : BaseService, IPlaceService
     {
-        private readonly HttpClient httpClient;
-        private readonly URLRepository urlRepository;
         private readonly JsonSerializer camelCaseJsonSerializer;
 
-        public PlaceService(HttpClient httpClient, URLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
+        public PlaceService(HttpClient httpClient, URLRepository urlRepository, JsonSerializer camelCaseJsonSerializer, IStore<ApplicationState> appStore) :
+            base(httpClient, urlRepository, appStore)
         {
-            this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
         }
 
         public async Task<IList<Place>> GetAllAsync()
         {
+            SetBasicToken();
+
             List<Place> placeList = new List<Place>();
             try
             {
@@ -67,6 +69,8 @@ namespace SpotFinder.DataServices
 
         public async Task<int> SendAsync(Place place)
         {
+            SetBearerToken();
+
             int result = 0;
             try
             {
@@ -103,17 +107,24 @@ namespace SpotFinder.DataServices
 
         public async Task<long> UpdateAsync(Place place, long placeId)
         {
+            SetBearerToken();
+
             try
             {
-                var uri = new Uri(urlRepository.PutPlaceUrl(placeId));
-
                 var placeDTO = Utils.PlaceToPlaceWeb(place);
                 var jObject = JObject.FromObject(placeDTO, camelCaseJsonSerializer);
                 var content = new StringContent(jObject.ToString(), Encoding.UTF8, "application/json");
 
                 httpClient.Timeout = TimeSpan.FromSeconds(30);
 
-                var response = await httpClient.PutAsync(uri, content);
+                var httpRequestMessage = new HttpRequestMessage(
+                    requestUri: new Uri(urlRepository.PutPlaceUrl(placeId)),
+                    method: HttpMethod.Put
+                );
+                httpRequestMessage.Content = content;
+                httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", appStore.GetState().UserState.User.AccessToken);
+
+                var response = await httpClient.SendAsync(httpRequestMessage);
 
                 response.EnsureSuccessStatusCode();
 
@@ -129,6 +140,8 @@ namespace SpotFinder.DataServices
 
         public async Task<IList<Place>> GetByCriteriaAsync(Criteria criteria)
         {
+            SetBasicToken();
+
             var criteriaJson = JObject.FromObject(criteria, camelCaseJsonSerializer);
             var content = new StringContent(criteriaJson.ToString(), Encoding.UTF8, "application/json");
             var placesList = new List<Place>();
@@ -167,6 +180,8 @@ namespace SpotFinder.DataServices
 
         public async Task<Place> GetByIdAsync(int id)
         {
+            SetBasicToken();
+
             Place place;
             try
             {
@@ -198,6 +213,8 @@ namespace SpotFinder.DataServices
 
         public async Task<IList<Place>> GetByUserIdAsync(long userId)
         {
+            SetBearerToken();
+
             var uri = new Uri(urlRepository.GetPlacesListByUserIdUrl(userId));
             var placesList = new List<Place>();
 

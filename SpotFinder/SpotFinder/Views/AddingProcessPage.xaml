@@ -39,7 +39,7 @@
                                Margin="5,0,5,0"
                                Text="{Binding Name}">
                             <Entry.Behaviors>
-                                <behaviors:LengthValidatorEntryBehavior MinLength="3"
+                                <behaviors:LengthValidatorEntryBehavior MinLength="5"
                                                                     MaxLength="30"/>
                             </Entry.Behaviors>
                         </Entry>

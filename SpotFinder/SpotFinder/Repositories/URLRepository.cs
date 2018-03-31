@@ -5,7 +5,7 @@ namespace SpotFinder.Repositories
     public class URLRepository
     {
         private const string BASE_URL = "http://80.211.223.50:8080";
-        //private const string BASE_URL = "http://16e8cf19.ngrok.io";
+        //private const string BASE_URL = "http://6b23c981.ngrok.io";
         public string BaseUrl => BASE_URL;
         public string PostErrorUri => string.Format("{0}/{1}", BASE_URL, "errors");
         public string GetPlacesUri => string.Format("{0}/{1}", BASE_URL, "places");

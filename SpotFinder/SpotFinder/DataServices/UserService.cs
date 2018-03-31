@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Redux;
+using SpotFinder.Redux;
 using SpotFinder.Redux.StateModels;
 using SpotFinder.Repositories;
 using System;
@@ -12,17 +14,14 @@ using System.Threading.Tasks;
 
 namespace SpotFinder.DataServices
 {
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
-        private readonly HttpClient httpClient;
-        private readonly URLRepository urlRepository;
         private readonly JsonSerializer camelCaseJsonSerializer;
         private readonly JsonSerializerSettings jsonSerializerSettings;
 
-        public UserService(HttpClient httpClient, URLRepository urlRepository, JsonSerializer camelCaseJsonSerializer)
+        public UserService(HttpClient httpClient, URLRepository urlRepository, JsonSerializer camelCaseJsonSerializer, IStore<ApplicationState> appStore) :
+            base(httpClient, urlRepository, appStore)
         {
-            this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
             this.camelCaseJsonSerializer = camelCaseJsonSerializer ?? throw new ArgumentNullException(nameof(camelCaseJsonSerializer));
 
             this.jsonSerializerSettings = new JsonSerializerSettings();
@@ -33,6 +32,7 @@ namespace SpotFinder.DataServices
         {
             try
             {
+                SetBasicToken();
                 httpClient.Timeout = TimeSpan.FromSeconds(10);
                 var uri = new Uri(urlRepository.LoginUri(email, password));
                 var response = await httpClient.GetAsync(uri);
@@ -60,6 +60,7 @@ namespace SpotFinder.DataServices
 
         public async Task<Tuple<string, string>> GetTokensAsync(string username, string password)
         {
+            SetBasicToken();
             var keyValues = new KeyValuePair<string, string>[]
             {
                 new KeyValuePair<string, string>("grant_type", "password"),
@@ -88,6 +89,8 @@ namespace SpotFinder.DataServices
 
         public async Task<User> RegisterAsync(User userToRegister, string password)
         {
+            SetBasicToken();
+
             try
             {
                 var uri = new Uri(urlRepository.RegisterUserUri(password));
@@ -114,6 +117,8 @@ namespace SpotFinder.DataServices
 
         public async Task<User> LoginOrRegisterAndLoginExternalUserAsync(User userToRegister, string accessToken)
         {
+            SetBasicToken();
+
             try
             {
                 var uri = new Uri(urlRepository.PostExternalUserUri(accessToken));
@@ -136,6 +141,8 @@ namespace SpotFinder.DataServices
 
         public async Task<string> SetAvatarAsync(long userId, Stream avatarStream)
         {
+            SetBasicToken();
+
             if (avatarStream.Position != 0)
                 avatarStream.Position = 0;
 
@@ -163,6 +170,8 @@ namespace SpotFinder.DataServices
 
         public async Task<bool> IsEmailFreeAsync(string email)
         {
+            SetBasicToken();
+
             string responseContent = string.Empty;
             Uri uri = new Uri(urlRepository.GetIsEmailFree(email));
             responseContent= await httpClient.GetStringAsync(uri);
@@ -171,6 +180,8 @@ namespace SpotFinder.DataServices
 
         public async Task<User> UpdateUserAsync(User userToUpdate)
         {
+            SetBasicToken();
+
             try
             {
                 var uri = new Uri(urlRepository.PostUpdateUser());
@@ -193,6 +204,8 @@ namespace SpotFinder.DataServices
 
         public async Task<Tuple<string, string>> RefreshAccessToken(User user)
         {
+            SetBasicToken();
+
             var keyValues = new KeyValuePair<string, string>[]
             {
                 new KeyValuePair<string, string>("grant_type", "refresh_token"),
@@ -220,6 +233,8 @@ namespace SpotFinder.DataServices
 
         public async Task<bool> IsAccessTokenStillValid(String accessToken)
         {
+            SetBasicToken();
+
             var keyValues = new KeyValuePair<string, string>[]
             {
                 new KeyValuePair<string, string>("token", accessToken)
