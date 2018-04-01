@@ -54,9 +54,9 @@ namespace SpotFinder.Repositories
             return string.Format("https://www.googleapis.com/plus/v1/people/me?access_token={0}", accessToken);
         }
 
-        public string RegisterUserUri(string password)
+        public string RegisterUserUri()
         {
-            return string.Format("{0}/{1}?psw={2}", BASE_URL, "user/register", password);
+            return string.Format("{0}/{1}", BASE_URL, "user/register");
         }
 
         public string GetUserAvatarUri(string userId)

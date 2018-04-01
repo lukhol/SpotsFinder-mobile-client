@@ -208,10 +208,11 @@ namespace SpotFinder.ViewModels
                 googleId: null,
                 avatarUrl: null,
                 accessToken: null,
-                refreshToken: null
+                refreshToken: null,
+                password: password
             );
 
-            appStore.DispatchAsync(registerUserActionCreator.Register(user, password, avatarStream));
+            appStore.DispatchAsync(registerUserActionCreator.Register(user, avatarStream));
         }
     }
 }

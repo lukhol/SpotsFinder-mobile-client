@@ -8,6 +8,7 @@ using SpotFinder.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,22 +88,27 @@ namespace SpotFinder.DataServices
             }
         }
 
-        public async Task<User> RegisterAsync(User userToRegister, string password)
+        public async Task<User> RegisterAsync(User userToRegister)
         {
             SetBasicToken();
 
             try
             {
-                var uri = new Uri(urlRepository.RegisterUserUri(password));
+                var uri = new Uri(urlRepository.RegisterUserUri());
                 httpClient.Timeout = TimeSpan.FromSeconds(10);
                 var response = await httpClient.PostAsync(uri, CreateStringContent(userToRegister));
                 var responseContent = await response.Content.ReadAsStringAsync();
 
-                if (response.StatusCode == System.Net.HttpStatusCode.InternalServerError)
-                    ThrowExceptionWithErrorMessage(responseContent);
-
                 if (response.StatusCode == System.Net.HttpStatusCode.BadGateway)
                     throw new Exception("Server not responding.");
+
+                if(response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
+                    throw new Exception(string.Join("\n", values.Select(m =>  m.Value).ToArray()));
+                }
+
+                response.EnsureSuccessStatusCode();
 
                 var user = JsonConvert.DeserializeObject<User>(responseContent, jsonSerializerSettings);
 

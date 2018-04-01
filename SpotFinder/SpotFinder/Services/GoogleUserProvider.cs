@@ -30,7 +30,8 @@ namespace SpotFinder.Services
                 googleId: googleUser.Id,
                 accessToken: null,
                 refreshToken: null,
-                avatarUrl: googleUser.AvatarUrl
+                avatarUrl: googleUser.AvatarUrl,
+                password: null
             );
 
             var userTupleAndAccessCodeTuple = new Tuple<User, string>(userWithGoogleInfo, accessToken);

@@ -32,6 +32,9 @@ namespace SpotFinder.Redux.StateModels
         [JsonProperty("refreshToken")]
         public string RefreshToken { get; private set; }
 
+        [JsonProperty("password")]
+        public string Password { get; private set; }
+
         [Obsolete]
         public User() { }
 
@@ -44,7 +47,8 @@ namespace SpotFinder.Redux.StateModels
             string googleId,
             string avatarUrl,
             string accessToken, 
-            string refreshToken
+            string refreshToken,
+            string password
             )
         {
             Id = id;
@@ -56,6 +60,7 @@ namespace SpotFinder.Redux.StateModels
             AvatarUrl = avatarUrl;
             AccessToken = accessToken;
             RefreshToken = refreshToken;
+            Password = password;
         }
     }
 }

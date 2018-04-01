@@ -16,7 +16,7 @@ namespace SpotFinder.Redux.Actions.Users
             this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
-        public StoreExtensions.AsyncActionCreator<ApplicationState> Register(User user, string password, Stream avatarStream)
+        public StoreExtensions.AsyncActionCreator<ApplicationState> Register(User user, Stream avatarStream)
         {
             return async (dispatch, getState) =>
             {
@@ -24,7 +24,7 @@ namespace SpotFinder.Redux.Actions.Users
 
                 try
                 {
-                    var registeredUser = await userService.RegisterAsync(user, password);
+                    var registeredUser = await userService.RegisterAsync(user);
 
                     if (avatarStream != null && avatarStream.Length > 0)
                         await userService.SetAvatarAsync(registeredUser.Id, avatarStream);

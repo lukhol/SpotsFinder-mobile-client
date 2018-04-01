@@ -5,6 +5,6 @@ namespace SpotFinder.Redux.Actions.Users
 {
     public interface IRegisterUserActionCreator
     {
-        StoreExtensions.AsyncActionCreator<ApplicationState> Register(User user, string password, Stream avatarStream);
+        StoreExtensions.AsyncActionCreator<ApplicationState> Register(User user, Stream avatarStream);
     }
 }
