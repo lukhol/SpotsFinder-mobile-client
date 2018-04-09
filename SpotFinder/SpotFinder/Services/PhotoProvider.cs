@@ -82,8 +82,8 @@ namespace SpotFinder.Services
 
                 file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions
                 {
-                    PhotoSize = PhotoSize.Small,
-                    CompressionQuality = 0
+                    PhotoSize = PhotoSize.Medium,
+                    CompressionQuality = 80
                 });
             }
 
